@@ -2,12 +2,12 @@ TEMPLATE = app
 
 QT += qml quick
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
 
-RESOURCES += qml.qrc
+TRANSLATIONS = Language_Files/app_de_DE.ts \
 
-# Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
+RESOURCES += \
+    qml.qrc
 
 # Default rules for deployment.
 include(deployment.pri)
