@@ -2,5 +2,13 @@
     <qresource prefix="/">
         <file>View/main.qml</file>
         <file>Language_Files/app_de_DE.qm</file>
+        <file>View/TableDataTab.qml</file>
+        <file>View/DiagramTab.qml</file>
+        <file>View/DeviceTab.qml</file>
+        <file>View/DetailDataTab.qml</file>
+        <file>Images/bluetooth_icon.png</file>
+        <file>Images/offline_button.png</file>
+        <file>Images/online_button.png</file>
+        <file>Images/listview_border.png</file>
     </qresource>
 </RCC>
