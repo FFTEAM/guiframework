@@ -16,9 +16,9 @@
 
 int main(int argc, char *argv[])
 {
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
 
-    qDebug() << qmlRegisterType<CustomPlotItem>("CostumPlot", 1, 0, "CustomPlotItem");
+    qmlRegisterType<CustomPlotItem>("CostumPlot", 1, 0, "CustomPlotItem");
 
     //multiple language
     QTranslator qtTranslator;

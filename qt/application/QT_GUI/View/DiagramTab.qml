@@ -9,10 +9,12 @@ Rectangle {
 
             CustomPlotItem
             {
-                width: 200
-                height: 200
+                width: 350
+                height: 350
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
                 id: customPlot
+
+                Component.onCompleted: initCustomPlot()
             }
 }
