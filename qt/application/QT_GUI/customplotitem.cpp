@@ -5,15 +5,38 @@ void CustomPlotItem::initCustomPlot()
 {
     m_CustomPlot = new QCustomPlot();
 
-    updateCustomPlotSize();
+    QCPBars *newBars = new QCPBars(m_CustomPlot->xAxis, m_CustomPlot->yAxis);
+    m_CustomPlot->addPlottable(newBars);
 
-    setupQuadraticDemo( m_CustomPlot );
+    // Generate Data
+    QVector<double> xData;
+    xData.append(1.0);
+    xData.append(2.0);
+    xData.append(3.0);
+    xData.append(4.0);
+
+    QVector<double> yData;
+    yData.append(5.0);
+    yData.append(2.0);
+    yData.append(10.0);
+    yData.append(3.0);
+
+    newBars->setName("Country population");
+    newBars->setData(xData, yData);
+
+    m_CustomPlot->xAxis->setRange(0,10);
+    m_CustomPlot->yAxis->setRange(0,15);
+    m_CustomPlot->xAxis->setLabel(tr("Time"));
+    m_CustomPlot->yAxis->setLabel(tr("Heart Rate"));
+
+    updateCustomPlotSize();
 
     qDebug() << "initCustomPlot()";
 }
 
-CustomPlotItem::CustomPlotItem( QQuickItem* parent ) : QQuickPaintedItem( parent ) , m_CustomPlot( 0 )
+CustomPlotItem::CustomPlotItem(QQuickItem* aParent) : QQuickPaintedItem(aParent) , m_CustomPlot(0)
 {
+    // C'tor
 }
 
 CustomPlotItem::~CustomPlotItem()
@@ -22,58 +45,16 @@ CustomPlotItem::~CustomPlotItem()
     m_CustomPlot = 0;
 }
 
-void CustomPlotItem::paint(QPainter *painter)
+void CustomPlotItem::paint(QPainter* aPainter)
 {
-    //QPen pen(QBrush(QColor("red")), 5);
-    //painter->setPen(pen);
-    //painter->setRenderHints(QPainter::Antialiasing, true);
-    //painter->drawPie(boundingRect().adjusted(1, 1, -1, -1), 90 * 16, 290 * 16);
-
     if (m_CustomPlot)
     {
         QPixmap    picture( boundingRect().size().toSize() );
         QCPPainter qcpPainter( &picture );
 
         m_CustomPlot->toPainter( &qcpPainter );
-        painter->drawPixmap( QPoint(), picture );
+        aPainter->drawPixmap( QPoint(), picture );
     }
-}
-
-void CustomPlotItem::setupQuadraticDemo(QCustomPlot *customPlot)
-{
-    // make top right axes clones of bottom left axes:
-        QCPAxisRect* axisRect = customPlot->axisRect();
-
-        // generate some data:
-        QVector<double> x( 101 ), y( 101 );   // initialize with entries 0..100
-        QVector<double> lx( 101 ), ly( 101 ); // initialize with entries 0..100
-        for (int i = 0; i < 101; ++i)
-        {
-            x[i] = i / 50.0 - 1;              // x goes from -1 to 1
-            y[i] = x[i] * x[i];               // let's plot a quadratic function
-
-            lx[i] = i / 50.0 - 1;             //
-            ly[i] = lx[i];                    // linear
-        }
-        // create graph and assign data to it:
-        customPlot->addGraph();
-        customPlot->graph( 0 )->setPen( QPen( Qt::red ) );
-        customPlot->graph( 0 )->setSelectedPen( QPen( Qt::blue, 2 ) );
-        customPlot->graph( 0 )->setData( x, y );
-
-        customPlot->addGraph();
-        customPlot->graph( 1 )->setPen( QPen( Qt::magenta ) );
-        customPlot->graph( 1 )->setSelectedPen( QPen( Qt::blue, 2 ) );
-        customPlot->graph( 1 )->setData( lx, ly );
-
-        // give the axes some labels:
-        customPlot->xAxis->setLabel( "x" );
-        customPlot->yAxis->setLabel( "y" );
-        // set axes ranges, so we see all data:
-        customPlot->xAxis->setRange( -1, 1 );
-        customPlot->yAxis->setRange( -1, 1 );
-
-        customPlot ->setInteractions( QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables );
 }
 
 void CustomPlotItem::updateCustomPlotSize()

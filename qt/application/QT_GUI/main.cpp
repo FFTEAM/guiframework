@@ -44,15 +44,6 @@ int main(int argc, char *argv[])
     modelSensorData.addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
     modelSensorData.addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
     modelSensorData.addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
-    modelSensorData.addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
-    modelSensorData.addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
-    modelSensorData.addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
-    modelSensorData.addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
-    modelSensorData.addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
-    modelSensorData.addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
-    modelSensorData.addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
-    modelSensorData.addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
-    modelSensorData.addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
 
     // create view
     QQuickView view;
@@ -80,6 +71,10 @@ int main(int argc, char *argv[])
     SearchDeviceButtonControler controller2 (view.rootObject(), &model);
     PrintButtonController controller3(view.rootObject(), &modelSensorData);
 
+    view.setMinimumHeight(500);
+    view.setMinimumWidth(700);
+    view.setMaximumHeight(500);
+    view.setMaximumWidth(700);
     view.show();
 
     return app.exec();

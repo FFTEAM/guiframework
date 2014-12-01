@@ -12,20 +12,15 @@ class CustomPlotItem : public QQuickPaintedItem
 
     public:
 
-        CustomPlotItem( QQuickItem* parent = 0 );
+        CustomPlotItem( QQuickItem* aParent = 0 );
         virtual ~CustomPlotItem();
 
         Q_INVOKABLE void initCustomPlot();
-        void paint( QPainter* painter );
-
-
-    protected:
-
-        void setupQuadraticDemo( QCustomPlot* customPlot );
+        void paint(QPainter* aPainter);
 
     private:
 
-        QCustomPlot*         m_CustomPlot;
+        QCustomPlot*    m_CustomPlot;
         void updateCustomPlotSize();
 };
 
