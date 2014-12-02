@@ -1,10 +1,10 @@
 package de.masterios.heartrate2go;
 
 import android.content.Context;
-import android.os.Bundle;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
@@ -20,7 +20,7 @@ public class HeartRateDataSync implements GoogleApiClient.OnConnectionFailedList
     private GoogleApiClient mGoogleApiClient;
 
     public interface SentMessageListener {
-        public void onMessageSent();
+        public void onMessageSent(Boolean sent);
     }
 
     private static HeartRateDataSync singleton;
@@ -51,15 +51,22 @@ public class HeartRateDataSync implements GoogleApiClient.OnConnectionFailedList
                     ConnectionResult connectionResult =
                             mGoogleApiClient.blockingConnect(CONNECTION_TIME_OUT_MS, TimeUnit.MILLISECONDS);
                     if(connectionResult.isSuccess()) {
-                        NodeApi.GetConnectedNodesResult result =
+                        NodeApi.GetConnectedNodesResult connectedNodesResult =
                                 Wearable.NodeApi.getConnectedNodes(mGoogleApiClient).await();
-                        List<Node> nodes = result.getNodes();
+                        List<Node> nodes = connectedNodesResult.getNodes();
+
+                        Boolean isSuccess = false;
                         for (Node node : nodes) {
-                            Wearable.MessageApi.sendMessage(mGoogleApiClient, node.getId(), SEND_MESSAGE_PATH, text.getBytes());
+                            MessageApi.SendMessageResult sendMessageResult =
+                                    Wearable.MessageApi.sendMessage(mGoogleApiClient, node.getId(), SEND_MESSAGE_PATH, text.getBytes()).await();
+
+                            if(sendMessageResult.getStatus().isSuccess()) {
+                                isSuccess = true;
+                            }
                         }
 
-                        if (null != mSentMessageListener && nodes.size() > 0) {
-                            mSentMessageListener.onMessageSent();
+                        if (null != mSentMessageListener) {
+                            mSentMessageListener.onMessageSent(isSuccess);
                         }
 
                         mGoogleApiClient.disconnect();

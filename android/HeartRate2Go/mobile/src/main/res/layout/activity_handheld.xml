@@ -14,13 +14,23 @@
         android:text="@string/caption_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/text_view" />
+        android:id="@+id/text_view_caption" />
 
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/frame_layout"
-        android:layout_weight="1" />
+        android:layout_weight="1">
+
+        <TextView
+            android:text="@string/no_measure_text"
+            android:textSize="24sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/text_view_center" />
+
+    </FrameLayout>
 
 </LinearLayout>
