@@ -21,19 +21,27 @@ void ConnectionButtonControler::clickConnectionButtonSlot(const int aCurrentInde
 {
     if(m_dataList)
     {
-        DeviceData currentDevice = m_dataList->getDevice(aCurrentIndex);
-        if(currentDevice.getCurrentState() == DISCONNECT)
+        const DeviceData* checkDevice = m_dataList->getDevice(aCurrentIndex);
+        if(checkDevice != 0)
         {
-            currentDevice.setCurrentState(CONNECT);
-            m_dataList->clearDeviceModel();
-            m_dataList->addDevice(currentDevice);
+            DeviceData currentDevice = *checkDevice;
+            if(currentDevice.getCurrentState() == DISCONNECT)
+            {
+                currentDevice.setCurrentState(CONNECT);
+                m_dataList->clearDeviceModel();
+                m_dataList->addDevice(currentDevice);
+            }
+            else
+            {
+                currentDevice.setCurrentState(DISCONNECT);
+                m_dataList->updateDevice(aCurrentIndex, currentDevice);
+            }
+            parent()->findChild<QObject*>("listViewName")->setProperty("currentIndex",0);
         }
         else
         {
-            currentDevice.setCurrentState(DISCONNECT);
-            m_dataList->updateDevice(aCurrentIndex, currentDevice);
+            qDebug() << "Null pointer";
         }
-        parent()->findChild<QObject*>("listViewName")->setProperty("currentIndex",0);
     }
     else qDebug() << "Null pointer";
 }

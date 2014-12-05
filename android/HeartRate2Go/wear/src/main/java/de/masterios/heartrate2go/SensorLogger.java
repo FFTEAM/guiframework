@@ -6,56 +6,49 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-import java.io.FileOutputStream;
-
-/**
- * Created by MrBoe on 19.11.2014.
- */
 public class SensorLogger implements SensorEventListener {
 
-    private final static String SAVE_FILENAME = "measuredata.csv";
-    private final static int MINIMUM_MEASURE_INTERVAL_US = 3000000;
-
-    SensorManager mSensorManager;
-    Sensor mHeartRateSensor;
-    Sensor mStepCountSensor;
-
-    Context mContext;
-    int mMeasureIntervalUs;
-
-    SensorLoggerListener mSensorLoggerListener;
-
-    public SensorLogger(Context context) {
-        mContext = context;
-        mMeasureIntervalUs = MINIMUM_MEASURE_INTERVAL_US;
-
-        mSensorManager = ((SensorManager)mContext.getSystemService(Context.SENSOR_SERVICE));
-        mHeartRateSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
-        mStepCountSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-
-        resume();
+    public interface SensorLoggerListener {
+        public void onSensorLog(int heartRate, int steps);
     }
 
+    //private final static String SAVE_FILENAME = "measuredata.csv";
+    private final static int MINIMUM_MEASURE_INTERVAL_US = 3000000;
+
+    private SensorManager mSensorManager;
+    private Sensor mHeartRateSensor;
+    private Sensor mStepCountSensor;
+
+    private int mMeasureIntervalUs;
+
+    private int mCurrentHeartRate;
+    private int mCurrentSteps;
+
+    SensorLoggerListener mSensorLoggerListener;
     public void setSensorLoggerListener(SensorLoggerListener sensorLoggerListener) {
         mSensorLoggerListener = sensorLoggerListener;
     }
 
+    public SensorLogger(Context context) {
+        mMeasureIntervalUs = MINIMUM_MEASURE_INTERVAL_US;
+
+        mSensorManager = ((SensorManager) context.getSystemService(Context.SENSOR_SERVICE));
+        mHeartRateSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
+        mStepCountSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+    }
+
     public void setMeasureInterval(int seconds) {
-        pause();
+        stop();
         long us = ((long) seconds) * 1000000;
-        if(us > MINIMUM_MEASURE_INTERVAL_US && us <= Integer.MAX_VALUE) {
+        if (us > MINIMUM_MEASURE_INTERVAL_US && us <= Integer.MAX_VALUE) {
             mMeasureIntervalUs = (int) us;
         } else {
             mMeasureIntervalUs = MINIMUM_MEASURE_INTERVAL_US;
         }
-        resume();
+        start();
     }
 
     public void start() {
-        resume();
-    }
-
-    public void resume() {
         if(null != mSensorManager) {
             mSensorManager.registerListener(this, mHeartRateSensor, mMeasureIntervalUs);
             mSensorManager.registerListener(this, mStepCountSensor, mMeasureIntervalUs);
@@ -63,42 +56,36 @@ public class SensorLogger implements SensorEventListener {
     }
 
     public void stop() {
-        pause();
-    }
-
-    public void pause() {
         if(null != mSensorManager) {
             mSensorManager.unregisterListener(this, mHeartRateSensor);
             mSensorManager.unregisterListener(this, mStepCountSensor);
         }
     }
 
-    String heartRateString = "";
-    String stepCounterString = "";
-
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_HEART_RATE) {
-            heartRateString = Integer.toString((int) event.values[0]);
+            mCurrentHeartRate = (int) event.values[0];
         }
         if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
-            stepCounterString = Integer.toString((int) event.values[0]);
+            mCurrentSteps = (int) event.values[0];
         }
 
-        updateFile();
+        //updateFile();
 
         if(null != mSensorLoggerListener) {
-            mSensorLoggerListener.onSensorLog();
+            mSensorLoggerListener.onSensorLog(mCurrentHeartRate, mCurrentSteps);
         }
     }
 
+    /*
     private void updateFile() {
         Long timeStampSeconds = System.currentTimeMillis()/1000;
 
         StringBuilder sb = new StringBuilder();
         sb.append(timeStampSeconds.toString() + ";");
-        sb.append(heartRateString + ";");
-        sb.append(stepCounterString + "\n");
+        sb.append(mCurrentHeartRate + ";");
+        sb.append(mCurrentSteps + "\n");
 
         FileOutputStream outputStream;
         try {
@@ -109,6 +96,7 @@ public class SensorLogger implements SensorEventListener {
             e.printStackTrace();
         }
     }
+    */
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {

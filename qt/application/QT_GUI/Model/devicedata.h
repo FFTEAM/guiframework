@@ -12,6 +12,7 @@ class DeviceData
     public:
 
         DeviceData(const QString& aDeviceName);
+        DeviceData(const DeviceData& aDevice);
 
         QString getDeviceName () const;
         QString getColor () const;

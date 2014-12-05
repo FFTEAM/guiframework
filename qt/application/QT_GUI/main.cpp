@@ -1,22 +1,47 @@
 #include <QGuiApplication>
-#include <QtQuick/QQuickView>
+#include <QQmlApplicationEngine>
 #include <QTranslator>
 #include <QDebug>
 
 #include "Model/sensordata.h"
-#include "Model/devicedata.h"
-#include "Model/devicemodel.h"
-#include "Controler/importbuttoncontroler.h"
-#include "Controler/connectionbuttoncontroler.h"
-#include "Controler/searchdevicebuttoncontroler.h"
-#include "Controler/printbuttoncontroller.h"
-#include "RessourceFilePaths.h"
 #include "Model/sensormodel.h"
+#include "Controler/printbuttoncontroller.h"
+#include "Controler/updatebuttoncontroler.h"
+#include "RessourceFilePaths.h"
 #include "CustomPlotItem.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+
+    // create sensorData Model
+    SensorModel* modelSensorData = &SensorModel::getInstance();
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","120","2"));
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","70","2"));
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","100","2"));
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","200","2"));
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","202","2"));
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","10","2"));
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","40","2"));
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","120","2"));
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","70","2"));
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","100","2"));
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","200","2"));
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","202","2"));
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","10","2"));
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","40","2"));
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","120","2"));
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","70","2"));
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","100","2"));
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","200","2"));
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","202","2"));
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","10","2"));
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","40","2"));
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
+    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","120","2"));
 
     qmlRegisterType<CustomPlotItem>("CostumPlot", 1, 0, "CustomPlotItem");
 
@@ -29,53 +54,50 @@ int main(int argc, char *argv[])
     myappTranslator.load(":/Language_Files/app_" + QLocale::system().name() + ".qm");
     app.installTranslator(&myappTranslator);
 
-    // create device Model
-    DeviceModel model;
-    model.addDevice(DeviceData("Device 1"));
-    model.addDevice(DeviceData("Device 2"));
-    model.addDevice(DeviceData("Device 3"));
+    QQmlApplicationEngine engine;
 
-    // create sensorData Model
-    SensorModel modelSensorData;
-    modelSensorData.addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
-    modelSensorData.addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
-    modelSensorData.addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
-    modelSensorData.addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
-    modelSensorData.addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
-    modelSensorData.addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
-    modelSensorData.addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
-
-    // create view
-    QQuickView view;
-    view.setResizeMode(QQuickView::SizeRootObjectToView);
-    QQmlContext *ctxt = view.rootContext();
-
-    // set Model to view
-    ctxt->setContextProperty("deviceModel", &model);
-    ctxt->setContextProperty("sensorDataModel", &modelSensorData);
-
-    // add qml File to View
-    view.setSource(QUrl(MAIN_VIEW));
-
-    // initate tabs
-    QObject* tabView = view.rootObject()->findChild<QObject*>("TabViewName");
-    const int countTabs = tabView->property("count").toInt();
-    for(int i = countTabs-1 ; i >= 0; i--)
+    QQmlContext* contex = engine.rootContext();
+    if(contex)
     {
-        tabView->setProperty("currentIndex",i);
+        // set Model to view
+        contex->setContextProperty("sensorDataModel", modelSensorData);
     }
+    else qDebug() << "Error no contex is set";
+
+    // load qml file to engine
+    engine.load(QUrl(MAIN_VIEW));
+
+    QObject* root = engine.rootObjects().at(0);
+    if(root)
+    {
+        // initate tabs
+        QObject* tabView = root->findChild<QObject*>("TabViewName");
+        if(tabView)
+        {
+            const int countTabs = tabView->property("count").toInt();
+            for(int i = countTabs-1 ; i >= 0; i--)
+            {
+                tabView->setProperty("currentIndex",i);
+            }
+        }
+        else qDebug() << "No tabview object found";
+
+        QQuickWindow *window = qobject_cast<QQuickWindow*>(root);
+        if (window)
+        {
+            window->setMaximumHeight(600);
+            window->setMinimumHeight(600);
+            window->setMaximumWidth(900);
+            window->setMinimumWidth(900);
+            window->show();
+        }
+        else qFatal("Error: No window found!");
+    }
+    else qDebug() << "No root object available";
 
     // set controler
-    ImportButtonControler controller(view.rootObject(), &modelSensorData);
-    ConnectionButtonControler controller1(view.rootObject(), &model);
-    SearchDeviceButtonControler controller2 (view.rootObject(), &model);
-    PrintButtonController controller3(view.rootObject(), &modelSensorData);
-
-    view.setMinimumHeight(500);
-    view.setMinimumWidth(700);
-    view.setMaximumHeight(500);
-    view.setMaximumWidth(700);
-    view.show();
+    PrintButtonController controller(root, modelSensorData);
+    UpdateButtonControler controller2 (root, modelSensorData);
 
     return app.exec();
 }

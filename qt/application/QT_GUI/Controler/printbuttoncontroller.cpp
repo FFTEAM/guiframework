@@ -5,7 +5,7 @@ PrintButtonController::PrintButtonController(QObject* aParent, SensorModel* aMod
 {
     if(aParent)
     {
-        QObject* child =  aParent->findChild<QObject*>("printButtonName");
+        QObject* child =  aParent->findChild<QObject*>("printActionName");
         if(child)
         {
             QObject::connect(child, SIGNAL(printButtonIsPressed()), this, SLOT(clickPrintButtonSlot()));
@@ -17,6 +17,7 @@ PrintButtonController::PrintButtonController(QObject* aParent, SensorModel* aMod
 
 void PrintButtonController::clickPrintButtonSlot()
 {
+    qDebug() << "print slot called";
     QPrinter printer;
     QPrintDialog printDialog(&printer);
     if (printDialog.exec() == QDialog::Accepted)

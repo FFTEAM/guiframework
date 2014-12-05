@@ -22,7 +22,7 @@ class PrintButtonController : public QObject
 
     private:
 
-        SensorModel m_SensorList;
+        SensorModel* m_SensorList;
 
 };
 

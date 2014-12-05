@@ -23,9 +23,18 @@ void DeviceModel::removeDevice(const int aIndex)
     else qDebug() << "Invalid Index";
 }
 
-const DeviceData& DeviceModel::getDevice(const int aIndex)
+const DeviceData* DeviceModel::getDevice(const int aIndex)
 {
-    return m_deviceList.at(aIndex);
+    if(aIndex >= 0 && aIndex < m_deviceList.size())
+    {
+        return &m_deviceList.at(aIndex);
+    }
+    else
+    {
+        qDebug() << "Invalid Index";
+        return 0;
+    }
+
 }
 
 void DeviceModel::updateDevice(const int aIndex, const DeviceData& aDevice)

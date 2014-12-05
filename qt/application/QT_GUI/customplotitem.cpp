@@ -5,27 +5,15 @@ void CustomPlotItem::initCustomPlot()
 {
     m_CustomPlot = new QCustomPlot();
 
-    QCPBars *newBars = new QCPBars(m_CustomPlot->xAxis, m_CustomPlot->yAxis);
-    m_CustomPlot->addPlottable(newBars);
+    m_gantChart = new QCPBars(m_CustomPlot->xAxis, m_CustomPlot->yAxis);
+    m_CustomPlot->addPlottable(m_gantChart);
 
-    // Generate Data
-    QVector<double> xData;
-    xData.append(1.0);
-    xData.append(2.0);
-    xData.append(3.0);
-    xData.append(4.0);
+    calculateData();
 
-    QVector<double> yData;
-    yData.append(5.0);
-    yData.append(2.0);
-    yData.append(10.0);
-    yData.append(3.0);
+    m_gantChart->setData(m_xAxis, m_yAxis);
 
-    newBars->setName("Country population");
-    newBars->setData(xData, yData);
-
-    m_CustomPlot->xAxis->setRange(0,10);
-    m_CustomPlot->yAxis->setRange(0,15);
+    m_CustomPlot->xAxis->setRange(0, m_xAxis.size() + 1);
+    m_CustomPlot->yAxis->setRange(0, MAX_HEARTRATE);
     m_CustomPlot->xAxis->setLabel(tr("Time"));
     m_CustomPlot->yAxis->setLabel(tr("Heart Rate"));
 
@@ -34,7 +22,11 @@ void CustomPlotItem::initCustomPlot()
     qDebug() << "initCustomPlot()";
 }
 
-CustomPlotItem::CustomPlotItem(QQuickItem* aParent) : QQuickPaintedItem(aParent) , m_CustomPlot(0)
+CustomPlotItem::CustomPlotItem(QQuickItem* aParent) : QQuickPaintedItem(aParent),
+                                                      m_CustomPlot(0),
+                                                      m_xAxis(0),
+                                                      m_yAxis(0)
+
 {
     // C'tor
 }
@@ -47,6 +39,7 @@ CustomPlotItem::~CustomPlotItem()
 
 void CustomPlotItem::paint(QPainter* aPainter)
 {
+    qDebug() << "Call paint";
     if (m_CustomPlot)
     {
         QPixmap    picture( boundingRect().size().toSize() );
@@ -62,5 +55,46 @@ void CustomPlotItem::updateCustomPlotSize()
     if (m_CustomPlot)
     {
         m_CustomPlot->setGeometry( 0, 0, width(), height() );
+    }
+}
+
+void CustomPlotItem::updateDataAndGUI()
+{
+    if(m_CustomPlot)
+    {
+        m_CustomPlot->clearPlottables();
+        m_gantChart = new QCPBars(m_CustomPlot->xAxis, m_CustomPlot->yAxis);
+        m_CustomPlot->addPlottable(m_gantChart);
+
+        calculateData();
+
+        m_gantChart->setData(m_xAxis, m_yAxis);
+        update();
+    }
+}
+
+void CustomPlotItem::calculateData()
+{
+    qDebug() << "calculateData called";
+    if(m_xAxis.size() != 0) m_xAxis.clear();
+    if(m_yAxis.size() != 0) m_yAxis.clear();
+
+    const SensorModel& model = SensorModel::getInstance();
+    const int length = model.getSensorModelCount();
+    double time = 1.0;
+
+    for(int index = 0; index < length; index++)
+    {
+        m_xAxis.append(time);
+        const SensorData* data = model.getSingleSensorData(index);
+        if(data != 0)
+        {
+            m_yAxis.append(data->getHeartRate().toInt());
+            time = time + 1;
+        }
+        else
+        {
+            qDebug() << "y axis value not found";
+        }
     }
 }

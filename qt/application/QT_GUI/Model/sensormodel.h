@@ -3,6 +3,7 @@
 
 #include <QAbstractListModel>
 #include "Model/sensordata.h"
+#include <QDebug>
 
 class SensorModel : public QAbstractListModel
 {
@@ -16,7 +17,7 @@ class SensorModel : public QAbstractListModel
             SensorStepLength
         };
 
-        explicit SensorModel(QObject* aParent = 0);
+        static SensorModel& getInstance();
 
         QVariant data(const QModelIndex & aIndex, int aRole = Qt::DisplayRole) const;
 
@@ -26,11 +27,17 @@ class SensorModel : public QAbstractListModel
 
         void setNewSensorModel(const QList<SensorData>& aSensorModel);
 
+        int getSensorModelCount() const;
+
+        const SensorData* getSingleSensorData(const int aIndex) const;
+
     protected:
 
         QHash<int, QByteArray> roleNames() const;
 
     private:
+
+        explicit SensorModel(QObject* aParent = 0);
 
         QList<SensorData> m_sensorList;
 

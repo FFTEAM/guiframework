@@ -31,7 +31,7 @@ class DeviceModel : public QAbstractListModel
 
         void setNewDeviceModel(const QList<DeviceData>& aDeviceModel);
 
-        const DeviceData& getDevice(const int aIndex);
+        const DeviceData* getDevice(const int aIndex);
 
         int rowCount(const QModelIndex & aParent = QModelIndex()) const;
 

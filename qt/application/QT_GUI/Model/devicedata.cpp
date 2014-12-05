@@ -7,6 +7,13 @@ DeviceData::DeviceData(const QString& aDevicename) :  m_deviceName(aDevicename),
     // C'tor
 }
 
+DeviceData::DeviceData(const DeviceData& aDevice) : m_deviceName(aDevice.m_deviceName),
+                                                    m_color(aDevice.m_color),
+                                                    m_currentSate(aDevice.m_currentSate)
+{
+    // C'tor
+}
+
 QString DeviceData::getDeviceName() const
 {
     return m_deviceName;
