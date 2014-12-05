@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">HeartRate2Go</string>
+    <string name="caption_text">Aktuelle Messung:</string>
+    <string name="no_measure_text">Keine Messung verfügbar</string>
+
+    <string name="action_settings">Einstellungen</string>
+
+    <string name="settings_title">Einstellungen</string>
+    <string name="settings_category_general">Allgemein</string>
+
+    <string name="title_keep_screen_on">Bildschirm angeschaltet lassen</string>
+    <string name="summary_keep_screen_on">Wirkt sich in höherem Akkuverbrauch aus..</string>
+
+    <string name="title_remember_vibrate">Erinnerungsvibration</string>
+    <string name="summary_remember_vibrate">Erinnere alle 30 Minuten, dass HeartRate2Go noch aktiv ist..</string>
+
+    <string name="title_measure_interval">Messungsinterval</string>
+    <string name="summary_measure_interval">Zeit zwischen den Messungen in Sekunden.</string>
+
+    <string name="title_list_styles">Hintergrundfarbe</string>
+    <string name="summary_list_styles">Auswahl der verfügbaren Hintergrundfarben</string>
+
+</resources>

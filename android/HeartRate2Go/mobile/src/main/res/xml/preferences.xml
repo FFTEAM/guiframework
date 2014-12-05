@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/settings_category_general">
+
+        <CheckBoxPreference
+            android:key="preference_keep_screen_on"
+            android:title="@string/title_keep_screen_on"
+            android:summary="@string/summary_keep_screen_on"
+            android:defaultValue="false" />
+
+        <CheckBoxPreference
+            android:key="preference_remember_vibrate"
+            android:title="@string/title_remember_vibrate"
+            android:summary="@string/summary_remember_vibrate"
+            android:defaultValue="true" />
+
+        <EditTextPreference
+            android:key="preference_measure_interval"
+            android:title="@string/title_measure_interval"
+            android:summary="@string/summary_measure_interval"
+            android:dialogTitle="@string/summary_measure_interval"
+            android:defaultValue="3"
+            android:inputType="number" />
+
+        <ListPreference
+            android:key="preference_list_styles"
+            android:title="@string/title_list_styles"
+            android:summary="@string/summary_list_styles"
+            android:dialogTitle="@string/summary_list_styles"
+            android:entries="@array/entries_list_styles"
+            android:entryValues="@array/entryvalues_list_styles"
+            android:defaultValue="black" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

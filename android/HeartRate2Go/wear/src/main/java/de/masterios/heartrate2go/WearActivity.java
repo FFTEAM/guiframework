@@ -2,33 +2,49 @@ package de.masterios.heartrate2go;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.support.wearable.view.WatchViewStub;
-import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class WearActivity extends Activity implements WatchViewStub.OnLayoutInflatedListener {
+public class WearActivity extends Activity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private static final String TAG = "DataLayerWear";
-    private static final int INACTIVE = -1;
+    private static final int RESULT_CODE_MEASURE_MODE = 1;
+    private static final int RESULT_CODE_MOBILE_NOT_FOUND = 2;
+
+    private static final int INACTIVE = 0;
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        showToast(getString(R.string.settings_changed));
+        refreshSettings();
+    }
 
     private enum State {
         STARTED, PAUSED, STOPPED
     }
 
-    private State mCurrentState = State.STOPPED;
+    private enum Mode {
+        ACTIVITY, REST
+    }
 
-    private ImageButton mImageButtonPlayPause;
+    private Settings mSettings;
+    private State mCurrentState;
+    private Mode mCurrentMode;
+
     private ImageButton mImageButtonStop;
+    private ImageButton mImageButtonPlayPause;
     private TextView mTextViewHeartRate;
-    private ImageView mImageViewSteps;
+    private TableRow mTableRowSteps;
     private TextView mTextViewSteps;
-    private ImageView mImageViewTime;
+    private TableRow mTableRowTime;
     private TextView mTextViewTime;
 
     private SensorLogger mSensorLogger;
@@ -42,120 +58,75 @@ public class WearActivity extends Activity implements WatchViewStub.OnLayoutInfl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wear);
-        final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
-        stub.setOnLayoutInflatedListener(this);
 
-        mHeartRateDataManager = HeartRateDataManager.getInstance();
-        mHeartRateDataSync = HeartRateDataSync.getInstance(getBaseContext());
-        mHeartRateDataSync.setSentMessageListener(new HeartRateDataSync.SentMessageListener() {
-            @Override
-            public void onMessageSent() {
-                if(null != mHeartRateDataManager) {
-                    mHeartRateDataManager.clear();
-                }
-            }
-        });
+        mSettings = new Settings(this);
+        mSettings.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+
+        initUiElements();
+
+        initHeartRateDataManager();
+        initSensorLogger(this);
+        initRunningTimer();
+
+        refreshSettings();
+    }
+
+    private void setCurrentState(State state) {
+        mCurrentState = state;
+        refreshActionButtons();
+    }
+
+    private void setCurrentMode(Mode mode) {
+        mCurrentMode = mode;
     }
 
     @Override
-    public void onLayoutInflated(WatchViewStub watchViewStub) {
-        initUiElements(watchViewStub);
-        initSensorLogger(watchViewStub.getContext());
-        initRunningTimer();
+    protected void onResume() {
+        super.onResume();
     }
 
-    private void initUiElements(WatchViewStub watchViewStub) {
-        ImageView animation = (ImageView) watchViewStub.findViewById(R.id.image_view_animated_heart);
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    private void refreshSettings() {
+        if(null != mSettings) {
+            if (mSettings.getKeepScreenOn()) {
+                getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            } else {
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            }
+
+            if (null != mSensorLogger) {
+                mSensorLogger.setMeasureInterval(mSettings.getMeasureInterval());
+            }
+        }
+    }
+
+    private void initUiElements() {
+        mCurrentState = State.STOPPED;
+
+        ImageView animation = (ImageView) findViewById(R.id.image_view_animated_heart);
         mHeartAnimation = (AnimationDrawable) animation.getBackground();
 
-        mImageButtonPlayPause = (ImageButton) watchViewStub.findViewById(R.id.image_button_start_pause);
-        mImageButtonStop = (ImageButton) watchViewStub.findViewById(R.id.image_button_stop);
-        mTextViewHeartRate = (TextView) watchViewStub.findViewById(R.id.text_view_heart_rate);
-        mImageViewSteps = (ImageView) watchViewStub.findViewById(R.id.image_view_steps);
-        mTextViewSteps = (TextView) watchViewStub.findViewById(R.id.text_view_steps);
-        mImageViewTime = (ImageView) watchViewStub.findViewById(R.id.image_view_time);
-        mTextViewTime = (TextView) watchViewStub.findViewById(R.id.text_view_time);
+        mImageButtonPlayPause = (ImageButton) findViewById(R.id.image_button_start_pause);
+        mImageButtonStop = (ImageButton) findViewById(R.id.image_button_stop);
+        mTextViewHeartRate = (TextView) findViewById(R.id.text_view_heart_rate);
+        mTableRowSteps = (TableRow) findViewById(R.id.table_row_steps);
+        mTextViewSteps = (TextView) findViewById(R.id.text_view_steps);
+        mTableRowTime = (TableRow) findViewById(R.id.table_row_time);
+        mTextViewTime = (TextView) findViewById(R.id.text_view_time);
 
-        initButtonPlayPause();
-        initButtonStop();
-
-        refreshTextViewHeartRate(0);
-        refreshTextViewSteps(0);
-        refreshTextViewTime(0);
-    }
-
-    private void setButtonToPlay() {
-        mImageButtonPlayPause.setImageResource(R.drawable.play_white);
-    }
-
-    private void setButtonToPause() {
-        mImageButtonPlayPause.setImageResource(R.drawable.pause_white);
-    }
-
-    private void startBackgroundAnimation() {
-        mHeartAnimation.start();
-    }
-
-    private void stopBackgroundAnimation() {
-        mHeartAnimation.stop();
-        mHeartAnimation.selectDrawable(0);
-    }
-
-    private void initButtonPlayPause() {
-        mImageButtonPlayPause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch(mCurrentState) {
-                    case STOPPED:
-                    case PAUSED:
-                        mCurrentState = State.STARTED;
-                        setButtonToPause();
-                        startBackgroundAnimation();
-
-                        if (null != mSensorLogger) mSensorLogger.start();
-                        if (null != mRunningTimer) mRunningTimer.start();
-                        break;
-
-                    case STARTED:
-                        mCurrentState = State.PAUSED;
-                        setButtonToPlay();
-                        stopBackgroundAnimation();
-
-                        if (null != mSensorLogger) mSensorLogger.stop();
-                        if (null != mRunningTimer) mRunningTimer.pause();
-                        break;
-                }
-            }
-        });
-    }
-
-
-
-    private void initButtonStop() {
-        mImageButtonStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCurrentState = State.STOPPED;
-                setButtonToPlay();
-                stopBackgroundAnimation();
-
-                if (null != mSensorLogger) mSensorLogger.stop();
-                if (null != mRunningTimer) mRunningTimer.stop();
-
-                refreshTextViewHeartRate(0);
-                refreshTextViewSteps(0);
-                refreshTextViewTime(0);
-
-                if(null != mHeartRateDataSync && null != mHeartRateDataManager) {
-                    mHeartRateDataSync.sendMessageAsync(mHeartRateDataManager.getCsvMapAsString());
-                }
-            }
-        });
+        refreshTextViewHeartRate(INACTIVE);
+        refreshTextViewSteps(INACTIVE);
+        refreshTextViewTime(INACTIVE);
+        refreshActionButtons();
     }
 
     private void initSensorLogger(Context context) {
         mSensorLogger = new SensorLogger(context);
-        mSensorLogger.setMeasureInterval(3); // TODO CONFIG
+        mSensorLogger.setMeasureInterval(mSettings.getMeasureInterval());
         mSensorLogger.setSensorLoggerListener(new SensorLogger.SensorLoggerListener() {
             @Override
             public void onSensorLog(final int heartRate, final int steps) {
@@ -165,7 +136,7 @@ public class WearActivity extends Activity implements WatchViewStub.OnLayoutInfl
                         refreshTextViewHeartRate(heartRate);
                         refreshTextViewSteps(steps);
 
-                        if(mCurrentState == State.STARTED) {
+                        if(State.STARTED == mCurrentState) {
                             HeartRateData heartRateData =
                                     new HeartRateData(System.currentTimeMillis(), heartRate, steps);
                             mHeartRateDataManager.add(heartRateData);
@@ -191,45 +162,183 @@ public class WearActivity extends Activity implements WatchViewStub.OnLayoutInfl
         });
     }
 
+    private void initHeartRateDataManager() {
+        mHeartRateDataManager = HeartRateDataManager.getInstance();
+        mHeartRateDataSync = HeartRateDataSync.getInstance(getBaseContext());
+        mHeartRateDataSync.setSentMessageListener(new HeartRateDataSync.SentMessageListener() {
+            @Override
+            public void onMessageSent(Boolean sent) {
+                if(sent) {
+                    if (null != mHeartRateDataManager) {
+                        mHeartRateDataManager.clear();
+                    }
+                } else {
+                    Intent intent = new Intent(WearActivity.this, DialogMobileNotFoundActivity.class);
+                    startActivityForResult(intent, RESULT_CODE_MOBILE_NOT_FOUND);
+                }
+            }
+        });
+    }
 
+    private void refreshActionButtons() {
+        switch(mCurrentState) {
+            case STOPPED:
+                mImageButtonPlayPause.setImageResource(R.drawable.play_white);
+                mImageButtonStop.setVisibility(View.GONE);
+                break;
+            case PAUSED:
+                mImageButtonPlayPause.setImageResource(R.drawable.play_white);
+                mImageButtonStop.setVisibility(View.VISIBLE);
+                break;
+            case STARTED:
+                mImageButtonPlayPause.setImageResource(R.drawable.pause_white);
+                mImageButtonStop.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
+    private void startBackgroundAnimation() {
+        mHeartAnimation.start();
+    }
+
+    private void stopBackgroundAnimation() {
+        mHeartAnimation.stop();
+        mHeartAnimation.selectDrawable(0);
+    }
+
+    public void onImageButtonStartPauseClick(View v) {
+        switch(mCurrentState) {
+            case STOPPED:
+                setCurrentState(State.STARTED);
+                Intent intent = new Intent(this, DialogModeActivity.class);
+                startActivityForResult(intent, RESULT_CODE_MEASURE_MODE);
+                break;
+            case PAUSED:
+                setCurrentState(State.STARTED);
+                startLogging();
+                break;
+            case STARTED:
+                setCurrentState(State.PAUSED);
+                pauseLogging();
+                break;
+        }
+        refreshActionButtons();
+    }
+
+    public void onImageButtonStopClick(View v) {
+        setCurrentState(State.STOPPED);
+        stopBackgroundAnimation();
+
+        if (null != mSensorLogger) mSensorLogger.stop();
+        if (null != mRunningTimer) mRunningTimer.stop();
+
+        refreshTextViewHeartRate(INACTIVE);
+        refreshTextViewSteps(INACTIVE);
+        refreshTextViewTime(INACTIVE);
+        refreshActionButtons();
+
+        if(null != mHeartRateDataSync && null != mHeartRateDataManager) {
+            mHeartRateDataSync.sendMessageAsync(mHeartRateDataManager.getCsvMapAsString());
+        }
+
+        refreshActionButtons();
+    }
+
+    private void startLogging() {
+        switch(mCurrentMode) {
+            case ACTIVITY:
+                startBackgroundAnimation();
+                if (null != mSensorLogger) mSensorLogger.start();
+                if (null != mRunningTimer) mRunningTimer.start();
+                break;
+            case REST:
+                // TODO
+                break;
+        }
+    }
+
+    private void pauseLogging() {
+        switch(mCurrentMode) {
+            case ACTIVITY:
+                stopBackgroundAnimation();
+                if (null != mSensorLogger) mSensorLogger.pause();
+                if (null != mRunningTimer) mRunningTimer.pause();
+                break;
+            case REST:
+                // TODO
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK) {
+            if(RESULT_CODE_MEASURE_MODE == requestCode) {
+                int result = data.getExtras().getInt(DialogModeActivity.ACTIVITY_RESULT);
+                switch(result) {
+                    case DialogModeActivity.ACTIVITY:
+                        setCurrentMode(Mode.ACTIVITY);
+                        break;
+                    case DialogModeActivity.REST:
+                        setCurrentMode(Mode.REST);
+                        break;
+                }
+                startLogging();
+
+            } else if(RESULT_CODE_MOBILE_NOT_FOUND == requestCode) {
+                int result = data.getExtras().getInt(DialogMobileNotFoundActivity.ACTIVITY_RESULT);
+
+                switch(result) {
+                    case DialogMobileNotFoundActivity.DISMISS:
+                        if (null != mHeartRateDataManager) {
+                            mHeartRateDataManager.clear();
+                        }
+                        break;
+                    case DialogMobileNotFoundActivity.RETRY:
+                        if (null != mHeartRateDataSync && null != mHeartRateDataManager) {
+                            mHeartRateDataSync.sendMessageAsync(mHeartRateDataManager.getCsvMapAsString());
+                        }
+                        break;
+                }
+            }
+        }
+    }
 
     private void refreshTextViewHeartRate(int heartRate) {
         if (null != mTextViewHeartRate) {
-            if (mCurrentState == State.STOPPED) {
-                mTextViewHeartRate.setVisibility(View.INVISIBLE);
+            if (State.STOPPED == mCurrentState) {
+                mTextViewHeartRate.setVisibility(View.GONE);
             } else {
                 mTextViewHeartRate.setVisibility(View.VISIBLE);
                 if (0 == heartRate) {
-                    mTextViewHeartRate.setText("calibrating");
+                    mTextViewHeartRate.setText(getString(R.string.calibrating));
                 } else {
-                    mTextViewHeartRate.setText(heartRate + " bpm");
+                    mTextViewHeartRate.setText(heartRate + " " + getString(R.string.heart_rate_unit));
                 }
             }
         }
     }
 
     private void refreshTextViewSteps(int steps) {
-        if (null != mTextViewSteps && null != mImageViewSteps) {
-            if (mCurrentState == State.STOPPED) {
-                mImageViewSteps.setVisibility(View.INVISIBLE);
-                mTextViewSteps.setVisibility(View.INVISIBLE);
+        if (null != mTextViewSteps && null != mTableRowSteps) {
+            if (State.STOPPED == mCurrentState) {
+                mTableRowSteps.setVisibility(View.GONE);
             } else {
-                mImageViewSteps.setVisibility(View.VISIBLE);
-                mTextViewSteps.setVisibility(View.VISIBLE);
-                mTextViewSteps.setText(steps + " steps");
+                mTableRowSteps.setVisibility(View.VISIBLE);
+                mTextViewSteps.setText(steps + " " + getString(R.string.steps));
             }
         }
     }
 
     private void refreshTextViewTime(long timeSpanMs) {
-        if(null != mTextViewTime && null != mImageViewTime) {
-            if(mCurrentState == State.STOPPED) {
-                mImageViewTime.setVisibility(View.INVISIBLE);
-                mTextViewTime.setVisibility(View.INVISIBLE);
+        if(null != mTextViewTime && null != mTableRowTime) {
+            if(State.STOPPED == mCurrentState) {
+                mTableRowTime.setVisibility(View.GONE);
             } else {
                 String formattedTimeSpan = getFormattedTimeSpan(timeSpanMs);
-                mImageViewTime.setVisibility(View.VISIBLE);
-                mTextViewTime.setVisibility(View.VISIBLE);
+                mTableRowTime.setVisibility(View.VISIBLE);
                 mTextViewTime.setText(formattedTimeSpan);
             }
         }
@@ -241,5 +350,9 @@ public class WearActivity extends Activity implements WatchViewStub.OnLayoutInfl
         int seconds = secondsOverall % 60;
 
         return minutes + ":" + String.format("%02d", seconds);
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
