@@ -28,7 +28,7 @@ Rectangle {
                 }
             ]
 
-            CustomPlotItem
+            CustomPlotLineChart
             {
                 state: "INIT_DIAGRAMM"
 
@@ -50,18 +50,18 @@ Rectangle {
                 width: 300
                 height: 498
 
-                model: sensorDataModel
+                model: activeSensorDataModel
 
                 TableViewColumn
                 {
-                    role: "date";
+                    role: "activeDate";
                     title: qsTr("Date");
                     width: 200
                 }
 
                 TableViewColumn
                 {
-                    role: "heartRate";
+                    role: "activeHeartRate";
                     title: qsTr("HeartRate");
                     width: 100
                 }

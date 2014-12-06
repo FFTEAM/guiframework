@@ -8,42 +8,62 @@
 #include "Controler/printbuttoncontroller.h"
 #include "Controler/updatebuttoncontroler.h"
 #include "RessourceFilePaths.h"
-#include "CustomPlotItem.h"
+#include "customplotbarchart.h"
+#include "customplotlinechart.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    // create sensorData Model
-    SensorModel* modelSensorData = &SensorModel::getInstance();
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","120","2"));
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","70","2"));
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","100","2"));
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","200","2"));
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","202","2"));
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","10","2"));
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","40","2"));
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","120","2"));
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","70","2"));
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","100","2"));
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","200","2"));
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","202","2"));
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","10","2"));
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","40","2"));
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","120","2"));
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","70","2"));
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","100","2"));
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","200","2"));
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","202","2"));
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","10","2"));
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","40","2"));
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
-    modelSensorData->addSensorData(SensorData("31-12-2009 23:00:01","120","2"));
+    // create sensorInactiveData Model
+    SensorModel* inactiveSensorDataModel = &SensorModel::getInstance(INACTIVE_SENSOR_DATA);
+    inactiveSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
+    inactiveSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","120","2"));
+    inactiveSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","70","2"));
+    inactiveSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","100","2"));
+    inactiveSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","200","2"));
+    inactiveSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","202","2"));
+    inactiveSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","10","2"));
+    inactiveSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","40","2"));
+    inactiveSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","89","2"));
+    inactiveSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","120","2"));
+    inactiveSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","70","2"));
+    inactiveSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","100","2"));
 
-    qmlRegisterType<CustomPlotItem>("CostumPlot", 1, 0, "CustomPlotItem");
+    // create sensorActiveModel
+    SensorModel* activeSensorDataModel = &SensorModel::getInstance(ACTIVE_SENSOR_DATA);
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","10","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","20","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","30","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","40","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","50","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","60","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","70","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","80","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","90","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","100","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","110","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","120","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","130","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","140","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","130","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","120","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","121","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","122","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","123","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","125","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","124","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","123","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","122","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","140","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","200","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","190","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","150","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","100","2"));
+    activeSensorDataModel->addSensorData(SensorData("31-12-2009 23:00:01","50","2"));
+
+    qmlRegisterType<CustomPlotBarChart>("CostumPlot", 1, 0, "CustomPlotBarChart");
+    qmlRegisterType<CustomPlotLineChart>("CostumPlot", 1, 0, "CustomPlotLineChart");
 
     //multiple language
     QTranslator qtTranslator;
@@ -60,7 +80,8 @@ int main(int argc, char *argv[])
     if(contex)
     {
         // set Model to view
-        contex->setContextProperty("sensorDataModel", modelSensorData);
+        contex->setContextProperty("inactiveSensorDataModel", inactiveSensorDataModel);
+        contex->setContextProperty("activeSensorDataModel", activeSensorDataModel);
     }
     else qDebug() << "Error no contex is set";
 
@@ -96,8 +117,8 @@ int main(int argc, char *argv[])
     else qDebug() << "No root object available";
 
     // set controler
-    PrintButtonController controller(root, modelSensorData);
-    UpdateButtonControler controller2 (root, modelSensorData);
+    PrintButtonController printController(root);
+    UpdateButtonControler updateController(root);
 
     return app.exec();
 }

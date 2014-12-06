@@ -5,19 +5,28 @@
 #include "Model/sensordata.h"
 #include <QDebug>
 
+enum SensorDataType
+{
+    ACTIVE_SENSOR_DATA = 0,
+    INACTIVE_SENSOR_DATA
+};
+
 class SensorModel : public QAbstractListModel
 {
     Q_OBJECT
     public:
 
-        enum DeviceRoles
+        enum SensorRoles
         {
-            SensorDateRole = Qt::UserRole + 1,
-            SensorHeartRateRole,
-            SensorStepLength
+            ACTIVE_SENSOR_DATE_ROLE = Qt::UserRole + 1,
+            ACTIVE_SENSOR_HEART_RATE_ROLE,
+            ACTIVE_SENSOR_STEP_LENGTH,
+            INACTIVE_SENSOR_DATE_ROLE,
+            INACTIVE_SENSOR_HEART_RATE_ROLE,
+            INACTIVE_SENSOR_STEP_LENGTH
         };
 
-        static SensorModel& getInstance();
+        static SensorModel& getInstance(const SensorDataType aType);
 
         QVariant data(const QModelIndex & aIndex, int aRole = Qt::DisplayRole) const;
 
@@ -40,7 +49,6 @@ class SensorModel : public QAbstractListModel
         explicit SensorModel(QObject* aParent = 0);
 
         QList<SensorData> m_sensorList;
-
 };
 
 #endif // SENSORMODEL_H

@@ -11,9 +11,10 @@ SOURCES += main.cpp \
     Controler/searchdevicebuttoncontroler.cpp \
     Model/sensormodel.cpp \
     Controler/printbuttoncontroller.cpp \
-    customplotitem.cpp \
     ../../third_party/qcustomplot.cpp \
-    Controler/updatebuttoncontroler.cpp
+    Controler/updatebuttoncontroler.cpp \
+    customplotbarchart.cpp \
+    customplotlinechart.cpp
 
 TRANSLATIONS = Language_Files/app_de_DE.ts \
 
@@ -28,9 +29,10 @@ HEADERS += \
     RessourceFilePaths.h \
     Model/sensormodel.h \
     Controler/printbuttoncontroller.h \
-    customplotitem.h \
     ../../third_party/qcustomplot.h \
-    Controler/updatebuttoncontroler.h
+    Controler/updatebuttoncontroler.h \
+    customplotbarchart.h \
+    customplotlinechart.h
 
 DESTPATH = .
 target.path = $$DESTPATH

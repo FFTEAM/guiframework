@@ -1,16 +1,16 @@
-#include "CustomPlotItem.h"
+#include "customplotbarchart.h"
 #include <QDebug>
 
-void CustomPlotItem::initCustomPlot()
+void CustomPlotBarChart ::initCustomPlot()
 {
     m_CustomPlot = new QCustomPlot();
 
-    m_gantChart = new QCPBars(m_CustomPlot->xAxis, m_CustomPlot->yAxis);
-    m_CustomPlot->addPlottable(m_gantChart);
+    m_barChart = new QCPBars(m_CustomPlot->xAxis, m_CustomPlot->yAxis);
+    m_CustomPlot->addPlottable(m_barChart);
 
     calculateData();
 
-    m_gantChart->setData(m_xAxis, m_yAxis);
+    m_barChart->setData(m_xAxis, m_yAxis);
 
     m_CustomPlot->xAxis->setRange(0, m_xAxis.size() + 1);
     m_CustomPlot->yAxis->setRange(0, MAX_HEARTRATE);
@@ -22,22 +22,23 @@ void CustomPlotItem::initCustomPlot()
     qDebug() << "initCustomPlot()";
 }
 
-CustomPlotItem::CustomPlotItem(QQuickItem* aParent) : QQuickPaintedItem(aParent),
-                                                      m_CustomPlot(0),
-                                                      m_xAxis(0),
-                                                      m_yAxis(0)
+CustomPlotBarChart ::CustomPlotBarChart (QQuickItem* aParent) : QQuickPaintedItem(aParent),
+                                                                m_CustomPlot(0),
+                                                                m_xAxis(0),
+                                                                m_yAxis(0),
+                                                                m_barChart(0)
 
 {
     // C'tor
 }
 
-CustomPlotItem::~CustomPlotItem()
+CustomPlotBarChart::~CustomPlotBarChart()
 {
     delete m_CustomPlot;
-    m_CustomPlot = 0;
+    m_CustomPlot    = 0;
 }
 
-void CustomPlotItem::paint(QPainter* aPainter)
+void CustomPlotBarChart::paint(QPainter* aPainter)
 {
     qDebug() << "Call paint";
     if (m_CustomPlot)
@@ -50,7 +51,7 @@ void CustomPlotItem::paint(QPainter* aPainter)
     }
 }
 
-void CustomPlotItem::updateCustomPlotSize()
+void CustomPlotBarChart::updateCustomPlotSize()
 {
     if (m_CustomPlot)
     {
@@ -58,28 +59,28 @@ void CustomPlotItem::updateCustomPlotSize()
     }
 }
 
-void CustomPlotItem::updateDataAndGUI()
+void CustomPlotBarChart::updateDataAndGUI()
 {
     if(m_CustomPlot)
     {
         m_CustomPlot->clearPlottables();
-        m_gantChart = new QCPBars(m_CustomPlot->xAxis, m_CustomPlot->yAxis);
-        m_CustomPlot->addPlottable(m_gantChart);
+        m_barChart = new QCPBars(m_CustomPlot->xAxis, m_CustomPlot->yAxis);
+        m_CustomPlot->addPlottable(m_barChart);
 
         calculateData();
 
-        m_gantChart->setData(m_xAxis, m_yAxis);
+        m_barChart->setData(m_xAxis, m_yAxis);
         update();
     }
 }
 
-void CustomPlotItem::calculateData()
+void CustomPlotBarChart::calculateData()
 {
     qDebug() << "calculateData called";
     if(m_xAxis.size() != 0) m_xAxis.clear();
     if(m_yAxis.size() != 0) m_yAxis.clear();
 
-    const SensorModel& model = SensorModel::getInstance();
+    const SensorModel& model = SensorModel::getInstance(INACTIVE_SENSOR_DATA);
     const int length = model.getSensorModelCount();
     double time = 1.0;
 

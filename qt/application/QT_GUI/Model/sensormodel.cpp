@@ -5,10 +5,13 @@ SensorModel::SensorModel(QObject* aParent) : QAbstractListModel(aParent)
     // C'tor
 }
 
-SensorModel &SensorModel::getInstance()
+SensorModel &SensorModel::getInstance(const SensorDataType aType)
 {
-    static SensorModel instance;
-    return instance;
+    static SensorModel activeInstance;
+    static SensorModel inactiveInstance;
+
+    if(aType == ACTIVE_SENSOR_DATA) return activeInstance;
+    else return inactiveInstance;
 }
 
 QVariant SensorModel::data(const QModelIndex& aIndex, int aRole) const
@@ -19,13 +22,16 @@ QVariant SensorModel::data(const QModelIndex& aIndex, int aRole) const
 
     switch(aRole)
     {
-        // To Do
-        // Its is possible to divide inactive puls rate and aktive puls rate
-        // Add more roles
-        case SensorHeartRateRole:   return sensorData.getHeartRate(); break;
-        case SensorDateRole:        return sensorData.getDate(); break;
-        case SensorStepLength:      return sensorData.getStepLength(); break;
-        default:                    return QVariant();
+        case ACTIVE_SENSOR_HEART_RATE_ROLE:
+        case INACTIVE_SENSOR_HEART_RATE_ROLE:    return sensorData.getHeartRate(); break;
+
+        case ACTIVE_SENSOR_DATE_ROLE:
+        case INACTIVE_SENSOR_DATE_ROLE:          return sensorData.getDate(); break;
+
+        case ACTIVE_SENSOR_STEP_LENGTH:
+        case INACTIVE_SENSOR_STEP_LENGTH:        return sensorData.getStepLength(); break;
+
+        default:                                 return QVariant();
     }
 }
 
@@ -71,8 +77,12 @@ QHash<int, QByteArray> SensorModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
 
-    roles[SensorHeartRateRole]  = "heartRate";
-    roles[SensorDateRole]       = "date";
-    roles[SensorStepLength]     = "stepLength";
+    roles[ACTIVE_SENSOR_HEART_RATE_ROLE]    = "activeHeartRate";
+    roles[ACTIVE_SENSOR_DATE_ROLE]          = "activeDate";
+    roles[ACTIVE_SENSOR_STEP_LENGTH]        = "activeStepLength";
+    roles[INACTIVE_SENSOR_HEART_RATE_ROLE]  = "inactiveHeartRate";
+    roles[INACTIVE_SENSOR_DATE_ROLE]        = "inactiveDate";
+    roles[INACTIVE_SENSOR_STEP_LENGTH]      = "inactiveStepLength";
+
     return roles;
 }

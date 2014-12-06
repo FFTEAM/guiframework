@@ -69,7 +69,7 @@ ApplicationWindow
             Tab {
                 id: activeDiagramTabID
                 objectName: "diagramTabName"
-                title: qsTr("Inactive Heartrate")
+                title: qsTr("Active Heartrate")
                 source: "qrc:/View/ActiveDiagramTab.qml"
             }
 

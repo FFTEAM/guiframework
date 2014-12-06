@@ -1,5 +1,5 @@
-#ifndef CUSTOMPLOTITEM_H
-#define CUSTOMPLOTITEM_H
+#ifndef CUSTOMPLOTBARCHART_H
+#define CUSTOMPLOTBARCHARTM_H
 
 #include "../../third_party/qcustomplot.h"
 #include <QtQuick>
@@ -10,14 +10,14 @@
 
 const int MAX_HEARTRATE = 230;
 
-class CustomPlotItem : public QQuickPaintedItem
+class CustomPlotBarChart : public QQuickPaintedItem
 {
     Q_OBJECT
 
     public:
 
-        CustomPlotItem( QQuickItem* aParent = 0 );
-        virtual ~CustomPlotItem();
+        CustomPlotBarChart (QQuickItem* aParent = 0);
+        virtual ~CustomPlotBarChart ();
 
         Q_INVOKABLE void initCustomPlot();
         Q_INVOKABLE void updateDataAndGUI();
@@ -29,11 +29,11 @@ class CustomPlotItem : public QQuickPaintedItem
         QCustomPlot*    m_CustomPlot;
         QVector<double> m_xAxis;
         QVector<double> m_yAxis;
-        QCPBars* m_gantChart;
+        QCPBars* m_barChart;
 
         void updateCustomPlotSize();
         void calculateData();
 
 };
 
-#endif // CUSTOMPLOTITEM_H
+#endif // CUSTOMPLOTBARCHART_H

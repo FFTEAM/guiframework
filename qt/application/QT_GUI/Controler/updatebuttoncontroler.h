@@ -3,25 +3,20 @@
 
 #include <QDebug>
 #include <QObject>
+#include "Model/sensordata.h"
 #include "Model/sensormodel.h"
-#include "RessourceFilePaths.h"
 
 class UpdateButtonControler : public QObject
 {
     Q_OBJECT
     public:
-        explicit UpdateButtonControler(QObject* aParent = 0, SensorModel* aModel = 0);
+        explicit UpdateButtonControler(QObject* aParent = 0);
 
     signals:
 
     public slots:
 
             void updateActionSlot();
-
-    private:
-
-            SensorModel* m_SensorList;
-
 };
 
 #endif // UPDATEBUTTONCONTROLER_H

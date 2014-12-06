@@ -6,13 +6,14 @@
 #include <QPrinter>
 #include <QPrintDialog>
 #include <Model/sensormodel.h>
+#include <QTextDocument>
 
 class PrintButtonController : public QObject
 {
     Q_OBJECT
     public:
 
-        explicit PrintButtonController(QObject* aParent = 0, SensorModel* aModel = 0);
+        explicit PrintButtonController(QObject* aParent = 0);
 
     signals:
 
@@ -22,8 +23,7 @@ class PrintButtonController : public QObject
 
     private:
 
-        SensorModel* m_SensorList;
-
+        void createSensorDataFile(QPrinter& aPrinter, SensorDataType aType,const QString aOverviewName);
 };
 
 #endif // PRINTBUTTONCONTROLLER_H
