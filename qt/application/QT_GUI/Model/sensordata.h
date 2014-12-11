@@ -20,6 +20,9 @@ class SensorData
 
     private:
 
+        //SensorData(const SensorData& aOther);
+        SensorData& operator= (const SensorData& aRhs);
+
         // member variables
         QString m_date;
         QString m_heartRate;

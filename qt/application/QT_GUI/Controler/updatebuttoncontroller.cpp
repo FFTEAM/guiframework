@@ -1,6 +1,6 @@
-#include "updatebuttoncontroler.h"
+#include "updatebuttoncontroller.h"
 
-UpdateButtonControler::UpdateButtonControler(QObject *aParent) :   QObject(aParent)
+UpdateButtonController::UpdateButtonController(QObject *aParent) :   QObject(aParent)
 {
     //C'tor
     if(aParent)
@@ -15,7 +15,7 @@ UpdateButtonControler::UpdateButtonControler(QObject *aParent) :   QObject(aPare
     else qDebug() << "Signal could not attached to a slot";
 }
 
-void UpdateButtonControler::updateActionSlot()
+void UpdateButtonController::updateActionSlot()
 {
     qDebug() << "updateActionSlot called";
 

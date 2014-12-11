@@ -23,6 +23,9 @@ class CustomPlotLineChart: public QQuickPaintedItem
 
     private:
 
+        CustomPlotLineChart(const CustomPlotLineChart& aOther);
+        CustomPlotLineChart& operator= (const CustomPlotLineChart& aRhs);
+
         QCustomPlot*    m_CustomPlot;
         QVector<double> m_xAxis;
         QVector<double> m_yAxis;

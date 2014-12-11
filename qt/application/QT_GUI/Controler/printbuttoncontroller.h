@@ -23,6 +23,9 @@ class PrintButtonController : public QObject
 
     private:
 
+        PrintButtonController(const PrintButtonController& aOther);
+        PrintButtonController& operator= (const PrintButtonController& aRhs);
+
         void createSensorDataFile(QPrinter& aPrinter, SensorDataType aType,const QString aOverviewName);
 };
 

@@ -26,6 +26,9 @@ class CustomPlotBarChart : public QQuickPaintedItem
 
     private:
 
+        CustomPlotBarChart(const CustomPlotBarChart& aOther);
+        CustomPlotBarChart& operator= (const CustomPlotBarChart& aRhs);
+
         QCustomPlot*    m_CustomPlot;
         QVector<double> m_xAxis;
         QVector<double> m_yAxis;

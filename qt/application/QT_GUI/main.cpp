@@ -6,7 +6,7 @@
 #include "Model/sensordata.h"
 #include "Model/sensormodel.h"
 #include "Controler/printbuttoncontroller.h"
-#include "Controler/updatebuttoncontroler.h"
+#include "Controler/updatebuttoncontroller.h"
 #include "RessourceFilePaths.h"
 #include "customplotbarchart.h"
 #include "customplotlinechart.h"
@@ -118,7 +118,7 @@ int main(int argc, char *argv[])
 
     // set controler
     PrintButtonController printController(root);
-    UpdateButtonControler updateController(root);
+    UpdateButtonController updateController(root);
 
     return app.exec();
 }

@@ -48,6 +48,9 @@ class SensorModel : public QAbstractListModel
 
         explicit SensorModel(QObject* aParent = 0);
 
+        SensorModel(const SensorModel& aOther);
+        SensorModel& operator= (const SensorModel& aRhs);
+
         QList<SensorData> m_sensorList;
 };
 
