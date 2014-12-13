@@ -8,6 +8,7 @@
     <string name="heart_rate_unit">bpm</string>
     <string name="calibrating">Kalibrierung</string>
     <string name="settings_changed">Einstellungen geändert</string>
+    <string name="still_active">HeartRate2Go ist noch aktiv...</string>
 
     <string name="title_activity_dialog_mode">Messungsmodus?</string>
     <string name="question_measure_mode">Handelt es sich um eine Aktivitäts- oder Ruhemessung?</string>

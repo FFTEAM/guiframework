@@ -3,27 +3,28 @@ package de.masterios.heartrate2go;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class RunningTimer {
-
-    public interface RunningTimerListener {
+public class RestTimer {
+    public interface RestTimerListener {
         public void onTimerUpdate(long timeSpanMs);
+        public void onTimerFinished();
     }
 
     private int mUpdateIntervalMs = 500;
+    private int mMeasureDurationMs = 60000;
 
     private long mStartTimeMs;
-    private long mTimeSpanMs = 0L;
+    private long mTimeSpanMs = mMeasureDurationMs;
 
     Timer mTimer;
     TimerTask mTimerTask;
 
-    RunningTimerListener mRunningTimerListener;
-    public void setRunningTimerListener(RunningTimerListener runningTimerListener) {
-        mRunningTimerListener = runningTimerListener;
+    RestTimerListener mRestTimerListener;
+    public void setRestTimerListener(RestTimerListener restTimerListener) {
+        mRestTimerListener = restTimerListener;
     }
 
     private void reset() {
-        mTimeSpanMs = 0L;
+        mTimeSpanMs = mMeasureDurationMs;
     }
 
     public void start() {
@@ -53,11 +54,22 @@ public class RunningTimer {
             @Override
             public void run() {
                 long currentMs = System.currentTimeMillis();
-                mTimeSpanMs += currentMs - mStartTimeMs;
+                mTimeSpanMs -= currentMs - mStartTimeMs;
                 mStartTimeMs = currentMs;
 
-                if(null != mRunningTimerListener) {
-                    mRunningTimerListener.onTimerUpdate(mTimeSpanMs);
+                if(null != mRestTimerListener) {
+                    mRestTimerListener.onTimerUpdate(mTimeSpanMs);
+
+                    if(mTimeSpanMs < 0) {
+                        mRestTimerListener.onTimerFinished();
+                    }
+                }
+
+                if(mTimeSpanMs < 0) {
+                    if(null != mRestTimerListener) {
+                        mRestTimerListener.onTimerFinished();
+                    }
+                    stop();
                 }
             }
         };
@@ -69,5 +81,9 @@ public class RunningTimer {
         pause();
         mUpdateIntervalMs = updateIntervalMs;
         start();
+    }
+
+    public void setMeasureDurationMs(int measureDurationMs) {
+        mMeasureDurationMs = measureDurationMs;
     }
 }

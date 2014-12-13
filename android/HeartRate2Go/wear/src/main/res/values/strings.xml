@@ -8,6 +8,7 @@
     <string name="heart_rate_unit">bpm</string>
     <string name="calibrating">calibrating</string>
     <string name="settings_changed">Settings changed</string>
+    <string name="still_active">HeartRate2Go is still active...</string>
 
     <string name="title_activity_dialog_mode">Measure mode?</string>
     <string name="question_measure_mode">Will the following measure be in activity or in rest?</string>

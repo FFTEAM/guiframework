@@ -10,6 +10,14 @@ public class DataLayerListenerService extends WearableListenerService {
 
     private static final String MESSAGE_RECEIVED_PATH = "/heartrate2go-message";
 
+    private AcceptThread at;
+
+    public DataLayerListenerService() {
+        System.out.println("DataLayerListenerService()");
+        at = new AcceptThread();
+        at.start();
+    }
+
     private static String csvData = "";
     public static String getCurrentCsvData() {
         return csvData;
