@@ -11,9 +11,9 @@ ApplicationWindow
 
     Action {
             id: saveActionID
-            text: "&Save"
+            text: qsTr("&Save")
             shortcut: StandardKey.Save
-            tooltip: "Save data to System"
+            tooltip: qsTr("Save data to System")
     }
 
     Action {
@@ -22,22 +22,22 @@ ApplicationWindow
 
             objectName: "updateActionName"
             id: updateActionID
-            text: "&Update Data"
+            text: qsTr("&Update Data")
             shortcut: StandardKey.Print
-            tooltip: "Update data form Device"
+            tooltip: qsTr("Update data form Device")
             onTriggered: updateActionIsTriggered();
     }
 
     Action {
 
-            signal printButtonIsPressed();
+            signal printActionIsTriggered();
 
             objectName: "printActionName"
             id: printActionID
-            text: "&Print"
+            text: qsTr("&Print")
             shortcut: StandardKey.Print
-            tooltip: "Print data"
-            onTriggered: printButtonIsPressed();
+            tooltip: qsTr("Print data")
+            onTriggered: printActionIsTriggered();
     }
 
     menuBar:

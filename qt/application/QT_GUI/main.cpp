@@ -1,3 +1,20 @@
+//#########################################################################################
+// Projekt: Heart Rate 2 go
+// Copyright: 2014
+//#########################################################################################
+
+/**
+  * @file   main.cpp
+  * @author Patrick Mathias, Markus Nebel
+  * @author Verantwortlichkeit: Patrick Mathias
+  * @date   12.12.2014 13:01:00 GMT
+  *
+  * @brief  In der Main.cpp wird die Application erzeugt und die Sprache festgelegt. Zusätzlich
+  * werden die Controller und die Größe des Applikationsfenster initialisert. Abschließend werden die
+  * Diagramm zur darstellung der Messadten an der View registriert.
+  *
+  */
+
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QTranslator>
@@ -11,6 +28,12 @@
 #include "customplotbarchart.h"
 #include "customplotlinechart.h"
 
+/**
+ * @brief main  Main-Methode erzeugt Applikation und offenet die View
+ * @param argc  Anzahl der Elemente von argv
+ * @param argv  Enthält die Kommandozeilen Parameter
+ * @return 0 falls alles OK ist
+ */
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
@@ -106,11 +129,23 @@ int main(int argc, char *argv[])
         QQuickWindow *window = qobject_cast<QQuickWindow*>(root);
         if (window)
         {
-            window->setMaximumHeight(600);
-            window->setMinimumHeight(600);
-            window->setMaximumWidth(900);
-            window->setMinimumWidth(900);
-            window->show();
+            QDesktopWidget widget;
+            QRect mainScreenSize = widget.availableGeometry(widget.primaryScreen());
+            qDebug() << "Current Height : " << mainScreenSize.height();
+            qDebug() << "Current Width  : " << mainScreenSize.width();
+
+            if(mainScreenSize.height() < 600 || mainScreenSize.width() < 900)
+            {
+                qFatal("Window size too small");
+            }
+            else
+            {
+                window->setMaximumHeight(600);
+                window->setMinimumHeight(600);
+                window->setMaximumWidth(900);
+                window->setMinimumWidth(900);
+                window->show();
+            }
         }
         else qFatal("Error: No window found!");
     }

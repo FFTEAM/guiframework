@@ -1,3 +1,17 @@
+//#########################################################################################
+// Projekt: Heart Rate 2 go
+// Copyright: 2014
+//#########################################################################################
+
+/**
+  * @file   sensordata.cpp
+  * @author Patrick Mathias, Markus Nebel
+  * @author Verantwortlichkeit: Patrick Mathias
+  * @date   12.12.2014 14:12:00 GMT
+  *
+  * @brief Diese CPP-Datei enthält alle Implementierung der Methoden der Klasse SensorData
+  */
+
 #include "sensordata.h"
 
 SensorData::SensorData(const QString& aDate,

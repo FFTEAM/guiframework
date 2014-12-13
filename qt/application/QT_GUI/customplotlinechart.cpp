@@ -1,3 +1,18 @@
+//#########################################################################################
+// Projekt: Heart Rate 2 go
+// Copyright: 2014
+//#########################################################################################
+
+/**
+  * @file   customplotlinechart.cpp
+  * @author Patrick Mathias, Markus Nebel
+  * @author Verantwortlichkeit: Patrick Mathias
+  * @date   12.12.2014 14:12:00 GMT
+  *
+  * @brief Diese CPP-Datei enthält alle Implementierung der Methoden der Klasse CustomPlotLineChart
+  *
+  */
+
 #include "customplotlinechart.h"
 
 CustomPlotLineChart::CustomPlotLineChart(QQuickItem* aParent):  QQuickPaintedItem(aParent),
@@ -39,7 +54,7 @@ void CustomPlotLineChart::initCustomPlot()
     m_CustomPlot->graph(0)->setData(m_xAxis, m_yAxis);
 
     m_CustomPlot->xAxis->setRange(0, m_xAxis.size() + 1);
-    m_CustomPlot->yAxis->setRange(0, 210);
+    m_CustomPlot->yAxis->setRange(0, 230);
     m_CustomPlot->xAxis->setLabel(tr("Time"));
     m_CustomPlot->yAxis->setLabel(tr("Heart Rate"));
 
