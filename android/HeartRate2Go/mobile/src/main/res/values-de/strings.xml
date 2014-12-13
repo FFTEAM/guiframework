@@ -13,8 +13,8 @@
     <string name="title_keep_screen_on">Bildschirm angeschaltet lassen</string>
     <string name="summary_keep_screen_on">Wirkt sich in höherem Akkuverbrauch aus..</string>
 
-    <string name="title_remember_vibrate">Erinnerungsvibration</string>
-    <string name="summary_remember_vibrate">Erinnere alle 30 Minuten, dass HeartRate2Go noch aktiv ist..</string>
+    <string name="title_remember_vibrate">Erinnerung</string>
+    <string name="summary_remember_vibrate">Erinnere alle 15 Minuten, dass HeartRate2Go noch aktiv ist..</string>
 
     <string name="title_measure_interval">Messungsinterval</string>
     <string name="summary_measure_interval">Zeit zwischen den Messungen in Sekunden.</string>
