@@ -13,8 +13,8 @@
     <string name="title_keep_screen_on">Keep screen on</string>
     <string name="summary_keep_screen_on">Keeping screen on will result in higher battery drain.</string>
 
-    <string name="title_remember_vibrate">Remember vibration</string>
-    <string name="summary_remember_vibrate">Remember every 30 minutes HeartRate2Go is already active.</string>
+    <string name="title_remember_vibrate">Reminder</string>
+    <string name="summary_remember_vibrate">Remind every 15 minutes HeartRate2Go is still active.</string>
 
     <string name="title_measure_interval">Measure Interval</string>
     <string name="summary_measure_interval">Time in seconds between each measure.</string>

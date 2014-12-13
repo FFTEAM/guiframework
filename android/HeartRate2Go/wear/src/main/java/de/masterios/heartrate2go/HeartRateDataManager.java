@@ -44,14 +44,16 @@ public class HeartRateDataManager {
 
     public String getCsvMapAsString() {
         StringBuilder sb = new StringBuilder();
-        HeartRateData lastDataSet = mHeartRateDataList.get(mHeartRateDataList.size()-1);
-        for(HeartRateData heartRateData : mHeartRateDataList) {
-            sb.append(heartRateData.getTimeStampMs() + ";");
-            sb.append(heartRateData.getHeartRate() + ";");
-            sb.append(heartRateData.getSteps());
+        if(mHeartRateDataList.size() > 0) {
+            HeartRateData lastDataSet = mHeartRateDataList.get(mHeartRateDataList.size() - 1);
+            for (HeartRateData heartRateData : mHeartRateDataList) {
+                sb.append(heartRateData.getTimeStampMs() + ";");
+                sb.append(heartRateData.getHeartRate() + ";");
+                sb.append(heartRateData.getSteps());
 
-            if(heartRateData != lastDataSet) {
-                sb.append("\n");
+                if (heartRateData != lastDataSet) {
+                    sb.append("\n");
+                }
             }
         }
         return sb.toString();

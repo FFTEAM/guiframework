@@ -12,7 +12,7 @@
             android:defaultValue="false" />
 
         <CheckBoxPreference
-            android:key="preference_remember_vibrate"
+            android:key="preference_remember_vibration"
             android:title="@string/title_remember_vibrate"
             android:summary="@string/summary_remember_vibrate"
             android:defaultValue="true" />
@@ -25,6 +25,7 @@
             android:defaultValue="3"
             android:inputType="number" />
 
+        <!--
         <ListPreference
             android:key="preference_list_styles"
             android:title="@string/title_list_styles"
@@ -33,7 +34,7 @@
             android:entries="@array/entries_list_styles"
             android:entryValues="@array/entryvalues_list_styles"
             android:defaultValue="black" />
-
+        -->
     </PreferenceCategory>
 
 </PreferenceScreen>

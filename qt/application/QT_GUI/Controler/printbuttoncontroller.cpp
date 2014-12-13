@@ -1,3 +1,18 @@
+//#########################################################################################
+// Projekt: Heart Rate 2 go
+// Copyright: 2014
+//#########################################################################################
+
+/**
+  * @file   printbuttoncontroller.cpp
+  * @author Patrick Mathias, Markus Nebel
+  * @author Verantwortlichkeit: Patrick Mathias
+  * @date   12.12.2014 14:12:00 GMT
+  *
+  * @brief Diese CPP-Datei enthält alle Implementierung der Methoden der Klasse PrintButtonController
+  *
+  */
+
 #include "printbuttoncontroller.h"
 
 PrintButtonController::PrintButtonController(QObject* aParent) :QObject(aParent)
@@ -7,7 +22,7 @@ PrintButtonController::PrintButtonController(QObject* aParent) :QObject(aParent)
         QObject* child =  aParent->findChild<QObject*>("printActionName");
         if(child)
         {
-            QObject::connect(child, SIGNAL(printButtonIsPressed()), this, SLOT(clickPrintButtonSlot()));
+            QObject::connect(child, SIGNAL(printActionIsTriggered()), this, SLOT(clickPrintButtonSlot()));
         }
         else qDebug() << "No child found";
     }
@@ -16,7 +31,6 @@ PrintButtonController::PrintButtonController(QObject* aParent) :QObject(aParent)
 
 void PrintButtonController::clickPrintButtonSlot()
 {
-    qDebug() << "print slot called";
     QPrinter printer;
     QPrintDialog printDialog(&printer);
     if (printDialog.exec() == QDialog::Accepted)
