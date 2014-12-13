@@ -7,7 +7,7 @@ Rectangle {
         objectName: "DeviceRectacleName"
         width: 600
         height: 400
-        color: "#e8eaeb"
+        color: "#a1a1ab"
         clip: true
 
         state: "NO_DEVICE_CONNECT"

@@ -1,50 +1,85 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
+import QtQuick.Window 2.0
 
-Rectangle
+ApplicationWindow
 {
-    width: 700
-    height: 500
-    color: "#fbd5ba"
-    id: mainRectacleID
-    objectName: "mainRectacleName"
+    id: rootWindow
+    visible: true
+    width: 900
+    height: 600
+
+    Action {
+            id: saveActionID
+            text: "&Save"
+            shortcut: StandardKey.Save
+            tooltip: "Save data to System"
+    }
+
+    Action {
+
+            signal updateActionIsTriggered();
+
+            objectName: "updateActionName"
+            id: updateActionID
+            text: "&Update Data"
+            shortcut: StandardKey.Print
+            tooltip: "Update data form Device"
+            onTriggered: updateActionIsTriggered();
+    }
+
+    Action {
+
+            signal printButtonIsPressed();
+
+            objectName: "printActionName"
+            id: printActionID
+            text: "&Print"
+            shortcut: StandardKey.Print
+            tooltip: "Print data"
+            onTriggered: printButtonIsPressed();
+    }
+
+    menuBar:
+    MenuBar {
+                id: menubarID
+        Menu {
+           title: qsTr("Data")
+           MenuItem { text: qsTr("Save"); action: saveActionID }
+           MenuItem { text: qsTr("Print"); action: printActionID }
+           MenuItem { text: qsTr("Update Data"); action: updateActionID }
+        }
+
+    }
 
     TabView {
 
-        id: tableviewID
-        objectName: "TabViewName"
-        width: 600;
-        height: 400;
-        x: 50;
-        y: 50;
+            id: tableviewID
+            objectName: "TabViewName"
+            width: parent.width;
+            height: parent.height
 
-        Tab {
-            id: deviceTabID
-            objectName:  "deviceTabName"
-            title: qsTr("Device")
-            source: "qrc:/View/DeviceTab.qml"
-        }
+            Tab {
+                id: inactiveDiagramTabID
+                objectName: "diagramTabName"
+                title: qsTr("Inactive Heartrate")
+                source: "qrc:/View/InactiveDiagramTab.qml"
+            }
 
-        Tab {
-            id: tableTabID
-            objectName: "tableTabName"
-            title: qsTr("Table Data")
-            source: "qrc:/View/TableDataTab.qml"
-        }
+            Tab {
+                id: activeDiagramTabID
+                objectName: "diagramTabName"
+                title: qsTr("Active Heartrate")
+                source: "qrc:/View/ActiveDiagramTab.qml"
+            }
 
-        Tab {
-            id: diagramTabID
-            objectName: "diagramTabName"
-            title: qsTr("Diagram")
-            source: "qrc:/View/DiagramTab.qml"
-        }
 
-        Tab
-        {
-            id: detailDataTabID
-            objectName: "detailDataTabName"
-            title: qsTr("Detail Data")
-            source: "qrc:/View/DetailDataTab.qml"
-        }
-     }
+            Tab
+            {
+                id: detailDataTabID
+                objectName: "detailDataTabName"
+                title: qsTr("Detail Data")
+                source: "qrc:/View/DetailDataTab.qml"
+            }
+         }
 }

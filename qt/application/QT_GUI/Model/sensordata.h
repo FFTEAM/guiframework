@@ -17,8 +17,11 @@ class SensorData
         void setStepLength(const QString& aStepLength);
 
         SensorData(const QString& aDate, const QString& aHeartRate, const QString& aStepLength);
+        SensorData& operator= (const SensorData& aRhs);
 
     private:
+
+        //SensorData(const SensorData& aOther);
 
         // member variables
         QString m_date;
