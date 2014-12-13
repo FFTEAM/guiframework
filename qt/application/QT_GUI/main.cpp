@@ -10,10 +10,19 @@
 #include "RessourceFilePaths.h"
 #include "customplotbarchart.h"
 #include "customplotlinechart.h"
+#include "TcpServer.h"
+#include "BroadcastReceiver.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+    BroadcastReceiver bcReceiver;
+    // run broadcast receiver thread loop:
+    bcReceiver.start();
+
+    TcpServer server;
+    // listen for incoming data connections:
+    server.startServer();
 
     // create sensorInactiveData Model
     SensorModel* inactiveSensorDataModel = &SensorModel::getInstance(INACTIVE_SENSOR_DATA);
@@ -120,5 +129,7 @@ int main(int argc, char *argv[])
     PrintButtonController printController(root);
     UpdateButtonController updateController(root);
 
-    return app.exec();
+    int ret = app.exec();
+    bcReceiver.exit();
+    return ret;
 }

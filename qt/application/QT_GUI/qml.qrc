@@ -10,5 +10,6 @@
         <file>Images/online_button.png</file>
         <file>Images/listview_border.png</file>
         <file>View/ActiveDiagramTab.qml</file>
+        <file>View/SettingsDialog.qml</file>
     </qresource>
 </RCC>

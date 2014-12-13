@@ -10,6 +10,20 @@ ApplicationWindow
     height: 600
 
     Action {
+            signal settingsActionIsTriggered();
+
+            objectName: "settingsActionName"
+            id: settingsActionID
+            text: "&Settings"
+            tooltip: "Set configuration"
+            onTriggered: {
+                var component = Qt.createComponent("qrc:/View/SettingsDialog.qml");
+                var window = component.createObject(rootWindow);
+                window.show;
+            }
+    }
+
+    Action {
             id: saveActionID
             text: "&Save"
             shortcut: StandardKey.Save
@@ -41,16 +55,16 @@ ApplicationWindow
     }
 
     menuBar:
-    MenuBar {
-                id: menubarID
+        MenuBar {
+            id: menubarID
         Menu {
-           title: qsTr("Data")
-           MenuItem { text: qsTr("Save"); action: saveActionID }
-           MenuItem { text: qsTr("Print"); action: printActionID }
-           MenuItem { text: qsTr("Update Data"); action: updateActionID }
+               title: qsTr("Data")
+               MenuItem { text: qsTr("Settings"); action: settingsActionID }
+               MenuItem { text: qsTr("Save"); action: saveActionID }
+               MenuItem { text: qsTr("Print"); action: printActionID }
+               MenuItem { text: qsTr("Update Data"); action: updateActionID }
+            }
         }
-
-    }
 
     TabView {
 
@@ -72,7 +86,6 @@ ApplicationWindow
                 title: qsTr("Active Heartrate")
                 source: "qrc:/View/ActiveDiagramTab.qml"
             }
-
 
             Tab
             {
