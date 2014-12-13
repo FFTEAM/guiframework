@@ -8,6 +8,7 @@ public class Settings {
 
     private static final int DEFAULT_MEASURE_INTERVAL = 3;
     private static final boolean DEFAULT_KEEP_SCREEN_ON = false;
+    private static final boolean DEFAULT_REMEMBER_VIBRATION = true;
     private static final String DEFAULT_STYLE = "black";
 
     private SharedPreferences mSharedPreferences;
@@ -29,9 +30,18 @@ public class Settings {
         return value;
     }
 
+    public Boolean getRememberVibration() {
+        String result = mSharedPreferences.getString("preference_remember_vibration", Boolean.toString(DEFAULT_REMEMBER_VIBRATION));
+        Boolean value = DEFAULT_REMEMBER_VIBRATION;
+        try {
+            value = Boolean.parseBoolean(result);
+        } catch(NumberFormatException e) { }
+        return value;
+    }
+
     public Boolean getKeepScreenOn() {
         String result = mSharedPreferences.getString("preference_keep_screen_on", Boolean.toString(DEFAULT_KEEP_SCREEN_ON));
-        Boolean value = false;
+        Boolean value = DEFAULT_KEEP_SCREEN_ON;
         try {
             value = Boolean.parseBoolean(result);
         } catch(NumberFormatException e) { }

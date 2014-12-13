@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -21,9 +22,20 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
 
     private static final int INACTIVE = 0;
 
+    private static final int VIBRATION_LENGTH_MS = 100;
+    private static final long[] VIBRATION_TRIPLE_PATTERN = {0
+            , VIBRATION_LENGTH_MS
+            , VIBRATION_LENGTH_MS
+            , VIBRATION_LENGTH_MS
+            , VIBRATION_LENGTH_MS
+            , VIBRATION_LENGTH_MS }; // individual heartrate2go vibration pattern :)
+    private static final int VIBRATION_INTERVAL_MS = 900000; // 15 minutes
+    private static final int VIBRATION_INTERVAL_TOLERANCE = 1000; // 1 second
+
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        showToast(getString(R.string.settings_changed));
+        showShortToast(getString(R.string.settings_changed));
         refreshSettings();
     }
 
@@ -49,7 +61,9 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
 
     private SensorLogger mSensorLogger;
     private RunningTimer mRunningTimer;
+    private RestTimer mRestTimer;
     private AnimationDrawable mHeartAnimation;
+    private Vibrator mVibrator;
 
     private HeartRateDataManager mHeartRateDataManager;
     private HeartRateDataSync mHeartRateDataSync;
@@ -61,12 +75,14 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
 
         mSettings = new Settings(this);
         mSettings.getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        mVibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
         initUiElements();
 
         initHeartRateDataManager();
         initSensorLogger(this);
         initRunningTimer();
+        initRestTimer();
 
         refreshSettings();
     }
@@ -107,8 +123,14 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
     private void initUiElements() {
         mCurrentState = State.STOPPED;
 
-        ImageView animation = (ImageView) findViewById(R.id.image_view_animated_heart);
-        mHeartAnimation = (AnimationDrawable) animation.getBackground();
+        try {
+            ImageView animation = (ImageView) findViewById(R.id.image_view_animated_heart);
+            animation.setBackgroundResource(R.drawable.animation_black);
+            mHeartAnimation = (AnimationDrawable) animation.getBackground();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         mImageButtonPlayPause = (ImageButton) findViewById(R.id.image_button_start_pause);
         mImageButtonStop = (ImageButton) findViewById(R.id.image_button_stop);
@@ -136,7 +158,7 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
                         refreshTextViewHeartRate(heartRate);
                         refreshTextViewSteps(steps);
 
-                        if(State.STARTED == mCurrentState) {
+                        if (State.STARTED == mCurrentState) {
                             HeartRateData heartRateData =
                                     new HeartRateData(System.currentTimeMillis(), heartRate, steps);
                             mHeartRateDataManager.add(heartRateData);
@@ -152,12 +174,62 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         mRunningTimer.setRunningTimerListener(new RunningTimer.RunningTimerListener() {
             @Override
             public void onTimerUpdate(final long timeSpanMs) {
+
+                boolean isVibratingActive = mSettings.getRememberVibration();
+                boolean isNotFirstVibrate = timeSpanMs >= VIBRATION_INTERVAL_MS;
+                boolean isVibratingTime = (timeSpanMs % VIBRATION_INTERVAL_MS < VIBRATION_INTERVAL_TOLERANCE);
+                boolean isVibrating = isVibratingActive && isNotFirstVibrate && isVibratingTime;
+
+                if (isVibrating) {
+                    if (mVibrator.hasVibrator()) mVibrator.vibrate(VIBRATION_TRIPLE_PATTERN, -1);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showLongToast(getString(R.string.still_active));
+                        }
+                    });
+                }
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         refreshTextViewTime(timeSpanMs);
                     }
                 });
+            }
+        });
+    }
+
+    private void initRestTimer() {
+        mRestTimer = new RestTimer();
+        mRestTimer.setRestTimerListener(new RestTimer.RestTimerListener() {
+            @Override
+            public void onTimerUpdate(final long timeSpanMs) {
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshTextViewTime(timeSpanMs);
+                    }
+                });
+            }
+
+            @Override
+            public void onTimerFinished() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        stopLogging();
+                        refreshTextViewHeartRate(INACTIVE);
+                        refreshTextViewSteps(INACTIVE);
+                        refreshTextViewTime(INACTIVE);
+                        refreshActionButtons();
+                    }
+                });
+
+                if(null != mHeartRateDataSync && null != mHeartRateDataManager) {
+                    mHeartRateDataSync.sendMessageAsync(mHeartRateDataManager.getCsvMapAsString());
+                }
             }
         });
     }
@@ -184,41 +256,47 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         switch(mCurrentState) {
             case STOPPED:
                 mImageButtonPlayPause.setImageResource(R.drawable.play_white);
+                mImageButtonPlayPause.setVisibility(View.VISIBLE);
                 mImageButtonStop.setVisibility(View.GONE);
                 break;
             case PAUSED:
                 mImageButtonPlayPause.setImageResource(R.drawable.play_white);
+                mImageButtonPlayPause.setVisibility(View.VISIBLE);
                 mImageButtonStop.setVisibility(View.VISIBLE);
                 break;
             case STARTED:
-                mImageButtonPlayPause.setImageResource(R.drawable.pause_white);
-                mImageButtonStop.setVisibility(View.VISIBLE);
+                if(Mode.REST == mCurrentMode) {
+                    mImageButtonPlayPause.setVisibility(View.GONE);
+                    mImageButtonStop.setVisibility(View.VISIBLE);
+                } else {
+                    mImageButtonPlayPause.setImageResource(R.drawable.pause_white);
+                    mImageButtonStop.setVisibility(View.VISIBLE);
+                }
                 break;
         }
     }
 
     private void startBackgroundAnimation() {
-        mHeartAnimation.start();
+        if(null != mHeartAnimation) mHeartAnimation.start();
     }
 
     private void stopBackgroundAnimation() {
-        mHeartAnimation.stop();
-        mHeartAnimation.selectDrawable(0);
+        if(null != mHeartAnimation) {
+            mHeartAnimation.stop();
+            mHeartAnimation.selectDrawable(0);
+        }
     }
 
     public void onImageButtonStartPauseClick(View v) {
         switch(mCurrentState) {
             case STOPPED:
-                setCurrentState(State.STARTED);
                 Intent intent = new Intent(this, DialogModeActivity.class);
                 startActivityForResult(intent, RESULT_CODE_MEASURE_MODE);
                 break;
             case PAUSED:
-                setCurrentState(State.STARTED);
                 startLogging();
                 break;
             case STARTED:
-                setCurrentState(State.PAUSED);
                 pauseLogging();
                 break;
         }
@@ -226,11 +304,7 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
     }
 
     public void onImageButtonStopClick(View v) {
-        setCurrentState(State.STOPPED);
-        stopBackgroundAnimation();
-
-        if (null != mSensorLogger) mSensorLogger.stop();
-        if (null != mRunningTimer) mRunningTimer.stop();
+        stopLogging();
 
         refreshTextViewHeartRate(INACTIVE);
         refreshTextViewSteps(INACTIVE);
@@ -245,27 +319,41 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
     }
 
     private void startLogging() {
+        setCurrentState(State.STARTED);
+        startBackgroundAnimation();
+
+        if (null != mSensorLogger) mSensorLogger.start();
+
         switch(mCurrentMode) {
             case ACTIVITY:
-                startBackgroundAnimation();
-                if (null != mSensorLogger) mSensorLogger.start();
                 if (null != mRunningTimer) mRunningTimer.start();
                 break;
             case REST:
-                // TODO
+                if (null != mRestTimer) mRestTimer.start();
                 break;
         }
     }
 
     private void pauseLogging() {
+        setCurrentState(State.PAUSED);
+        stopBackgroundAnimation();
+
+        if (null != mSensorLogger) mSensorLogger.pause();
+        if (null != mRunningTimer) mRunningTimer.pause();
+    }
+
+    private void stopLogging() {
+        setCurrentState(State.STOPPED);
+        stopBackgroundAnimation();
+
+        if (null != mSensorLogger) mSensorLogger.stop();
+
         switch(mCurrentMode) {
             case ACTIVITY:
-                stopBackgroundAnimation();
-                if (null != mSensorLogger) mSensorLogger.pause();
-                if (null != mRunningTimer) mRunningTimer.pause();
+                if (null != mRunningTimer) mRunningTimer.stop();
                 break;
             case REST:
-                // TODO
+                if (null != mRestTimer) mRestTimer.stop();
                 break;
         }
     }
@@ -323,7 +411,7 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
 
     private void refreshTextViewSteps(int steps) {
         if (null != mTextViewSteps && null != mTableRowSteps) {
-            if (State.STOPPED == mCurrentState) {
+            if (State.STOPPED == mCurrentState || Mode.REST == mCurrentMode) {
                 mTableRowSteps.setVisibility(View.GONE);
             } else {
                 mTableRowSteps.setVisibility(View.VISIBLE);
@@ -352,7 +440,11 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         return minutes + ":" + String.format("%02d", seconds);
     }
 
-    private void showToast(String message) {
+    private void showShortToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void showLongToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 }
