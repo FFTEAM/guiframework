@@ -4,6 +4,7 @@ TcpConnection::TcpConnection(qintptr aSocketDescriptor, QObject* aParent) :
     QThread(aParent),
     mSocketDescriptor(aSocketDescriptor)
 {
+    //connect(this, SIGNAL(checkNewData(QString)), &mDataReceiver, SLOT(validateData(QString)));
 }
 
 void TcpConnection::run()
@@ -41,7 +42,6 @@ void TcpConnection::run()
 void TcpConnection::readyRead()
 {
     // get the information
-    qDebug() << "readyRead(): " << mSocket->bytesAvailable() << " bytes in buffer...";
     char buffer[2048];
     memset(buffer, 0, 2048);
 
@@ -49,12 +49,11 @@ void TcpConnection::readyRead()
     if (ret)
     {
         qDebug() << "read " << ret << buffer;
+        checkNewData(buffer);
     }
 
     // will write on server side window
     //qDebug() << "[" /*<< mSocket->peerAddress()*/ << ":" << mSocket->peerPort() << "]" << " Data in: " << Data;
-
-    //mSocket->write(Data);
 }
 
 void TcpConnection::disconnected()

@@ -44,13 +44,19 @@ void UpdateButtonController::updateActionSlot()
     }
     else qDebug() << "No childs found";
 
-    QList<SensorData> sensorData;
-    sensorData.append(SensorData("01-01-2015 00:00:01","200","5"));
-    sensorData.append(SensorData("01-01-2015 00:00:02","100","3"));
-    sensorData.append(SensorData("01-01-2015 00:00:02","50","3"));
+    // EXAMPLE DATA:
+    QList<const SensorData*> sensorDataI;
+    sensorDataI.append(new SensorData("01-01-2015 00:00:01","200","5"));
+    sensorDataI.append(new SensorData("01-01-2015 00:00:02","100","3"));
+    sensorDataI.append(new SensorData("01-01-2015 00:00:02","50","3"));
 
-    SensorModel::getInstance(INACTIVE_SENSOR_DATA).setNewSensorModel(sensorData);
-    SensorModel::getInstance(ACTIVE_SENSOR_DATA).setNewSensorModel(sensorData);
+    QList<const SensorData*> sensorDataA;
+    sensorDataA.append(new SensorData("01-01-2017 00:00:01","230","5"));
+    sensorDataA.append(new SensorData("01-01-2017 00:00:02","120","3"));
+    sensorDataA.append(new SensorData("01-01-2017 00:00:02","30","3"));
+
+    SensorModel::getInstance(INACTIVE_SENSOR_DATA).setNewSensorModel(sensorDataI);
+    SensorModel::getInstance(ACTIVE_SENSOR_DATA).setNewSensorModel(sensorDataA);
 
     if(inactiveDiagram && activeDiagram)
     {

@@ -67,6 +67,7 @@ class SensorModel : public QAbstractListModel
          * @return  Objekt der vom type abhängigen Messdaten
          */
         static SensorModel& getInstance(const SensorDataType aType);
+        ~SensorModel();
 
         /**
          * @brief data Liefert der View die zur jeweiligen Rolle gehörenden Daten
@@ -87,13 +88,13 @@ class SensorModel : public QAbstractListModel
          * @brief addSensorData Fügt ein neues Datenobjekt dem Model hinzu
          * @param aSensorData Neues Datenenobjekt
          */
-        void addSensorData(const SensorData& aSensorData);
+        void addSensorData(const SensorData* aSensorData);
 
         /**
          * @brief setNewSensorModel Fügt eine neue Menge an Datenobjekten dem Model hinzu
          * @param aSensorModel Liste mit neuen Datenobjekten
          */
-        void setNewSensorModel(const QList<SensorData>& aSensorModel);
+        void setNewSensorModel(const QList<const SensorData*> &aSensorModel);
 
         /**
          * @brief getSensorModelCount Liefert die Anzahl an Datenobjekten im Model zurück
@@ -133,6 +134,11 @@ class SensorModel : public QAbstractListModel
         SensorModel(const SensorModel& aOther);
 
         /**
+         * @brief  cleanList Gibt Speicher aller SensoDaten frei und clear die m_sensorList
+         */
+        void cleanList();
+
+        /**
          * @brief operator = Nicht in Verwendung (Definition fehlt)
          * @param aRhs Referenz auf ein Objekt der Klasse SensorModel
          * @return Liefert ein Objekt der Klasse SensorModel zurück (Konkatination möglich)
@@ -142,7 +148,7 @@ class SensorModel : public QAbstractListModel
         /**
          * @brief m_sensorList Liste mit den aktuellen Datenobjekten
          */
-        QList<SensorData> m_sensorList;
+        QList<const SensorData*> m_sensorList;
 };
 
 #endif // SENSORMODEL_H

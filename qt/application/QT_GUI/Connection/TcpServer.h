@@ -16,6 +16,11 @@ public slots:
 
 protected:
     void incomingConnection(qintptr aSocketDescriptor);
+
+private:
+    // avoid copy and assignment
+    TcpServer(const TcpServer&);
+    const TcpServer& operator=(const TcpServer&);
 };
 
 #endif // TCPSERVER_H

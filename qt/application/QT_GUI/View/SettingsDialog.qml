@@ -40,6 +40,12 @@ Dialog {
                     role: "lastConnection";
                     title: qsTr("Last connection");
                 }
+
+                TableViewColumn
+                {
+                    role: "uuId";
+                    title: qsTr("UUID");
+                }
             }
         }
 

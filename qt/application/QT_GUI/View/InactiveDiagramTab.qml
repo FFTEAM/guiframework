@@ -4,16 +4,14 @@ import CostumPlot 1.0
 import "."
 
 Rectangle {
-    id: testRect
-    color: "#f3f3f3"
+    id: outerRect
+    /*color: "#f3f3f3"
     radius: 3
     border.color: "#d1d1d1"
-    border.width: 1
+    border.width: 1*/
+    color: "transparent"
     anchors.fill: parent
-    anchors.topMargin: 10
-    anchors.bottomMargin: 10
-    anchors.leftMargin: 10
-    anchors.rightMargin: 10
+    anchors.margins: 5
 
     states:
     [
@@ -34,79 +32,154 @@ Rectangle {
         }
     ]
 
-    Text {
-        anchors.left: parent.left
-        anchors.top: parent.top
+    Rectangle {
+        id: upperRect
+        color: "transparent"
 
-        anchors.leftMargin: 5
-        anchors.topMargin: 5
+        anchors.top: parent.top;
+        anchors.left: parent.left;
+        anchors.topMargin: 3
 
-        text: qsTr("Pulse rate:");
-    }
+        width: parent.width
+        height: parent.height / 3 - 15
 
-    CustomPlotBarChart {
-        state: "INIT_DIAGRAMM"
-        id: customPlot
+        GroupBox {
+            id: grpPastMeasure
+            title: qsTr("Recent and past measurements:")
+            anchors.left: parent.left
+            height: parent.height
+            width: parent.width
 
-        anchors.left: parent.left
-        anchors.top: parent.top
+            ComboBox {
+                currentIndex: 0
+                model: ListModel {
+                    id: cbItems
+                    ListElement { text: "Banana"; color: "Yellow" }
+                    ListElement { text: "Apple"; color: "Green" }
+                    ListElement { text: "Coconut"; color: "Brown" }
+                }
+                width: 200
+                onCurrentIndexChanged: console.debug(cbItems.get(currentIndex).text + ", " + cbItems.get(currentIndex).color)
+            }
 
-        width: parent.width / 2 - 20;
-        height: parent.height - 30;
+            /*TableView {
+                anchors.left: parent.left
+                anchors.top: parent.top
 
-        anchors.leftMargin: 5
-        anchors.rightMargin: 10
-        anchors.topMargin: 25
+                width: parent.width - 10;
+                height: parent.height - 10;
 
-        objectName: "inactiveDiagramName"
+                anchors.leftMargin: 5
+                anchors.topMargin: 5
 
-        onStateChanged: { updateDataAndGUI() }
-        Component.onCompleted: { initCustomPlot() }
-    }
+                Component {
+                    id: checkBoxDelegate
 
-    Text {
-        anchors.left: parent.left
-        anchors.top: parent.top
+                    Item {
+                        CheckBox {
+                            anchors.fill: parent
+                            checked: styleData.value
+                        }
+                    }
+                }
 
-        anchors.leftMargin: parent.width / 2;
-        anchors.topMargin: 5
+                TableViewColumn
+                {
+                    title: qsTr("name");
+                    role: "isDoneStateCheckState"
+                    delegate: checkBoxDelegate
+                }
 
-        text: qsTr("Raw data:");
-    }
-
-    TableView {
-        anchors.right: parent.right
-        anchors.top: parent.top
-
-        width: parent.width / 2;
-        height: parent.height - 30;
-
-        anchors.rightMargin: 5
-        anchors.topMargin: 25
-
-        model: inactiveSensorDataModel
-
-        TableViewColumn
-        {
-            role: "inactiveDate";
-            title: qsTr("Date");
-            width: 200
-        }
-
-        TableViewColumn
-        {
-            role: "inactiveHeartRate";
-            title: qsTr("HeartRate");
-            width: 100
-        }
-
-        itemDelegate:
-        Item {
-                 Text{
-                        color: "blue"
-                        text: styleData.value
-                 }
+                TableViewColumn
+                {
+                    title: qsTr("Date");
+                }
+            }*/
 
         }
     }
+
+    Rectangle {
+        id: lowerRect
+        color: "transparent"
+
+        anchors.bottom: parent.bottom;
+        anchors.left: parent.left;
+
+        width: parent.width
+        height: parent.height / 3 * 2
+
+        anchors.bottomMargin: 5
+
+        GroupBox {
+            id: grpPulsChart
+            title: qsTr("Pulse chart:")
+            anchors.left: parent.left
+            height: parent.height
+            width: parent.width / 2 - 10
+
+            CustomPlotBarChart {
+                state: "INIT_DIAGRAMM"
+                id: customPlot
+
+                anchors.left: parent.left
+                anchors.top: parent.top
+
+                width: parent.width - 10;
+                height: parent.height - 10;
+
+                anchors.leftMargin: 5
+                anchors.topMargin: 5
+
+                objectName: "inactiveDiagramName"
+
+                onStateChanged: { updateDataAndGUI() }
+                Component.onCompleted: { initCustomPlot() }
+            }
+        }
+
+        GroupBox {
+            title: qsTr("Raw data:")
+            anchors.right: parent.right
+
+            height: parent.height
+            width: parent.width / 2 - 10
+
+            TableView {
+                anchors.left: parent.left
+                anchors.top: parent.top
+
+                width: parent.width - 10;
+                height: parent.height - 10;
+
+                anchors.leftMargin: 5
+                anchors.topMargin: 5
+
+                model: inactiveSensorDataModel
+
+                TableViewColumn
+                {
+                    role: "inactiveDate";
+                    title: qsTr("Date");
+                    width: 200
+                }
+
+                TableViewColumn
+                {
+                    role: "inactiveHeartRate";
+                    title: qsTr("HeartRate");
+                    width: 100
+                }
+
+                itemDelegate:
+                Item {
+                         Text{
+                                color: "blue"
+                                text: styleData.value
+                         }
+
+                }
+            }
+        }
+    } // innerRect
 }
