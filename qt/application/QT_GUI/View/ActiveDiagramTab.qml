@@ -1,17 +1,13 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.2
 import CostumPlot 1.0
+import "."
 
 Rectangle {
-    color: "#f3f3f3"
-    radius: 3
-    border.color: "#d1d1d1"
-    border.width: 1
+    id: outerRect
+    color: Style.tabBackgroundColor
     anchors.fill: parent
-    anchors.topMargin: 10
-    anchors.bottomMargin: 10
-    anchors.leftMargin: 10
-    anchors.rightMargin: 10
+    anchors.margins: 5
 
     states:
     [
@@ -32,77 +28,87 @@ Rectangle {
         }
     ]
 
-    Text {
-        anchors.left: parent.left
-        anchors.top: parent.top
+    Rectangle {
+        id: innerRect
+        color: "transparent"
 
-        anchors.leftMargin: 5
+        anchors.bottom: parent.bottom;
+        anchors.left: parent.left;
+
+        width: parent.width
+        height: parent.height - 10
+
         anchors.topMargin: 5
+        anchors.bottomMargin: 5
 
-        text: qsTr("Pulse flow over time:");
-    }
+        GroupBox {
+            id: grpPulsChart
+            title: qsTr("Pulse flow over time:")
+            anchors.left: parent.left
+            height: parent.height
+            width: parent.width / 2 - 10
 
-    CustomPlotLineChart
-    {
-        state: "INIT_DIAGRAMM"
-        id: customPlot
+            CustomPlotLineChart
+            {
+                state: "INIT_DIAGRAMM"
+                id: customPlot
 
-        anchors.left: parent.left
-        anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.top: parent.top
 
-        width: parent.width / 2 - 20;
-        height: parent.height - 30;
+                width: parent.width - 10;
+                height: parent.height - 10;
 
-        anchors.leftMargin: 5
-        anchors.rightMargin: 10
-        anchors.topMargin: 25
+                anchors.leftMargin: 5
+                anchors.topMargin: 5
 
-        objectName: "activeDiagramName"
-        onStateChanged: { updateDataAndGUI() }
-        Component.onCompleted: initCustomPlot()
-    }
-
-    Text {
-        anchors.left: parent.left
-        anchors.top: parent.top
-
-        anchors.leftMargin: parent.width / 2;
-        anchors.topMargin: 5
-
-        text: qsTr("Raw data:");
-    }
-
-    TableView {
-        anchors.right: parent.right
-        anchors.top: parent.top
-
-        width: parent.width / 2;
-        height: parent.height - 30;
-
-        anchors.rightMargin: 5
-        anchors.topMargin: 25
-
-        model: activeSensorDataModel
-
-        TableViewColumn
-        {
-            role: "activeDate";
-            title: qsTr("Date");
-            width: 200
+                objectName: "activeDiagramName"
+                onStateChanged: { updateDataAndGUI() }
+                Component.onCompleted: initCustomPlot()
+            }
         }
 
-        TableViewColumn
-        {
-            role: "activeHeartRate";
-            title: qsTr("HeartRate");
-            width: 100
-        }
+        GroupBox {
+            title: qsTr("Raw data:")
+            anchors.right: parent.right
 
-        itemDelegate:
-        Item {
-            Text {
-                color: "blue"
-                text: styleData.value
+            height: parent.height
+            width: parent.width / 2 - 10
+
+
+            TableView {
+                anchors.left: parent.left
+                anchors.top: parent.top
+
+                width: parent.width - 10;
+                height: parent.height - 10;
+
+                anchors.leftMargin: 5
+                anchors.topMargin: 5
+
+                model: activeSensorDataModel
+
+                TableViewColumn
+                {
+                    role: "activeDate";
+                    title: qsTr("Date");
+                    width: 200
+                }
+
+                TableViewColumn
+                {
+                    role: "activeHeartRate";
+                    title: qsTr("HeartRate");
+                    width: 100
+                }
+
+                itemDelegate:
+                Item {
+                    Text {
+                        color: Style.tableViewTextColor
+                        text: styleData.value
+                    }
+                }
             }
         }
     }

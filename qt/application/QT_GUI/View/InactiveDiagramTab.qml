@@ -5,11 +5,7 @@ import "."
 
 Rectangle {
     id: outerRect
-    /*color: "#f3f3f3"
-    radius: 3
-    border.color: "#d1d1d1"
-    border.width: 1*/
-    color: "transparent"
+    color: Style.tabBackgroundColor
     anchors.fill: parent
     anchors.margins: 5
 
@@ -173,11 +169,10 @@ Rectangle {
 
                 itemDelegate:
                 Item {
-                         Text{
-                                color: "blue"
-                                text: styleData.value
-                         }
-
+                    Text {
+                        color: Style.tableViewTextColor
+                        text: styleData.value
+                    }
                 }
             }
         }

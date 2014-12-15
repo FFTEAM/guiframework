@@ -8,5 +8,6 @@
         <file>View/ActiveDiagramTab.qml</file>
         <file>View/SettingsDialog.qml</file>
         <file>View/Style.qml</file>
+        <file>View/qmldir</file>
     </qresource>
 </RCC>

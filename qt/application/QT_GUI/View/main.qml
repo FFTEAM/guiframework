@@ -2,12 +2,13 @@ import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Window 2.0
 import QtQuick.Layouts 1.0
+import "."
 
 ApplicationWindow
 {
     id: rootWindow
     title: qsTr("HeartRate Manager")
-    color: "#ffffff"
+    color: Style.windowBackgroundColor
     visible: true
     visibility: "Maximized"
     minimumWidth: 800
