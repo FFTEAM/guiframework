@@ -28,30 +28,6 @@ public class HandheldActivity extends Activity {
 
     GraphView mGraphView;
 
-    private AcceptThread at;
-
-    public HandheldActivity() {
-        System.out.println("HandheldActivity()");
-        at = new AcceptThread();
-        at.start();
-
-
-
-
-    }
-
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver()
-    {
-        @Override
-        public void onReceive(Context context, Intent intent)
-        {
-            System.out.println(intent.getAction());
-            BluetoothDevice deviceExtra = intent.getParcelableExtra("android.bluetooth.device.extra.DEVICE");
-
-            Parcelable[] uuidExtra = intent.getParcelableArrayExtra("android.bluetooth.device.extra.UUID");
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,12 +50,6 @@ public class HandheldActivity extends Activity {
 
         // refresh preferences on wearable
         SettingsActivity.syncSettingsToWearable(this);
-
-        getApplicationContext().registerReceiver(mReceiver,
-                new IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED));
-
-        getApplicationContext().registerReceiver(mReceiver,
-                new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED));
     }
 
     @Override
