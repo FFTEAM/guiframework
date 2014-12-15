@@ -3,76 +3,107 @@ import QtQuick.Controls 1.2
 import CostumPlot 1.0
 
 Rectangle {
+    color: "#f3f3f3"
+    radius: 3
+    border.color: "#d1d1d1"
+    border.width: 1
+    anchors.fill: parent
+    anchors.topMargin: 10
+    anchors.bottomMargin: 10
+    anchors.leftMargin: 10
+    anchors.rightMargin: 10
 
-            width: 900
-            height: 600
-            color: "#a1a1ab"
-            objectName:"test"
+    states:
+    [
 
-            states:
-            [
+        State
+        {
+            name: "INIT_DIAGRAMM"
+        },
 
-                State
-                {
-                    name: "INIT_DIAGRAMM"
-                },
+        State
+        {
+            name: "BEGIN_UPDATE_DIAGRAMM"
+        },
 
-                State
-                {
-                    name: "BEGIN_UPDATE_DIAGRAMM"
-                },
+        State
+        {
+            name: "END_UPDATE_DIAGRAMM"
+        }
+    ]
 
-                State
-                {
-                    name: "END_UPDATE_DIAGRAMM"
-                }
-            ]
+    Text {
+        anchors.left: parent.left
+        anchors.top: parent.top
 
-            CustomPlotLineChart
-            {
-                state: "INIT_DIAGRAMM"
+        anchors.leftMargin: 5
+        anchors.topMargin: 5
 
-                id: customPlot
-                x: 20
-                y: 45
-                width: 540
-                height: 498
-                objectName: "activeDiagramName"
+        text: qsTr("Pulse flow over time:");
+    }
 
-                onStateChanged: { updateDataAndGUI() }
+    CustomPlotLineChart
+    {
+        state: "INIT_DIAGRAMM"
+        id: customPlot
 
-                Component.onCompleted: initCustomPlot()
+        anchors.left: parent.left
+        anchors.top: parent.top
+
+        width: parent.width / 2 - 20;
+        height: parent.height - 30;
+
+        anchors.leftMargin: 5
+        anchors.rightMargin: 10
+        anchors.topMargin: 25
+
+        objectName: "activeDiagramName"
+        onStateChanged: { updateDataAndGUI() }
+        Component.onCompleted: initCustomPlot()
+    }
+
+    Text {
+        anchors.left: parent.left
+        anchors.top: parent.top
+
+        anchors.leftMargin: parent.width / 2;
+        anchors.topMargin: 5
+
+        text: qsTr("Raw data:");
+    }
+
+    TableView {
+        anchors.right: parent.right
+        anchors.top: parent.top
+
+        width: parent.width / 2;
+        height: parent.height - 30;
+
+        anchors.rightMargin: 5
+        anchors.topMargin: 25
+
+        model: activeSensorDataModel
+
+        TableViewColumn
+        {
+            role: "activeDate";
+            title: qsTr("Date");
+            width: 200
+        }
+
+        TableViewColumn
+        {
+            role: "activeHeartRate";
+            title: qsTr("HeartRate");
+            width: 100
+        }
+
+        itemDelegate:
+        Item {
+            Text {
+                color: "blue"
+                text: styleData.value
             }
-
-            TableView {
-                x: 574
-                y: 45
-                width: 300
-                height: 498
-
-                model: activeSensorDataModel
-
-                TableViewColumn
-                {
-                    role: "activeDate";
-                    title: qsTr("Date");
-                    width: 200
-                }
-
-                TableViewColumn
-                {
-                    role: "activeHeartRate";
-                    title: qsTr("HeartRate");
-                    width: 100
-                }
-
-                itemDelegate:
-                Item {
-                         Text{
-                                color: "blue"
-                                text: styleData.value
-                         }
-
-                }
-            }
+        }
+    }
 }

@@ -2,17 +2,28 @@ import QtQuick 2.0
 import QtQuick.Controls 1.2
 
 Rectangle {
-
-    width: 900
-    height: 600
-    color: "#a1a1ab"
+    id: rectangle1
+    color: "#f3f3f3"
+    radius: 3
+    border.color: "#d1d1d1"
+    border.width: 1
+    anchors.fill: parent
+    anchors.topMargin: 10
+    anchors.bottomMargin: 10
+    anchors.leftMargin: 10
+    anchors.rightMargin: 10
 
     GroupBox {
         id: groupBox1
-        x: 180
-        y: 58
-        width: 541
-        height: 197
+
+        anchors.top: parent.top
+        anchors.topMargin: 5
+        anchors.left: parent.left
+        anchors.leftMargin: 5
+
+        height: parent.height / 2 - 10;
+        width: parent.width - 10;
+
         title: qsTr("Inactive Heartrate Details")
 
         Label {
@@ -84,10 +95,15 @@ Rectangle {
 
     GroupBox {
         id: groupBox2
-        x: 180
-        y: 313
-        width: 541
-        height: 183
+
+        anchors.top: groupBox1.bottom
+        anchors.topMargin: 10
+        anchors.left: parent.left
+        anchors.leftMargin: 5
+
+        height: parent.height / 2 - 10;
+        width: parent.width - 10;
+
         title: qsTr("Active Heartrate Details")
         Label {
             id: label7

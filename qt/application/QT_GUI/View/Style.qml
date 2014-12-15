@@ -1,7 +1,9 @@
+// Style.qml
 import QtQuick 2.0
+pragma Singleton
 
-Rectangle {
-    width: 100
-    height: 62
+QtObject {
+    property int textSize: 20
+    property color text: "#666666"
+    property color backgroundColor: "#666666"
 }
-

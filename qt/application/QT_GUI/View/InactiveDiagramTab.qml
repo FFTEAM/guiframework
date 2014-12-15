@@ -1,78 +1,112 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.2
 import CostumPlot 1.0
+import "."
 
 Rectangle {
+    id: testRect
+    color: "#f3f3f3"
+    radius: 3
+    border.color: "#d1d1d1"
+    border.width: 1
+    anchors.fill: parent
+    anchors.topMargin: 10
+    anchors.bottomMargin: 10
+    anchors.leftMargin: 10
+    anchors.rightMargin: 10
 
-            width: 900
-            height: 600
-            color: "#a1a1ab"
-            objectName:"test"
+    states:
+    [
 
-            states:
-            [
+        State
+        {
+            name: "INIT_DIAGRAMM"
+        },
 
-                State
-                {
-                    name: "INIT_DIAGRAMM"
-                },
+        State
+        {
+            name: "BEGIN_UPDATE_DIAGRAMM"
+        },
 
-                State
-                {
-                    name: "BEGIN_UPDATE_DIAGRAMM"
-                },
+        State
+        {
+            name: "END_UPDATE_DIAGRAMM"
+        }
+    ]
 
-                State
-                {
-                    name: "END_UPDATE_DIAGRAMM"
-                }
-            ]
+    Text {
+        anchors.left: parent.left
+        anchors.top: parent.top
 
-            CustomPlotBarChart
-            {
-                state: "INIT_DIAGRAMM"
+        anchors.leftMargin: 5
+        anchors.topMargin: 5
 
-                id: customPlot
-                x: 20
-                y: 45
-                width: 540
-                height: 498
-                objectName: "inactiveDiagramName"
+        text: qsTr("Pulse rate:");
+    }
 
-                onStateChanged: { updateDataAndGUI() }
+    CustomPlotBarChart {
+        state: "INIT_DIAGRAMM"
+        id: customPlot
 
-                Component.onCompleted: initCustomPlot()
-            }
+        anchors.left: parent.left
+        anchors.top: parent.top
 
-            TableView {
-                x: 574
-                y: 45
-                width: 300
-                height: 498
+        width: parent.width / 2 - 20;
+        height: parent.height - 30;
 
-                model: inactiveSensorDataModel
+        anchors.leftMargin: 5
+        anchors.rightMargin: 10
+        anchors.topMargin: 25
 
-                TableViewColumn
-                {
-                    role: "inactiveDate";
-                    title: qsTr("Date");
-                    width: 200
-                }
+        objectName: "inactiveDiagramName"
 
-                TableViewColumn
-                {
-                    role: "inactiveHeartRate";
-                    title: qsTr("HeartRate");
-                    width: 100
-                }
+        onStateChanged: { updateDataAndGUI() }
+        Component.onCompleted: { initCustomPlot() }
+    }
 
-                itemDelegate:
-                Item {
-                         Text{
-                                color: "blue"
-                                text: styleData.value
-                         }
+    Text {
+        anchors.left: parent.left
+        anchors.top: parent.top
 
-                }
-            }
+        anchors.leftMargin: parent.width / 2;
+        anchors.topMargin: 5
+
+        text: qsTr("Raw data:");
+    }
+
+    TableView {
+        anchors.right: parent.right
+        anchors.top: parent.top
+
+        width: parent.width / 2;
+        height: parent.height - 30;
+
+        anchors.rightMargin: 5
+        anchors.topMargin: 25
+
+        model: inactiveSensorDataModel
+
+        TableViewColumn
+        {
+            role: "inactiveDate";
+            title: qsTr("Date");
+            width: 200
+        }
+
+        TableViewColumn
+        {
+            role: "inactiveHeartRate";
+            title: qsTr("HeartRate");
+            width: 100
+        }
+
+        itemDelegate:
+        Item {
+                 Text{
+                        color: "blue"
+                        text: styleData.value
+                 }
+
+        }
+    }
 }

@@ -136,6 +136,8 @@ int main(int argc, char *argv[])
         }
         else qDebug() << "No tabview object found";
 
+        // THIS IS DONE IN QML NOW:
+#if 0
         QQuickWindow *window = qobject_cast<QQuickWindow*>(root);
         if (window)
         {
@@ -158,6 +160,7 @@ int main(int argc, char *argv[])
             }
         }
         else qFatal("Error: No window found!");
+#endif
     }
     else qDebug() << "No root object available";
 

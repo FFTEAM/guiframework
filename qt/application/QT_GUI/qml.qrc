@@ -7,5 +7,6 @@
         <file>View/DetailDataTab.qml</file>
         <file>View/ActiveDiagramTab.qml</file>
         <file>View/SettingsDialog.qml</file>
+        <file>View/Style.qml</file>
     </qresource>
 </RCC>
