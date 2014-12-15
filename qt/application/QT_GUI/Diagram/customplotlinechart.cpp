@@ -21,7 +21,9 @@ CustomPlotLineChart::CustomPlotLineChart(QQuickItem* aParent):  QQuickPaintedIte
                                                                 m_yAxis(0),
                                                                 m_lineChart(0)
 {
-    // C'tor
+    // add connection for resizing the chart:
+    connect(this, &QQuickPaintedItem::widthChanged, this, &CustomPlotLineChart::updateCustomPlotSize);
+    connect(this, &QQuickPaintedItem::heightChanged, this, &CustomPlotLineChart::updateCustomPlotSize);
 }
 
 CustomPlotLineChart::~CustomPlotLineChart()

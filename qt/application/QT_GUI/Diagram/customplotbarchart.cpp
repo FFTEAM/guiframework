@@ -44,7 +44,9 @@ CustomPlotBarChart ::CustomPlotBarChart (QQuickItem* aParent) : QQuickPaintedIte
                                                                 m_barChart(0)
 
 {
-    // C'tor
+    // add connection for resizing the chart:
+    connect(this, &QQuickPaintedItem::widthChanged, this, &CustomPlotBarChart::updateCustomPlotSize);
+    connect(this, &QQuickPaintedItem::heightChanged, this, &CustomPlotBarChart::updateCustomPlotSize);
 }
 
 CustomPlotBarChart::~CustomPlotBarChart()
