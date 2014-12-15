@@ -6,16 +6,24 @@ import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.WearableListenerService;
 
+import java.net.InetAddress;
+
 public class DataLayerListenerService extends WearableListenerService {
 
     private static final String MESSAGE_RECEIVED_PATH = "/heartrate2go-message";
 
-    private AcceptThread at;
+    NetworkBroadcast mNetworkBroadcast;
 
     public DataLayerListenerService() {
-        System.out.println("DataLayerListenerService()");
-        at = new AcceptThread();
-        at.start();
+        mNetworkBroadcast = new NetworkBroadcast(this);
+        mNetworkBroadcast.setBroadcastFinishedListener(new NetworkBroadcast.BroadcastFinishedListener() {
+            @Override
+            public void onBroadcastFinished(InetAddress from, String answer) {
+                if(null != from && null != answer) {
+                    // do something
+                }
+            }
+        });
     }
 
     private static String csvData = "";
@@ -38,6 +46,7 @@ public class DataLayerListenerService extends WearableListenerService {
                 Intent intent = new Intent(getBaseContext(), HandheldActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getApplication().startActivity(intent);
+                mNetworkBroadcast.sendBroadcastAsync();
             }
         }
     }
