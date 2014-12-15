@@ -34,7 +34,6 @@ CustomPlotLineChart::~CustomPlotLineChart()
 
 void CustomPlotLineChart::paint(QPainter* aPainter)
 {
-    qDebug() << "Call paint";
     if (m_CustomPlot)
     {
         QPixmap    picture( boundingRect().size().toSize() );

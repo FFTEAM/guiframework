@@ -18,7 +18,7 @@
 
 #include <QPainter>
 #include <QtQuick>
-#include "../../third_party/qcustomplot.h"
+#include "Thirdparty/qcustomplot.h"
 #include "Model/sensormodel.h"
 #include "Model/sensordata.h"
 

@@ -16,7 +16,7 @@
 #ifndef CUSTOMPLOTBARCHART_H
 #define CUSTOMPLOTBARCHARTM_H
 
-#include "../../third_party/qcustomplot.h"
+#include "Thirdparty/qcustomplot.h"
 #include <QtQuick>
 #include <QPainter>
 #include <QColor>
