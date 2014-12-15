@@ -25,10 +25,10 @@
 #include "Controler/printbuttoncontroller.h"
 #include "Controler/updatebuttoncontroller.h"
 #include "RessourceFilePaths.h"
-#include "customplotbarchart.h"
-#include "customplotlinechart.h"
-#include "TcpServer.h"
-#include "BroadcastReceiver.h"
+#include "Diagram/customplotbarchart.h"
+#include "Diagram/customplotlinechart.h"
+#include "Connection/BroadcastReceiver.h"
+#include "Connection/TcpServer.h"
 
 /**
  * @brief main  Main-Methode erzeugt Applikation und offenet die View
@@ -39,6 +39,7 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+
     BroadcastReceiver bcReceiver;
     // run broadcast receiver thread loop:
     bcReceiver.start();

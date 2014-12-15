@@ -92,8 +92,8 @@ void CustomPlotBarChart::updateDataAndGUI()
 void CustomPlotBarChart::calculateData()
 {
     qDebug() << "calculateData called";
-    if(m_xAxis.size() != 0) m_xAxis.clear();
-    if(m_yAxis.size() != 0) m_yAxis.clear();
+    if(m_xAxis.size() > 0) m_xAxis.clear();
+    if(m_yAxis.size() > 0) m_yAxis.clear();
 
     const SensorModel& model = SensorModel::getInstance(INACTIVE_SENSOR_DATA);
     const int length = model.getSensorModelCount();

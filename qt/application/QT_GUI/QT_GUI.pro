@@ -8,9 +8,12 @@ SOURCES +=  main.cpp \
             Model/sensormodel.cpp \
             Controler/printbuttoncontroller.cpp \
             ../../third_party/qcustomplot.cpp \
-            customplotbarchart.cpp \
-            customplotlinechart.cpp \
-            Controler/updatebuttoncontroller.cpp
+            Diagram/customplotbarchart.cpp \
+            Diagram/customplotlinechart.cpp \
+            Controler/updatebuttoncontroller.cpp \
+    Connection/BroadcastReceiver.cpp \
+    Connection/TcpConnection.cpp \
+    Connection/TcpServer.cpp
 
 TRANSLATIONS = Language_Files/app_de_DE.ts \
 
@@ -22,9 +25,12 @@ HEADERS += \
             Model/sensormodel.h \
             Controler/printbuttoncontroller.h \
             ../../third_party/qcustomplot.h \
-            customplotbarchart.h \
-            customplotlinechart.h \
-            Controler/updatebuttoncontroller.h
+            Diagram/customplotbarchart.h \
+            Diagram/customplotlinechart.h \
+            Controler/updatebuttoncontroller.h \
+    Connection/BroadcastReceiver.h \
+    Connection/TcpConnection.h \
+    Connection/TcpServer.h
 
 DESTPATH = .
 target.path = $$DESTPATH

@@ -47,7 +47,7 @@ void PrintButtonController::createSensorDataFile(QPrinter &aPrinter, SensorDataT
     QString htmlEnd = "</html>";
     QString htmlBodyBegin = "<body>";
     QString htmlBodyEnd = "</body>";
-    QString htmlHeadLine = "<h1>" +  aOverviewName + "</h1>";
+    QString htmlHeadLine = "<h1 align=\"center\">" + aOverviewName + "</h1>";
     QString htmlTableCaptionRow = "<tr><th>Date</th><th>HeartRate</th></tr>";
     QString htmlTableRow;
 
@@ -62,8 +62,6 @@ void PrintButtonController::createSensorDataFile(QPrinter &aPrinter, SensorDataT
     htmlTable += "<table align=\"center\" border = \"2\">" + htmlTableCaptionRow + htmlTableRow + "</table>";
 
     QString htmlText =  htmlBegin + htmlBodyBegin + htmlHeadLine + htmlTable + htmlBodyEnd + htmlEnd;
-
-    //qDebug() << htmlText;
 
     QTextDocument doc;
     doc.setHtml(htmlText);
