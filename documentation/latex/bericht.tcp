@@ -6,7 +6,7 @@ Version=4
 MainFile=bericht.tex
 UseBibTeX=1
 UseMakeIndex=1
-ActiveProfile=LaTeX ⇨ SumatraPDF
+ActiveProfile=LaTeX ⇨ PDF
 ProjectLanguage=de
 ProjectDialect=DE
 
