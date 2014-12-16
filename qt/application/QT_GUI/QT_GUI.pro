@@ -11,9 +11,10 @@ SOURCES +=  main.cpp \
             Diagram/customplotbarchart.cpp \
             Diagram/customplotlinechart.cpp \
             Controler/updatebuttoncontroller.cpp \
-    Connection/BroadcastReceiver.cpp \
-    Connection/TcpConnection.cpp \
-    Connection/TcpServer.cpp
+            Connection/DataReceiver.cpp \
+            Connection/BroadcastReceiver.cpp \
+            Connection/TcpConnection.cpp \
+            Connection/TcpServer.cpp
 
 TRANSLATIONS = Language_Files/app_de_DE.ts \
 
@@ -28,9 +29,10 @@ HEADERS += \
             Diagram/customplotbarchart.h \
             Diagram/customplotlinechart.h \
             Controler/updatebuttoncontroller.h \
-    Connection/BroadcastReceiver.h \
-    Connection/TcpConnection.h \
-    Connection/TcpServer.h
+            Connection/DataReceiver.h \
+            Connection/BroadcastReceiver.h \
+            Connection/TcpConnection.h \
+            Connection/TcpServer.h
 
 DESTPATH = .
 target.path = $$DESTPATH
