@@ -1,10 +1,10 @@
 #include "TcpConnection.h"
+#include "DataReceiver.h"
 
 TcpConnection::TcpConnection(qintptr aSocketDescriptor, QObject* aParent) :
     QThread(aParent),
     mSocketDescriptor(aSocketDescriptor)
 {
-    //connect(this, SIGNAL(checkNewData(QString)), &mDataReceiver, SLOT(validateData(QString)));
 }
 
 void TcpConnection::run()
@@ -42,17 +42,31 @@ void TcpConnection::run()
 void TcpConnection::readyRead()
 {
     // get the information
-    char buffer[2048];
-    memset(buffer, 0, 2048);
+    unsigned char* buffer = 0;
+    qint64 bytesInBuffer = mSocket->bytesAvailable();
 
-    qint64 ret = mSocket->read(buffer, sizeof(buffer));
-    if (ret)
+    if (0 < bytesInBuffer)
     {
-        qDebug() << "read " << ret << buffer;
-        checkNewData(buffer);
+        buffer = new unsigned char[bytesInBuffer];
+        if (buffer)
+        {
+            qint64 ret = mSocket->read(reinterpret_cast<char*>(buffer), sizeof(buffer));
+            if (ret == bytesInBuffer)
+            {
+                //qDebug() << "read " << ret << buffer;
+                //DataReceiver::validateData(buffer);
+            }
+            else
+            {
+                qFatal("tcp read error!");
+            }
+        }
+        else
+        {
+            qFatal("memory allocation error!");
+        }
     }
 
-    // will write on server side window
     //qDebug() << "[" /*<< mSocket->peerAddress()*/ << ":" << mSocket->peerPort() << "]" << " Data in: " << Data;
 }
 

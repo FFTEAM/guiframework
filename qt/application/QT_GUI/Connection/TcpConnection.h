@@ -4,8 +4,6 @@
 #include <QThread>
 #include <QTcpSocket>
 
-#include "DataReceiver.h"
-
 class TcpConnection : public QThread
 {
     Q_OBJECT
@@ -15,7 +13,6 @@ public:
 
 signals:
     void error(QTcpSocket::SocketError socketerror);
-    bool checkNewData(const QString&);
 
 public slots:
     void readyRead();
@@ -24,6 +21,7 @@ public slots:
 private:
     QTcpSocket *mSocket;
     qintptr mSocketDescriptor;
+    QList<QString> mReceivedData;
 
     TcpConnection(const TcpConnection&);
     const TcpConnection& operator=(const TcpConnection&);
