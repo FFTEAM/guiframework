@@ -16,6 +16,13 @@ class DataReceiver
     static void handleSensorData(const QString&);
 
     // private data structures
+    enum STATEMACHINE {
+        MODE_STATE,
+        MOOD_STATE,
+        DATA_STATE,
+        FINAL_STATE
+    };
+
     enum DataTypes {
         MODE = 0x00,
         MOOD = 0x01,
@@ -23,8 +30,8 @@ class DataReceiver
     };
 
     enum MeasureMode {
-        REST,
-        ACTIVITY
+        REST = 0,
+        ACTIVITY = 1
     };
 
     enum Mood {
@@ -40,7 +47,7 @@ class DataReceiver
     };
 
 public:
-    static bool validateData(const unsigned char*, qint64 aLen);
+    static bool validateData(const quint8 *, const quint64 aLen);
 };
 
 #endif // DATARECEIVER_H

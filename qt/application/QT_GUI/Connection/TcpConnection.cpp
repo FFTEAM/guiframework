@@ -42,24 +42,25 @@ void TcpConnection::run()
 void TcpConnection::readyRead()
 {
     // get the information
-    unsigned char* buffer = 0;
+    quint8* buffer = 0;
     qint64 bytesInBuffer = mSocket->bytesAvailable();
 
     if (0 < bytesInBuffer)
     {
-        buffer = new unsigned char[bytesInBuffer];
+        buffer = new quint8[bytesInBuffer];
         if (buffer)
         {
-            qint64 ret = mSocket->read(reinterpret_cast<char*>(buffer), sizeof(buffer));
+            qint64 ret = mSocket->read(reinterpret_cast<char*>(buffer), bytesInBuffer);
             if (ret == bytesInBuffer)
             {
-                //qDebug() << "read " << ret << buffer;
-                //DataReceiver::validateData(buffer);
+                DataReceiver::validateData(buffer, ret);
             }
             else
             {
                 qFatal("tcp read error!");
             }
+            delete[] buffer;
+            buffer = 0;
         }
         else
         {
