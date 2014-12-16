@@ -35,13 +35,13 @@ void PrintButtonController::clickPrintButtonSlot()
     QPrintDialog printDialog(&printer);
     if (printDialog.exec() == QDialog::Accepted)
     {
-        createSensorDataFile(printer, ACTIVE_SENSOR_DATA, "Overview Active Data");
+        createSensorDataFile(printer, ActiveSensorModel::getInstance(), "Overview Active Data");
         printer.newPage();
-        createSensorDataFile(printer, INACTIVE_SENSOR_DATA, "Overview Inactive Data");
+        createSensorDataFile(printer, InactiveSensorModel::getInstance(), "Overview Inactive Data");
     }
 }
 
-void PrintButtonController::createSensorDataFile(QPrinter &aPrinter, SensorDataType aType,const QString aOverviewName)
+void PrintButtonController::createSensorDataFile(QPrinter& aPrinter, const SensorModel& aModel, const QString aOverviewName)
 {
     QString htmlBegin = "<html>";
     QString htmlEnd = "</html>";
@@ -51,10 +51,9 @@ void PrintButtonController::createSensorDataFile(QPrinter &aPrinter, SensorDataT
     QString htmlTableCaptionRow = "<tr><th>Date</th><th>HeartRate</th></tr>";
     QString htmlTableRow;
 
-    SensorModel* model = &SensorModel::getInstance(aType);
-    for(int index = 0; index< model->getSensorModelCount(); index++)
+    for(int index = 0; index< aModel.getSensorModelCount(); index++)
     {
-        const SensorData* data = model->getSingleSensorData(index);
+        const SensorData* data = aModel.getSingleSensorData(index);
         htmlTableRow += "<tr><td align=\"center\" valign=\"middle\">" + data->getDate() + "</td><td align=\"center\" valign=\"middle\">" + data->getHeartRate() + "</td></tr>";
     }
 

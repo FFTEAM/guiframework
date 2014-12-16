@@ -15,7 +15,12 @@ SOURCES +=  main.cpp \
             Connection/BroadcastReceiver.cpp \
             Connection/TcpConnection.cpp \
             Connection/TcpServer.cpp \
-    Model/Data/calcsensordata.cpp
+    Model/Data/calcsensordata.cpp \
+    Model/activesensorcalcmodel.cpp \
+    Model/activesensormodel.cpp \
+    Model/inactivesensorcalcmodel.cpp \
+    Model/inactivesensormodel.cpp \
+    Model/sensorcalcmodel.cpp
 
 TRANSLATIONS = Language_Files/app_de_DE.ts \
 
@@ -34,7 +39,12 @@ HEADERS += \
             Connection/BroadcastReceiver.h \
             Connection/TcpConnection.h \
             Connection/TcpServer.h \
-    Model/Data/calcsensordata.h
+    Model/Data/calcsensordata.h \
+    Model/sensorcalcmodel.h \
+    Model/inactivesensorcalcmodel.h \
+    Model/activesensorcalcmodel.h \
+    Model/inactivesensormodel.h \
+    Model/activesensormodel.h
 
 DESTPATH = .
 target.path = $$DESTPATH

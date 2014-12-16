@@ -21,15 +21,6 @@
 #include <QDebug>
 
 /**
- * @brief The SensorDataType enum
- */
-enum SensorDataType
-{
-    ACTIVE_SENSOR_DATA = 0, /**< Sensor Daten während der Belastung */
-    INACTIVE_SENSOR_DATA    /**< Sensor Daten während der Ruhephase */
-};
-
-/**
  * @brief The SensorModel class
  *
  * Diese Klasse fungiert als Model für das Model/ View Konzept. In diesem Zusammenhang besitzt
@@ -45,44 +36,15 @@ class SensorModel : public QAbstractListModel
     Q_OBJECT
     public:
 
-        /**
-         * @brief The SensorRoles enum
-         *
-         * In diesem enum werden die Rollen definiert, welche später für die Kommunikation mit
-         * der View verwendet werden.
-         */
-        enum SensorRoles
-        {
-            ACTIVE_SENSOR_DATE_ROLE = Qt::UserRole + 1,     /**< Zeitstempel für die Herzfrequenz unter Belastung */
-            ACTIVE_SENSOR_HEART_RATE_ROLE,                  /**< Herzfrequenz unter Belastung */
-            ACTIVE_SENSOR_STEP_LENGTH,                      /**< Schrittlänge unter Belastung */
-            INACTIVE_SENSOR_DATE_ROLE,                      /**< Zeitstempel für die Herzfrequenz in einer Ruhephase */
-            INACTIVE_SENSOR_HEART_RATE_ROLE,                /**< Herzfrequenz in einer Ruhephase */
-            INACTIVE_SENSOR_STEP_LENGTH
-        };
+        friend class SensorCalcModel;
 
-        /**
-         * @brief getInstance Liefert ein Objekt der Klasse SensorModel zurück
-         * @param aType Gibt den Type von Messdaten an
-         * @return  Objekt der vom type abhängigen Messdaten
-         */
-        static SensorModel& getInstance(const SensorDataType aType);
         ~SensorModel();
 
         /**
-         * @brief data Liefert der View die zur jeweiligen Rolle gehörenden Daten
-         * @param aIndex Index aktuellen Model
-         * @param aRole Aktuelle Rolle
-         * @return Liefert ein Wertepaar (Rolle,Wert) zurück
+         * @brief SensorModel ist der Standardtkonstruktor der Klasse SensorModel
+         * @param aParent Zeiger auf die Basisklasse QObject
          */
-        QVariant data(const QModelIndex & aIndex, int aRole = Qt::DisplayRole) const;
-
-        /**
-         * @brief rowCount Liefert die aktuelle Anzahl der Einträge im Model zurück
-         * @param aParent -
-         * @return Anzahl der Einträge
-         */
-        int rowCount(const QModelIndex & aParent = QModelIndex()) const;
+        explicit SensorModel(QObject* aParent = 0);
 
         /**
          * @brief addSensorData Fügt ein neues Datenobjekt dem Model hinzu
@@ -112,20 +74,11 @@ class SensorModel : public QAbstractListModel
     protected:
 
         /**
-         * @brief roleNames Verbindet die Rollen und die dazugehrigen Attribute der Klasse
-         * @return QHash mit der Zuweisung der Rollen von der View und der Klasse
-         *
-         * Diese Methode wird ebenfalls vom Model/View Konzept von QT verwendet.
+         * @brief m_sensorList Liste mit den aktuellen Datenobjekten
          */
-        QHash<int, QByteArray> roleNames() const;
+        QList<const SensorData*> m_sensorList;
 
     private:
-
-        /**
-         * @brief SensorModel ist der Standardtkonstruktor der Klasse SensorModel
-         * @param aParent Zeiger auf die Basisklasse QObject
-         */
-        explicit SensorModel(QObject* aParent = 0);
 
         /**
          * @brief  SensorModel Nicht in Verwendung (Definition fehlt)
@@ -144,11 +97,6 @@ class SensorModel : public QAbstractListModel
          * @return Liefert ein Objekt der Klasse SensorModel zurück (Konkatination möglich)
          */
         SensorModel& operator= (const SensorModel& aRhs);
-
-        /**
-         * @brief m_sensorList Liste mit den aktuellen Datenobjekten
-         */
-        QList<const SensorData*> m_sensorList;
 };
 
 #endif // SENSORMODEL_H

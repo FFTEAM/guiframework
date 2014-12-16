@@ -21,7 +21,7 @@
 #include <QPainter>
 #include <QColor>
 #include <QVector>
-#include "Model/sensormodel.h"
+#include "Model/inactivesensormodel.h"
 
 /** Konstante für die maximale erfassbare Herzfrequenz */
 const int MAX_HEARTRATE = 230;

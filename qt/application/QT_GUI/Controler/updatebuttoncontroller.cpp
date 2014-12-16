@@ -55,8 +55,11 @@ void UpdateButtonController::updateActionSlot()
     sensorDataA.append(new SensorData("01-01-2017 00:00:02","120","3"));
     sensorDataA.append(new SensorData("01-01-2017 00:00:02","30","3"));
 
-    SensorModel::getInstance(INACTIVE_SENSOR_DATA).setNewSensorModel(sensorDataI);
-    SensorModel::getInstance(ACTIVE_SENSOR_DATA).setNewSensorModel(sensorDataA);
+    ActiveSensorModel::getInstance().setNewSensorModel(sensorDataA);
+    ActiveSensorCalcModel::getInstance().updateCalcValues(ActiveSensorModel::getInstance());
+
+    InactiveSensorModel::getInstance().setNewSensorModel(sensorDataI);
+    InactiveSensorCalcModel::getInstance().updateCalcValues(InactiveSensorModel::getInstance());
 
     if(inactiveDiagram && activeDiagram)
     {

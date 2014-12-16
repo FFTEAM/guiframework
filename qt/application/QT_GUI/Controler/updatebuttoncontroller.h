@@ -19,7 +19,10 @@
 #include <QDebug>
 #include <QObject>
 #include "Model/Data/sensordata.h"
-#include "Model/sensormodel.h"
+#include "Model/activesensorcalcmodel.h"
+#include "Model/activesensormodel.h"
+#include "Model/inactivesensorcalcmodel.h"
+#include "Model/inactivesensormodel.h"
 
 /**
  * @brief The UpdateButtonController class
