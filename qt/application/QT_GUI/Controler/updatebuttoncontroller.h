@@ -18,7 +18,7 @@
 
 #include <QDebug>
 #include <QObject>
-#include "Model/sensordata.h"
+#include "Model/Data/sensordata.h"
 #include "Model/sensormodel.h"
 
 /**

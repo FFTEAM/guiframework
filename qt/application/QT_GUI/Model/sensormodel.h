@@ -17,7 +17,7 @@
 #define SENSORMODEL_H
 
 #include <QAbstractListModel>
-#include "Model/sensordata.h"
+#include "Model/Data/sensordata.h"
 #include <QDebug>
 
 /**

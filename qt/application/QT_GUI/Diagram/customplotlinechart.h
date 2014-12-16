@@ -20,7 +20,7 @@
 #include <QtQuick>
 #include "Thirdparty/qcustomplot.h"
 #include "Model/sensormodel.h"
-#include "Model/sensordata.h"
+#include "Model/Data/sensordata.h"
 
 /**
  * @brief The CustomPlotBarChart class

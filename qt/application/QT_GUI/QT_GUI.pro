@@ -5,7 +5,7 @@ QT += qml quick
 
 SOURCES +=  main.cpp \
             Thirdparty/qcustomplot.cpp \
-            Model/sensordata.cpp \
+            Model/Data/sensordata.cpp \
             Model/sensormodel.cpp \
             Controler/printbuttoncontroller.cpp \
             Diagram/customplotbarchart.cpp \
@@ -14,14 +14,15 @@ SOURCES +=  main.cpp \
             Connection/DataReceiver.cpp \
             Connection/BroadcastReceiver.cpp \
             Connection/TcpConnection.cpp \
-            Connection/TcpServer.cpp
+            Connection/TcpServer.cpp \
+    Model/Data/calcsensordata.cpp
 
 TRANSLATIONS = Language_Files/app_de_DE.ts \
 
 RESOURCES += qml.qrc \
 
 HEADERS += \
-            Model/sensordata.h \
+            Model/Data/sensordata.h \
             Thirdparty/qcustomplot.h \
             RessourceFilePaths.h \
             Model/sensormodel.h \
@@ -32,7 +33,8 @@ HEADERS += \
             Connection/DataReceiver.h \
             Connection/BroadcastReceiver.h \
             Connection/TcpConnection.h \
-            Connection/TcpServer.h
+            Connection/TcpServer.h \
+    Model/Data/calcsensordata.h
 
 DESTPATH = .
 target.path = $$DESTPATH

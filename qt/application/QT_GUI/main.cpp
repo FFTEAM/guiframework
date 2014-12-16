@@ -20,7 +20,7 @@
 #include <QTranslator>
 #include <QDebug>
 
-#include "Model/sensordata.h"
+#include "Model/Data/sensordata.h"
 #include "Model/sensormodel.h"
 #include "Controler/printbuttoncontroller.h"
 #include "Controler/updatebuttoncontroller.h"
