@@ -44,12 +44,12 @@ ActiveSensorModel::ActiveSensorModel(): SensorModel(0)
 {
     //C'tor
     QList<const SensorData*> list;
-    list.append(new SensorData("28-10-2015 20:23:34","120","3"));
-    list.append(new SensorData("28-10-2015 20:23:34","130","3"));
-    list.append(new SensorData("28-10-2015 20:23:34","140","3"));
-    list.append(new SensorData("28-10-2015 20:23:34","150","3"));
-    list.append(new SensorData("28-10-2015 20:23:34","152","3"));
-    list.append(new SensorData("28-10-2015 20:23:34","155","3"));
-    list.append(new SensorData("28-10-2015 20:23:34","100","3"));
+    list.append(new SensorData(QDateTime(QDate(2015, 10, 28), QTime(20, 23, 34)), 120, 3));
+    list.append(new SensorData(QDateTime(QDate(2015, 10, 28), QTime(20, 23, 34)), 130, 3));
+    list.append(new SensorData(QDateTime(QDate(2015, 10, 28), QTime(20, 23, 34)), 140, 3));
+    list.append(new SensorData(QDateTime(QDate(2015, 10, 28), QTime(20, 23, 34)), 150, 3));
+    list.append(new SensorData(QDateTime(QDate(2015, 10, 28), QTime(20, 23, 34)), 152, 3));
+    list.append(new SensorData(QDateTime(QDate(2015, 10, 28), QTime(20, 23, 34)), 155, 3));
+    list.append(new SensorData(QDateTime(QDate(2015, 10, 28), QTime(20, 23, 34)), 100, 3));
     setNewSensorModel(list);
 }

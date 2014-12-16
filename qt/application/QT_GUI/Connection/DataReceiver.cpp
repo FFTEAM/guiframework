@@ -1,29 +1,62 @@
 #include "DataReceiver.h"
+#include "Model/Data/sensordata.h"
 
 #include <QDebug>
+#include <QList>
+#include <QDateTime>
 #include <QUrlQuery>
+#include <QtEndian>
 
-bool DataReceiver::validateData()
+bool DataReceiver::validateData(const unsigned char* aData, qint64 aLen)
 {
-    /*measure_mode=activity
-    1418651612;0;0
-    1418651615;0;9
-    1418651618;0;20
-    1418651621;90;33
-    1418651624;88;40
-    1418651627;86;50
-    1418651630;91;53
-    1418651633;95;65*/
+    qint64 pos = 0;
+    unsigned char mode, mood;
+    QList<const SensorData*> sensorData;
 
-    //if (0 < aMsgBlock.size())
+    do
     {
-        // parse first line:
-        //QUrlQuery query(aMsgBlock[0]);
-        //query.setQueryDelimiters('=', ';');
-        //QStringList strList = query.allQueryItemValues("measure_mode");
+        // switch through datatypes:
+        switch (aData[pos])
+        {
+            case MODE:
+                qDebug("MODE data packet found");
+                mode = aData[pos+1];
+                pos += 2;
+            break;
 
-        return true;
-    }
+            case MOOD:
+                qDebug("MOOD data packet found");
+                mood = aData[pos+1];
+                pos += 2;
+            break;
+
+            case DATA:
+            {
+                qDebug("DATA data packet found");
+                pos++;
+                quint64 timeStampMs;
+                quint16 heartRate, steps;
+
+                memcpy(&timeStampMs, aData+pos, 8); pos += 8;
+                memcpy(&heartRate, aData+pos, 2); pos += 2;
+                memcpy(&steps    , aData+pos, 2); pos += 2;
+
+                // rewind network byte order:
+                timeStampMs = qFromBigEndian(timeStampMs);
+                heartRate = qFromBigEndian(heartRate);
+                steps = qFromBigEndian(steps);
+
+                QDateTime dateTime = QDateTime::fromMSecsSinceEpoch(timeStampMs);
+                sensorData.append(new SensorData(dateTime, heartRate, steps));
+            }
+            break;
+
+            default:
+                qFatal("invalid datatype!");
+            return false;
+        }
+
+    } while (pos < aLen);
 
     return false;
 }

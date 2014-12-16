@@ -27,24 +27,24 @@ void SensorCalcModel::updateCalcValues(const SensorModel& aModel)
     {
         // helper variables for calculation
         double tmpAverage = 0;
-        double tmpMaximum = aModel.m_sensorList.at(0)->getHeartRate().toDouble();
-        double tmpMinimum = aModel.m_sensorList.at(0)->getHeartRate().toDouble();
+        double tmpMaximum = aModel.m_sensorList.at(0)->getHeartRate();
+        double tmpMinimum = aModel.m_sensorList.at(0)->getHeartRate();
 
         for(int i=0; i< aModel.m_sensorList.size(); i++)
         {
             // calc average
-            tmpAverage = tmpAverage + aModel.m_sensorList.at(i)->getHeartRate().toDouble();
+            tmpAverage = tmpAverage + aModel.m_sensorList.at(i)->getHeartRate();
 
             // calc maximum value
-            if(tmpMaximum < aModel.m_sensorList.at(i)->getHeartRate().toDouble())
+            if(tmpMaximum < aModel.m_sensorList.at(i)->getHeartRate())
             {
-                tmpMaximum = aModel.m_sensorList.at(i)->getHeartRate().toDouble();
+                tmpMaximum = aModel.m_sensorList.at(i)->getHeartRate();
             }
 
             // calc minimum value
-            if(tmpMinimum > aModel.m_sensorList.at(i)->getHeartRate().toDouble())
+            if(tmpMinimum > aModel.m_sensorList.at(i)->getHeartRate())
             {
-                tmpMinimum = aModel.m_sensorList.at(i)->getHeartRate().toDouble();
+                tmpMinimum = aModel.m_sensorList.at(i)->getHeartRate();
             }
         }
 

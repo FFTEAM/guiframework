@@ -54,7 +54,7 @@ void PrintButtonController::createSensorDataFile(QPrinter& aPrinter, const Senso
     for(int index = 0; index< aModel.getSensorModelCount(); index++)
     {
         const SensorData* data = aModel.getSingleSensorData(index);
-        htmlTableRow += "<tr><td align=\"center\" valign=\"middle\">" + data->getDate() + "</td><td align=\"center\" valign=\"middle\">" + data->getHeartRate() + "</td></tr>";
+        htmlTableRow += "<tr><td align=\"center\" valign=\"middle\">" + data->getDate().toString("dd MM yy hh:mm:ss") + "</td><td align=\"center\" valign=\"middle\">" + data->getHeartRate() + "</td></tr>";
     }
 
     QString htmlTable = "<br><br>";

@@ -40,7 +40,7 @@ class DataReceiver
     };
 
 public:
-    static bool validateData();
+    static bool validateData(const unsigned char*, qint64 aLen);
 };
 
 #endif // DATARECEIVER_H

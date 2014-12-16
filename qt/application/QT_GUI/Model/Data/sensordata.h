@@ -17,6 +17,7 @@
 #define SENSORDATA_H
 
 #include <QString>
+#include <QDateTime>
 
 /**
  * @brief The SensorData class
@@ -32,37 +33,37 @@ class SensorData
          * @brief getDate Liefert den Zeitstempel zur Herzfrequenz zurück
          * @return Zeitstempel zur Herzfrequenz
          */
-        QString getDate () const;
+        const QDateTime& getDate () const;
 
         /**
          * @brief getDate Liefert die aktuelle Herzfrequenz zurück
          * @return Aktuelle Herzfrequenz
          */
-        QString getHeartRate() const;
+        quint16 getHeartRate() const;
 
         /**
          * @brief getStepLength Liefert die aktuelle Schrittlänge zurück
          * @return Aktuelle Schrittlänge
          */
-        QString getStepLength() const;
+        quint16 getStepLength() const;
 
         /**
          * @brief setDate Setzt den Wert für den Zeitstempel neu
          * @param aDate Neuer Wert für den Zeitstempel
          */
-        void setDate(const QString& aDate);
+        void setDate(const QDateTime& aDate);
 
         /**
          * @brief setHeartRate Setzt den Wert für die Herzfrequenz neu
          * @param aHeartRate Neuer Wert für die Herzfrequenz
          */
-        void setHeartRate(const QString& aHeartRate);
+        void setHeartRate(quint16 aHeartRate);
 
         /**
          * @brief setStepLength Setzt den Wert für die Schrittlänge
          * @param aStepLength Neuer Wert für die Schrittlänge
          */
-        void setStepLength(const QString& aStepLength);
+        void setStepLength(quint16 aStepLength);
 
         /**
          * @brief SensorData Allgemeiner Konstruktor für die Klasse SensorData
@@ -70,7 +71,7 @@ class SensorData
          * @param aHeartRate Wert für die aktuelle Herzfrequenz
          * @param aStepLength Wert für die aktuelle Schrittlänge
          */
-        SensorData(const QString& aDate, const QString& aHeartRate, const QString& aStepLength);
+        SensorData(const QDateTime &aDate, quint16 aHeartRate, quint16 aStepLength);
 
     private:
 
@@ -78,19 +79,19 @@ class SensorData
          * @brief m_date
          * @var Zeitstempel für die aktuelle Herzferquenz
          */
-        QString m_date;
+        QDateTime m_date;
 
         /**
          * @brief m_heartRate
          * @var Enthält die aktuelle Herzfrequenz
          */
-        QString m_heartRate;
+        quint16 m_heartRate;
 
         /**
          * @brief m_stepLength
          * @var Enthält die aktuelle Schrittlänge
          */
-        QString m_stepLength;
+        quint16 m_stepLength;
 };
 
 #endif // SENSORDATA_H

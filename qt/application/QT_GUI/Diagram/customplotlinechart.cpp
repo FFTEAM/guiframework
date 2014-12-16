@@ -102,7 +102,7 @@ void CustomPlotLineChart::calculateData()
         const SensorData* data = model.getSingleSensorData(index);
         if(data != 0)
         {
-            m_yAxis.append(data->getHeartRate().toInt());
+            m_yAxis.append(data->getHeartRate());
             time = time + 1;
         }
         else
