@@ -42,15 +42,31 @@ void TcpConnection::run()
 void TcpConnection::readyRead()
 {
     // get the information
-    char buffer[2048];
-    memset(buffer, 0, 2048);
+    unsigned char* buffer = 0;
+    qint64 bytesInBuffer = mSocket->bytesAvailable();
 
-    qint64 ret = mSocket->read(buffer, sizeof(buffer));
-    if (ret)
+    if (0 < bytesInBuffer)
     {
-        qDebug() << "read " << ret << buffer;
-        //DataReceiver::validateData(buffer);
+        buffer = new unsigned char[bytesInBuffer];
+        if (buffer)
+        {
+            qint64 ret = mSocket->read(reinterpret_cast<char*>(buffer), sizeof(buffer));
+            if (ret == bytesInBuffer)
+            {
+                //qDebug() << "read " << ret << buffer;
+                //DataReceiver::validateData(buffer);
+            }
+            else
+            {
+                qFatal("tcp read error!");
+            }
+        }
+        else
+        {
+            qFatal("memory allocation error!");
+        }
     }
+
     //qDebug() << "[" /*<< mSocket->peerAddress()*/ << ":" << mSocket->peerPort() << "]" << " Data in: " << Data;
 }
 
@@ -58,8 +74,6 @@ void TcpConnection::disconnected()
 {
     qDebug() << mSocketDescriptor << " Disconnected";
 
-    // validate and handle received data in this session:
-    DataReceiver::validateData();
     mSocket->deleteLater();
     exit(0);
 }
