@@ -1,16 +1,27 @@
 #ifndef DATARECEIVER_H
 #define DATARECEIVER_H
 
-#include <QObject>
+#include <QString>
+#include <QList>
 
-class DataReceiver : public QObject
+enum MeasureMode {
+    REST,
+    ACTIVITY
+};
+
+class DataReceiver
 {
-    Q_OBJECT
-public:
+    // avoid object creation:
     DataReceiver();
+    DataReceiver(const DataReceiver&);
+    const DataReceiver& operator=(const DataReceiver&);
 
-public slots:
-    bool validateData(const QString&);
+    // private statics:
+    static void handleUserData(const QString&);
+    static void handleSensorData(const QString&);
+
+public:
+    static bool validateData();
 };
 
 #endif // DATARECEIVER_H

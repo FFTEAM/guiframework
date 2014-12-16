@@ -1,10 +1,10 @@
 #include "TcpConnection.h"
+#include "DataReceiver.h"
 
 TcpConnection::TcpConnection(qintptr aSocketDescriptor, QObject* aParent) :
     QThread(aParent),
     mSocketDescriptor(aSocketDescriptor)
 {
-    //connect(this, SIGNAL(checkNewData(QString)), &mDataReceiver, SLOT(validateData(QString)));
 }
 
 void TcpConnection::run()
@@ -49,10 +49,8 @@ void TcpConnection::readyRead()
     if (ret)
     {
         qDebug() << "read " << ret << buffer;
-        checkNewData(buffer);
+        //DataReceiver::validateData(buffer);
     }
-
-    // will write on server side window
     //qDebug() << "[" /*<< mSocket->peerAddress()*/ << ":" << mSocket->peerPort() << "]" << " Data in: " << Data;
 }
 
@@ -60,6 +58,8 @@ void TcpConnection::disconnected()
 {
     qDebug() << mSocketDescriptor << " Disconnected";
 
+    // validate and handle received data in this session:
+    DataReceiver::validateData();
     mSocket->deleteLater();
     exit(0);
 }
