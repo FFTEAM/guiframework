@@ -4,10 +4,10 @@ QT += qml quick
  greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 SOURCES +=  main.cpp \
+            Thirdparty/qcustomplot.cpp \
             Model/sensordata.cpp \
             Model/sensormodel.cpp \
             Controler/printbuttoncontroller.cpp \
-            ../../third_party/qcustomplot.cpp \
             Diagram/customplotbarchart.cpp \
             Diagram/customplotlinechart.cpp \
             Controler/updatebuttoncontroller.cpp \
@@ -21,10 +21,10 @@ RESOURCES += qml.qrc \
 
 HEADERS += \
             Model/sensordata.h \
+            Thirdparty/qcustomplot.h \
             RessourceFilePaths.h \
             Model/sensormodel.h \
             Controler/printbuttoncontroller.h \
-            ../../third_party/qcustomplot.h \
             Diagram/customplotbarchart.h \
             Diagram/customplotlinechart.h \
             Controler/updatebuttoncontroller.h \
