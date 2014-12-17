@@ -3,10 +3,15 @@
 
 #include <QString>
 #include <QDir>
+#include <QSettings>
 
 class Settings final
 {
     static Settings* mInstance;
+    QSettings mSettings;
+    QDir mDirectory;
+
+    bool mIsValid;
 
     Settings();
     Settings(const Settings&);
@@ -18,14 +23,8 @@ public:
 
     ~Settings();
 
-    QString mUserDataDirectory;
     QString mDataTimeFormat;
-
-private:
-    QDir mDirectory;
-    QSettings testSettings;
-
-    bool mIsValid;
+    QString mDataDirectory;
 };
 
 #endif // SETTINGS_H

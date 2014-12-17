@@ -4,13 +4,14 @@
 #include <QObject>
 #include <QtSql/QtSql>
 
-class ImportExport : public QObject
+class ImportExport final : public QObject
 {
     Q_OBJECT
     QSqlDatabase mDataBase;
+    bool mIsValid;
 
-    ImportExport(const ImportExport&);
-    const ImportExport& operator=(const ImportExport&);
+    ImportExport(const ImportExport&) = delete;
+    const ImportExport& operator=(const ImportExport&) = delete;
 
 public:
     explicit ImportExport(QObject *parent = 0);

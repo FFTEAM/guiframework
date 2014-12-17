@@ -1,5 +1,7 @@
 #include "Settings.h"
 
+#include <QDebug>
+
 Settings* Settings::mInstance = 0;
 
 Settings& Settings::getInstance()
@@ -18,14 +20,17 @@ Settings::operator bool() const
 }
 
 Settings::Settings() :
-    mUserDataDirectory(QDir::homePath() + "/HeartRate"),
+    mSettings(),
+    mDirectory(QFileInfo(mSettings.fileName()).path()),
+    mIsValid(false),
     mDataTimeFormat("DD.MM.YYYY HH:MM:SS"),
-    mDirectory(QDir(mUserDataDirectory)),
-    mIsValid(false)
+    mDataDirectory(mDirectory.path())
 {
+    qDebug() << mDirectory.path();
+
     if (!mDirectory.exists())
     {
-        if(mDirectory.mkpath(mUserDataDirectory))
+        if(mDirectory.mkpath(mDataDirectory))
         {
             mIsValid = true;
         }

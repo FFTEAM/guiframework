@@ -6,6 +6,12 @@ TcpServer::TcpServer(QObject *aParent) :
 {
 }
 
+TcpServer::~TcpServer()
+{
+    this->close();
+    this->deleteLater();
+}
+
 void TcpServer::startServer()
 {
     int port = 1234;

@@ -53,7 +53,6 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    qDebug() << test.mUserDataDirectory;
     QApplication app(argc, argv);
 
     BroadcastReceiver bcReceiver;
