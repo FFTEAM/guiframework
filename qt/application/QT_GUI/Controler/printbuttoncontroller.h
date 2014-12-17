@@ -20,7 +20,9 @@
 #include <QDebug>
 #include <QPrinter>
 #include <QPrintDialog>
-#include <Model/sensormodel.h>
+#include "Model/activesensormodel.h"
+#include "Model/inactivesensormodel.h"
+#include "Model/sensormodel.h"
 #include <QTextDocument>
 
 /**
@@ -71,7 +73,7 @@ class PrintButtonController : public QObject
          * Diese Methode erzeugt auf Grundlage der Parameter ein QTextDocument. Dieses Dokument wird anhand von HTML Code beschrieben.
          * Der Vorteil hierfür sind die vielen formatierungsmöglichkeiten von HTML. Abschließend wird das Dokument dem QPrinter übergeben.
          */
-        void createSensorDataFile(QPrinter& aPrinter, SensorDataType aType,const QString aOverviewName);
+        void createSensorDataFile(QPrinter& aPrinter,const SensorModel& aModel, const QString aOverviewName);
 };
 
 #endif // PRINTBUTTONCONTROLLER_H

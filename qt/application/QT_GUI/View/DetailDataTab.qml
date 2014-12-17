@@ -13,6 +13,56 @@ Rectangle {
     anchors.leftMargin: 10
     anchors.rightMargin: 10
 
+    Component {
+
+             id: inactiveListDelegate
+             Item {
+                 width: parent.width - 10
+                 height: 70
+                 Row {
+                      spacing: 2
+                      width: parent.width - 10
+
+                      Text {
+                          text: inactiveCalcDescription
+                          anchors.verticalCenter: parent.verticalCenter
+                          width: (parent.width - 10)/2
+                      }
+
+                      Text {
+                          text: inactiveCalcValue
+                          anchors.verticalCenter: parent.verticalCenter
+                          width: (parent.width - 10)/2
+                      }
+                 }
+             }
+    }
+
+    Component {
+
+             id: activeListDelegate
+             Item {
+                 width: parent.width - 10
+                 height: 70
+                 Row {
+                      spacing: 2
+                      width: parent.width - 10
+
+                      Text {
+                          text: activeCalcDescription
+                          anchors.verticalCenter: parent.verticalCenter
+                          width: (parent.width - 10)/2
+                      }
+
+                      Text {
+                          text: activeCalcValue
+                          anchors.verticalCenter: parent.verticalCenter
+                          width: (parent.width - 10)/2
+                      }
+                 }
+             }
+    }
+
     GroupBox {
         id: groupBox1
 
@@ -26,71 +76,21 @@ Rectangle {
 
         title: qsTr("Inactive Heartrate Details")
 
-        Label {
-            id: label1
-            x: 56
-            y: 24
-            width: 120
-            height: 23
-            text: qsTr("Label")
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-        }
+        ListView {
+                    id: listView1
 
-        Label {
-            id: label2
-            x: 56
-            y: 65
-            width: 120
-            height: 23
-            text: qsTr("Label")
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-        }
+                    height: parent.height;
+                    width: parent.width - 10;
 
-        Label {
-            id: label3
-            x: 56
-            y: 109
-            width: 120
-            height: 23
-            text: qsTr("Label")
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-        }
+                    anchors.top: parent.top
+                    anchors.topMargin: 5
+                    anchors.left: parent.left
+                    anchors.leftMargin: 5
 
-        Label {
-            id: label4
-            x: 321
-            y: 24
-            width: 120
-            height: 23
-            text: qsTr("Label")
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-        }
-
-        Label {
-            id: label5
-            x: 321
-            y: 65
-            width: 120
-            height: 23
-            text: qsTr("Label")
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-        }
-
-        Label {
-            id: label6
-            x: 321
-            y: 109
-            width: 120
-            height: 23
-            text: qsTr("Label")
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-        }
+                    model: inactiveSensorCalcModel
+                    interactive: false
+                    delegate: inactiveListDelegate
+       }
     }
 
     GroupBox {
@@ -105,70 +105,23 @@ Rectangle {
         width: parent.width - 10;
 
         title: qsTr("Active Heartrate Details")
-        Label {
-            id: label7
-            x: 56
-            y: 24
-            width: 120
-            height: 23
-            text: qsTr("Label")
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-        }
 
-        Label {
-            id: label8
-            x: 56
-            y: 65
-            width: 120
-            height: 23
-            text: qsTr("Label")
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-        }
+        ListView {
+                    id: listView2
 
-        Label {
-            id: label9
-            x: 56
-            y: 109
-            width: 120
-            height: 23
-            text: qsTr("Label")
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-        }
+                    height: parent.height;
+                    width: parent.width - 10;
 
-        Label {
-            id: label10
-            x: 321
-            y: 24
-            width: 120
-            height: 23
-            text: qsTr("Label")
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-        }
+                    anchors.top: parent.top
+                    anchors.topMargin: 5
+                    anchors.left: parent.left
+                    anchors.leftMargin: 5
 
-        Label {
-            id: label11
-            x: 321
-            y: 65
-            width: 120
-            height: 23
-            text: qsTr("Label")
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-        }
+                    model: activeSensorCalcModel
+                    interactive: false
+                    delegate: activeListDelegate
+       }
 
-        Label {
-            id: label12
-            x: 321
-            y: 109
-            width: 120
-            height: 23
-            text: qsTr("Label")
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-        }
+
     }
 }

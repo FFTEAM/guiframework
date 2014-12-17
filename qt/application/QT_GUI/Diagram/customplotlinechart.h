@@ -19,8 +19,8 @@
 #include <QPainter>
 #include <QtQuick>
 #include "Thirdparty/qcustomplot.h"
-#include "Model/sensormodel.h"
-#include "Model/sensordata.h"
+#include "Model/activesensormodel.h"
+#include "Model/Data/sensordata.h"
 
 /**
  * @brief The CustomPlotBarChart class

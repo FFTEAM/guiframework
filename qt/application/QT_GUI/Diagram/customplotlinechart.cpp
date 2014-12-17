@@ -92,7 +92,7 @@ void CustomPlotLineChart::calculateData()
     if(m_xAxis.size() != 0) m_xAxis.clear();
     if(m_yAxis.size() != 0) m_yAxis.clear();
 
-    const SensorModel& model = SensorModel::getInstance(ACTIVE_SENSOR_DATA);
+    const ActiveSensorModel& model = ActiveSensorModel::getInstance();
     const int length = model.getSensorModelCount();
     double time = 1.0;
 
@@ -102,7 +102,7 @@ void CustomPlotLineChart::calculateData()
         const SensorData* data = model.getSingleSensorData(index);
         if(data != 0)
         {
-            m_yAxis.append(data->getHeartRate().toInt());
+            m_yAxis.append(data->getHeartRate());
             time = time + 1;
         }
         else

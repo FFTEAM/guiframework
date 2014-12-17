@@ -46,17 +46,21 @@ void UpdateButtonController::updateActionSlot()
 
     // EXAMPLE DATA:
     QList<const SensorData*> sensorDataI;
-    sensorDataI.append(new SensorData("01-01-2015 00:00:01","200","5"));
-    sensorDataI.append(new SensorData("01-01-2015 00:00:02","100","3"));
-    sensorDataI.append(new SensorData("01-01-2015 00:00:02","50","3"));
+
+    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 1)), 200, 5));
+    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 2)), 100, 3));
+    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 3)), 50, 3));
 
     QList<const SensorData*> sensorDataA;
-    sensorDataA.append(new SensorData("01-01-2017 00:00:01","230","5"));
-    sensorDataA.append(new SensorData("01-01-2017 00:00:02","120","3"));
-    sensorDataA.append(new SensorData("01-01-2017 00:00:02","30","3"));
+    sensorDataA.append(new SensorData(QDateTime(QDate(2017, 1, 1), QTime(0, 0, 1)), 230, 5));
+    sensorDataA.append(new SensorData(QDateTime(QDate(2017, 1, 1), QTime(0, 0, 2)), 120, 10));
+    sensorDataA.append(new SensorData(QDateTime(QDate(2017, 1, 1), QTime(0, 0, 3)), 30, 3));
 
-    SensorModel::getInstance(INACTIVE_SENSOR_DATA).setNewSensorModel(sensorDataI);
-    SensorModel::getInstance(ACTIVE_SENSOR_DATA).setNewSensorModel(sensorDataA);
+    ActiveSensorModel::getInstance().setNewSensorModel(sensorDataA);
+    ActiveSensorCalcModel::getInstance().updateCalcValues(ActiveSensorModel::getInstance());
+
+    InactiveSensorModel::getInstance().setNewSensorModel(sensorDataI);
+    InactiveSensorCalcModel::getInstance().updateCalcValues(InactiveSensorModel::getInstance());
 
     if(inactiveDiagram && activeDiagram)
     {
