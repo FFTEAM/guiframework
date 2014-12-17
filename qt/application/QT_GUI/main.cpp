@@ -117,32 +117,6 @@ int main(int argc, char *argv[])
             }
         }
         else qDebug() << "No tabview object found";
-
-        // THIS IS DONE IN QML NOW:
-#if 0
-        QQuickWindow *window = qobject_cast<QQuickWindow*>(root);
-        if (window)
-        {
-            QDesktopWidget widget;
-            QRect mainScreenSize = widget.availableGeometry(widget.primaryScreen());
-            qDebug() << "Current Height : " << mainScreenSize.height();
-            qDebug() << "Current Width  : " << mainScreenSize.width();
-
-            if(mainScreenSize.height() < 600 || mainScreenSize.width() < 900)
-            {
-                qFatal("Window size too small");
-            }
-            else
-            {
-                window->setMaximumHeight(600);
-                window->setMinimumHeight(600);
-                window->setMaximumWidth(900);
-                window->setMinimumWidth(900);
-                window->show();
-            }
-        }
-        else qFatal("Error: No window found!");
-#endif
     }
     else qDebug() << "No root object available";
 

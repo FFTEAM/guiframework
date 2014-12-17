@@ -57,8 +57,8 @@ Rectangle {
             currentIndex: 0
             model: ListModel {
                 id: cbItems
-                ListElement { text: qsTr("Activity"); }
-                ListElement { text: qsTr("Rest") }
+                ListElement { text: "Activity" }
+                ListElement { text: "Rest" }
             }
 
             //onCurrentIndexChanged: console.debug(cbItems.get(currentIndex).text + ", " + currentIndex)
