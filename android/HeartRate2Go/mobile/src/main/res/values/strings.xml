@@ -11,13 +11,17 @@
     <string name="settings_category_general">General</string>
 
     <string name="title_keep_screen_on">Keep screen on</string>
-    <string name="summary_keep_screen_on">Keeping screen on will result in higher battery drain.</string>
+    <string name="summary_keep_screen_on">Keeping screen on will result in higher battery drain..</string>
 
     <string name="title_remember_vibrate">Reminder</string>
-    <string name="summary_remember_vibrate">Remind every 15 minutes HeartRate2Go is still active.</string>
+    <string name="summary_remember_vibrate">Remind every 15 minutes HeartRate2Go is still active..</string>
 
     <string name="title_measure_interval">Measure Interval</string>
     <string name="summary_measure_interval">Time in seconds between each measure.</string>
+
+    <string name="title_static_ip">Static target address</string>
+    <string name="summary_static_ip">IP address from the device. Empty for DHCP.</string>
+    <string name="ip_not_valid">IP is not valid.</string>
 
     <string name="title_list_styles">Backgroundcolor</string>
     <string name="summary_list_styles">Choose between the available colors.</string>

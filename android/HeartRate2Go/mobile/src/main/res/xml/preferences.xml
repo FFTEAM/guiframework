@@ -25,6 +25,14 @@
             android:defaultValue="3"
             android:inputType="number" />
 
+        <EditTextPreference
+            android:key="preference_static_ip"
+            android:title="@string/title_static_ip"
+            android:summary="@string/summary_static_ip"
+            android:dialogTitle="@string/summary_static_ip"
+            android:defaultValue=""
+            android:inputType="textNoSuggestions" />
+
         <!--
         <ListPreference
             android:key="preference_list_styles"

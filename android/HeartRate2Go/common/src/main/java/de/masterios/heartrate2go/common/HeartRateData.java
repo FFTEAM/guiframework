@@ -1,4 +1,4 @@
-package de.masterios.heartrate2go;
+package de.masterios.heartrate2go.common;
 
 public class HeartRateData {
 

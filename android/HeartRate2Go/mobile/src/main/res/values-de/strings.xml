@@ -19,6 +19,10 @@
     <string name="title_measure_interval">Messungsinterval</string>
     <string name="summary_measure_interval">Zeit zwischen den Messungen in Sekunden.</string>
 
+    <string name="title_static_ip">Statische Ziel Adresse</string>
+    <string name="summary_static_ip">IP-Adresse des Gerätes. Leer für DHCP.</string>
+    <string name="ip_not_valid">IP ist nicht gültig.</string>
+
     <string name="title_list_styles">Hintergrundfarbe</string>
     <string name="summary_list_styles">Auswahl der verfügbaren Hintergrundfarben</string>
 
