@@ -15,9 +15,9 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import de.masterios.HeartRateData;
-import de.masterios.HeartRateDataManager;
-import de.masterios.MeasureMode;
+import de.masterios.heartrate2go.common.HeartRateData;
+import de.masterios.heartrate2go.common.HeartRateDataManager;
+import de.masterios.heartrate2go.common.MeasureMode;
 
 public class WearActivity extends Activity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
