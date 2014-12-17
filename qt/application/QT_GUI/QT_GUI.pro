@@ -1,7 +1,9 @@
-QT += qml quick
+QT += qml quick sql
 
 # needed because of QCustom Plot
  greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
+
+CONFIG += c++11
 
 SOURCES +=  main.cpp \
             Thirdparty/qcustomplot.cpp \
@@ -20,7 +22,9 @@ SOURCES +=  main.cpp \
     Model/activesensormodel.cpp \
     Model/inactivesensorcalcmodel.cpp \
     Model/inactivesensormodel.cpp \
-    Model/sensorcalcmodel.cpp
+    Model/sensorcalcmodel.cpp \
+    ImportExport/ImportExport.cpp \
+    Settings/Settings.cpp
 
 TRANSLATIONS = Language_Files/app_de_DE.ts \
 
@@ -44,7 +48,9 @@ HEADERS += \
     Model/inactivesensorcalcmodel.h \
     Model/activesensorcalcmodel.h \
     Model/inactivesensormodel.h \
-    Model/activesensormodel.h
+    Model/activesensormodel.h \
+    ImportExport/ImportExport.h \
+    Settings/Settings.h
 
 DESTPATH = .
 target.path = $$DESTPATH

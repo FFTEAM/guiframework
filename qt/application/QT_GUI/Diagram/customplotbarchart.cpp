@@ -86,6 +86,9 @@ void CustomPlotBarChart::updateDataAndGUI()
         calculateData();
 
         m_barChart->setData(m_xAxis, m_yAxis);
+        m_CustomPlot->xAxis->setRange(0, m_xAxis.size() + 1);
+        m_CustomPlot->yAxis->setRange(0, MAX_HEARTRATE);
+
         update();
     }
 }

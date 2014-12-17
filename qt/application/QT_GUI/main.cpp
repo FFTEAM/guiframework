@@ -33,6 +33,7 @@
 #include "Diagram/customplotlinechart.h"
 #include "Connection/BroadcastReceiver.h"
 #include "Connection/TcpServer.h"
+#include "Settings/Settings.h"
 
 /**
  * @brief main  Main-Methode erzeugt Applikation und offenet die View
@@ -42,6 +43,17 @@
  */
 int main(int argc, char *argv[])
 {
+    QCoreApplication::setOrganizationName("GUI-Frameworks");
+    QCoreApplication::setApplicationName("HeartRate");
+
+    Settings& test = Settings::getInstance();
+    if (!test)
+    {
+        qDebug("FATAL error while instanciating Settings!!");
+        return 1;
+    }
+
+    qDebug() << test.mUserDataDirectory;
     QApplication app(argc, argv);
 
     BroadcastReceiver bcReceiver;

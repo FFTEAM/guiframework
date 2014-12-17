@@ -3,12 +3,18 @@
 
 #include <QString>
 #include <QList>
+#include <QObject>
 
-class DataReceiver
+#include "Model/Data/sensordata.h"
+
+class DataReceiver : public QObject
 {
+    Q_OBJECT
+    static DataReceiver* mInstance;
+
     // avoid object creation:
-    DataReceiver();
-    DataReceiver(const DataReceiver&);
+    explicit DataReceiver(QObject *parent = 0);
+    explicit DataReceiver(const DataReceiver&);
     const DataReceiver& operator=(const DataReceiver&);
 
     // private statics:
@@ -46,8 +52,14 @@ class DataReceiver
         qint16 steps;
     };
 
+
+signals:
+    void updateGuiForActivity(QList<const SensorData*>&);
+    void updateGuiForResting(QList<const SensorData*>&);
+
 public:
-    static bool validateData(const quint8 *, const quint64 aLen);
+    static DataReceiver& getInstance();
+    bool validateData(const quint8 *, const quint64 aLen);
 };
 
 #endif // DATARECEIVER_H

@@ -47,6 +47,8 @@ class UpdateButtonController : public QObject
          * @brief updateActionSlot ist der Slot für das "updateActionIsTriggered" Signal
          */
         void updateActionSlot();
+        void updateGuiForActivitySlot(QList<const SensorData*>&);
+        void updateGuiForRestingSlot(QList<const SensorData*>&);
 
     private:
 

@@ -3,7 +3,8 @@
 
 TcpConnection::TcpConnection(qintptr aSocketDescriptor, QObject* aParent) :
     QThread(aParent),
-    mSocketDescriptor(aSocketDescriptor)
+    mSocketDescriptor(aSocketDescriptor),
+    mBuffer()
 {
 }
 
@@ -53,7 +54,7 @@ void TcpConnection::readyRead()
             qint64 ret = mSocket->read(reinterpret_cast<char*>(buffer), bytesInBuffer);
             if (ret == bytesInBuffer)
             {
-                DataReceiver::validateData(buffer, ret);
+                mBuffer.append(reinterpret_cast<char*>(buffer), ret);
             }
             else
             {
@@ -74,6 +75,7 @@ void TcpConnection::readyRead()
 void TcpConnection::disconnected()
 {
     qDebug() << mSocketDescriptor << " Disconnected";
+    DataReceiver::getInstance().validateData(reinterpret_cast<const quint8*>(mBuffer.data()), mBuffer.size());
 
     mSocket->deleteLater();
     exit(0);

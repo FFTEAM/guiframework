@@ -1,5 +1,4 @@
 #include "DataReceiver.h"
-#include "Model/Data/sensordata.h"
 #include "Model/inactivesensormodel.h"
 #include "Model/inactivesensorcalcmodel.h"
 #include "Model/activesensormodel.h"
@@ -11,12 +10,36 @@
 #include <QUrlQuery>
 #include <QtEndian>
 
+DataReceiver* DataReceiver::mInstance = 0;
+
+DataReceiver::DataReceiver(QObject *parent) :
+    QObject(parent)
+{
+}
+
+DataReceiver& DataReceiver::getInstance()
+{
+    if (!mInstance)
+    {
+        mInstance = new DataReceiver();
+    }
+
+    return *mInstance;
+}
+
 bool DataReceiver::validateData(const quint8* aData, const quint64 aLen)
 {
     quint64 pos = 0;
     quint8 mode, mood;
     QList<const SensorData*> sensorData;
     STATEMACHINE state = MODE_STATE;
+
+    /*printf("Data: ");
+    for(quint64 i = 0; i < aLen; i++)
+    {
+        printf("%02X ", aData[i]);
+    }
+    printf("\n");*/
 
     do
     {
@@ -60,10 +83,10 @@ bool DataReceiver::validateData(const quint8* aData, const quint64 aLen)
             case DATA:
                 if (DATA_STATE == state)
                 {
-                    qDebug("DATA data packet found");
-                    if (13 <= (aLen - pos))
+                    pos++;
+                    qDebug("DATA data packet found: ");
+                    if (12 <= (aLen - pos))
                     {
-                        pos++;
                         quint64 timeStampMs;
                         quint16 heartRate, steps;
 
@@ -108,13 +131,15 @@ bool DataReceiver::validateData(const quint8* aData, const quint64 aLen)
         switch (mode)
         {
             case REST:
-                InactiveSensorModel::getInstance().setNewSensorModel(sensorData);
-                InactiveSensorCalcModel::getInstance().updateCalcValues(InactiveSensorModel::getInstance());
+                /*InactiveSensorModel::getInstance().setNewSensorModel(sensorData);
+                InactiveSensorCalcModel::getInstance().updateCalcValues(InactiveSensorModel::getInstance());*/
+                updateGuiForResting(sensorData);
             return true;
 
             case ACTIVITY:
-                ActiveSensorModel::getInstance().setNewSensorModel(sensorData);
-                ActiveSensorCalcModel::getInstance().updateCalcValues(ActiveSensorModel::getInstance());
+                /*ActiveSensorModel::getInstance().setNewSensorModel(sensorData);
+                ActiveSensorCalcModel::getInstance().updateCalcValues(ActiveSensorModel::getInstance());*/
+                updateGuiForActivity(sensorData);
             return true;
 
             default:

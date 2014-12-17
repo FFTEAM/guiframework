@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.2
+import QtQuick.Controls.Styles 1.2
 import CostumPlot 1.0
 import "."
 
@@ -39,40 +40,54 @@ Rectangle {
         width: parent.width
         height: parent.height / 3 - 15
 
-        GroupBox {
-            id: grpPastMeasure
-            title: qsTr("Recent and past measurements:")
-            anchors.left: parent.left
-            height: parent.height
-            width: parent.width
+        ComboBox {
+            id: cmbSelectMeasuremode
+            width: 200
+            height: 20
 
-            ComboBox {
-                currentIndex: 0
-                model: ListModel {
-                    id: cbItems
-                    ListElement { text: "Banana"; color: "Yellow" }
-                    ListElement { text: "Apple"; color: "Green" }
-                    ListElement { text: "Coconut"; color: "Brown" }
+            /*style: ComboBoxStyle {
+                    background: Rectangle {
+                    width: cmbSelectMeasuremode.width
+                    height: 30
+                    color: "red"
                 }
-                width: 200
-                onCurrentIndexChanged: console.debug(cbItems.get(currentIndex).text + ", " + cbItems.get(currentIndex).color)
+            }*/
+
+            anchors.leftMargin: 5
+            currentIndex: 0
+            model: ListModel {
+                id: cbItems
+                ListElement { text: qsTr("Activity"); }
+                ListElement { text: qsTr("Rest") }
             }
 
-            /*TableView {
+            //onCurrentIndexChanged: console.debug(cbItems.get(currentIndex).text + ", " + currentIndex)
+        }
+
+        GroupBox {
+            id: grpPastMeasurements
+            title: qsTr("Recent and past measurements:")
+            anchors.left: parent.left
+            anchors.top: cmbSelectMeasuremode.bottom
+            anchors.topMargin: 5
+            height: parent.height - cmbSelectMeasuremode.height - anchors.topMargin
+            width: parent.width
+
+            TableView {
                 anchors.left: parent.left
                 anchors.top: parent.top
-
-                width: parent.width - 10;
-                height: parent.height - 10;
-
                 anchors.leftMargin: 5
                 anchors.topMargin: 5
+
+                width: parent.width - 10;
+                height: parent.height - anchors.leftMargin - anchors.topMargin;
 
                 Component {
                     id: checkBoxDelegate
 
                     Item {
                         CheckBox {
+                            id: cbCheckBox
                             anchors.fill: parent
                             checked: styleData.value
                         }
@@ -81,17 +96,29 @@ Rectangle {
 
                 TableViewColumn
                 {
-                    title: qsTr("name");
-                    role: "isDoneStateCheckState"
+                    title: qsTr("");
+                    role: "isSelected"
                     delegate: checkBoxDelegate
                 }
 
                 TableViewColumn
                 {
                     title: qsTr("Date");
+                    role: "measurementData"
                 }
-            }*/
 
+                TableViewColumn
+                {
+                    title: qsTr("Time");
+                    role: "measurementTime"
+                }
+
+                TableViewColumn
+                {
+                    title: qsTr("Duration");
+                    role: "measurementDuration"
+                }
+            }
         }
     }
 
