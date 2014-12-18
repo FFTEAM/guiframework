@@ -39,7 +39,6 @@ ApplicationWindow
         objectName: "updateActionName"
         id: updateActionID
         text: qsTr("&Update Data")
-        shortcut: StandardKey.Print
         tooltip: qsTr("Update data form Device")
         onTriggered: updateActionIsTriggered();
     }
@@ -97,10 +96,40 @@ ApplicationWindow
         Tab
         {
             id: detailDataTabID
+
             objectName: "detailDataTabName"
             title: qsTr("Detail Data")
             source: "qrc:/View/DetailDataTab.qml"
         }
+
+        /*style: TabViewStyle {
+            frameOverlap: 1
+            tabsAlignment: Qt.AlignHCenter
+
+            tab: Rectangle {
+                color: styleData.selected ? Style.tabViewSelectedTabBgColor : Style.tabViewTabBgColor
+                border.color: Style.tabViewTabBorderColor
+                implicitWidth: //Math.max(text.width + 4, 80)
+                implicitHeight: 30
+                radius: 1
+                Text {
+                    id: text
+                    anchors.centerIn: parent
+                    text: styleData.title
+                    font.weight: styleData.selected ? Font.DemiBold : Font.Normal
+                    color: styleData.selected ? Style.tabViewSelectedTabFontColor : Style.tabViewTabFontColor
+                }
+            }
+
+            tabBar: Rectangle {
+                color: Style.tabViewTabBgColor
+                CustomBorder: {
+
+                }
+            }
+
+            frame: Rectangle { color: Style.tabViewTabBgColor }
+        }*/
     }
 
     statusBar: StatusBar {

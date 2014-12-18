@@ -8,11 +8,14 @@ import com.google.android.gms.wearable.WearableListenerService;
 
 import java.net.InetAddress;
 
+import de.masterios.heartrate2go.common.HeartRateDataManager;
+
 public class DataLayerListenerService extends WearableListenerService {
 
     private static final String MESSAGE_RECEIVED_PATH = "/heartrate2go-message";
 
     NetworkBroadcast mNetworkBroadcast;
+    HeartRateDataManager mHeartRateDatamanager;
 
     public DataLayerListenerService() {
         mNetworkBroadcast = new NetworkBroadcast(this);
@@ -24,11 +27,7 @@ public class DataLayerListenerService extends WearableListenerService {
                 }
             }
         });
-    }
-
-    private static String csvData = "";
-    public static String getCurrentCsvData() {
-        return csvData;
+        mHeartRateDatamanager = HeartRateDataManager.getInstance();
     }
 
     @Override
@@ -41,12 +40,14 @@ public class DataLayerListenerService extends WearableListenerService {
         super.onMessageReceived(messageEvent);
         if(messageEvent.getPath().equalsIgnoreCase(MESSAGE_RECEIVED_PATH)) {
 
-            csvData = new String(messageEvent.getData());
-            if(!csvData.equals("")) {
+            String data = new String(messageEvent.getData());
+            if(!data.equals("")) {
+                mHeartRateDatamanager.setDataFromString(data);
+                mNetworkBroadcast.sendBroadcastAsync();
+
                 Intent intent = new Intent(getBaseContext(), HandheldActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getApplication().startActivity(intent);
-                mNetworkBroadcast.sendBroadcastAsync();
             }
         }
     }

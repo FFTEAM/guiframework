@@ -12,11 +12,9 @@ import java.net.SocketException;
 
 public class NetworkBroadcast {
 
-    //public byte MAGIC_NUMBER[] = { (byte)0x86, 0x41, 0x7c, (byte)0xe4, 0x4f, 0x19, 0x4a, 0x59, (byte)0xae, 0x27, (byte)0xf4, 0x04, 0x65, 0x3e, (byte)0x97, 0x51 };
-
-    public static final String APPLICATION_IDENTIFIER = "86417ce4-4f19-4a59-ae27-f404653e9751";
-    private static final int REMOTE_PORT = 45454;
+    private static final String APPLICATION_IDENTIFIER = "86417ce4-4f19-4a59-ae27-f404653e9751";
     private static final int LOCAL_PORT = 45455;
+    private static final int REMOTE_PORT = 45454;
     private static final int TIMEOUT_MS = 5000;
 
     BroadcastFinishedListener mBroadcastFinishedListener;

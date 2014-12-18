@@ -8,7 +8,7 @@ class TcpConnection : public QThread
 {
     Q_OBJECT
 public:
-    explicit TcpConnection(qintptr aSocketDescriptor, QObject* aParent = 0);
+    TcpConnection(qintptr aSocketDescriptor, QObject* aParent = 0);
     void run();
 
 signals:
@@ -21,7 +21,7 @@ public slots:
 private:
     QTcpSocket *mSocket;
     qintptr mSocketDescriptor;
-    QList<QString> mReceivedData;
+    QByteArray mBuffer;
 
     TcpConnection(const TcpConnection&);
     const TcpConnection& operator=(const TcpConnection&);

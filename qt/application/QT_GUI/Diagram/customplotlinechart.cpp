@@ -74,6 +74,9 @@ void CustomPlotLineChart::updateDataAndGUI()
         calculateData();
 
         m_CustomPlot->graph(0)->setData(m_xAxis, m_yAxis);
+        m_CustomPlot->xAxis->setRange(0, m_xAxis.size() + 1);
+        m_CustomPlot->yAxis->setRange(0, 230);
+
         update();
     }
 }
@@ -92,7 +95,7 @@ void CustomPlotLineChart::calculateData()
     if(m_xAxis.size() != 0) m_xAxis.clear();
     if(m_yAxis.size() != 0) m_yAxis.clear();
 
-    const SensorModel& model = SensorModel::getInstance(ACTIVE_SENSOR_DATA);
+    const ActiveSensorModel& model = ActiveSensorModel::getInstance();
     const int length = model.getSensorModelCount();
     double time = 1.0;
 
@@ -102,7 +105,7 @@ void CustomPlotLineChart::calculateData()
         const SensorData* data = model.getSingleSensorData(index);
         if(data != 0)
         {
-            m_yAxis.append(data->getHeartRate().toInt());
+            m_yAxis.append(data->getHeartRate());
             time = time + 1;
         }
         else

@@ -15,6 +15,10 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import de.masterios.heartrate2go.common.HeartRateData;
+import de.masterios.heartrate2go.common.HeartRateDataManager;
+import de.masterios.heartrate2go.common.MeasureMode;
+
 public class WearActivity extends Activity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final int RESULT_CODE_MEASURE_MODE = 1;
@@ -43,13 +47,8 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         STARTED, PAUSED, STOPPED
     }
 
-    private enum Mode {
-        ACTIVITY, REST
-    }
-
     private Settings mSettings;
     private State mCurrentState;
-    private Mode mCurrentMode;
 
     private ImageButton mImageButtonStop;
     private ImageButton mImageButtonPlayPause;
@@ -92,10 +91,6 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         refreshActionButtons();
     }
 
-    private void setCurrentMode(Mode mode) {
-        mCurrentMode = mode;
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -123,14 +118,9 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
     private void initUiElements() {
         mCurrentState = State.STOPPED;
 
-        try {
-            ImageView animation = (ImageView) findViewById(R.id.image_view_animated_heart);
-            animation.setBackgroundResource(R.drawable.animation_black);
-            mHeartAnimation = (AnimationDrawable) animation.getBackground();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        ImageView animation = (ImageView) findViewById(R.id.image_view_animated_heart);
+        animation.setBackgroundResource(R.drawable.animation_black);
+        mHeartAnimation = (AnimationDrawable) animation.getBackground();
 
         mImageButtonPlayPause = (ImageButton) findViewById(R.id.image_button_start_pause);
         mImageButtonStop = (ImageButton) findViewById(R.id.image_button_stop);
@@ -228,7 +218,7 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
                 });
 
                 if(null != mHeartRateDataSync && null != mHeartRateDataManager) {
-                    mHeartRateDataSync.sendMessageAsync(mHeartRateDataManager.getCsvMapAsString());
+                    mHeartRateDataSync.sendMessageAsync(mHeartRateDataManager.getDataAsString());
                 }
             }
         });
@@ -265,7 +255,7 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
                 mImageButtonStop.setVisibility(View.VISIBLE);
                 break;
             case STARTED:
-                if(Mode.REST == mCurrentMode) {
+                if(MeasureMode.REST == mHeartRateDataManager.getMeasureMode()) {
                     mImageButtonPlayPause.setVisibility(View.GONE);
                     mImageButtonStop.setVisibility(View.VISIBLE);
                 } else {
@@ -312,7 +302,7 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         refreshActionButtons();
 
         if(null != mHeartRateDataSync && null != mHeartRateDataManager) {
-            mHeartRateDataSync.sendMessageAsync(mHeartRateDataManager.getCsvMapAsString());
+            mHeartRateDataSync.sendMessageAsync(mHeartRateDataManager.getDataAsString());
         }
 
         refreshActionButtons();
@@ -324,7 +314,7 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
 
         if (null != mSensorLogger) mSensorLogger.start();
 
-        switch(mCurrentMode) {
+        switch(mHeartRateDataManager.getMeasureMode()) {
             case ACTIVITY:
                 if (null != mRunningTimer) mRunningTimer.start();
                 break;
@@ -348,7 +338,7 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
 
         if (null != mSensorLogger) mSensorLogger.stop();
 
-        switch(mCurrentMode) {
+        switch(mHeartRateDataManager.getMeasureMode()) {
             case ACTIVITY:
                 if (null != mRunningTimer) mRunningTimer.stop();
                 break;
@@ -367,10 +357,10 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
                 int result = data.getExtras().getInt(DialogModeActivity.ACTIVITY_RESULT);
                 switch(result) {
                     case DialogModeActivity.ACTIVITY:
-                        setCurrentMode(Mode.ACTIVITY);
+                        mHeartRateDataManager.setMeasureMode(MeasureMode.ACTIVITY);
                         break;
                     case DialogModeActivity.REST:
-                        setCurrentMode(Mode.REST);
+                        mHeartRateDataManager.setMeasureMode(MeasureMode.REST);
                         break;
                 }
                 startLogging();
@@ -386,7 +376,7 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
                         break;
                     case DialogMobileNotFoundActivity.RETRY:
                         if (null != mHeartRateDataSync && null != mHeartRateDataManager) {
-                            mHeartRateDataSync.sendMessageAsync(mHeartRateDataManager.getCsvMapAsString());
+                            mHeartRateDataSync.sendMessageAsync(mHeartRateDataManager.getDataAsString());
                         }
                         break;
                 }
@@ -411,7 +401,7 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
 
     private void refreshTextViewSteps(int steps) {
         if (null != mTextViewSteps && null != mTableRowSteps) {
-            if (State.STOPPED == mCurrentState || Mode.REST == mCurrentMode) {
+            if (State.STOPPED == mCurrentState || MeasureMode.REST == mHeartRateDataManager.getMeasureMode()) {
                 mTableRowSteps.setVisibility(View.GONE);
             } else {
                 mTableRowSteps.setVisibility(View.VISIBLE);

@@ -20,8 +20,12 @@
 #include <QTranslator>
 #include <QDebug>
 
-#include "Model/sensordata.h"
+#include "Model/Data/sensordata.h"
 #include "Model/sensormodel.h"
+#include "Model/activesensorcalcmodel.h"
+#include "Model/activesensormodel.h"
+#include "Model/inactivesensorcalcmodel.h"
+#include "Model/inactivesensormodel.h"
 #include "Controler/printbuttoncontroller.h"
 #include "Controler/updatebuttoncontroller.h"
 #include "RessourceFilePaths.h"
@@ -29,6 +33,7 @@
 #include "Diagram/customplotlinechart.h"
 #include "Connection/BroadcastReceiver.h"
 #include "Connection/TcpServer.h"
+#include "Settings/Settings.h"
 
 /**
  * @brief main  Main-Methode erzeugt Applikation und offenet die View
@@ -38,6 +43,16 @@
  */
 int main(int argc, char *argv[])
 {
+    QCoreApplication::setOrganizationName("GUI-Frameworks");
+    QCoreApplication::setApplicationName("HeartRate");
+
+    Settings& test = Settings::getInstance();
+    if (!test)
+    {
+        qDebug("FATAL error while instanciating Settings!!");
+        return 1;
+    }
+
     QApplication app(argc, argv);
 
     BroadcastReceiver bcReceiver;
@@ -49,51 +64,16 @@ int main(int argc, char *argv[])
     server.startServer();
 
     // create sensorInactiveData Model
-    SensorModel* inactiveSensorDataModel = &SensorModel::getInstance(INACTIVE_SENSOR_DATA);
-    inactiveSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","89","2"));
-    inactiveSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","120","2"));
-    inactiveSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","70","2"));
-    inactiveSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","100","2"));
-    inactiveSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","200","2"));
-    inactiveSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","202","2"));
-    inactiveSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","10","2"));
-    inactiveSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","40","2"));
-    inactiveSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","89","2"));
-    inactiveSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","120","2"));
-    inactiveSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","70","2"));
-    inactiveSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","100","2"));
+    InactiveSensorModel* inactiveSensorModel = &InactiveSensorModel::getInstance();
 
     // create sensorActiveModel
-    SensorModel* activeSensorDataModel = &SensorModel::getInstance(ACTIVE_SENSOR_DATA);
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","10","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","20","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","30","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","40","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","50","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","60","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","70","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","80","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","90","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","100","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","110","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","120","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","130","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","140","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","130","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","120","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","121","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","122","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","123","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","125","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","124","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","123","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","122","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","140","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","200","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","190","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","150","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","100","2"));
-    activeSensorDataModel->addSensorData(new SensorData("31-12-2009 23:00:01","50","2"));
+    ActiveSensorModel* activeSensorModel = &ActiveSensorModel::getInstance();
+
+    // create inactiveCalcSensorModel
+    InactiveSensorCalcModel* inactiveCalcSensorModel = &InactiveSensorCalcModel::getInstance();
+
+    // create activeCalcSensorModel
+    ActiveSensorCalcModel* activeCalcSensorModel = &ActiveSensorCalcModel::getInstance();
 
     qmlRegisterType<CustomPlotBarChart>("CostumPlot", 1, 0, "CustomPlotBarChart");
     qmlRegisterType<CustomPlotLineChart>("CostumPlot", 1, 0, "CustomPlotLineChart");
@@ -113,8 +93,10 @@ int main(int argc, char *argv[])
     if(contex)
     {
         // set Model to view
-        contex->setContextProperty("inactiveSensorDataModel", inactiveSensorDataModel);
-        contex->setContextProperty("activeSensorDataModel", activeSensorDataModel);
+        contex->setContextProperty("inactiveSensorDataModel", inactiveSensorModel);
+        contex->setContextProperty("activeSensorDataModel", activeSensorModel);
+        contex->setContextProperty("inactiveSensorCalcModel", inactiveCalcSensorModel);
+        contex->setContextProperty("activeSensorCalcModel", activeCalcSensorModel);
     }
     else qDebug() << "Error no contex is set";
 
@@ -135,32 +117,6 @@ int main(int argc, char *argv[])
             }
         }
         else qDebug() << "No tabview object found";
-
-        // THIS IS DONE IN QML NOW:
-#if 0
-        QQuickWindow *window = qobject_cast<QQuickWindow*>(root);
-        if (window)
-        {
-            QDesktopWidget widget;
-            QRect mainScreenSize = widget.availableGeometry(widget.primaryScreen());
-            qDebug() << "Current Height : " << mainScreenSize.height();
-            qDebug() << "Current Width  : " << mainScreenSize.width();
-
-            if(mainScreenSize.height() < 600 || mainScreenSize.width() < 900)
-            {
-                qFatal("Window size too small");
-            }
-            else
-            {
-                window->setMaximumHeight(600);
-                window->setMinimumHeight(600);
-                window->setMaximumWidth(900);
-                window->setMinimumWidth(900);
-                window->show();
-            }
-        }
-        else qFatal("Error: No window found!");
-#endif
     }
     else qDebug() << "No root object available";
 

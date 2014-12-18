@@ -33,4 +33,11 @@
 
     </FrameLayout>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="create rdm data and send"
+        android:id="@+id/buttonTest"
+        android:onClick="onButtonTestClick" />
+
 </LinearLayout>

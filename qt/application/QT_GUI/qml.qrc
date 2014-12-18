@@ -3,7 +3,6 @@
         <file>View/main.qml</file>
         <file>Language_Files/app_de_DE.qm</file>
         <file>View/InactiveDiagramTab.qml</file>
-        <file>View/DeviceTab.qml</file>
         <file>View/DetailDataTab.qml</file>
         <file>View/ActiveDiagramTab.qml</file>
         <file>View/SettingsDialog.qml</file>

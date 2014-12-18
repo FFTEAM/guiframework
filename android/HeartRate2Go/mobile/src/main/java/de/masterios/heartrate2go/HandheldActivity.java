@@ -1,13 +1,10 @@
 package de.masterios.heartrate2go;
 
 import android.app.Activity;
-import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,13 +17,26 @@ import com.jjoe64.graphview.CustomLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphViewSeries;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+import de.masterios.heartrate2go.common.HeartRateDataManager;
+
 public class HandheldActivity extends Activity {
+
+    NetworkBroadcast mNetworkBroadcast;
+    HeartRateDataManager mHeartRateDatamanager;
 
     TextView mTextViewCaption;
     FrameLayout mFrameLayout;
     TextView mTextViewCenter;
 
     GraphView mGraphView;
+
+    SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,16 +60,39 @@ public class HandheldActivity extends Activity {
 
         // refresh preferences on wearable
         SettingsActivity.syncSettingsToWearable(this);
+        mHeartRateDatamanager = HeartRateDataManager.getInstance();
+
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        mNetworkBroadcast = new NetworkBroadcast(this);
+        mNetworkBroadcast.setBroadcastFinishedListener(new NetworkBroadcast.BroadcastFinishedListener() {
+            @Override
+            public void onBroadcastFinished(final InetAddress from, String answer) {
+                if(null != from && null != answer) {
+
+                    // TODO checkAnswer
+
+                    Socket socket = null;
+                    try {
+                        socket = new Socket(from.toString(), 1234);
+                        OutputStream out = socket.getOutputStream();
+                        mHeartRateDatamanager.writeDataToOutputStream(out);
+                        socket.close();
+                    } catch (UnknownHostException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        String csvdata = DataLayerListenerService.getCurrentCsvData();
-        String heartrates = getOnlyHeartRates(csvdata);
-        addCsvDataToGraph(heartrates);
-
-        refreshScreen(!heartrates.equals(""));
+        addDataToGraph();
+        refreshScreen();
     }
 
     @Override
@@ -67,7 +100,9 @@ public class HandheldActivity extends Activity {
         super.onPause();
     }
 
-    private void refreshScreen(boolean isDataAvailable) {
+    private void refreshScreen() {
+        boolean isDataAvailable = mHeartRateDatamanager.getSize() > 0;
+
         if(isDataAvailable) {
             mGraphView.setVisibility(View.VISIBLE);
             mTextViewCaption.setVisibility(View.VISIBLE);
@@ -99,34 +134,14 @@ public class HandheldActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    private String getOnlyHeartRates(String data) {
-        StringBuilder sb = new StringBuilder();
-
-        if(null != data) {
-            String[] lines = data.split("\n");
-            for (int i = 0; i < lines.length; i++) {
-                String[] content = lines[i].split(";");
-                if (3 == content.length && !content[1].equals("0") && !content[1].equals("")) {
-                    sb.append(content[1]);
-                    if (i != lines.length - 1) {
-                        sb.append(";");
-                    }
-                }
-            }
-        }
-
-        return sb.toString();
-    }
-
-    private void addCsvDataToGraph(String data) {
-        if(null != data && !data.equals("")) {
-            String[] values = data.split(";");
-
-            GraphView.GraphViewData[] graphViewDataSets = new GraphView.GraphViewData[values.length];
-            for (int i = 0; i < values.length; i++) {
+    private void addDataToGraph() {
+        int size = mHeartRateDatamanager.getSize();
+        if(size > 0) {
+            GraphView.GraphViewData[] graphViewDataSets = new GraphView.GraphViewData[size];
+            for (int i = 0; i < size; i++) {
+                double heartrate = (double) mHeartRateDatamanager.getHeartRateAt(i);
                 try {
-                    graphViewDataSets[i] = new GraphView.GraphViewData(i, Double.parseDouble(values[i]));
+                    graphViewDataSets[i] = new GraphView.GraphViewData(i, heartrate);
                 } catch(NumberFormatException e) {
                     e.printStackTrace();
                 }
@@ -141,5 +156,36 @@ public class HandheldActivity extends Activity {
 
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    public void onButtonTestClick(View view) {
+        mHeartRateDatamanager.createRandomTestData();
+        addDataToGraph();
+        refreshScreen();
+
+        final String ip = mSharedPreferences.getString("preference_static_ip", "");
+
+        if(ip.equals("")) {
+            showToast("send broadcast and data");
+            mNetworkBroadcast.sendBroadcastAsync();
+        } else {
+            showToast("send data to " + ip);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Socket socket = null;
+                    try {
+                        socket = new Socket(ip, 1234);
+                        OutputStream out = socket.getOutputStream();
+                        mHeartRateDatamanager.writeDataToOutputStream(out);
+                        socket.close();
+                    } catch (UnknownHostException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        }
     }
 }

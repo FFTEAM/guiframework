@@ -8,6 +8,7 @@ class TcpServer : public QTcpServer
     Q_OBJECT
 public:
     explicit TcpServer(QObject* aParent = 0);
+    virtual ~TcpServer();
     void startServer();
 
 signals:

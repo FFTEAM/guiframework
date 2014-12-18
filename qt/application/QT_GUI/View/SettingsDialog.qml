@@ -49,6 +49,40 @@ Dialog {
             }
         }
 
+        GroupBox {
+            id: grpOthers
+
+            anchors.top: grpDevices.bottom
+            anchors.topMargin: 5
+            anchors.left: parent.left
+            anchors.leftMargin: 5
+            anchors.rightMargin: 5
+            anchors.bottomMargin: 5
+
+            width: parent.width - 10
+            title: qsTr("Miscellaneous:")
+
+            Text {
+                id: lblDateTimeFormat
+                text: qsTr("Date-Time Mode:")
+            }
+
+            ComboBox {
+                anchors.left: lblDateTimeFormat.right
+                anchors.leftMargin: 5
+                currentIndex: 0
+                model: ListModel {
+                    id: cbItems
+                    ListElement { text: "DD-MM-YYYY HH:MM:SS"; }
+                    ListElement { text: "DD.MM.YYYY HH:MM:SS"; }
+                    ListElement { text: "DD MONTH YYYY HH:MM:SS"; }
+                    ListElement { text: "MM-DD-YYYY HH:MM:SS"; }
+                }
+                width: 200
+                onCurrentIndexChanged: console.debug(cbItems.get(currentIndex).text + ", " + currentIndex)
+            }
+        }
+
         Button {
             id: closeButton
             anchors.bottom: parent.bottom;

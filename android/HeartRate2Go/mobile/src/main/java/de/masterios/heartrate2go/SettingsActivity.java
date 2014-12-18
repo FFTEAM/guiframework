@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -16,6 +17,7 @@ import com.google.android.gms.wearable.Wearable;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
 
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -42,6 +44,20 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if(key.equals("preference_static_ip")) {
+            String ipPattern = "\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}\n" +
+                    "  (?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b";
+
+            String value = sharedPreferences.getString(key, "");
+            if(!value.matches(ipPattern)) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(key, "");
+                editor.apply();
+                recreate();
+                Toast.makeText(this, getString(R.string.ip_not_valid), Toast.LENGTH_SHORT).show();
+            }
+        }
+
         syncSettingsToWearable(getBaseContext());
     }
 
@@ -66,14 +82,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                     dataMap.putString(entry.getKey(), entry.getValue().toString());
                 }
                 PutDataRequest request = dataMapRequest.asPutDataRequest();
-                DataApi.DataItemResult result =
-                        Wearable.DataApi.putDataItem(googleApiClient, request).await();
-
-                if(result.getStatus().isSuccess()) {
-                    System.out.println("Settings synced.");
-                } else {
-                    System.out.println("Settings not synced.");
-                }
+                Wearable.DataApi.putDataItem(googleApiClient, request).await();
 
                 googleApiClient.disconnect();
             }
