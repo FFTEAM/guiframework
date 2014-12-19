@@ -1,9 +1,8 @@
 #include "activesensorcalcmodel.h"
 
-ActiveSensorCalcModel &ActiveSensorCalcModel::getInstance()
+ActiveSensorCalcModel::ActiveSensorCalcModel(SensorModel& aModel): SensorCalcModel(aModel,0)
 {
-    static ActiveSensorCalcModel instance;
-    return instance;
+    updateCalcValues(m_Model);
 }
 
 QVariant ActiveSensorCalcModel::data(const QModelIndex& aIndex, int aRole) const
@@ -56,9 +55,4 @@ QHash<int, QByteArray> ActiveSensorCalcModel::roleNames() const
     roles[ACTIVE_SENSOR_CALC_DESCRIPTION_ROLE]    = "activeCalcDescription";
 
     return roles;
-}
-
-ActiveSensorCalcModel::ActiveSensorCalcModel()
-{
-    updateCalcValues(ActiveSensorModel::getInstance());
 }

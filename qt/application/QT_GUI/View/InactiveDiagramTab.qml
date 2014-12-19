@@ -74,13 +74,7 @@ Rectangle {
                     width: parent.width / 4 * 3
                     height: parent.height
                     currentIndex: 0
-                    model: ListModel {
-                        id: cbItems
-                        ListElement { text: "2014" }
-                        ListElement { text: "2013" }
-                        ListElement { text: "2012" }
-                        ListElement { text: "2011" }
-                    }
+                    model: inactiveSelectionYearModel
                 }
 
             }
@@ -173,8 +167,8 @@ Rectangle {
                           }
 
                           Text {
-                              text: inactiveCalcValue
-                              anchors.verticalCenter: parent.verticalCenter
+                             text: inactiveCalcValue
+                             anchors.verticalCenter: parent.verticalCenter
                               width: (parent.width - 10)/2
                           }
                      }
@@ -269,14 +263,14 @@ Rectangle {
 
                 TableViewColumn
                 {
-                    role: "inactiveDate";
+                    role: "date";
                     title: qsTr("Date");
                     width: inactiveTableId.width/3 * 2
                 }
 
                 TableViewColumn
                 {
-                    role: "inactiveHeartRate";
+                    role: "heartRate";
                     title: qsTr("HeartRate");
                    width: inactiveTableId.width/3
                 }

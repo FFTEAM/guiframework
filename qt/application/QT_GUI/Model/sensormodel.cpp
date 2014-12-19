@@ -47,10 +47,10 @@ void SensorModel::addSensorData(const SensorData* aSensorData)
     endInsertRows();
 }
 
-void SensorModel::setNewSensorModel(const QList<const SensorData*>& aSensorModel)
+void SensorModel::setNewSensorModel(QList<const SensorData*>& aSensorModel)
 {
     beginResetModel();
-    cleanList();
+    //cleanList();
     m_sensorList = aSensorModel;
     endResetModel();
 }
@@ -71,4 +71,38 @@ const SensorData* SensorModel::getSingleSensorData(const int aIndex) const
         qDebug() << "Invalid Index";
         return 0;
     }
+}
+
+QVariant SensorModel::data(const QModelIndex &aIndex, int aRole) const
+{
+    if (aIndex.row() < 0 || aIndex.row() >= m_sensorList.count()) return QVariant();
+    const SensorData* sensorData = m_sensorList[aIndex.row()];
+
+    switch(aRole)
+    {
+        case SENSOR_HEART_RATE_ROLE:    return sensorData->getHeartRate(); break;
+
+        case SENSOR_DATE_ROLE:          return sensorData->getDate(); break;
+
+        case SENSOR_STEP_LENGTH_ROLE:   return sensorData->getStepLength(); break;
+
+        default:                        return QVariant();
+    }
+}
+
+int SensorModel::rowCount(const QModelIndex &aParent) const
+{
+    Q_UNUSED(aParent);
+    return m_sensorList.count();
+}
+
+QHash<int, QByteArray> SensorModel::roleNames() const
+{
+    QHash<int, QByteArray> roles;
+
+    roles[SENSOR_HEART_RATE_ROLE]   = "heartRate";
+    roles[SENSOR_DATE_ROLE]         = "date";
+    roles[SENSOR_STEP_LENGTH_ROLE]  = "stepLength";
+
+    return roles;
 }

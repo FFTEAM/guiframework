@@ -21,7 +21,7 @@ Settings::operator bool() const
 
 Settings::Settings() :
     mSettings(),
-    mDirectory(QFileInfo(mSettings.fileName()).path()),
+    mDirectory(QDir::homePath() + "/HeartRate"),
     mIsValid(false),
     mDataTimeFormat("DD.MM.YYYY HH:MM:SS"),
     mDataDirectory(mDirectory.path())

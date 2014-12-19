@@ -95,26 +95,26 @@ void CustomPlotBarChart::updateDataAndGUI()
 
 void CustomPlotBarChart::calculateData()
 {
-    qDebug() << "calculateData called";
-    if(m_xAxis.size() > 0) m_xAxis.clear();
-    if(m_yAxis.size() > 0) m_yAxis.clear();
+//    qDebug() << "calculateData called";
+//    if(m_xAxis.size() > 0) m_xAxis.clear();
+//    if(m_yAxis.size() > 0) m_yAxis.clear();
 
-    const InactiveSensorModel& model = InactiveSensorModel::getInstance();
-    const int length = model.getSensorModelCount();
-    double time = 1.0;
+//    const InactiveSensorModel& model = InactiveSensorModel::getInstance();
+//    const int length = model.getSensorModelCount();
+//    double time = 1.0;
 
-    for(int index = 0; index < length; index++)
-    {
-        m_xAxis.append(time);
-        const SensorData* data = model.getSingleSensorData(index);
-        if(data != 0)
-        {
-            m_yAxis.append(data->getHeartRate());
-            time = time + 1;
-        }
-        else
-        {
-            qDebug() << "y axis value not found";
-        }
-    }
+//    for(int index = 0; index < length; index++)
+//    {
+//        m_xAxis.append(time);
+//        const SensorData* data = model.getSingleSensorData(index);
+//        if(data != 0)
+//        {
+//            m_yAxis.append(data->getHeartRate());
+//            time = time + 1;
+//        }
+//        else
+//        {
+//            qDebug() << "y axis value not found";
+//        }
+//    }
 }

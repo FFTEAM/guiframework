@@ -25,6 +25,7 @@ class DataReceiver : public QObject
     enum STATEMACHINE {
         MODE_STATE,
         MOOD_STATE,
+        AVGR_STATE,
         DATA_STATE,
         FINAL_STATE
     };
@@ -32,6 +33,7 @@ class DataReceiver : public QObject
     enum DataTypes {
         MODE = 0x00,
         MOOD = 0x01,
+        AVGR = 0x02,
         DATA = 0xff
     };
 
@@ -51,7 +53,6 @@ class DataReceiver : public QObject
         qint16 heartrate;
         qint16 steps;
     };
-
 
 signals:
     void updateGuiForActivity(QList<const SensorData*>&);

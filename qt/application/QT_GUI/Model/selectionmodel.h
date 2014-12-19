@@ -1,25 +1,27 @@
-#ifndef ACTIVESENSORMODEL_H
-#define ACTIVESENSORMODEL_H
+#ifndef SELECTIONMODEL_H
+#define SELECTIONMODEL_H
 
-#include "Model/sensormodel.h"
+#include <QAbstractListModel>
+#include <QDebug>
 
-class ActiveSensorModel: public SensorModel
+class SelectionModel: public QAbstractListModel
 {
     public:
 
-        static ActiveSensorModel& getInstance();
+        /**
+         * @brief SelectionModel Constructor
+         */
+        explicit SelectionModel(QObject* aParent = 0);
 
         /**
-         * @brief The SensorRoles enum
+         * @brief The SelectionRoles enum
          *
          * In diesem enum werden die Rollen definiert, welche später für die Kommunikation mit
          * der View verwendet werden.
          */
-        enum SensorRoles
+        enum SelectionRoles
         {
-            ACTIVE_SENSOR_DATE_ROLE,            /**< Zeitstempel für die Herzfrequenz während der Belastung */
-            ACTIVE_SENSOR_HEART_RATE_ROLE,      /**< Herzfrequenz während der Belastung */
-            ACTIVE_SENSOR_STEP_LENGTH           /**< Schrittlänge während der Belastung */
+            SELECTION_VALUE_ROLE,            /**< Aktueller Wert für die Auswahl */
         };
 
         /**
@@ -37,6 +39,12 @@ class ActiveSensorModel: public SensorModel
          */
         int rowCount(const QModelIndex & aParent = QModelIndex()) const;
 
+        /**
+         * @brief NewSelectionModel Fügt eine neue Menge an Datenobjekten dem Model hinzu
+         * @param aSelectionModel Liste mit neuen Datenobjekten
+         */
+        void setNewSelectionModel(QList<QString>& aSelectionModel);
+
     protected:
 
         /**
@@ -49,7 +57,8 @@ class ActiveSensorModel: public SensorModel
 
     private:
 
-        ActiveSensorModel();
+        QList<QString> m_dataList;
+
 };
 
-#endif // ACTIVESENSORMODEL_H
+#endif // SELECTIONMODEL_H

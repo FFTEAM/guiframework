@@ -6,8 +6,11 @@ ImportExport::ImportExport(QObject *parent) :
     mDataBase(QSqlDatabase::addDatabase("QSQLITE"))
 {
     mDataBase.setDatabaseName(Settings::getInstance().mDataDirectory + "/pastMeasurements.db3");
+    qDebug() << mDataBase.databaseName();
     mDataBase.open();
 }
+
+
 
 ImportExport::~ImportExport()
 {
