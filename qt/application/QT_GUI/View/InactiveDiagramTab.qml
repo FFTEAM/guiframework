@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
+import QtQuick.Layouts 1.1
 import CostumPlot 1.0
 import "."
 
@@ -35,90 +36,174 @@ Rectangle {
 
         anchors.top: parent.top;
         anchors.left: parent.left;
-        anchors.topMargin: 3
+        anchors.topMargin: 7
 
         width: parent.width
-        height: parent.height / 3 - 15
+        height: parent.height / 4 - 15
 
-        ComboBox {
-            id: cmbSelectMeasuremode
-            width: 200
-            height: 20
+        ColumnLayout {
 
-            /*style: ComboBoxStyle {
-                    background: Rectangle {
-                    width: cmbSelectMeasuremode.width
-                    height: 30
-                    color: "red"
-                }
-            }*/
-
-            anchors.leftMargin: 5
-            currentIndex: 0
-            model: ListModel {
-                id: cbItems
-                ListElement { text: "Activity" }
-                ListElement { text: "Rest" }
-            }
-
-            //onCurrentIndexChanged: console.debug(cbItems.get(currentIndex).text + ", " + currentIndex)
-        }
-
-        GroupBox {
-            id: grpPastMeasurements
-            title: qsTr("Recent and past measurements:")
+            id: column1
             anchors.left: parent.left
-            anchors.top: cmbSelectMeasuremode.bottom
-            anchors.topMargin: 5
-            height: parent.height - cmbSelectMeasuremode.height - anchors.topMargin
-            width: parent.width
+            height: parent.height
+            width: parent.width / 2 - 10
 
-            TableView {
-                anchors.left: parent.left
-                anchors.top: parent.top
+            Row {
+
+                id: yearRowId
+                anchors.horizontalCenter: parent.horizontalCenter
                 anchors.leftMargin: 5
-                anchors.topMargin: 5
+                anchors.rightMargin: 5
+                height: parent.height / 3 - 15
+                anchors.top: parent.top
+                anchors.topMargin: 20
+                width: parent.width - 250
 
-                width: parent.width - 10;
-                height: parent.height - anchors.leftMargin - anchors.topMargin;
+                Label{
 
-                Component {
-                    id: checkBoxDelegate
+                    id: yearLabelId
+                    height: parent.height
+                    width: parent.width / 4
+                    text: qsTr("Year")
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                }
 
-                    Item {
-                        CheckBox {
-                            id: cbCheckBox
-                            anchors.fill: parent
-                            checked: styleData.value
-                        }
+                ComboBox {
+                    id: cmbSelectMeasuremode
+                    width: parent.width / 4 * 3
+                    height: parent.height
+                    currentIndex: 0
+                    model: ListModel {
+                        id: cbItems
+                        ListElement { text: "2014" }
+                        ListElement { text: "2013" }
+                        ListElement { text: "2012" }
+                        ListElement { text: "2011" }
                     }
                 }
 
-                TableViewColumn
-                {
-                    title: qsTr("");
-                    role: "isSelected"
-                    delegate: checkBoxDelegate
+            }
+
+            Row {
+
+                id: monthRowId
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.leftMargin: 5
+                anchors.rightMargin: 5
+                height: parent.height / 3 - 15
+                anchors.top: yearRowId.bottom
+                anchors.topMargin: 10
+                width: parent.width - 250
+
+                Label{
+
+                    height: parent.height
+                    width: parent.width / 4
+                    text: qsTr("Month")
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
                 }
 
-                TableViewColumn
-                {
-                    title: qsTr("Date");
-                    role: "measurementData"
+                ComboBox {
+                    id: cmbSelectMeasuremode1
+                    width: parent.width / 4 * 3
+                    height: parent.height
+                    currentIndex: 0
+                    model: ListModel {
+                        id: cbItems1
+                        ListElement { text: "Januar" }
+                        ListElement { text: "März" }
+                        ListElement { text: "Oktober" }
+                        ListElement { text: "November" }
+                    }
                 }
 
-                TableViewColumn
-                {
-                    title: qsTr("Time");
-                    role: "measurementTime"
+            }
+
+            Row {
+
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.leftMargin: 5
+                anchors.rightMargin: 5
+                height: parent.height / 3 - 15
+                anchors.top: monthRowId.bottom
+                anchors.topMargin: 10
+                width: parent.width - 250
+
+                Label{
+
+                    height: parent.height
+                    width: parent.width / 4
+                    text: qsTr("Week")
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
                 }
 
-                TableViewColumn
-                {
-                    title: qsTr("Duration");
-                    role: "measurementDuration"
+                ComboBox {
+                    id: cmbSelectMeasuremode2
+                    width: parent.width / 4 * 3
+                    height: parent.height
+                    currentIndex: 0
+                    model: ListModel {
+                        id: cbItems2
+                        ListElement { text: "1" }
+                        ListElement { text: "2" }
+                        ListElement { text: "3" }
+                        ListElement { text: "4" }
+                    }
                 }
             }
+        }
+
+        Component {
+
+                 id: inactiveListDelegate
+                 Item {
+                     width: parent.width - 10
+                     height: 40
+                     Row {
+                          spacing: 2
+                          width: parent.width - 10
+
+                          Text {
+                              text: inactiveCalcDescription
+                              anchors.verticalCenter: parent.verticalCenter
+                              width: (parent.width - 10)/2
+                          }
+
+                          Text {
+                              text: inactiveCalcValue
+                              anchors.verticalCenter: parent.verticalCenter
+                              width: (parent.width - 10)/2
+                          }
+                     }
+                 }
+        }
+
+        GroupBox {
+            id: groupBox1
+
+            anchors.right: parent.right
+
+            height: parent.height
+            width: parent.width / 2 - 10
+
+            title: qsTr("Inactive Heartrate Details")
+
+            ListView {
+                        id: listView1
+
+                        height: parent.height
+                        width: parent.width
+
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+
+                        model: inactiveSensorCalcModel
+                        interactive: false
+                        delegate: inactiveListDelegate
+           }
         }
     }
 
@@ -130,7 +215,7 @@ Rectangle {
         anchors.left: parent.left;
 
         width: parent.width
-        height: parent.height / 3 * 2
+        height: parent.height / 4 * 3
 
         anchors.bottomMargin: 5
 
