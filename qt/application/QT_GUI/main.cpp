@@ -34,6 +34,7 @@
 #include "Connection/BroadcastReceiver.h"
 #include "Connection/TcpServer.h"
 #include "Settings/Settings.h"
+#include "ImportExport/ImportExport.h"
 
 /**
  * @brief main  Main-Methode erzeugt Applikation und offenet die View
@@ -52,6 +53,12 @@ int main(int argc, char *argv[])
         qDebug("FATAL error while instanciating Settings!!");
         return 1;
     }
+    /******************************************
+    * instanciate dataStorage
+    * has to be referenced to the controller
+    * which need the data
+    *******************************************/
+    ImportExport dataStore;
 
     QApplication app(argc, argv);
 

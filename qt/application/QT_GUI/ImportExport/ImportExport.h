@@ -16,6 +16,8 @@ class ImportExport final : public QObject
 public:
     explicit ImportExport(QObject *parent = 0);
     virtual ~ImportExport();
+
+    QStringList getMeasureValues();
 };
 
 #endif // IMPORTEXPORT_H

@@ -46,8 +46,9 @@ void BroadcastReceiver::readyRead()
 
         if (test.compare(blaa) == 0)
         {
-            qDebug() << " got magic packet from " << address.toString() << ":" << port;
-            mSocket->writeDatagram(datagram, datagram.size(), address, port);
+            qDebug() << " got magic broadcast packet from " << address.toString() << ":" << port;
+            sleep(1);
+            mSocket->writeDatagram(datagram, datagram.size(), address, 45455);
         }
     }
 }

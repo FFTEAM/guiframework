@@ -71,11 +71,31 @@ bool DataReceiver::validateData(const quint8* aData, const quint64 aLen)
                     mood = aData[pos+1];
                     pos += 2;
                     // switch to next state:
-                    state = DATA_STATE;
+                    state = AVGR_STATE;
                 }
                 else
                 {
                     qFatal("unexpected data packet MOOD in state" + state);
+                    return false;
+                }
+            break;
+
+            case AVGR:
+                // expect that we are in MOOD_STATE
+                if (AVGR_STATE == state)
+                {
+                    qDebug("AVGR data packet found");
+                    pos++;
+                    quint16 averageRate;
+                    memcpy(&averageRate, aData+pos, 2); pos += 2;
+                    averageRate = qFromBigEndian(averageRate);
+
+                    // switch to next state:
+                    state = DATA_STATE;
+                }
+                else
+                {
+                    qFatal("unexpected data packet AVGR in state" + state);
                     return false;
                 }
             break;

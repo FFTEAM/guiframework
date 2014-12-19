@@ -21,14 +21,14 @@ Settings::operator bool() const
 
 Settings::Settings() :
     mSettings(),
-    mDirectory(QFileInfo(mSettings.fileName()).path()),
+    mDirectory(QDir::homePath() + "/HeartRate"),
     mIsValid(false),
     mDataTimeFormat("DD.MM.YYYY HH:MM:SS"),
     mDataDirectory(mDirectory.path())
 {
     qDebug() << mDirectory.path();
 
-    /*if (!mDirectory.exists())
+    if (!mDirectory.exists())
     {
         if(mDirectory.mkpath(mDataDirectory))
         {
@@ -38,6 +38,5 @@ Settings::Settings() :
     else
     {
         mIsValid = true;
-    }*/
-    mIsValid = true;
+    }
 }
