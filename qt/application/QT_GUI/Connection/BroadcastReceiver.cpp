@@ -9,9 +9,7 @@ BroadcastReceiver::BroadcastReceiver(QObject* aParent) :
 
 BroadcastReceiver::~BroadcastReceiver()
 {
-    mSocket->close();
-    delete mSocket;
-    mSocket = 0;
+    mSocket->deleteLater();
 }
 
 void BroadcastReceiver::run()

@@ -17,6 +17,11 @@
         android:id="@+id/text_view_caption" />
 
 
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
