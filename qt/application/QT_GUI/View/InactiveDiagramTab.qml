@@ -44,7 +44,7 @@ Rectangle {
         ColumnLayout {
 
             id: column1
-            anchors.left: parent.left
+            anchors.right: parent.right
             height: parent.height
             width: parent.width / 2 - 10
 
@@ -161,7 +161,7 @@ Rectangle {
                  id: inactiveListDelegate
                  Item {
                      width: parent.width - 10
-                     height: 40
+                     height: listView1.height/listView1.count
                      Row {
                           spacing: 2
                           width: parent.width - 10
@@ -184,7 +184,7 @@ Rectangle {
         GroupBox {
             id: groupBox1
 
-            anchors.right: parent.right
+            anchors.left: parent.left
 
             height: parent.height
             width: parent.width / 2 - 10
@@ -254,6 +254,8 @@ Rectangle {
             width: parent.width / 2 - 10
 
             TableView {
+
+                id: inactiveTableId
                 anchors.left: parent.left
                 anchors.top: parent.top
 
@@ -269,14 +271,14 @@ Rectangle {
                 {
                     role: "inactiveDate";
                     title: qsTr("Date");
-                    width: 200
+                    width: inactiveTableId.width/3 * 2
                 }
 
                 TableViewColumn
                 {
                     role: "inactiveHeartRate";
                     title: qsTr("HeartRate");
-                    width: 100
+                   width: inactiveTableId.width/3
                 }
 
                 itemDelegate:
