@@ -93,15 +93,6 @@ ApplicationWindow
             source: "qrc:/View/ActiveDiagramTab.qml"
         }
 
-        Tab
-        {
-            id: detailDataTabID
-
-            objectName: "detailDataTabName"
-            title: qsTr("Detail Data")
-            source: "qrc:/View/DetailDataTab.qml"
-        }
-
         /*style: TabViewStyle {
             frameOverlap: 1
             tabsAlignment: Qt.AlignHCenter
