@@ -8,14 +8,14 @@ import com.google.android.gms.wearable.WearableListenerService;
 
 import java.net.InetAddress;
 
-import de.masterios.heartrate2go.common.HeartRateDataManager;
+import de.masterios.heartrate2go.common.HeartRateMeasure;
 
 public class DataLayerListenerService extends WearableListenerService {
 
     private static final String MESSAGE_RECEIVED_PATH = "/heartrate2go-message";
 
     NetworkBroadcast mNetworkBroadcast;
-    HeartRateDataManager mHeartRateDatamanager;
+    HeartRateMeasure mHeartRateDatamanager;
 
     public DataLayerListenerService() {
         mNetworkBroadcast = new NetworkBroadcast(this);
@@ -27,7 +27,7 @@ public class DataLayerListenerService extends WearableListenerService {
                 }
             }
         });
-        mHeartRateDatamanager = HeartRateDataManager.getInstance();
+        mHeartRateDatamanager = HeartRateMeasure.getInstance();
     }
 
     @Override

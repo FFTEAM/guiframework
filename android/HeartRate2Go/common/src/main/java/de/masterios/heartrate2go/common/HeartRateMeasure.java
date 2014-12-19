@@ -8,15 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class HeartRateDataManager {
+public class HeartRateMeasure {
 
-    private static HeartRateDataManager singleton;
+    //private static HeartRateMeasure singleton;
 
     private MeasureMode mMeasureMode;
     private MeasureMood mMeasureMood;
+    private float mAverageHeartRate;
     private List<HeartRateData> mHeartRateDataList;
 
-    private HeartRateDataManager() {
+    private HeartRateMeasure() {
         if(null == mHeartRateDataList) {
             mHeartRateDataList = new ArrayList<>();
         } else {
@@ -35,28 +36,48 @@ public class HeartRateDataManager {
         mMeasureMode = measureMode;
     }
 
-    public synchronized static HeartRateDataManager getInstance() {
+    public synchronized static HeartRateMeasure getInstance() {
+        /*
         if(null == singleton) {
-            singleton = new HeartRateDataManager();
+            singleton = new HeartRateMeasure();
         }
         return singleton;
+        */
+
+        return new HeartRateMeasure();
+    }
+
+    private void refreshAverageHeartRate() {
+        int sumOfHeartRates = 0;
+        int counter = 0;
+        for(HeartRateData heartRateData : mHeartRateDataList) {
+            int heartRate = heartRateData.getHeartRate();
+            if(0 != heartRate) {
+                sumOfHeartRates += heartRate;
+                counter++;
+            }
+        }
+        mAverageHeartRate = (float)sumOfHeartRates / (float) counter;
     }
 
     public synchronized void add(HeartRateData heartRateData) {
         if(!mHeartRateDataList.contains(heartRateData)) {
             mHeartRateDataList.add(heartRateData);
+            refreshAverageHeartRate();
         }
     }
 
     public synchronized void remove(HeartRateData heartRateData) {
         if(mHeartRateDataList.contains(heartRateData)) {
             mHeartRateDataList.remove(heartRateData);
+            refreshAverageHeartRate();
         }
     }
 
     public synchronized void clear() {
         if(mHeartRateDataList.size() > 0) {
             mHeartRateDataList.clear();
+            refreshAverageHeartRate();
         }
     }
 
@@ -65,11 +86,19 @@ public class HeartRateDataManager {
     }
 
     public synchronized int getHeartRateAt(int index) {
-        int heartrate = 0;
+        int heartRate = 0;
         if(index >= 0 && index < mHeartRateDataList.size()) {
-            heartrate =  mHeartRateDataList.get(index).getHeartRate();
+            heartRate =  mHeartRateDataList.get(index).getHeartRate();
         }
-        return heartrate;
+        return heartRate;
+    }
+
+    public synchronized long getStartTimeStampMs() {
+        long timeSpampMs = -1;
+        if(mHeartRateDataList.size() > 0) {
+            timeSpampMs = mHeartRateDataList.get(0).getTimeStampMs();
+        }
+        return timeSpampMs;
     }
 
     public synchronized String getDataAsString() {
@@ -78,6 +107,7 @@ public class HeartRateDataManager {
             // begin settings
             sb.append("measure_mode=" + mMeasureMode.toString() + ";");
             sb.append("measure_mood=" + mMeasureMood.toString());
+            sb.append("average_heart_rate=" + mAverageHeartRate);
             sb.append("\n");
             // end settings
             HeartRateData lastDataSet = mHeartRateDataList.get(mHeartRateDataList.size() - 1);
@@ -110,6 +140,8 @@ public class HeartRateDataManager {
                             try { mMeasureMode = MeasureMode.valueOf(value); } catch (IllegalArgumentException e) {}
                         } else if(key.equals("measure_mood")) {
                             try { mMeasureMood = MeasureMood.valueOf(value); } catch (IllegalArgumentException e) {}
+                        } else if(key.equals("average_heart_rate")) {
+                            try { mAverageHeartRate = Integer.parseInt(value); } catch (NumberFormatException e) {}
                         }
                     }
                 }
@@ -158,6 +190,9 @@ public class HeartRateDataManager {
                         break;
                 }
 
+                outputStream.write(ByteCodes.MEASURE_AVERAGE_HEART_RATE);
+                outputStream.write(ByteBuffer.allocate(2).putShort((short) mAverageHeartRate).array());
+
                 outputStream.write(ByteCodes.DATASET);
                 for (HeartRateData heartRateData : mHeartRateDataList) {
                     outputStream.write(ByteBuffer.allocate(8).putLong(heartRateData.getTimeStampMs()).array());
@@ -173,18 +208,36 @@ public class HeartRateDataManager {
     }
 
     public void createRandomTestData() {
-        mMeasureMode = MeasureMode.ACTIVITY;
-        mMeasureMood = MeasureMood.BAD;
-        mHeartRateDataList.clear();
         long currentTime = System.currentTimeMillis();
         Random rdm = new Random(currentTime);
-        int amountOfDatasets = rdm.nextInt(100);
+
+        switch(rdm.nextInt(1)) {
+            case 0: mMeasureMode = MeasureMode.ACTIVITY; break;
+            case 1: mMeasureMode = MeasureMode.REST; break;
+        }
+
+        switch(rdm.nextInt(2)) {
+            case 0: mMeasureMood = MeasureMood.GOOD; break;
+            case 1: mMeasureMood = MeasureMood.AVERAGE; break;
+            case 2: mMeasureMood = MeasureMood.BAD; break;
+        }
+
+        mMeasureMode = MeasureMode.ACTIVITY;
+        mMeasureMood = MeasureMood.BAD;
+        clear();
+
+
+        int amountOfDatasets = 1;
+        if(MeasureMode.ACTIVITY == mMeasureMode) {
+            amountOfDatasets += rdm.nextInt(99);
+        }
+
         int steps = 0;
         for(int i=0; i < amountOfDatasets; i++) {
             long time = currentTime+i*3000;
             int heartrate = rdm.nextInt(150);
             steps += rdm.nextInt(10);
-            mHeartRateDataList.add(new HeartRateData(time, heartrate, steps));
+            add(new HeartRateData(time, heartrate, steps));
         }
     }
 }

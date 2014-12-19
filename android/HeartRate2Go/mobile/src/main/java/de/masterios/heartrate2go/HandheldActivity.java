@@ -8,7 +8,10 @@ import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,12 +26,12 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import de.masterios.heartrate2go.common.HeartRateDataManager;
+import de.masterios.heartrate2go.common.HeartRateMeasure;
 
-public class HandheldActivity extends Activity {
+public class HandheldActivity extends Activity implements AdapterView.OnItemSelectedListener {
 
     NetworkBroadcast mNetworkBroadcast;
-    HeartRateDataManager mHeartRateDatamanager;
+    HeartRateMeasure mHeartRateMeasure;
 
     TextView mTextViewCaption;
     FrameLayout mFrameLayout;
@@ -60,7 +63,7 @@ public class HandheldActivity extends Activity {
 
         // refresh preferences on wearable
         SettingsActivity.syncSettingsToWearable(this);
-        mHeartRateDatamanager = HeartRateDataManager.getInstance();
+        mHeartRateMeasure = HeartRateMeasure.getInstance();
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -76,7 +79,7 @@ public class HandheldActivity extends Activity {
                     try {
                         socket = new Socket(from.toString(), 1234);
                         OutputStream out = socket.getOutputStream();
-                        mHeartRateDatamanager.writeDataToOutputStream(out);
+                        mHeartRateMeasure.writeDataToOutputStream(out);
                         socket.close();
                     } catch (UnknownHostException e) {
                         e.printStackTrace();
@@ -101,7 +104,7 @@ public class HandheldActivity extends Activity {
     }
 
     private void refreshScreen() {
-        boolean isDataAvailable = mHeartRateDatamanager.getSize() > 0;
+        boolean isDataAvailable = mHeartRateMeasure.getSize() > 0;
 
         if(isDataAvailable) {
             mGraphView.setVisibility(View.VISIBLE);
@@ -135,11 +138,11 @@ public class HandheldActivity extends Activity {
     }
 
     private void addDataToGraph() {
-        int size = mHeartRateDatamanager.getSize();
+        int size = mHeartRateMeasure.getSize();
         if(size > 0) {
             GraphView.GraphViewData[] graphViewDataSets = new GraphView.GraphViewData[size];
             for (int i = 0; i < size; i++) {
-                double heartrate = (double) mHeartRateDatamanager.getHeartRateAt(i);
+                double heartrate = (double) mHeartRateMeasure.getHeartRateAt(i);
                 try {
                     graphViewDataSets[i] = new GraphView.GraphViewData(i, heartrate);
                 } catch(NumberFormatException e) {
@@ -159,7 +162,7 @@ public class HandheldActivity extends Activity {
     }
 
     public void onButtonTestClick(View view) {
-        mHeartRateDatamanager.createRandomTestData();
+        mHeartRateMeasure.createRandomTestData();
         addDataToGraph();
         refreshScreen();
 
@@ -177,7 +180,7 @@ public class HandheldActivity extends Activity {
                     try {
                         socket = new Socket(ip, 1234);
                         OutputStream out = socket.getOutputStream();
-                        mHeartRateDatamanager.writeDataToOutputStream(out);
+                        mHeartRateMeasure.writeDataToOutputStream(out);
                         socket.close();
                     } catch (UnknownHostException e) {
                         e.printStackTrace();
@@ -187,5 +190,15 @@ public class HandheldActivity extends Activity {
                 }
             }).start();
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

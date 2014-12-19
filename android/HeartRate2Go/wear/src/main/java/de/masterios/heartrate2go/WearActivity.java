@@ -16,7 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import de.masterios.heartrate2go.common.HeartRateData;
-import de.masterios.heartrate2go.common.HeartRateDataManager;
+import de.masterios.heartrate2go.common.HeartRateMeasure;
 import de.masterios.heartrate2go.common.MeasureMode;
 
 public class WearActivity extends Activity implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -64,7 +64,7 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
     private AnimationDrawable mHeartAnimation;
     private Vibrator mVibrator;
 
-    private HeartRateDataManager mHeartRateDataManager;
+    private HeartRateMeasure mHeartRateMeasure;
     private HeartRateDataSync mHeartRateDataSync;
 
     @Override
@@ -151,7 +151,7 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
                         if (State.STARTED == mCurrentState) {
                             HeartRateData heartRateData =
                                     new HeartRateData(System.currentTimeMillis(), heartRate, steps);
-                            mHeartRateDataManager.add(heartRateData);
+                            mHeartRateMeasure.add(heartRateData);
                         }
                     }
                 });
@@ -217,22 +217,22 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
                     }
                 });
 
-                if(null != mHeartRateDataSync && null != mHeartRateDataManager) {
-                    mHeartRateDataSync.sendMessageAsync(mHeartRateDataManager.getDataAsString());
+                if(null != mHeartRateDataSync && null != mHeartRateMeasure) {
+                    mHeartRateDataSync.sendMessageAsync(mHeartRateMeasure.getDataAsString());
                 }
             }
         });
     }
 
     private void initHeartRateDataManager() {
-        mHeartRateDataManager = HeartRateDataManager.getInstance();
+        mHeartRateMeasure = HeartRateMeasure.getInstance();
         mHeartRateDataSync = HeartRateDataSync.getInstance(getBaseContext());
         mHeartRateDataSync.setSentMessageListener(new HeartRateDataSync.SentMessageListener() {
             @Override
             public void onMessageSent(Boolean sent) {
                 if(sent) {
-                    if (null != mHeartRateDataManager) {
-                        mHeartRateDataManager.clear();
+                    if (null != mHeartRateMeasure) {
+                        mHeartRateMeasure.clear();
                     }
                 } else {
                     Intent intent = new Intent(WearActivity.this, DialogMobileNotFoundActivity.class);
@@ -255,7 +255,7 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
                 mImageButtonStop.setVisibility(View.VISIBLE);
                 break;
             case STARTED:
-                if(MeasureMode.REST == mHeartRateDataManager.getMeasureMode()) {
+                if(MeasureMode.REST == mHeartRateMeasure.getMeasureMode()) {
                     mImageButtonPlayPause.setVisibility(View.GONE);
                     mImageButtonStop.setVisibility(View.VISIBLE);
                 } else {
@@ -301,8 +301,8 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         refreshTextViewTime(INACTIVE);
         refreshActionButtons();
 
-        if(null != mHeartRateDataSync && null != mHeartRateDataManager) {
-            mHeartRateDataSync.sendMessageAsync(mHeartRateDataManager.getDataAsString());
+        if(null != mHeartRateDataSync && null != mHeartRateMeasure) {
+            mHeartRateDataSync.sendMessageAsync(mHeartRateMeasure.getDataAsString());
         }
 
         refreshActionButtons();
@@ -314,7 +314,7 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
 
         if (null != mSensorLogger) mSensorLogger.start();
 
-        switch(mHeartRateDataManager.getMeasureMode()) {
+        switch(mHeartRateMeasure.getMeasureMode()) {
             case ACTIVITY:
                 if (null != mRunningTimer) mRunningTimer.start();
                 break;
@@ -338,7 +338,7 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
 
         if (null != mSensorLogger) mSensorLogger.stop();
 
-        switch(mHeartRateDataManager.getMeasureMode()) {
+        switch(mHeartRateMeasure.getMeasureMode()) {
             case ACTIVITY:
                 if (null != mRunningTimer) mRunningTimer.stop();
                 break;
@@ -357,10 +357,10 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
                 int result = data.getExtras().getInt(DialogModeActivity.ACTIVITY_RESULT);
                 switch(result) {
                     case DialogModeActivity.ACTIVITY:
-                        mHeartRateDataManager.setMeasureMode(MeasureMode.ACTIVITY);
+                        mHeartRateMeasure.setMeasureMode(MeasureMode.ACTIVITY);
                         break;
                     case DialogModeActivity.REST:
-                        mHeartRateDataManager.setMeasureMode(MeasureMode.REST);
+                        mHeartRateMeasure.setMeasureMode(MeasureMode.REST);
                         break;
                 }
                 startLogging();
@@ -370,13 +370,13 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
 
                 switch(result) {
                     case DialogMobileNotFoundActivity.DISMISS:
-                        if (null != mHeartRateDataManager) {
-                            mHeartRateDataManager.clear();
+                        if (null != mHeartRateMeasure) {
+                            mHeartRateMeasure.clear();
                         }
                         break;
                     case DialogMobileNotFoundActivity.RETRY:
-                        if (null != mHeartRateDataSync && null != mHeartRateDataManager) {
-                            mHeartRateDataSync.sendMessageAsync(mHeartRateDataManager.getDataAsString());
+                        if (null != mHeartRateDataSync && null != mHeartRateMeasure) {
+                            mHeartRateDataSync.sendMessageAsync(mHeartRateMeasure.getDataAsString());
                         }
                         break;
                 }
@@ -401,7 +401,7 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
 
     private void refreshTextViewSteps(int steps) {
         if (null != mTextViewSteps && null != mTableRowSteps) {
-            if (State.STOPPED == mCurrentState || MeasureMode.REST == mHeartRateDataManager.getMeasureMode()) {
+            if (State.STOPPED == mCurrentState || MeasureMode.REST == mHeartRateMeasure.getMeasureMode()) {
                 mTableRowSteps.setVisibility(View.GONE);
             } else {
                 mTableRowSteps.setVisibility(View.VISIBLE);
