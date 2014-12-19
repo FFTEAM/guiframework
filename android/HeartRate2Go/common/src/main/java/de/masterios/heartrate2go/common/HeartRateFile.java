@@ -3,31 +3,72 @@ package de.masterios.heartrate2go.common;
 import android.content.Context;
 import android.text.format.DateFormat;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HeartRateFile {
 
     public static void saveMeasureToFile(Context context, HeartRateMeasure heartRateMeasure) {
-        String filename = (String)getFileName(heartRateMeasure);
+        String filename = getFileName(heartRateMeasure);
 
-        // TODO
+        try {
+            FileOutputStream outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
+            outputStream.write(heartRateMeasure.getDataAsString().getBytes());
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public static List<HeartRateMeasure> readMeasuresFromFiles(Context context) {
-        List<HeartRateMeasure> heartRateMeasures = new ArrayList<HeartRateMeasure>();
-
-        // TODO
-
-        return heartRateMeasures;
+    public static HeartRateMeasure openMeasureFromFile(Context context, String filename) {
+        HeartRateMeasure heartRateMeasure = null;
+        try {
+            FileInputStream inputStream = context.openFileInput(filename);
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                sb.append(line);
+            }
+            heartRateMeasure = HeartRateMeasure.getInstance();
+            heartRateMeasure.setDataFromString(sb.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return heartRateMeasure;
     }
 
-    public static void deleteFile(Context context, HeartRateMeasure heartRateMeasure) {
-        // TODO
+    public static List<String> getMeasureFileNames(Context context) {
+        List<String> measureFileNames = new ArrayList<String>();
+
+        String filePattern = "^\\d{4}-\\d{2}-\\d{2}_\\d{2}-\\d{2}.txt$";
+
+        File dir = context.getFilesDir();
+        if(dir.isDirectory()) {
+            File[] files = dir.listFiles();
+            for(File file : files) {
+                String filename = file.getName();
+                if(filename.matches(filePattern)) {
+                    measureFileNames.add(filename);
+                }
+            }
+        }
+
+        return measureFileNames;
     }
 
-    public static CharSequence getFileName(HeartRateMeasure heartRateMeasure) {
+    public static boolean deleteFile(Context context, String filename) {
+        return context.deleteFile(filename);
+    }
+
+    public static String getFileName(HeartRateMeasure heartRateMeasure) {
         long timeStampMs = heartRateMeasure.getStartTimeStampMs();
-        return DateFormat.format("yyyy-MM-dd_HH-mm", timeStampMs);
+        return (String) DateFormat.format("yyyy-MM-dd_HH-mm", timeStampMs);
     }
 }

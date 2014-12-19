@@ -3,6 +3,8 @@ package de.masterios.heartrate2go.common;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -163,69 +165,76 @@ public class HeartRateMeasure {
         }
     }
 
-    public synchronized void writeDataToOutputStream(OutputStream out) {
-        try {
-            DataOutputStream outputStream = new DataOutputStream(out);
-            if (mHeartRateDataList.size() > 0) {
-                outputStream.write(ByteCodes.MEASURE_MODE);
-                switch (mMeasureMode) {
-                    case ACTIVITY:
-                        outputStream.write(ByteCodes.MEASURE_MODE_ACTIVITY);
-                        break;
-                    case REST:
-                        outputStream.write(ByteCodes.MEASURE_MODE_REST);
-                        break;
-                }
+    public synchronized void sendDataAsync(final String ip, final int port) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Socket socket = new Socket(ip, port);
+                    OutputStream out = socket.getOutputStream();
+                    DataOutputStream outputStream = new DataOutputStream(out);
+                    if (mHeartRateDataList.size() > 0) {
+                        outputStream.write(ByteCodes.MEASURE_MODE);
+                        switch (mMeasureMode) {
+                            case ACTIVITY:
+                                outputStream.write(ByteCodes.MEASURE_MODE_ACTIVITY);
+                                break;
+                            case REST:
+                                outputStream.write(ByteCodes.MEASURE_MODE_REST);
+                                break;
+                        }
 
-                outputStream.write(ByteCodes.MEASURE_MOOD);
-                switch (mMeasureMood) {
-                    case GOOD:
-                        outputStream.write(ByteCodes.MEASURE_MOOD_GOOD);
-                        break;
-                    case AVERAGE:
-                        outputStream.write(ByteCodes.MEASURE_MOOD_AVERAGE);
-                        break;
-                    case BAD:
-                        outputStream.write(ByteCodes.MEASURE_MOOD_BAD);
-                        break;
-                }
+                        outputStream.write(ByteCodes.MEASURE_MOOD);
+                        switch (mMeasureMood) {
+                            case GOOD:
+                                outputStream.write(ByteCodes.MEASURE_MOOD_GOOD);
+                                break;
+                            case AVERAGE:
+                                outputStream.write(ByteCodes.MEASURE_MOOD_AVERAGE);
+                                break;
+                            case BAD:
+                                outputStream.write(ByteCodes.MEASURE_MOOD_BAD);
+                                break;
+                        }
 
-                outputStream.write(ByteCodes.MEASURE_AVERAGE_HEART_RATE);
-                outputStream.write(ByteBuffer.allocate(2).putShort((short) mAverageHeartRate).array());
+                        outputStream.write(ByteCodes.MEASURE_AVERAGE_HEART_RATE);
+                        outputStream.write(ByteBuffer.allocate(2).putShort((short) mAverageHeartRate).array());
 
-                outputStream.write(ByteCodes.DATASET);
-                for (HeartRateData heartRateData : mHeartRateDataList) {
-                    outputStream.write(ByteBuffer.allocate(8).putLong(heartRateData.getTimeStampMs()).array());
-                    outputStream.write(ByteBuffer.allocate(2).putShort((short) heartRateData.getHeartRate()).array());
-                    outputStream.write(ByteBuffer.allocate(2).putShort((short) heartRateData.getSteps()).array());
-                    outputStream.write(ByteCodes.DATASET);
+                        outputStream.write(ByteCodes.DATASET);
+                        for (HeartRateData heartRateData : mHeartRateDataList) {
+                            outputStream.write(ByteBuffer.allocate(8).putLong(heartRateData.getTimeStampMs()).array());
+                            outputStream.write(ByteBuffer.allocate(2).putShort((short) heartRateData.getHeartRate()).array());
+                            outputStream.write(ByteBuffer.allocate(2).putShort((short) heartRateData.getSteps()).array());
+                            outputStream.write(ByteCodes.DATASET);
+                        }
+                    }
+                    outputStream.close();
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        }).start();
     }
 
     public void createRandomTestData() {
         long currentTime = System.currentTimeMillis();
         Random rdm = new Random(currentTime);
 
-        switch(rdm.nextInt(1)) {
+        int mode = rdm.nextInt(2);
+        switch(mode) {
             case 0: mMeasureMode = MeasureMode.ACTIVITY; break;
             case 1: mMeasureMode = MeasureMode.REST; break;
         }
 
-        switch(rdm.nextInt(2)) {
+        int mood = rdm.nextInt(3);
+        switch(mood) {
             case 0: mMeasureMood = MeasureMood.GOOD; break;
             case 1: mMeasureMood = MeasureMood.AVERAGE; break;
             case 2: mMeasureMood = MeasureMood.BAD; break;
         }
 
-        mMeasureMode = MeasureMode.ACTIVITY;
-        mMeasureMood = MeasureMood.BAD;
         clear();
-
 
         int amountOfDatasets = 1;
         if(MeasureMode.ACTIVITY == mMeasureMode) {

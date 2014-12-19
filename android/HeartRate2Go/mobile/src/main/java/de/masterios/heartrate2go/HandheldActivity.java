@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -72,20 +73,8 @@ public class HandheldActivity extends Activity implements AdapterView.OnItemSele
             @Override
             public void onBroadcastFinished(final InetAddress from, String answer) {
                 if(null != from && null != answer) {
-
-                    // TODO checkAnswer
-
-                    Socket socket = null;
-                    try {
-                        socket = new Socket(from.toString(), 1234);
-                        OutputStream out = socket.getOutputStream();
-                        mHeartRateMeasure.writeDataToOutputStream(out);
-                        socket.close();
-                    } catch (UnknownHostException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    System.out.println("got answer " + answer + " from " + from.getHostAddress());
+                    mHeartRateMeasure.sendDataAsync(from.toString(), 1234);
                 }
             }
         });
@@ -162,6 +151,9 @@ public class HandheldActivity extends Activity implements AdapterView.OnItemSele
     }
 
     public void onButtonTestClick(View view) {
+        Button buttonTest = (Button) view;
+        buttonTest.setEnabled(false);
+
         mHeartRateMeasure.createRandomTestData();
         addDataToGraph();
         refreshScreen();
@@ -173,23 +165,9 @@ public class HandheldActivity extends Activity implements AdapterView.OnItemSele
             mNetworkBroadcast.sendBroadcastAsync();
         } else {
             showToast("send data to " + ip);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    Socket socket = null;
-                    try {
-                        socket = new Socket(ip, 1234);
-                        OutputStream out = socket.getOutputStream();
-                        mHeartRateMeasure.writeDataToOutputStream(out);
-                        socket.close();
-                    } catch (UnknownHostException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
+            mHeartRateMeasure.sendDataAsync(ip, 1234);
         }
+        buttonTest.setEnabled(true);
     }
 
     @Override

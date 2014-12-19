@@ -45,8 +45,8 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if(key.equals("preference_static_ip")) {
-            String ipPattern = "\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}\n" +
-                    "  (?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b";
+            String ipPattern = "\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}" +
+                    "(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b";
 
             String value = sharedPreferences.getString(key, "");
             if(!value.matches(ipPattern)) {

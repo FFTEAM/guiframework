@@ -50,29 +50,29 @@ public class NetworkBroadcast {
                 DatagramSocket socket = null;
                 String answer = null;
                 InetAddress from = null;
+                byte[] buf = new byte[1024];
+                DatagramPacket packet_inc = new DatagramPacket(buf, buf.length);
+
                 try {
                     socket = new DatagramSocket(LOCAL_PORT);
                     socket.setSoTimeout(TIMEOUT_MS);
                     socket.setReuseAddress(true);
 
                     InetAddress adr = getBroadcastAddress(); // TODO ?
-                    System.out.println(adr.toString());
+                    System.out.println(adr.getHostAddress());
                     socket.setBroadcast(true);
                     DatagramPacket packet_out =
                             new DatagramPacket(APPLICATION_IDENTIFIER.getBytes(), APPLICATION_IDENTIFIER.getBytes().length, adr, REMOTE_PORT);
                     socket.send(packet_out);
-
-                    byte[] buf = new byte[1024];
-                    DatagramPacket packet_inc = new DatagramPacket(buf, buf.length);
                     socket.receive(packet_inc);
 
                     answer = new String(packet_inc.getData());
                     from = packet_inc.getAddress();
 
                 } catch (SocketException e) {
-                    //e.printStackTrace();
+                    e.printStackTrace();
                 } catch (IOException e) {
-                    //e.printStackTrace();
+                    e.printStackTrace();
                 } finally {
                     if(null != socket) {
                         socket.close();
