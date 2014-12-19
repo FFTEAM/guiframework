@@ -19,12 +19,11 @@ SOURCES +=  main.cpp \
             Connection/TcpServer.cpp \
     Model/Data/calcsensordata.cpp \
     Model/activesensorcalcmodel.cpp \
-    Model/activesensormodel.cpp \
     Model/inactivesensorcalcmodel.cpp \
-    Model/inactivesensormodel.cpp \
     Model/sensorcalcmodel.cpp \
     ImportExport/ImportExport.cpp \
-    Settings/Settings.cpp
+    Settings/Settings.cpp \
+    Model/selectionmodel.cpp
 
 TRANSLATIONS = Language_Files/app_de_DE.ts \
 
@@ -47,10 +46,9 @@ HEADERS += \
     Model/sensorcalcmodel.h \
     Model/inactivesensorcalcmodel.h \
     Model/activesensorcalcmodel.h \
-    Model/inactivesensormodel.h \
-    Model/activesensormodel.h \
     ImportExport/ImportExport.h \
-    Settings/Settings.h
+    Settings/Settings.h \
+    Model/selectionmodel.h
 
 DESTPATH = .
 target.path = $$DESTPATH

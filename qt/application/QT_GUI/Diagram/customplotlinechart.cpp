@@ -21,6 +21,7 @@ CustomPlotLineChart::CustomPlotLineChart(QQuickItem* aParent):  QQuickPaintedIte
                                                                 m_yAxis(0),
                                                                 m_lineChart(0)
 {
+    qDebug() << "Constructor called";
     // add connection for resizing the chart:
     connect(this, &QQuickPaintedItem::widthChanged, this, &CustomPlotLineChart::updateCustomPlotSize);
     connect(this, &QQuickPaintedItem::heightChanged, this, &CustomPlotLineChart::updateCustomPlotSize);
@@ -95,22 +96,22 @@ void CustomPlotLineChart::calculateData()
     if(m_xAxis.size() != 0) m_xAxis.clear();
     if(m_yAxis.size() != 0) m_yAxis.clear();
 
-    const ActiveSensorModel& model = ActiveSensorModel::getInstance();
-    const int length = model.getSensorModelCount();
-    double time = 1.0;
+//    const ActiveSensorModel& model = ActiveSensorModel::getInstance();
+//    const int length = model.getSensorModelCount();
+//    double time = 1.0;
 
-    for(int index = 0; index < length; index++)
-    {
-        m_xAxis.append(time);
-        const SensorData* data = model.getSingleSensorData(index);
-        if(data != 0)
-        {
-            m_yAxis.append(data->getHeartRate());
-            time = time + 1;
-        }
-        else
-        {
-            qDebug() << "y axis value not found";
-        }
-    }
+//    for(int index = 0; index < length; index++)
+//    {
+//        m_xAxis.append(time);
+//        const SensorData* data = model.getSingleSensorData(index);
+//        if(data != 0)
+//        {
+//            m_yAxis.append(data->getHeartRate());
+//            time = time + 1;
+//        }
+//        else
+//        {
+//            qDebug() << "y axis value not found";
+//        }
+//    }
 }

@@ -20,8 +20,6 @@
 #include <QDebug>
 #include <QPrinter>
 #include <QPrintDialog>
-#include "Model/activesensormodel.h"
-#include "Model/inactivesensormodel.h"
 #include "Model/sensormodel.h"
 #include <QTextDocument>
 
@@ -38,7 +36,7 @@ class PrintButtonController : public QObject
          *
          * Der Konstruktor verbindet das Signal von dem GUI mit dem entsprechenden SLOT
          */
-        explicit PrintButtonController(QObject* aParent = 0);
+        PrintButtonController(QObject* aParent, SensorModel& aModelForInactiveData, SensorModel& aModelForActiveData);
 
     signals:
 
@@ -50,6 +48,16 @@ class PrintButtonController : public QObject
         void clickPrintButtonSlot();
 
     private:
+
+        /**
+         * @brief m_inactiveDatamodel hold the model with inactive Data
+         */
+        SensorModel& m_inactiveDatamodel;
+
+        /**
+         * @brief m_activeDataModel hold the model with active Data
+         */
+        SensorModel& m_activeDataModel;
 
         /**
          * @brief PrintButtonController Nicht in Verwendung (Definition fehlt)

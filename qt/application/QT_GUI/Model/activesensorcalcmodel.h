@@ -2,13 +2,15 @@
 #define ACTIVESENSORCALCMODEL_H
 
 #include "Model/sensorcalcmodel.h"
-#include "Model/activesensormodel.h"
 
 class ActiveSensorCalcModel: public SensorCalcModel
 {
     public:
 
-        static ActiveSensorCalcModel& getInstance();
+        /**
+         * @brief ActiveSensorCalcModel Konstruktor
+         */
+        ActiveSensorCalcModel(SensorModel& aModel);
 
         /**
          * @brief The SensorRoles enum
@@ -50,11 +52,6 @@ class ActiveSensorCalcModel: public SensorCalcModel
         QHash<int, QByteArray> roleNames() const;
 
     private:
-
-        /**
-         * @brief ActiveSensorCalcModel Konstruktor
-         */
-        ActiveSensorCalcModel();
 
         /**
          * @brief m_Duration Länge einer Belastungsmessung

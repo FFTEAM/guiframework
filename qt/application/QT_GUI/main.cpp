@@ -20,17 +20,24 @@
 #include <QTranslator>
 #include <QDebug>
 
+// include paths for data objects
 #include "Model/Data/sensordata.h"
+
+// include path for models
 #include "Model/sensormodel.h"
 #include "Model/activesensorcalcmodel.h"
-#include "Model/activesensormodel.h"
 #include "Model/inactivesensorcalcmodel.h"
-#include "Model/inactivesensormodel.h"
+#include "Model/selectionmodel.h"
+
+// include paths for contollers
 #include "Controler/printbuttoncontroller.h"
 #include "Controler/updatebuttoncontroller.h"
-#include "RessourceFilePaths.h"
+
+// inlcude path for diagrams on view
 #include "Diagram/customplotbarchart.h"
 #include "Diagram/customplotlinechart.h"
+
+#include "RessourceFilePaths.h"
 #include "Connection/BroadcastReceiver.h"
 #include "Connection/TcpServer.h"
 #include "Settings/Settings.h"
@@ -63,17 +70,43 @@ int main(int argc, char *argv[])
     // listen for incoming data connections:
     server.startServer();
 
+    // EXAMPLE DATA:
+    QList<const SensorData*> sensorDataI;
+
+    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 1)), 200, 5));
+    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 2)), 100, 3));
+    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 3)), 50, 3));
+
+    QList<const SensorData*> sensorDataA;
+    sensorDataA.append(new SensorData(QDateTime(QDate(2017, 1, 1), QTime(0, 0, 1)), 230, 5));
+    sensorDataA.append(new SensorData(QDateTime(QDate(2017, 1, 1), QTime(0, 0, 2)), 120, 10));
+    sensorDataA.append(new SensorData(QDateTime(QDate(2017, 1, 1), QTime(0, 0, 3)), 30, 3));
+
+    QList<QString> selectionYearData;
+    selectionYearData.append("2010");
+    selectionYearData.append("2011");
+    selectionYearData.append("2012");
+    selectionYearData.append("2013");
+    selectionYearData.append("2014");
+    selectionYearData.append("2015");
+
     // create sensorInactiveData Model
-    InactiveSensorModel* inactiveSensorModel = &InactiveSensorModel::getInstance();
+    SensorModel inactiveSensorModel;
+    inactiveSensorModel.setNewSensorModel(sensorDataI);
 
     // create sensorActiveModel
-    ActiveSensorModel* activeSensorModel = &ActiveSensorModel::getInstance();
+    SensorModel activeSensorModel;
+    activeSensorModel.setNewSensorModel(sensorDataA);
 
     // create inactiveCalcSensorModel
-    InactiveSensorCalcModel* inactiveCalcSensorModel = &InactiveSensorCalcModel::getInstance();
+    InactiveSensorCalcModel inactiveCalcSensorModel(inactiveSensorModel);
 
     // create activeCalcSensorModel
-    ActiveSensorCalcModel* activeCalcSensorModel = &ActiveSensorCalcModel::getInstance();
+    ActiveSensorCalcModel activeCalcSensorModel(activeSensorModel);
+
+    // create selectionValue models
+    SelectionModel inactiveYearModel;
+    inactiveYearModel.setNewSelectionModel(selectionYearData);
 
     qmlRegisterType<CustomPlotBarChart>("CostumPlot", 1, 0, "CustomPlotBarChart");
     qmlRegisterType<CustomPlotLineChart>("CostumPlot", 1, 0, "CustomPlotLineChart");
@@ -93,10 +126,11 @@ int main(int argc, char *argv[])
     if(contex)
     {
         // set Model to view
-        contex->setContextProperty("inactiveSensorDataModel", inactiveSensorModel);
-        contex->setContextProperty("activeSensorDataModel", activeSensorModel);
-        contex->setContextProperty("inactiveSensorCalcModel", inactiveCalcSensorModel);
-        contex->setContextProperty("activeSensorCalcModel", activeCalcSensorModel);
+        contex->setContextProperty("inactiveSensorDataModel", &inactiveSensorModel);
+        contex->setContextProperty("activeSensorDataModel", &activeSensorModel);
+        contex->setContextProperty("inactiveSensorCalcModel", &inactiveCalcSensorModel);
+        contex->setContextProperty("activeSensorCalcModel", &activeCalcSensorModel);
+        contex->setContextProperty("inactiveSelectionYearModel", &inactiveYearModel);
     }
     else qDebug() << "Error no contex is set";
 
@@ -121,7 +155,7 @@ int main(int argc, char *argv[])
     else qDebug() << "No root object available";
 
     // set controler
-    PrintButtonController printController(root);
+    PrintButtonController printController(root, inactiveSensorModel, activeSensorModel);
     UpdateButtonController updateController(root);
 
     int ret = app.exec();

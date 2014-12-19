@@ -1,7 +1,5 @@
 #include "DataReceiver.h"
-#include "Model/inactivesensormodel.h"
 #include "Model/inactivesensorcalcmodel.h"
-#include "Model/activesensormodel.h"
 #include "Model/activesensorcalcmodel.h"
 
 #include <QDebug>

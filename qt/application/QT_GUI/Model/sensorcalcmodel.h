@@ -11,7 +11,7 @@ class SensorCalcModel: public QAbstractListModel
     Q_OBJECT
     public:
 
-        explicit SensorCalcModel(QObject* aParent = 0);
+        SensorCalcModel(SensorModel& aModel, QObject* aParent = 0);
 
         void setNewSensorCalcModel(const QList<CalcSensorData>& aSensorModel);
 
@@ -26,6 +26,11 @@ class SensorCalcModel: public QAbstractListModel
          * @brief m_calcSensorList Liste mit den berechneten Werten
          */
         QList<CalcSensorData> m_calcSensorList;
+
+        /**
+         * @brief m_Model model with current data to calculate specil information
+         */
+        SensorModel& m_Model;
 };
 
 #endif // SENSORCALCMODEL_H
