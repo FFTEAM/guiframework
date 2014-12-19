@@ -279,14 +279,14 @@ Rectangle {
 
                         TableViewColumn
                         {
-                            role: "activeDate";
+                            role: "date";
                             title: qsTr("Date");
                             width: parent.width/3 * 2
                         }
 
                         TableViewColumn
                         {
-                            role: "activeHeartRate";
+                            role: "heartRate";
                             title: qsTr("HeartRate");
                             width: parent.width/3
                         }
@@ -327,14 +327,14 @@ Rectangle {
 
                 TableViewColumn
                 {
-                    role: "activeDate";
+                    role: "date";
                     title: qsTr("Date");
                     width: tableId.width/3 * 2
                 }
 
                 TableViewColumn
                 {
-                    role: "activeHeartRate";
+                    role: "heartRate";
                     title: qsTr("HeartRate");
                     width: tableId.width/3
                 }

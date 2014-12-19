@@ -38,6 +38,19 @@ class SensorModel : public QAbstractListModel
 
         friend class SensorCalcModel;
 
+        /**
+         * @brief The SensorRoles enum
+         *
+         * In diesem enum werden die Rollen definiert, welche später für die Kommunikation mit
+         * der View verwendet werden.
+         */
+        enum SensorRoles
+        {
+            SENSOR_DATE_ROLE,            /**< Zeitstempel für die Herzfrequenz  */
+            SENSOR_HEART_RATE_ROLE,      /**< Herzfrequenz */
+            SENSOR_STEP_LENGTH_ROLE           /**< Schrittlänge */
+        };
+
         ~SensorModel();
 
         /**
@@ -56,7 +69,7 @@ class SensorModel : public QAbstractListModel
          * @brief setNewSensorModel Fügt eine neue Menge an Datenobjekten dem Model hinzu
          * @param aSensorModel Liste mit neuen Datenobjekten
          */
-        void setNewSensorModel(const QList<const SensorData*> &aSensorModel);
+        void setNewSensorModel(QList<const SensorData*>& aSensorModel);
 
         /**
          * @brief getSensorModelCount Liefert die Anzahl an Datenobjekten im Model zurück
@@ -71,12 +84,30 @@ class SensorModel : public QAbstractListModel
          */
         const SensorData* getSingleSensorData(const int aIndex) const;
 
+        /**
+         * @brief data Liefert der View die zur jeweiligen Rolle gehörenden Daten
+         * @param aIndex Index aktuellen Model
+         * @param aRole Aktuelle Rolle
+         * @return Liefert ein Wertepaar (Rolle,Wert) zurück
+         */
+        QVariant data(const QModelIndex & aIndex, int aRole = Qt::DisplayRole) const;
+
+        /**
+         * @brief rowCount Liefert die aktuelle Anzahl der Einträge im Model zurück
+         * @param aParent -
+         * @return Anzahl der Einträge
+         */
+        int rowCount(const QModelIndex & aParent = QModelIndex()) const;
+
     protected:
 
         /**
-         * @brief m_sensorList Liste mit den aktuellen Datenobjekten
+         * @brief roleNames Verbindet die Rollen und die dazugehrigen Attribute der Klasse
+         * @return QHash mit der Zuweisung der Rollen von der View und der Klasse
+         *
+         * Diese Methode wird ebenfalls vom Model/View Konzept von QT verwendet.
          */
-        QList<const SensorData*> m_sensorList;
+        QHash<int, QByteArray> roleNames() const;
 
     private:
 
@@ -97,6 +128,12 @@ class SensorModel : public QAbstractListModel
          * @return Liefert ein Objekt der Klasse SensorModel zurück (Konkatination möglich)
          */
         SensorModel& operator= (const SensorModel& aRhs);
+
+        /**
+         * @brief m_sensorList Liste mit den aktuellen Datenobjekten
+         */
+        QList<const SensorData*> m_sensorList;
+
 };
 
 #endif // SENSORMODEL_H

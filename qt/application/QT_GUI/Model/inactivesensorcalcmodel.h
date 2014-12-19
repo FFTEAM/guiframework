@@ -2,12 +2,15 @@
 #define INACTIVESENSORCALCMODEL_H
 
 #include "Model/sensorcalcmodel.h"
-#include "Model/inactivesensormodel.h"
 
 class InactiveSensorCalcModel : public SensorCalcModel
 {
     public:
-        static InactiveSensorCalcModel& getInstance();
+
+        /**
+         * @brief InactiveSensorCalcModel Constructor
+         */
+        InactiveSensorCalcModel(SensorModel& aModel);
 
         /**
          * @brief The SensorRoles enum
@@ -45,10 +48,6 @@ class InactiveSensorCalcModel : public SensorCalcModel
          * Diese Methode wird ebenfalls vom Model/View Konzept von QT verwendet.
          */
         QHash<int, QByteArray> roleNames() const;
-
-    private:
-
-        InactiveSensorCalcModel();
 };
 
 #endif // INACTIVESENSORCALCMODEL_H

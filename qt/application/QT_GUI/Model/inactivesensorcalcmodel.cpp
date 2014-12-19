@@ -1,14 +1,8 @@
 #include "inactivesensorcalcmodel.h"
 
-InactiveSensorCalcModel::InactiveSensorCalcModel()
+InactiveSensorCalcModel::InactiveSensorCalcModel(SensorModel& aModel) : SensorCalcModel(aModel,0)
 {
-    updateCalcValues(InactiveSensorModel::getInstance());
-}
-
-InactiveSensorCalcModel &InactiveSensorCalcModel::getInstance()
-{
-    static InactiveSensorCalcModel instance;
-    return instance;
+    updateCalcValues(aModel);
 }
 
 QVariant InactiveSensorCalcModel::data(const QModelIndex &aIndex, int aRole) const

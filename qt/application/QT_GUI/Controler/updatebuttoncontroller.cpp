@@ -42,8 +42,8 @@ void UpdateButtonController::updateGuiForActivitySlot(QList<const SensorData*>& 
         activeDiagram->setProperty("state","BEGIN_UPDATE_DIAGRAMM");
     }
 
-    ActiveSensorModel::getInstance().setNewSensorModel(sensorData);
-    ActiveSensorCalcModel::getInstance().updateCalcValues(ActiveSensorModel::getInstance());
+    //ActiveSensorModel::getInstance().setNewSensorModel(sensorData);
+    //ActiveSensorCalcModel::getInstance().updateCalcValues(ActiveSensorModel::getInstance());
 
     if(activeDiagram)
     {
@@ -60,8 +60,8 @@ void UpdateButtonController::updateGuiForRestingSlot(QList<const SensorData*>& s
         inactiveDiagram->setProperty("state","BEGIN_UPDATE_DIAGRAMM");
     }
 
-    InactiveSensorModel::getInstance().setNewSensorModel(sensorData);
-    InactiveSensorCalcModel::getInstance().updateCalcValues(InactiveSensorModel::getInstance());
+   // InactiveSensorModel::getInstance().setNewSensorModel(sensorData);
+   // InactiveSensorCalcModel::getInstance().updateCalcValues(InactiveSensorModel::getInstance());
 
     if(inactiveDiagram)
     {
@@ -96,11 +96,11 @@ void UpdateButtonController::updateActionSlot()
     sensorDataA.append(new SensorData(QDateTime(QDate(2017, 1, 1), QTime(0, 0, 2)), 120, 10));
     sensorDataA.append(new SensorData(QDateTime(QDate(2017, 1, 1), QTime(0, 0, 3)), 30, 3));
 
-    ActiveSensorModel::getInstance().setNewSensorModel(sensorDataA);
-    ActiveSensorCalcModel::getInstance().updateCalcValues(ActiveSensorModel::getInstance());
+    //ActiveSensorModel::getInstance().setNewSensorModel(sensorDataA);
+    //ActiveSensorCalcModel::getInstance().updateCalcValues(ActiveSensorModel::getInstance());
 
-    InactiveSensorModel::getInstance().setNewSensorModel(sensorDataI);
-    InactiveSensorCalcModel::getInstance().updateCalcValues(InactiveSensorModel::getInstance());
+    //InactiveSensorModel::getInstance().setNewSensorModel(sensorDataI);
+    //InactiveSensorCalcModel::getInstance().updateCalcValues(InactiveSensorModel::getInstance());
 
     if(inactiveDiagram && activeDiagram)
     {

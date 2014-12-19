@@ -15,7 +15,11 @@
 
 #include "printbuttoncontroller.h"
 
-PrintButtonController::PrintButtonController(QObject* aParent) :QObject(aParent)
+PrintButtonController::PrintButtonController(QObject* aParent,
+                                             SensorModel& aModelForInactiveData,
+                                             SensorModel& aModelForActiveData) :    QObject(aParent),
+                                                                                    m_inactiveDatamodel(aModelForInactiveData),
+                                                                                    m_activeDataModel(aModelForActiveData)
 {
     if(aParent)
     {
@@ -35,9 +39,9 @@ void PrintButtonController::clickPrintButtonSlot()
     QPrintDialog printDialog(&printer);
     if (printDialog.exec() == QDialog::Accepted)
     {
-        createSensorDataFile(printer, ActiveSensorModel::getInstance(), "Overview Active Data");
+        createSensorDataFile(printer, m_activeDataModel, "Overview Active Data");
         printer.newPage();
-        createSensorDataFile(printer, InactiveSensorModel::getInstance(), "Overview Inactive Data");
+        createSensorDataFile(printer, m_inactiveDatamodel, "Overview Inactive Data");
     }
 }
 
