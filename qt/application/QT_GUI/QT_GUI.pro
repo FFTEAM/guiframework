@@ -23,7 +23,8 @@ SOURCES +=  main.cpp \
             Model/sensorcalcmodel.cpp \
             ImportExport/ImportExport.cpp \
             Settings/Settings.cpp \
-            Model/selectionmodel.cpp
+            Model/selectionmodel.cpp \
+    Controller/selectioncontroller.cpp
 
 TRANSLATIONS = Language_Files/app_de_DE.ts \
 
@@ -48,7 +49,8 @@ HEADERS += \
             Model/activesensorcalcmodel.h \
             ImportExport/ImportExport.h \
             Settings/Settings.h \
-            Model/selectionmodel.h
+            Model/selectionmodel.h \
+    Controller/selectioncontroller.h
 
 DESTPATH = .
 target.path = $$DESTPATH
