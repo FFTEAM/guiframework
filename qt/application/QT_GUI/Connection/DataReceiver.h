@@ -7,6 +7,12 @@
 
 #include "Model/Data/sensordata.h"
 
+struct rawData {
+    quint64 timeStamp;
+    quint16 heartRate;
+    quint16 steps;
+};
+
 class DataReceiver : public QObject
 {
     Q_OBJECT
@@ -48,15 +54,10 @@ class DataReceiver : public QObject
         BAD = 0x02,
     };
 
-    struct Data {
-        qint32 timestamp;
-        qint16 heartrate;
-        qint16 steps;
-    };
-
 signals:
     void updateGuiForActivity(QList<const SensorData*>&);
     void updateGuiForResting(QList<const SensorData*>&);
+    void updateStorage(QList<rawData>&, quint8, quint8, quint16);
 
 public:
     static DataReceiver& getInstance();
