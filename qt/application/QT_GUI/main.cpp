@@ -63,10 +63,15 @@ int main(int argc, char *argv[])
     }
     /******************************************
     * instanciate dataStorage
-    * has to be referenced to the controller
+    * has to be referenced to the model
     * which need the data
     *******************************************/
-    ImportExport dataStore;
+    ImportExport dataStorage;
+    if (!dataStorage)
+    {
+        qDebug("FATAL error while creating Database instance");
+        return 1;
+    }
 
     QApplication app(argc, argv);
 

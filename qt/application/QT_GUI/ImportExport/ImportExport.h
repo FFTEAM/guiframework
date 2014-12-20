@@ -18,6 +18,8 @@ public:
     virtual ~ImportExport();
 
     QStringList getMeasureValues();
+
+    explicit operator bool() const;
 };
 
 #endif // IMPORTEXPORT_H
