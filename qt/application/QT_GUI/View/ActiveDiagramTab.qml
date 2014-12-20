@@ -40,120 +40,100 @@ Rectangle {
         width: parent.width
         height: parent.height / 4 - 15
 
-        ColumnLayout {
+        GroupBox {
+            id: grpFilter
 
-            id: column1
             anchors.right: parent.right
+
             height: parent.height
             width: parent.width / 2 - 10
 
-            Row {
+            title: qsTr("Filtering options")
 
-                id: yearRowId
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.leftMargin: 5
-                anchors.rightMargin: 5
-                height: parent.height / 3 - 15
+            Rectangle {
+                id: yearRect
+                color: "transparent"
+                width: parent.width
+                height: parent.height / 3
                 anchors.top: parent.top
-                anchors.topMargin: 20
-                width: parent.width - 250
+                anchors.topMargin: 3
 
-                Label{
-
+                Label {
                     id: yearLabelId
-                    height: parent.height
-                    width: parent.width / 4
-                    text: qsTr("Year")
+                    anchors.left: parent.left
+                    height: cmbSelectYearFilter.height
+                    width: parent.width / 6
+                    text: qsTr("Year:")
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                 }
 
                 ComboBox {
-                    id: cmbSelectMeasuremode
-                    width: parent.width / 4 * 3
-                    height: parent.height
+                    id: cmbSelectYearFilter
+                    anchors.left: yearLabelId.right
+                    anchors.leftMargin: 10
+                    width: parent.width - yearLabelId.width - 10
                     currentIndex: 0
-                    model: ListModel {
-                        id: cbItems
-                        ListElement { text: "2014" }
-                        ListElement { text: "2013" }
-                        ListElement { text: "2012" }
-                        ListElement { text: "2011" }
-                    }
+                    model: inactiveSelectionYearModel
                 }
-
             }
 
-            Row {
+            Rectangle {
+                id: monthRect
+                color: "transparent"
+                width: parent.width
+                height: parent.height / 3
+                anchors.top: yearRect.bottom
+                anchors.topMargin: 3
 
-                id: monthRowId
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.leftMargin: 5
-                anchors.rightMargin: 5
-                height: parent.height / 3 - 15
-                anchors.top: yearRowId.bottom
-                anchors.topMargin: 10
-                width: parent.width - 250
-
-                Label{
-
-                    height: parent.height
-                    width: parent.width / 4
-                    text: qsTr("Month")
+                Label {
+                    id: monthLabelId
+                    anchors.left: parent.left
+                    height: cmbSelectMonthFilter.height
+                    width: parent.width / 6
+                    text: qsTr("Month:")
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                 }
 
                 ComboBox {
-                    id: cmbSelectMeasuremode1
-                    width: parent.width / 4 * 3
-                    height: parent.height
+                    id: cmbSelectMonthFilter
+                    anchors.left: monthLabelId.right
+                    anchors.leftMargin: 10
+                    width: parent.width - monthLabelId.width - 10
                     currentIndex: 0
-                    model: ListModel {
-                        id: cbItems1
-                        ListElement { text: "Januar" }
-                        ListElement { text: "März" }
-                        ListElement { text: "Oktober" }
-                        ListElement { text: "November" }
-                    }
-                }
-
+                    // THROWS WARNING: model: inactiveSelectionMonthModel
+              }
             }
 
-            Row {
+            Rectangle {
+                id: weekRect
+                color: "transparent"
+                width: parent.width
+                height: parent.height / 3
+                anchors.top: monthRect.bottom
+                anchors.topMargin: 3
 
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.leftMargin: 5
-                anchors.rightMargin: 5
-                height: parent.height / 3 - 15
-                anchors.top: monthRowId.bottom
-                anchors.topMargin: 10
-                width: parent.width - 250
-
-                Label{
-
-                    height: parent.height
-                    width: parent.width / 4
-                    text: qsTr("Week")
+                Label {
+                    id: weekLabelId
+                    anchors.left: parent.left
+                    height: cmbSelectWeekFilter.height
+                    width: parent.width / 6
+                    text: qsTr("Week:")
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                 }
 
                 ComboBox {
-                    id: cmbSelectMeasuremode3
-                    width: parent.width / 4 * 3
-                    height: parent.height
+                    id: cmbSelectWeekFilter
+                    anchors.left: weekLabelId.right
+                    anchors.leftMargin: 10
+                    width: parent.width - weekLabelId.width - 10
                     currentIndex: 0
-                    model: ListModel {
-                        id: cbItems2
-                        ListElement { text: "1" }
-                        ListElement { text: "2" }
-                        ListElement { text: "3" }
-                        ListElement { text: "4" }
-                    }
+                    // THROWS WARNING: model: inactiveSelectionWeekModel
                 }
             }
-        }
+        } // grpFilter
 
         Component {
 

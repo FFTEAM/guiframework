@@ -32,13 +32,6 @@ bool DataReceiver::validateData(const quint8* aData, const quint64 aLen)
     QList<const SensorData*> sensorData;
     STATEMACHINE state = MODE_STATE;
 
-    /*printf("Data: ");
-    for(quint64 i = 0; i < aLen; i++)
-    {
-        printf("%02X ", aData[i]);
-    }
-    printf("\n");*/
-
     do
     {
         // switch through datatypes:

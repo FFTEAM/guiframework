@@ -9,21 +9,22 @@ SOURCES +=  main.cpp \
             Thirdparty/qcustomplot.cpp \
             Model/Data/sensordata.cpp \
             Model/sensormodel.cpp \
-            Controler/printbuttoncontroller.cpp \
+            Controller/printbuttoncontroller.cpp \
             Diagram/customplotbarchart.cpp \
             Diagram/customplotlinechart.cpp \
-            Controler/updatebuttoncontroller.cpp \
+            Controller/updatebuttoncontroller.cpp \
             Connection/DataReceiver.cpp \
             Connection/BroadcastReceiver.cpp \
             Connection/TcpConnection.cpp \
             Connection/TcpServer.cpp \
-    Model/Data/calcsensordata.cpp \
-    Model/activesensorcalcmodel.cpp \
-    Model/inactivesensorcalcmodel.cpp \
-    Model/sensorcalcmodel.cpp \
-    ImportExport/ImportExport.cpp \
-    Settings/Settings.cpp \
-    Model/selectionmodel.cpp
+            Model/Data/calcsensordata.cpp \
+            Model/activesensorcalcmodel.cpp \
+            Model/inactivesensorcalcmodel.cpp \
+            Model/sensorcalcmodel.cpp \
+            ImportExport/ImportExport.cpp \
+            Settings/Settings.cpp \
+            Model/selectionmodel.cpp \
+            Controller/selectioncontroller.cpp
 
 TRANSLATIONS = Language_Files/app_de_DE.ts \
 
@@ -34,21 +35,22 @@ HEADERS += \
             Thirdparty/qcustomplot.h \
             RessourceFilePaths.h \
             Model/sensormodel.h \
-            Controler/printbuttoncontroller.h \
+            Controller/printbuttoncontroller.h \
             Diagram/customplotbarchart.h \
             Diagram/customplotlinechart.h \
-            Controler/updatebuttoncontroller.h \
+            Controller/updatebuttoncontroller.h \
             Connection/DataReceiver.h \
             Connection/BroadcastReceiver.h \
             Connection/TcpConnection.h \
             Connection/TcpServer.h \
-    Model/Data/calcsensordata.h \
-    Model/sensorcalcmodel.h \
-    Model/inactivesensorcalcmodel.h \
-    Model/activesensorcalcmodel.h \
-    ImportExport/ImportExport.h \
-    Settings/Settings.h \
-    Model/selectionmodel.h
+            Model/Data/calcsensordata.h \
+            Model/sensorcalcmodel.h \
+            Model/inactivesensorcalcmodel.h \
+            Model/activesensorcalcmodel.h \
+            ImportExport/ImportExport.h \
+            Settings/Settings.h \
+            Model/selectionmodel.h \
+            Controller/selectioncontroller.h
 
 DESTPATH = .
 target.path = $$DESTPATH

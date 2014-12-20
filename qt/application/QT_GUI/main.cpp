@@ -30,8 +30,9 @@
 #include "Model/selectionmodel.h"
 
 // include paths for contollers
-#include "Controler/printbuttoncontroller.h"
-#include "Controler/updatebuttoncontroller.h"
+#include "Controller/printbuttoncontroller.h"
+#include "Controller/updatebuttoncontroller.h"
+#include "Controller/selectioncontroller.h"
 
 // inlcude path for diagrams on view
 #include "Diagram/customplotbarchart.h"
@@ -62,10 +63,15 @@ int main(int argc, char *argv[])
     }
     /******************************************
     * instanciate dataStorage
-    * has to be referenced to the controller
+    * has to be referenced to the model
     * which need the data
     *******************************************/
-    ImportExport dataStore;
+    ImportExport dataStorage;
+    if (!dataStorage)
+    {
+        qDebug("FATAL error while creating Database instance");
+        return 1;
+    }
 
     QApplication app(argc, argv);
 
@@ -97,6 +103,19 @@ int main(int argc, char *argv[])
     selectionYearData.append("2014");
     selectionYearData.append("2015");
 
+    QList<QString> selectionMonthData;
+    selectionMonthData.append("Januar");
+    selectionMonthData.append("März");
+    selectionMonthData.append("Juni");
+    selectionMonthData.append("Juli");
+    selectionMonthData.append("Dezember");
+
+    QList<QString> selectionWeekData;
+    selectionWeekData.append("1");
+    selectionWeekData.append("2");
+    selectionWeekData.append("3");
+    selectionWeekData.append("4");
+
     // create sensorInactiveData Model
     SensorModel inactiveSensorModel;
     inactiveSensorModel.setNewSensorModel(sensorDataI);
@@ -114,6 +133,12 @@ int main(int argc, char *argv[])
     // create selectionValue models
     SelectionModel inactiveYearModel;
     inactiveYearModel.setNewSelectionModel(selectionYearData);
+
+    SelectionModel inactiveMonthModel;
+    inactiveMonthModel.setNewSelectionModel(selectionMonthData);
+
+    SelectionModel inactiveWeekModel;
+    inactiveWeekModel.setNewSelectionModel(selectionWeekData);
 
     qmlRegisterType<CustomPlotBarChart>("CostumPlot", 1, 0, "CustomPlotBarChart");
     qmlRegisterType<CustomPlotLineChart>("CostumPlot", 1, 0, "CustomPlotLineChart");
@@ -164,6 +189,7 @@ int main(int argc, char *argv[])
     // set controler
     PrintButtonController printController(root, inactiveSensorModel, activeSensorModel);
     UpdateButtonController updateController(root);
+    SelectionController selectionController(root, inactiveYearModel, inactiveMonthModel, inactiveWeekModel);
 
     int ret = app.exec();
     bcReceiver.exit();
