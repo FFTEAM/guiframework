@@ -143,30 +143,7 @@ bool DataReceiver::validateData(const quint8* aData, const quint64 aLen)
     if (FINAL_STATE == state)
     {
         updateStorage(rawDataList, mode, mood, averageRate);
-        /*switch (mode)
-        {
-            case REST:
-                updateGuiForResting(sensorData);
-            return true;
-
-            case ACTIVITY:
-                updateGuiForActivity(sensorData);
-            return true;
-
-            default:
-                qFatal("invalid mode:" + mode);
-        }*/
     }
 
     return false;
-}
-
-void DataReceiver::handleUserData(const QString&)
-{
-
-}
-
-void DataReceiver::handleSensorData(const QString&)
-{
-
 }

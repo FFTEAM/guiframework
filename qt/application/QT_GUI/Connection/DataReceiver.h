@@ -23,10 +23,6 @@ class DataReceiver : public QObject
     explicit DataReceiver(const DataReceiver&);
     const DataReceiver& operator=(const DataReceiver&);
 
-    // private statics:
-    static void handleUserData(const QString&);
-    static void handleSensorData(const QString&);
-
     // private data structures
     enum STATEMACHINE {
         MODE_STATE,
@@ -43,20 +39,7 @@ class DataReceiver : public QObject
         DATA = 0xff
     };
 
-    enum MeasureMode {
-        REST = 0,
-        ACTIVITY = 1
-    };
-
-    enum Mood {
-        GOOD = 0x00,
-        AVG = 0x01,
-        BAD = 0x02,
-    };
-
 signals:
-    void updateGuiForActivity(QList<const SensorData*>&);
-    void updateGuiForResting(QList<const SensorData*>&);
     void updateStorage(QList<rawData>&, quint8, quint8, quint16);
 
 public:
