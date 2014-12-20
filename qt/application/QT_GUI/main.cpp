@@ -31,8 +31,8 @@
 
 // include paths for contollers
 #include "Controller/printbuttoncontroller.h"
-#include "Controller/updatebuttoncontroller.h"
 #include "Controller/selectioncontroller.h"
+#include "Controller/initdiagramscontroller.h"
 
 // inlcude path for diagrams on view
 #include "Diagram/customplotbarchart.h"
@@ -43,6 +43,8 @@
 #include "Connection/TcpServer.h"
 #include "Settings/Settings.h"
 #include "ImportExport/ImportExport.h"
+
+Q_DECLARE_METATYPE(SensorModel)
 
 /**
  * @brief main  Main-Methode erzeugt Applikation und offenet die View
@@ -85,7 +87,6 @@ int main(int argc, char *argv[])
 
     // EXAMPLE DATA:
     QList<const SensorData*> sensorDataI;
-
     sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 1)), 200, 5));
     sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 2)), 100, 3));
     sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 3)), 50, 3));
@@ -103,19 +104,6 @@ int main(int argc, char *argv[])
     selectionYearData.append("2014");
     selectionYearData.append("2015");
 
-    QList<QString> selectionMonthData;
-    selectionMonthData.append("Januar");
-    selectionMonthData.append("März");
-    selectionMonthData.append("Juni");
-    selectionMonthData.append("Juli");
-    selectionMonthData.append("Dezember");
-
-    QList<QString> selectionWeekData;
-    selectionWeekData.append("1");
-    selectionWeekData.append("2");
-    selectionWeekData.append("3");
-    selectionWeekData.append("4");
-
     // create sensorInactiveData Model
     SensorModel inactiveSensorModel;
     inactiveSensorModel.setNewSensorModel(sensorDataI);
@@ -131,14 +119,8 @@ int main(int argc, char *argv[])
     ActiveSensorCalcModel activeCalcSensorModel(activeSensorModel);
 
     // create selectionValue models
-    SelectionModel inactiveYearModel;
+    SelectionModel inactiveYearModel, inactiveMonthModel, inactiveWeekModel;
     inactiveYearModel.setNewSelectionModel(selectionYearData);
-
-    SelectionModel inactiveMonthModel;
-    inactiveMonthModel.setNewSelectionModel(selectionMonthData);
-
-    SelectionModel inactiveWeekModel;
-    inactiveWeekModel.setNewSelectionModel(selectionWeekData);
 
     qmlRegisterType<CustomPlotBarChart>("CostumPlot", 1, 0, "CustomPlotBarChart");
     qmlRegisterType<CustomPlotLineChart>("CostumPlot", 1, 0, "CustomPlotLineChart");
@@ -163,6 +145,8 @@ int main(int argc, char *argv[])
         contex->setContextProperty("inactiveSensorCalcModel", &inactiveCalcSensorModel);
         contex->setContextProperty("activeSensorCalcModel", &activeCalcSensorModel);
         contex->setContextProperty("inactiveSelectionYearModel", &inactiveYearModel);
+        contex->setContextProperty("inactiveSelectionMonthModel", &inactiveMonthModel);
+        contex->setContextProperty("inactiveSelectionWeekModel", &inactiveWeekModel);
     }
     else qDebug() << "Error no contex is set";
 
@@ -188,8 +172,8 @@ int main(int argc, char *argv[])
 
     // set controler
     PrintButtonController printController(root, inactiveSensorModel, activeSensorModel);
-    UpdateButtonController updateController(root);
-    SelectionController selectionController(root, inactiveYearModel, inactiveMonthModel, inactiveWeekModel);
+    InitDiagramsController initController(root, inactiveSensorModel, activeSensorModel);
+    SelectionController selectionController(root, inactiveYearModel, inactiveMonthModel, inactiveWeekModel, inactiveSensorModel);
 
     int ret = app.exec();
     bcReceiver.exit();

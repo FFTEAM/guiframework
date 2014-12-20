@@ -15,9 +15,19 @@
 
 #include "sensormodel.h"
 
-SensorModel::SensorModel(QObject* aParent) : QAbstractListModel(aParent)
+SensorModel::SensorModel() : QAbstractListModel(0)
 {
     // C'tor
+}
+
+SensorModel::SensorModel(const SensorModel& aOther)
+{
+    m_sensorList = aOther.getDataList();
+}
+
+QList<const SensorData *> SensorModel::getDataList() const
+{
+    return m_sensorList;
 }
 
 SensorModel::~SensorModel()

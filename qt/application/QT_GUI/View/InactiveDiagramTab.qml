@@ -72,11 +72,17 @@ Rectangle {
 
                 ComboBox {
                     id: cmbSelectYearFilter
+                    objectName: "cmbSelectYearFilterName"
                     anchors.left: yearLabelId.right
                     anchors.leftMargin: 10
                     width: parent.width - yearLabelId.width - 10
                     currentIndex: 0
                     model: inactiveSelectionYearModel
+
+                    onPressedChanged:
+                    {
+                        activated(currentIndex);
+                    }
                 }
             }
 
@@ -100,11 +106,17 @@ Rectangle {
 
                 ComboBox {
                     id: cmbSelectMonthFilter
+                    objectName: "cmbSelectMonthFilterName"
                     anchors.left: monthLabelId.right
                     anchors.leftMargin: 10
                     width: parent.width - monthLabelId.width - 10
                     currentIndex: 0
-                    // THROWS WARNING: model: inactiveSelectionMonthModel
+                    model: inactiveSelectionMonthModel
+
+                    onCountChanged:
+                    {
+                        activated(currentIndex);
+                    }
               }
             }
 
@@ -127,12 +139,19 @@ Rectangle {
                 }
 
                 ComboBox {
+
                     id: cmbSelectWeekFilter
+                    objectName: "cmbSelectWeekFilterName"
                     anchors.left: weekLabelId.right
                     anchors.leftMargin: 10
                     width: parent.width - weekLabelId.width - 10
                     currentIndex: 0
-                    // THROWS WARNING: model: inactiveSelectionWeekModel
+                    model: inactiveSelectionWeekModel
+
+                    onCountChanged:
+                    {
+                        activated(currentIndex);
+                    }
                 }
             }
         } // grpFilter
@@ -210,6 +229,7 @@ Rectangle {
             CustomPlotBarChart {
                 state: "INIT_DIAGRAMM"
                 id: customPlot
+                objectName: "inactiveDiagramName"
 
                 anchors.left: parent.left
                 anchors.top: parent.top
@@ -219,8 +239,6 @@ Rectangle {
 
                 anchors.leftMargin: 5
                 anchors.topMargin: 5
-
-                objectName: "inactiveDiagramName"
 
                 onStateChanged: { updateDataAndGUI() }
                 Component.onCompleted: { initCustomPlot() }

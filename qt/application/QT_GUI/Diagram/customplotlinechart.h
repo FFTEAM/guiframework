@@ -19,6 +19,7 @@
 #include <QPainter>
 #include <QtQuick>
 #include "Thirdparty/qcustomplot.h"
+#include "Model/sensormodel.h"
 #include "Model/Data/sensordata.h"
 
 /**
@@ -33,6 +34,12 @@ class CustomPlotLineChart: public QQuickPaintedItem
     Q_OBJECT
 
     public:
+
+        Q_PROPERTY(SensorModel* data READ getData WRITE setData)
+
+        void setData(SensorModel*);
+
+        SensorModel* getData();
 
         /**
          * @brief CustomPlotLineChart ist der Standardtkonstruktor der Klasse CustomPlotLineChart
@@ -68,6 +75,8 @@ class CustomPlotLineChart: public QQuickPaintedItem
         Q_INVOKABLE void updateDataAndGUI();
 
     private:
+
+        SensorModel* m_activeModel;
 
         /**
          * @brief CustomPlotLineChart Nicht in Verwendung (Definition fehlt)

@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "Model/selectionmodel.h"
+#include "Model/sensormodel.h"
 
 class SelectionController: public QObject
 {
@@ -16,27 +17,27 @@ class SelectionController: public QObject
          * @param aMonthModel           Reference to Month Model
          * @param aWeekModel            Reference to Week Model
          */
-        SelectionController(QObject* aParent, SelectionModel& aYearModel, SelectionModel& aMonthModel, SelectionModel& aWeekModel);
+        SelectionController(QObject* aParent, SelectionModel& aYearModel, SelectionModel& aMonthModel, SelectionModel& aWeekModel, SensorModel& aInactiveModel);
 
     public slots:
 
         /**
          * @brief selectYearSlot Slot to get current year from view
-         * @param aYear current year select on view
+         * @param aIndex current index of combobox
          */
-        void selectYearSlot(QString aYear);
+        void selectYearSlot(int aIndex);
 
         /**
          * @brief selectMonthSlot Slot to get current month from view
-         * @param aMonth current month select on view
+         * @param aIndex current index of combobox
          */
-        void selectMonthSlot(QString aMonth);
+        void selectMonthSlot(int aIndex);
 
         /**
          * @brief selectWeekSlot Slot to get current week from view
-         * @param aWeek current week select on view
+         * @param aIndex current index of combobox
          */
-        void selectWeekSlot(QString aWeek);
+        void selectWeekSlot(int aIndex);
 
     private:
 
@@ -54,6 +55,11 @@ class SelectionController: public QObject
          * @brief m_weekModel hold the available week values
          */
         SelectionModel& m_weekModel;
+
+        /**
+         * @brief m_inactiveSensorModel hold the current inactiveSensorModel
+         */
+        SensorModel& m_inactiveSensorModel;
 };
 
 #endif // SELECTIONCONTROLLER_H

@@ -17,6 +17,7 @@
 #define CUSTOMPLOTBARCHARTM_H
 
 #include "Thirdparty/qcustomplot.h"
+#include "Model/sensormodel.h"
 #include <QtQuick>
 #include <QPainter>
 #include <QColor>
@@ -37,6 +38,12 @@ class CustomPlotBarChart : public QQuickPaintedItem
     Q_OBJECT
 
     public:
+
+        Q_PROPERTY(SensorModel* data READ getData WRITE setData)
+
+        void setData(SensorModel*);
+
+        SensorModel* getData();
 
         /**
          * @brief CustomPlotBarChart ist der Standardtkonstruktor der Klasse CustomPlotBarChart
@@ -72,6 +79,11 @@ class CustomPlotBarChart : public QQuickPaintedItem
         void paint(QPainter* aPainter);
 
     private:
+
+        /**
+         * @brief m_inactiveModel pointer to inactiveModel to update diagram with current values
+         */
+        SensorModel* m_inactiveModel;
 
         /**
          * @brief CustomPlotBarChart Nicht in Verwendung (Definition fehlt)
@@ -115,7 +127,6 @@ class CustomPlotBarChart : public QQuickPaintedItem
          * @brief calculateData Berechnet anhand der Sensordaten des Models die Diagrammwerte
          */
         void calculateData();
-
 };
 
 #endif // CUSTOMPLOTBARCHART_H

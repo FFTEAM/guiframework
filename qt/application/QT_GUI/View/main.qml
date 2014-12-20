@@ -34,16 +34,6 @@ ApplicationWindow
     }
 
     Action {
-        signal updateActionIsTriggered();
-
-        objectName: "updateActionName"
-        id: updateActionID
-        text: qsTr("&Update Data")
-        tooltip: qsTr("Update data form Device")
-        onTriggered: updateActionIsTriggered();
-    }
-
-    Action {
         signal printActionIsTriggered();
 
         objectName: "printActionName"
@@ -63,7 +53,6 @@ ApplicationWindow
                MenuSeparator {}
                MenuItem { text: qsTr("Save"); action: saveActionID }
                MenuItem { text: qsTr("Print"); action: printActionID }
-               MenuItem { text: qsTr("Update Data"); action: updateActionID }
                MenuSeparator {}
                MenuItem { text: qsTr("Exit"); onTriggered: Qt.quit() }
         }
