@@ -12,11 +12,14 @@ import java.util.Random;
 
 public class HeartRateMeasure {
 
+    private static final String LINE_SEPARATOR = "\n";
+    private static final int TCP_DATA_PORT = 1234;
+
     //private static HeartRateMeasure singleton;
 
     private MeasureMode mMeasureMode;
     private MeasureMood mMeasureMood;
-    private float mAverageHeartRate;
+    private short mAverageHeartRate;
     private List<HeartRateData> mHeartRateDataList;
 
     private HeartRateMeasure() {
@@ -59,7 +62,7 @@ public class HeartRateMeasure {
                 counter++;
             }
         }
-        mAverageHeartRate = (float)sumOfHeartRates / (float) counter;
+        mAverageHeartRate = (short)((double)sumOfHeartRates / (double) counter);
     }
 
     public synchronized void add(HeartRateData heartRateData) {
@@ -108,9 +111,9 @@ public class HeartRateMeasure {
         if(mHeartRateDataList.size() > 0) {
             // begin settings
             sb.append("measure_mode=" + mMeasureMode.toString() + ";");
-            sb.append("measure_mood=" + mMeasureMood.toString());
+            sb.append("measure_mood=" + mMeasureMood.toString() + ";");
             sb.append("average_heart_rate=" + mAverageHeartRate);
-            sb.append("\n");
+            sb.append(LINE_SEPARATOR);
             // end settings
             HeartRateData lastDataSet = mHeartRateDataList.get(mHeartRateDataList.size() - 1);
             for (HeartRateData heartRateData : mHeartRateDataList) {
@@ -119,7 +122,7 @@ public class HeartRateMeasure {
                 sb.append(heartRateData.getSteps());
 
                 if (heartRateData != lastDataSet) {
-                    sb.append("\n");
+                    sb.append(LINE_SEPARATOR);
                 }
             }
         }
@@ -127,8 +130,9 @@ public class HeartRateMeasure {
     }
 
     public synchronized void setDataFromString(String data) {
+        System.out.println(data);
         if(null != data && !data.equals("")) {
-            String[] lines = data.split("\n");
+            String[] lines = data.split(LINE_SEPARATOR);
             // begin settings
             String[] settings = lines[0].split(";");
             for(String setting : settings) {
@@ -139,11 +143,11 @@ public class HeartRateMeasure {
                         String value = pair[1];
 
                         if(key.equals("measure_mode")) {
-                            try { mMeasureMode = MeasureMode.valueOf(value); } catch (IllegalArgumentException e) {}
+                            try { mMeasureMode = MeasureMode.valueOf(value); } catch (IllegalArgumentException e) { e.printStackTrace(); }
                         } else if(key.equals("measure_mood")) {
-                            try { mMeasureMood = MeasureMood.valueOf(value); } catch (IllegalArgumentException e) {}
+                            try { mMeasureMood = MeasureMood.valueOf(value); } catch (IllegalArgumentException e) { e.printStackTrace(); }
                         } else if(key.equals("average_heart_rate")) {
-                            try { mAverageHeartRate = Integer.parseInt(value); } catch (NumberFormatException e) {}
+                            try { mAverageHeartRate = Short.parseShort(value); } catch (NumberFormatException e) { e.printStackTrace(); }
                         }
                     }
                 }
@@ -155,22 +159,22 @@ public class HeartRateMeasure {
                 String[] dataset = lines[i].split(";");
                 if(3 == dataset.length) {
                     try {
-                        int timestamp = Integer.parseInt(dataset[0]);
+                        long timestamp = Long.parseLong(dataset[0]);
                         int heartrate = Integer.parseInt(dataset[1]);
                         int steps = Integer.parseInt(dataset[2]);
                         add(new HeartRateData(timestamp, heartrate, steps));
-                    } catch (NumberFormatException e) { }
+                    } catch (NumberFormatException e) { e.printStackTrace(); }
                 }
             }
         }
     }
 
-    public synchronized void sendDataAsync(final String ip, final int port) {
+    public synchronized void sendDataAsync(final String ip) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Socket socket = new Socket(ip, port);
+                    Socket socket = new Socket(ip, TCP_DATA_PORT);
                     OutputStream out = socket.getOutputStream();
                     DataOutputStream outputStream = new DataOutputStream(out);
                     if (mHeartRateDataList.size() > 0) {
@@ -217,14 +221,45 @@ public class HeartRateMeasure {
         }).start();
     }
 
+    public void convertToRestMeasurement() {
+        mMeasureMode = MeasureMode.REST;
+        if(mHeartRateDataList.size() > 0) {
+            short[] field = new short[256];
+            for (int i = 0; i < field.length; i++) {
+                field[i] = 0;
+            }
+
+            for (HeartRateData heartRateData : mHeartRateDataList) {
+                int heartrate = heartRateData.getHeartRate();
+                if (0 < heartrate && heartrate < 256) {
+                    field[heartrate]++;
+                }
+            }
+
+            int middleValue = 0;
+            int maxCount = 0;
+            for (int i = 0; i < field.length; i++) {
+                if (field[i] > maxCount) {
+                    maxCount = field[i];
+                    middleValue = i;
+                }
+            }
+
+            HeartRateData first = mHeartRateDataList.get(0);
+            mHeartRateDataList.clear();
+            mHeartRateDataList.add(new HeartRateData(first.getTimeStampMs(), middleValue, 0));
+        }
+    }
+
     public void createRandomTestData() {
         long currentTime = System.currentTimeMillis();
         Random rdm = new Random(currentTime);
 
-        int mode = rdm.nextInt(2);
+        int mode = rdm.nextInt(3);
         switch(mode) {
             case 0: mMeasureMode = MeasureMode.ACTIVITY; break;
-            case 1: mMeasureMode = MeasureMode.REST; break;
+            case 1: mMeasureMode = MeasureMode.ACTIVITY; break;
+            case 2: mMeasureMode = MeasureMode.REST; break;
         }
 
         int mood = rdm.nextInt(3);
@@ -244,7 +279,7 @@ public class HeartRateMeasure {
         int steps = 0;
         for(int i=0; i < amountOfDatasets; i++) {
             long time = currentTime+i*3000;
-            int heartrate = rdm.nextInt(150);
+            int heartrate = 50 + rdm.nextInt(100);
             steps += rdm.nextInt(10);
             add(new HeartRateData(time, heartrate, steps));
         }

@@ -8,18 +8,24 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HeartRateFile {
+
+    private static final String LINE_SEPARATOR = "\n";
 
     public static void saveMeasureToFile(Context context, HeartRateMeasure heartRateMeasure) {
         String filename = getFileName(heartRateMeasure);
 
         try {
             FileOutputStream outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
-            outputStream.write(heartRateMeasure.getDataAsString().getBytes());
+            PrintWriter printWriter = new PrintWriter(outputStream);
+            printWriter.append(heartRateMeasure.getDataAsString());
+            printWriter.close();
             outputStream.close();
+            System.out.println("saved file " + filename);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -34,7 +40,7 @@ public class HeartRateFile {
             StringBuilder sb = new StringBuilder();
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                sb.append(line);
+                sb.append(line + LINE_SEPARATOR);
             }
             heartRateMeasure = HeartRateMeasure.getInstance();
             heartRateMeasure.setDataFromString(sb.toString());
@@ -47,7 +53,7 @@ public class HeartRateFile {
     public static List<String> getMeasureFileNames(Context context) {
         List<String> measureFileNames = new ArrayList<String>();
 
-        String filePattern = "^\\d{4}-\\d{2}-\\d{2}_\\d{2}-\\d{2}.txt$";
+        String filePattern = "\\d{4}-\\d{2}-\\d{2}_\\d{2}-\\d{2}-\\d{2}";
 
         File dir = context.getFilesDir();
         if(dir.isDirectory()) {
@@ -69,6 +75,6 @@ public class HeartRateFile {
 
     public static String getFileName(HeartRateMeasure heartRateMeasure) {
         long timeStampMs = heartRateMeasure.getStartTimeStampMs();
-        return (String) DateFormat.format("yyyy-MM-dd_HH-mm", timeStampMs);
+        return (String) DateFormat.format("yyyy-MM-dd_HH-mm-ss", timeStampMs);
     }
 }

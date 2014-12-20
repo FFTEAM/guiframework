@@ -24,7 +24,7 @@ public class DataLayerListenerService extends WearableListenerService {
             @Override
             public void onBroadcastFinished(InetAddress from, String answer) {
                 if(null != from && null != answer) {
-                    mHeartRateMeasure.sendDataAsync(from.toString(), 1234);
+                    mHeartRateMeasure.sendDataAsync(from.toString());
                 }
             }
         });

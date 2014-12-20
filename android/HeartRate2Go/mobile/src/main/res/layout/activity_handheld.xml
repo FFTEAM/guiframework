@@ -10,17 +10,48 @@
     android:id="@+id/main_layout"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:id="@+id/filename_spinner" />
+
+        <ImageButton
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingStart="15dp"
+            android:scaleType="fitCenter"
+            android:background="@null"
+            android:layout_gravity="top"
+            android:src="@drawable/dismiss_white"
+            android:id="@+id/button_dismiss"
+            android:onClick="onButtonDismissClick" />
+
+        <ImageButton
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingStart="15dp"
+            android:scaleType="fitCenter"
+            android:background="@null"
+            android:layout_gravity="top"
+            android:src="@drawable/send_white"
+            android:id="@+id/button_send"
+            android:onClick="onButtonSendClick" />
+
+    </LinearLayout>
+
     <TextView
         android:text="@string/caption_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/text_view_caption" />
-
-
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinner" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -41,8 +72,8 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="create rdm data and send"
-        android:id="@+id/buttonTest"
+        android:text="add random measure to list"
+        android:id="@+id/button_test"
         android:onClick="onButtonTestClick" />
 
 </LinearLayout>

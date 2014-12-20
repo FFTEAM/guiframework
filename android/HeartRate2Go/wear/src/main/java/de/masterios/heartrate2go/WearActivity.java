@@ -218,6 +218,7 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
                 });
 
                 if(null != mHeartRateDataSync && null != mHeartRateMeasure) {
+                    mHeartRateMeasure.convertToRestMeasurement();
                     mHeartRateDataSync.sendMessageAsync(mHeartRateMeasure.getDataAsString());
                 }
             }
