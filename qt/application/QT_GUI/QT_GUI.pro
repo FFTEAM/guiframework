@@ -24,7 +24,7 @@ SOURCES +=  main.cpp \
             ImportExport/ImportExport.cpp \
             Settings/Settings.cpp \
             Model/selectionmodel.cpp \
-    Controller/selectioncontroller.cpp
+            Controller/selectioncontroller.cpp
 
 TRANSLATIONS = Language_Files/app_de_DE.ts \
 
@@ -50,7 +50,7 @@ HEADERS += \
             ImportExport/ImportExport.h \
             Settings/Settings.h \
             Model/selectionmodel.h \
-    Controller/selectioncontroller.h
+            Controller/selectioncontroller.h
 
 DESTPATH = .
 target.path = $$DESTPATH
