@@ -10,6 +10,11 @@ class ImportExport final : public QObject
     QSqlDatabase mDataBase;
     bool mIsValid;
 
+    QSqlQuery insertTypeQuery;
+    QSqlQuery insertMoodQuery;
+    QSqlQuery insertMeasurementQuery;
+    QSqlQuery insertDataQuery;
+
     ImportExport(const ImportExport&) = delete;
     const ImportExport& operator=(const ImportExport&) = delete;
 
