@@ -30,13 +30,7 @@
 
         <activity
             android:name="de.masterios.heartrate2go.DialogMobileNotFoundActivity"
-            android:label="@string/title_activity_dialog_mobile_not_found" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:label="@string/title_activity_dialog_mobile_not_found" />
 
         <service android:name="de.masterios.heartrate2go.DataLayerListenerService" >
             <intent-filter>

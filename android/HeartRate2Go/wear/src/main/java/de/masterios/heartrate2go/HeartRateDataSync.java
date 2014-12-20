@@ -56,12 +56,14 @@ public class HeartRateDataSync implements GoogleApiClient.OnConnectionFailedList
                         List<Node> nodes = connectedNodesResult.getNodes();
 
                         Boolean isSuccess = false;
-                        for (Node node : nodes) {
-                            MessageApi.SendMessageResult sendMessageResult =
-                                    Wearable.MessageApi.sendMessage(mGoogleApiClient, node.getId(), SEND_MESSAGE_PATH, text.getBytes()).await();
+                        if(null != nodes && nodes.size() > 0) {
+                            for (Node node : nodes) {
+                                MessageApi.SendMessageResult sendMessageResult =
+                                        Wearable.MessageApi.sendMessage(mGoogleApiClient, node.getId(), SEND_MESSAGE_PATH, text.getBytes()).await();
 
-                            if(sendMessageResult.getStatus().isSuccess()) {
-                                isSuccess = true;
+                                if (sendMessageResult.getStatus().isSuccess()) {
+                                    isSuccess = true;
+                                }
                             }
                         }
 

@@ -26,4 +26,9 @@
     <string name="title_list_styles">Hintergrundfarbe</string>
     <string name="summary_list_styles">Auswahl der verfügbaren Hintergrundfarben</string>
 
+    <string name="date_format">dd.MM.yyyy HH:mm:ss</string>
+    <string name="measure_mode_activity">Aktivitätsmessung</string>
+    <string name="measure_mode_rest">Ruhemessung</string>
+
+
 </resources>
