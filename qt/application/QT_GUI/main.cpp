@@ -33,6 +33,7 @@
 #include "Controller/printbuttoncontroller.h"
 #include "Controller/selectioncontroller.h"
 #include "Controller/initdiagramscontroller.h"
+#include "Controller/filtercontroller.h"
 
 // inlcude path for diagrams on view
 #include "Diagram/customplotbarchart.h"
@@ -119,8 +120,8 @@ int main(int argc, char *argv[])
     ActiveSensorCalcModel activeCalcSensorModel(activeSensorModel);
 
     // create selectionValue models
-    SelectionModel inactiveYearModel, inactiveMonthModel, inactiveWeekModel;
-    inactiveYearModel.setNewSelectionModel(selectionYearData);
+    SelectionModel activeYearModel, activeMonthModel, activeWeekModel;
+    activeYearModel.setNewSelectionModel(selectionYearData);
 
     qmlRegisterType<CustomPlotBarChart>("CostumPlot", 1, 0, "CustomPlotBarChart");
     qmlRegisterType<CustomPlotLineChart>("CostumPlot", 1, 0, "CustomPlotLineChart");
@@ -144,9 +145,9 @@ int main(int argc, char *argv[])
         contex->setContextProperty("activeSensorDataModel", &activeSensorModel);
         contex->setContextProperty("inactiveSensorCalcModel", &inactiveCalcSensorModel);
         contex->setContextProperty("activeSensorCalcModel", &activeCalcSensorModel);
-        contex->setContextProperty("inactiveSelectionYearModel", &inactiveYearModel);
-        contex->setContextProperty("inactiveSelectionMonthModel", &inactiveMonthModel);
-        contex->setContextProperty("inactiveSelectionWeekModel", &inactiveWeekModel);
+        contex->setContextProperty("activeSelectionYearModel", &activeYearModel);
+        contex->setContextProperty("activeSelectionMonthModel", &activeMonthModel);
+        contex->setContextProperty("activeSelectionWeekModel", &activeWeekModel);
     }
     else qDebug() << "Error no contex is set";
 
@@ -173,7 +174,8 @@ int main(int argc, char *argv[])
     // set controler
     PrintButtonController printController(root, inactiveSensorModel, activeSensorModel);
     InitDiagramsController initController(root, inactiveSensorModel, activeSensorModel);
-    SelectionController selectionController(root, inactiveYearModel, inactiveMonthModel, inactiveWeekModel, inactiveSensorModel);
+    SelectionController selectionController(root, activeYearModel, activeMonthModel, activeWeekModel, activeSensorModel);
+    FilterController filterController(root, inactiveSensorModel, inactiveCalcSensorModel);
 
     int ret = app.exec();
     bcReceiver.exit();

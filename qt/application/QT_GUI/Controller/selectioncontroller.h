@@ -59,7 +59,7 @@ class SelectionController: public QObject
         /**
          * @brief m_inactiveSensorModel hold the current inactiveSensorModel
          */
-        SensorModel& m_inactiveSensorModel;
+        SensorModel& m_sensorModel;
 };
 
 #endif // SELECTIONCONTROLLER_H

@@ -9,7 +9,7 @@ SelectionController::SelectionController(QObject* aParent,
                                                                          m_yearModel(aYearModel),
                                                                          m_monthModel(aMonthModel),
                                                                          m_weekModel(aWeekModel),
-                                                                         m_inactiveSensorModel(aInactiveModel)
+                                                                         m_sensorModel(aInactiveModel)
 {
     //C'tor
     if(aParent)
@@ -79,5 +79,5 @@ void SelectionController::selectWeekSlot(int aIndex)
     sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 2)), 100, 3));
     sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 3)), 50, 3));
 
-    m_inactiveSensorModel.setNewSensorModel(sensorDataI);
+    m_sensorModel.setNewSensorModel(sensorDataI);
 }
