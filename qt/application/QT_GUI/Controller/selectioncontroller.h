@@ -1,3 +1,18 @@
+//#########################################################################################
+// Projekt: Heart Rate 2 go
+// Copyright: 2014
+//#########################################################################################
+
+/**
+  * @file   selectioncontroller.h
+  * @author Patrick Mathias, Markus Nebel
+  * @author responsible: Patrick Mathias
+  * @date   12.12.2014 13:56:00 GMT
+  *
+  * @brief  ToDo
+  *
+  */
+
 #ifndef SELECTIONCONTROLLER_H
 #define SELECTIONCONTROLLER_H
 
@@ -23,23 +38,28 @@ class SelectionController: public QObject
 
         /**
          * @brief selectYearSlot Slot to get current year from view
-         * @param aIndex current index of combobox
+         * @param aCurrentText current text of combobox
          */
-        void selectYearSlot(int aIndex);
+        void selectYearSlot(QString aCurrentText);
 
         /**
          * @brief selectMonthSlot Slot to get current month from view
          * @param aIndex current index of combobox
          */
-        void selectMonthSlot(int aIndex);
+        void selectMonthSlot(QString aCurrentText);
 
         /**
          * @brief selectWeekSlot Slot to get current week from view
          * @param aIndex current index of combobox
          */
-        void selectWeekSlot(int aIndex);
+        void selectWeekSlot(QString aCurrentText);
 
     private:
+
+        /**
+         * @brief m_currentText String with the current year of combobox
+         */
+        QString m_currentText;
 
         /**
          * @brief m_yearModel hold the available year values

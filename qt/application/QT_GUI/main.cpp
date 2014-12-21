@@ -6,8 +6,8 @@
 /**
   * @file   main.cpp
   * @author Patrick Mathias, Markus Nebel
-  * @author Verantwortlichkeit: Patrick Mathias
-  * @date   12.12.2014 13:01:00 GMT
+  * @author responsible: Patrick Mathias
+  * @date   12.12.2014 13:56:00 GMT
   *
   * @brief  In der Main.cpp wird die Application erzeugt und die Sprache festgelegt. Zusätzlich
   * werden die Controller und die Größe des Applikationsfenster initialisert. Abschließend werden die

@@ -6,10 +6,10 @@
 /**
   * @file   customplotbarchart.cpp
   * @author Patrick Mathias, Markus Nebel
-  * @author Verantwortlichkeit: Patrick Mathias
-  * @date   12.12.2014 14:12:00 GMT
+  * @author responsible: Patrick Mathias
+  * @date   12.12.2014 13:56:00 GMT
   *
-  * @brief Diese CPP-Datei enthält alle Implementierung der Methoden der Klasse CustomPlotBarChart
+  * @brief  ToDo
   *
   */
 
@@ -49,11 +49,12 @@ SensorModel* CustomPlotBarChart::getData()
 }
 
 CustomPlotBarChart ::CustomPlotBarChart (QQuickItem* aParent) : QQuickPaintedItem(aParent),
+                                                                m_inactiveModel(0),
                                                                 m_CustomPlot(0),
                                                                 m_xAxis(0),
                                                                 m_yAxis(0),
-                                                                m_barChart(0),
-                                                                m_inactiveModel(0)
+                                                                m_barChart(0)
+
 
 {
     // add connection for resizing the chart:

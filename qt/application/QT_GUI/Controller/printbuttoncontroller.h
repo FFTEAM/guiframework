@@ -6,10 +6,10 @@
 /**
   * @file   printbuttoncontroller.h
   * @author Patrick Mathias, Markus Nebel
-  * @author Verantwortlichkeit: Patrick Mathias
+  * @author responsible: Patrick Mathias
   * @date   12.12.2014 13:56:00 GMT
   *
-  * @brief  Diese Header-Datei enthält alle Deklarationen der Klasse PrintButtonControllers
+  * @brief  ToDo
   *
   */
 

@@ -43,13 +43,11 @@ Rectangle {
 
         GroupBox {
             id: grpFilter
+            title: qsTr("Filtering options")
 
             anchors.right: parent.right
-
             height: parent.height
             width: parent.width / 2 - 10
-
-            title: qsTr("Filtering options")
 
             Rectangle {
                 id: yearRect
@@ -70,13 +68,22 @@ Rectangle {
                 }
 
                 ComboBox {
+
                     id: cmbSelectYearFilter
                     objectName: "cmbSelectYearFilterName"
+
+                    signal onComboboxPressed(string text);
+
                     anchors.left: yearLabelId.right
                     anchors.leftMargin: 10
                     width: parent.width - yearLabelId.width - 10
                     currentIndex: 0
                     model: activeSelectionYearModel
+
+                    onPressedChanged: {
+
+                        onComboboxPressed(currentText);
+                    }
                 }
             }
 
@@ -101,11 +108,19 @@ Rectangle {
                 ComboBox {
                     id: cmbSelectMonthFilter
                     objectName: "cmbSelectMonthFilterName"
+
+                    signal onComboboxPressed(string text);
+
                     anchors.left: monthLabelId.right
                     anchors.leftMargin: 10
                     width: parent.width - monthLabelId.width - 10
                     currentIndex: 0
                     model: activeSelectionMonthModel
+
+                    onCountChanged:
+                    {
+                        onComboboxPressed(currentText);
+                    }
               }
             }
 
@@ -130,38 +145,44 @@ Rectangle {
                 ComboBox {
                     id: cmbSelectWeekFilter
                     objectName: "cmbSelectWeekFilterName"
+
+                    signal onComboboxPressed(string text);
+
                     anchors.left: weekLabelId.right
                     anchors.leftMargin: 10
                     width: parent.width - weekLabelId.width - 10
                     currentIndex: 0
                     model: activeSelectionWeekModel
+
+                    onCountChanged:
+                    {
+                        onComboboxPressed(currentText);
+                    }
                 }
             }
         } // grpFilter
 
         Component {
 
-                 id: activeListDelegate
-                 Item {
-                     width: parent.width - 10
-                     height: listView2.height/ listView2.count
-                     Row {
-                          spacing: 2
-                          width: parent.width - 10
-
-                          Text {
-                              text: activeCalcDescription
-                              anchors.verticalCenter: parent.verticalCenter
-                              width: (parent.width - 10)/2
-                          }
-
-                          Text {
-                              text: activeCalcValue
-                              anchors.verticalCenter: parent.verticalCenter
-                              width: (parent.width - 10)/2
-                          }
-                     }
-                 }
+            id: activeListDelegate
+            Item {
+                width: parent.width - 10
+                height: listView2.height/ listView2.count
+                Row {
+                    spacing: 2
+                    width: parent.width - 10
+                    Text {
+                        text: activeCalcDescription
+                        anchors.verticalCenter: parent.verticalCenter
+                        width: (parent.width - 10)/2
+                    }
+                    Text {
+                        text: activeCalcValue
+                        anchors.verticalCenter: parent.verticalCenter
+                        width: (parent.width - 10)/2
+                    }
+                }
+            }
         }
 
         GroupBox {
@@ -173,18 +194,16 @@ Rectangle {
             title: qsTr("Active Heartrate Details")
 
             ListView {
-                        id: listView2
-                        height: parent.height
-                        width: parent.width
-                        anchors.right: parent.right
-                        anchors.top: parent.top
+                id: listView2
+                height: parent.height
+                width: parent.width
+                anchors.right: parent.right
+                anchors.top: parent.top
 
-                        model: activeSensorCalcModel
-                        interactive: false
-                        delegate: activeListDelegate
+                model: activeSensorCalcModel
+                interactive: false
+                delegate: activeListDelegate
            }
-
-
         }
     }
 
@@ -192,12 +211,11 @@ Rectangle {
         id: innerRect
         color: "transparent"
 
-        anchors.bottom: parent.bottom;
-        anchors.left: parent.left;
-
         width: parent.width
         height: parent.height / 4 * 3
 
+        anchors.bottom: parent.bottom;
+        anchors.left: parent.left;
         anchors.topMargin: 5
         anchors.bottomMargin: 5
 
@@ -212,12 +230,11 @@ Rectangle {
             {
                 anchors.left: parent.left
                 anchors.top: parent.top
+                anchors.leftMargin: 5
+                anchors.topMargin: 5
 
                 width: parent.width - 10;
                 height: parent.height - 10;
-
-                anchors.leftMargin: 5
-                anchors.topMargin: 5
 
                 Tab{
                     id: tab1
@@ -267,7 +284,6 @@ Rectangle {
                             title: qsTr("Date");
                             width: parent.width/3 * 2
                         }
-
                         TableViewColumn
                         {
                             role: "heartRate";
@@ -294,7 +310,6 @@ Rectangle {
             height: parent.height
             width: parent.width / 2 - 10
 
-
             TableView {
 
                 id: tableId
@@ -315,7 +330,6 @@ Rectangle {
                     title: qsTr("Date");
                     width: tableId.width/3 * 2
                 }
-
                 TableViewColumn
                 {
                     role: "heartRate";

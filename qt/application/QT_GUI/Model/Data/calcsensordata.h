@@ -1,3 +1,18 @@
+//#########################################################################################
+// Projekt: Heart Rate 2 go
+// Copyright: 2014
+//#########################################################################################
+
+/**
+  * @file   calcsensordata.h
+  * @author Patrick Mathias, Markus Nebel
+  * @author responsible: Patrick Mathias
+  * @date   12.12.2014 13:56:00 GMT
+  *
+  * @brief  ToDo
+  *
+  */
+
 #ifndef CALCSENSORDATA_H
 #define CALCSENSORDATA_H
 
