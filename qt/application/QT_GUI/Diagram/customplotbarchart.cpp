@@ -19,7 +19,13 @@
 void CustomPlotBarChart ::initCustomPlot()
 {
     m_CustomPlot = new QCustomPlot();
-    connect(m_CustomPlot, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(showPointToolTip(QMouseEvent*)));
+    QCPItemText *textLabel = new QCPItemText(m_CustomPlot);
+    m_CustomPlot->addItem(textLabel);
+    textLabel->setPositionAlignment(Qt::AlignTop|Qt::AlignHCenter);
+    textLabel->position->setType(QCPItemPosition::ptAxisRectRatio);
+    textLabel->position->setCoords(0.5, 0); // place position at center/top of axis rect
+    textLabel->setText("Text Item Demo");
+    textLabel->setPen(QPen(Qt::black)); // show black border around text
 
     m_barChart = new QCPBars(m_CustomPlot->xAxis, m_CustomPlot->yAxis);
     m_CustomPlot->addPlottable(m_barChart);
@@ -97,15 +103,10 @@ void CustomPlotBarChart::paint(QPainter* aPainter)
 void CustomPlotBarChart::hoverMoveEvent(QHoverEvent * event)
 {
     qDebug() << Q_FUNC_INFO;
-}
-
-void CustomPlotBarChart::showPointToolTip(QMouseEvent *event)
-{
-    qDebug() << Q_FUNC_INFO;
     int x = m_CustomPlot->xAxis->pixelToCoord(event->pos().x());
     int y = m_CustomPlot->yAxis->pixelToCoord(event->pos().y());
 
-    m_CustomPlot->setToolTip(QString("%1 , %2").arg(x).arg(y));
+    //m_CustomPlot->setToolTip(QString("%1 , %2").arg(x).arg(y));
 }
 
 void CustomPlotBarChart::updateCustomPlotSize()

@@ -430,8 +430,6 @@ QList<const SensorData*> ImportExport::dataByMeasurementId(quint64 aId)
     return dataList;
 }
 
-
-
 ImportExport::~ImportExport()
 {
     mDataBase.close();
