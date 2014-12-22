@@ -205,6 +205,20 @@ void ImportExport::insertMeasurement(QList<rawData>& dataList, quint8 type, quin
     mDataBase.commit();
 }
 
+/** getter
+ */
+QList<const SensorData*> ImportExport::measurementsFromTo(const QDate& start, const QDate& end)
+{
+    quint64 startTimeStamp = QDateTime(start).toTime_t();
+    quint64 endTimeStamp = QDateTime(end).toTime_t();
+
+    QList<const SensorData*> dataList;
+
+
+
+    return dataList;
+}
+
 ImportExport::~ImportExport()
 {
     mDataBase.close();
