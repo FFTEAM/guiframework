@@ -56,3 +56,8 @@ void SensorData::setStepLength(quint16 aStepLength)
 {
     m_stepLength = aStepLength;
 }
+
+quint64 SensorData::getId() const
+{
+    return m_id;
+}

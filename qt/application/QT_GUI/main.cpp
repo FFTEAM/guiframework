@@ -34,6 +34,7 @@
 #include "Controller/selectioncontroller.h"
 #include "Controller/initdiagramscontroller.h"
 #include "Controller/filtercontroller.h"
+#include "Controller/tableselectioncontroller.h"
 
 // inlcude path for diagrams on view
 #include "Diagram/customplotbarchart.h"
@@ -179,6 +180,7 @@ int main(int argc, char *argv[])
 
     // set controler
     FilterController filterController(root, inactiveSensorModel, inactiveCalcSensorModel, dataStorage);
+    TableSelectionController tableController(root, activeSensorTableModel, activeSensorModel, activeCalcSensorModel, dataStorage);
     PrintButtonController printController(root, inactiveSensorModel, activeSensorModel);
     InitDiagramsController initController(root, inactiveSensorModel, activeSensorModel);
     SelectionController selectionController(root, activeYearModel, activeMonthModel, activeWeekModel, activeSensorModel);

@@ -21,10 +21,10 @@ SelectionController::SelectionController(QObject* aParent,
                                          SelectionModel& aMonthModel,
                                          SelectionModel& aWeekModel,
                                          SensorModel& aInactiveModel):   QObject(aParent),
+                                                                         m_currentText(""),
                                                                          m_yearModel(aYearModel),
                                                                          m_monthModel(aMonthModel),
                                                                          m_weekModel(aWeekModel),
-                                                                         m_currentText(""),
                                                                          m_sensorModel(aInactiveModel)
 {
     //C'tor

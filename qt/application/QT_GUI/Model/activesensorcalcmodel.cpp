@@ -46,19 +46,25 @@ void ActiveSensorCalcModel::updateCalcValues(const SensorModel& aModel)
     SensorCalcModel::updateCalcValues(aModel);
 
     beginResetModel();
+    if(0 == aModel.getSensorModelCount())
+    {
+        m_calcSensorList.append(CalcSensorData(tr("duration:"), 0));
+    }
+    else
+    {
 
-    // get start date of data
-    QDateTime startDate =  aModel.getSingleSensorData(0)->getDate();
+        // get start date of data
+        QDateTime startDate =  aModel.getSingleSensorData(0)->getDate();
 
-    // get end date of data
-    QDateTime endDate = aModel.getSingleSensorData(aModel.getSensorModelCount() - 1)->getDate();
+        // get end date of data
+        QDateTime endDate = aModel.getSingleSensorData(aModel.getSensorModelCount() - 1)->getDate();
 
-    // calculate duration
-    const int duration = endDate.toTime_t() - startDate.toTime_t();
+        // calculate duration
+        const int duration = endDate.toTime_t() - startDate.toTime_t();
 
-    // set result to model
-    m_calcSensorList.append(CalcSensorData("duration", duration));
-
+        // set result to model
+        m_calcSensorList.append(CalcSensorData(tr("duration:"), duration));
+    }
     endResetModel();
 }
 

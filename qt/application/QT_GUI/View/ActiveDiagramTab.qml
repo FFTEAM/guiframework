@@ -312,7 +312,8 @@ Rectangle {
 
             TableView {
 
-                id: tableId
+                id: tableRunId
+                objectName: "tableRunName"
                 anchors.left: parent.left
                 anchors.top: parent.top
 
@@ -324,17 +325,22 @@ Rectangle {
 
                 model: activeSensorTableModel
 
+                onSelectionChanged:
+                {
+                    clicked(currentRow);
+                }
+
                 TableViewColumn
                 {
                     role: "date";
                     title: qsTr("Date");
-                    width: tableId.width/3 * 2
+                    width: tableRunId.width/3 * 2
                 }
                 TableViewColumn
                 {
                     role: "heartRate";
                     title: qsTr("HeartRate");
-                    width: tableId.width/3
+                    width: tableRunId.width/3
                 }
 
                 itemDelegate:

@@ -27,7 +27,8 @@ SOURCES +=  main.cpp \
             ImportExport/MeasureType.cpp \
             ImportExport/MoodType.cpp \
     Controller/initdiagramscontroller.cpp \
-    Controller/filtercontroller.cpp
+    Controller/filtercontroller.cpp \
+    Controller/tableselectioncontroller.cpp
 
 TRANSLATIONS = Language_Files/app_de_DE.ts \
 
@@ -56,7 +57,8 @@ HEADERS += \
             ImportExport/MeasureType.h \
             ImportExport/MoodType.h \
     Controller/initdiagramscontroller.h \
-    Controller/filtercontroller.h
+    Controller/filtercontroller.h \
+    Controller/tableselectioncontroller.h
 
 DESTPATH = .
 target.path = $$DESTPATH

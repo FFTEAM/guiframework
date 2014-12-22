@@ -66,6 +66,12 @@ class SensorData
         void setStepLength(quint16 aStepLength);
 
         /**
+         * @brief getId Id from selected run
+         * @return
+         */
+        quint64 getId() const;
+
+        /**
          * @brief SensorData Allgemeiner Konstruktor für die Klasse SensorData
          * @param aDate Wert für den aktuellen Zeitstempel
          * @param aHeartRate Wert für die aktuelle Herzfrequenz
