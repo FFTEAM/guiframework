@@ -370,9 +370,9 @@ QList<const SensorData*> ImportExport::dataByMeasurementId(quint64 aId)
 
     while (selectMeasurement.next())
     {
-        seconds = selectMeasurement.value(1).toLongLong();
+        seconds = selectMeasurement.value(0).toLongLong();
         heartrate = selectMeasurement.value(1).toInt();
-        steps = selectMeasurement.value(3).toLongLong();
+        steps = selectMeasurement.value(2).toLongLong();
 
         dataList.push_back(new SensorData(QDateTime().fromMSecsSinceEpoch(seconds), heartrate, steps, aId));
     }
