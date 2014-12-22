@@ -23,7 +23,7 @@ ImportExport::ImportExport(QObject *parent) :
         QSqlQuery createTable(mDataBase);
         if (!createTable.exec(
                     "CREATE TABLE IF NOT EXISTS Type("
-                    "id UNSIGNED INTEGER PRIMARY KEY, "
+                    "id INTEGER PRIMARY KEY UNIQUE, "
                     "name VARCHAR(100)"
                     ");")
            )
@@ -32,7 +32,7 @@ ImportExport::ImportExport(QObject *parent) :
         }
         else if (!createTable.exec(
                      "CREATE TABLE IF NOT EXISTS Mood("
-                     "id UNSIGNED INTEGER PRIMARY KEY, "
+                     "id INTEGER PRIMARY KEY UNIQUE, "
                      "name VARCHAR(100)"
                      ");")
                 )
@@ -41,7 +41,7 @@ ImportExport::ImportExport(QObject *parent) :
         }
         else if (!createTable.exec(
                      "CREATE TABLE IF NOT EXISTS Measurement("
-                     "id UNSIGNED INTEGER PRIMARY KEY, "
+                     "id INTEGER PRIMARY KEY UNIQUE, "
                      "type UNSIGNED INTEGER, "
                      "mood UNSIGNED INTEGER, "
                      "average UNSIGNED INTEGER, "
@@ -56,7 +56,7 @@ ImportExport::ImportExport(QObject *parent) :
         }
         else if (!createTable.exec(
                      "CREATE TABLE IF NOT EXISTS Data("
-                     "id UNSIGNED INTEGER PRIMARY KEY, "
+                     "id INTEGER PRIMARY KEY UNIQUE, "
                      "measurement UNSIGNED INTEGER, "
                      "seconds UNSIGNED INTEGER, "
                      "heartrate UNSIGNED INTEGER, "
@@ -269,6 +269,8 @@ QList<const SensorData*> ImportExport::measurements(quint8 aType)
         type = selectMeasurement.value(4).toString();
         mood = selectMeasurement.value(5).toString();
 
+        qDebug() << "msID: " << measurementId;
+
         dataList.push_back(new SensorData(QDateTime().fromMSecsSinceEpoch(timestamp), average, duration, measurementId));
     }
 
@@ -330,6 +332,8 @@ QList<const SensorData*> ImportExport::measurementsFromTo(quint8 aType, const QD
     QString type;
     QString mood;
 
+    qDebug() << "going into loop";
+
     while (selectMeasurement.next())
     {
         measurementId = selectMeasurement.value(0).toInt();
@@ -338,6 +342,8 @@ QList<const SensorData*> ImportExport::measurementsFromTo(quint8 aType, const QD
         duration = selectMeasurement.value(3).toInt();
         type = selectMeasurement.value(4).toString();
         mood = selectMeasurement.value(5).toString();
+
+        qDebug() << "measID: " << measurementId;
 
         dataList.push_back(new SensorData(QDateTime().fromMSecsSinceEpoch(timestamp), average, duration, measurementId));
     }
