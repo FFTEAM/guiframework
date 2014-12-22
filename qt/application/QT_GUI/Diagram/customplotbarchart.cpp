@@ -106,6 +106,7 @@ void CustomPlotBarChart::hoverMoveEvent(QHoverEvent * event)
     int x = m_CustomPlot->xAxis->pixelToCoord(event->pos().x());
     int y = m_CustomPlot->yAxis->pixelToCoord(event->pos().y());
 
+    //textLabel->setText("Test");
     //m_CustomPlot->setToolTip(QString("%1 , %2").arg(x).arg(y));
 }
 

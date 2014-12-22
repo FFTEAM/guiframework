@@ -3,7 +3,7 @@ import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
 import QtQuick.Layouts 1.1
 import CostumPlot 1.0
-import ".."
+import "."
 
 Rectangle {
     id: outerRect
