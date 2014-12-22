@@ -322,7 +322,7 @@ Rectangle {
                 anchors.leftMargin: 5
                 anchors.topMargin: 5
 
-                model: activeSensorDataModel
+                model: activeSensorTableModel
 
                 TableViewColumn
                 {
