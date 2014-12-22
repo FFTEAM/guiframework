@@ -36,6 +36,7 @@ FilterController::FilterController(QObject* aParent,
     else qDebug() << "Signal could not attached to a slot";
 
     setAllAvailableDataFromStorage();
+    updateGuiWithCurrentData();
 }
 
 void FilterController::validateUserInputSlot()
@@ -46,6 +47,7 @@ void FilterController::validateUserInputSlot()
     if(inputStartDate.size() == 0 and inputEndDate.size() == 0)
     {
         setAllAvailableDataFromStorage();
+        updateGuiWithCurrentData();
     }
     else
     {

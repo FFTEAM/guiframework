@@ -65,6 +65,10 @@ class SelectionController: public QObject
 
     private:
 
+        void setAllAvailableData();
+
+        void updateGuiWithCurrentData();
+
         /**
          * @brief m_currentText String with the current year of combobox
          */

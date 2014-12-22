@@ -56,30 +56,13 @@ SelectionController::SelectionController(QObject* aParent,
 
     // get all possible years in storage
     QList<QString> dataList = m_importExportStorage.years(0);
-    dataList.push_front("all");
+    dataList.push_front(tr("all"));
 
     // set combobox
     m_yearModel.setNewSelectionModel(dataList);
 
-    // set table with runs
-    QList<const SensorData*> sensorList = m_importExportStorage.measurements(0);
-    m_runModel.setNewSensorModel(sensorList);
+    setAllAvailableData();
 
-    if(m_runModel.getSensorModelCount() != 0)
-    {
-        const SensorData* data = m_runModel.getSingleSensorData(0);
-        if(data)
-        {
-            const int id = data->getId();
-            QList<const SensorData*> singleDataList = m_importExportStorage.dataByMeasurementId(id);
-            m_sensorModel.setNewSensorModel(singleDataList);
-            m_activeCalcModel.updateCalcValues(m_sensorModel);
-        }
-        else
-        {
-            qDebug() << "Error no new model set";
-        }
-    }
 }
 
 void SelectionController::selectYearSlot(QString aCurrentText)
@@ -91,34 +74,63 @@ void SelectionController::selectYearSlot(QString aCurrentText)
         if(0 == m_currentText.compare("all"))
         {
             // read all informations from storage
-            QObject* child = parent()->findChild<QObject*>("yearRectName");
-            if(child)
+            QObject* monthChild = parent()->findChild<QObject*>("monthRectName");
+            QObject* weekChild = parent()->findChild<QObject*>("weekRectName");
+            if(monthChild && weekChild)
             {
-                child->setProperty("state", "BEGIN_SELECTION");
-                qDebug() << "State change to BEGIN_SELECTION";
+                monthChild->setProperty("visible", "false");
+                weekChild->setProperty("visible", "false");
+                setAllAvailableData();
             }
             else qDebug() << "No state change";
         }
         else
         {
             // get all possible month from storage
-            // update model
-
-            QObject* child = parent()->findChild<QObject*>("yearRectName");
-            if(child)
-            {
-                child->setProperty("state", "BEGIN_SELECTION_MONTH");
-                qDebug() << "State change to BEGIN_SELECTION_MONTH";
-            }
-
-            // Example Data
             QList<QString> selectionMonthData;
             selectionMonthData.append("Januar");
             selectionMonthData.append("März");
             selectionMonthData.append("Juni");
             selectionMonthData.append("Juli");
             selectionMonthData.append("Dezember");
+            selectionMonthData.push_front(tr("all"));
             m_monthModel.setNewSelectionModel(selectionMonthData);
+
+            // set new model
+            QDate startDate = QDate::fromString(aCurrentText, "yyyy");
+            QDate endDate = QDate::fromString(aCurrentText, "yyyy").addYears(1);
+            QList<const SensorData*> dataList = m_importExportStorage.measurementsFromTo(0, startDate, endDate);
+
+            m_runModel.setNewSensorModel(dataList);
+
+            if(m_runModel.getSensorModelCount() != 0)
+            {
+                const SensorData* data = m_runModel.getSingleSensorData(0);
+                if(data)
+                {
+                    const int id = data->getId();
+                    QList<const SensorData*> singleDataList = m_importExportStorage.dataByMeasurementId(id);
+                    m_sensorModel.setNewSensorModel(singleDataList);
+                    m_activeCalcModel.updateCalcValues(m_sensorModel);
+                }
+                else
+                {
+                    qDebug() << "Error no new model set";
+                }
+            }
+            else
+            {
+                QList<const SensorData*> emptyVector;
+                m_sensorModel.setNewSensorModel(emptyVector);
+                m_activeCalcModel.updateCalcValues(m_sensorModel);
+            }
+            updateGuiWithCurrentData();
+
+            QObject* child = parent()->findChild<QObject*>("monthRectName");
+            if(child)
+            {
+                child->setProperty("visible", "true");
+            }
         }
     }
 }
@@ -148,5 +160,55 @@ void SelectionController::selectWeekSlot(QString aCurrentText)
 //    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 2)), 100, 3, 8));
 //    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 3)), 50, 3, 9));
 
-//    m_sensorModel.setNewSensorModel(sensorDataI);
+    //    m_sensorModel.setNewSensorModel(sensorDataI);
+}
+
+void SelectionController::setAllAvailableData()
+{
+    // set table with runs
+    QList<const SensorData*> sensorList = m_importExportStorage.measurements(0);
+    m_runModel.setNewSensorModel(sensorList);
+
+    if(m_runModel.getSensorModelCount() != 0)
+    {
+        const SensorData* data = m_runModel.getSingleSensorData(0);
+        if(data)
+        {
+            const int id = data->getId();
+            QList<const SensorData*> singleDataList = m_importExportStorage.dataByMeasurementId(id);
+            m_sensorModel.setNewSensorModel(singleDataList);
+            m_activeCalcModel.updateCalcValues(m_sensorModel);
+        }
+        else
+        {
+            qDebug() << "Error no new model set";
+        }
+    }
+    else
+    {
+        QList<const SensorData*> emptyVector;
+        m_sensorModel.setNewSensorModel(emptyVector);
+        m_activeCalcModel.updateCalcValues(m_sensorModel);
+    }
+    updateGuiWithCurrentData();
+}
+
+void SelectionController::updateGuiWithCurrentData()
+{
+    QObject* inactiveDiagram = parent()->findChild<QObject*>("inactiveDiagramName");
+    QObject* activeDiagram = parent()->findChild<QObject*>("activeDiagramName");
+
+    if(inactiveDiagram && activeDiagram)
+    {
+        inactiveDiagram->setProperty("state","BEGIN_UPDATE_DIAGRAMM");
+        activeDiagram->setProperty("state","BEGIN_UPDATE_DIAGRAMM");
+    }
+    else qDebug() << "No childs found";
+
+    if(inactiveDiagram && activeDiagram)
+    {
+        inactiveDiagram->setProperty("state","END_UPDATE_DIAGRAMM");
+        activeDiagram->setProperty("state","END_UPDATE_DIAGRAMM");
+    }
+    else qDebug() << "No child found";
 }

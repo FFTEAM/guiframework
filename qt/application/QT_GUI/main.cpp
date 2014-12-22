@@ -87,19 +87,6 @@ int main(int argc, char *argv[])
     // listen for incoming data connections:
     server.startServer();
 
-    // EXAMPLE DATA:
-    QList<const SensorData*> sensorDataA;
-    sensorDataA.append(new SensorData(QDateTime(QDate(2017, 1, 1), QTime(0, 0, 1)), 230, 5, 4));
-    sensorDataA.append(new SensorData(QDateTime(QDate(2017, 1, 1), QTime(0, 0, 2)), 120, 10, 5));
-    sensorDataA.append(new SensorData(QDateTime(QDate(2017, 1, 1), QTime(0, 0, 3)), 30, 3, 6));
-
-    QList<const SensorData*> sensorDataTable;
-    sensorDataTable.append(new SensorData(QDateTime(QDate(2013, 1, 1), QTime(0, 0, 1)), 230, 5, 7));
-    sensorDataTable.append(new SensorData(QDateTime(QDate(2014, 1, 1), QTime(0, 0, 2)), 120, 10, 8));
-    sensorDataTable.append(new SensorData(QDateTime(QDate(2017, 1, 1), QTime(0, 0, 3)), 30, 3, 9));
-    sensorDataTable.append(new SensorData(QDateTime(QDate(2016, 1, 1), QTime(0, 0, 2)), 120, 10, 10));
-    sensorDataTable.append(new SensorData(QDateTime(QDate(2018, 1, 1), QTime(0, 0, 3)), 30, 3, 11));
-
     // create sensorInactiveData Model
     SensorModel inactiveSensorModel;
 
@@ -108,11 +95,9 @@ int main(int argc, char *argv[])
 
     // create sensorActiveModel
     SensorModel activeSensorModel;
-    activeSensorModel.setNewSensorModel(sensorDataA);
 
     // create sensorActiveTable Model
     SensorModel activeSensorTableModel;
-    activeSensorTableModel.setNewSensorModel(sensorDataTable);
 
     // create activeCalcSensorModel
     ActiveSensorCalcModel activeCalcSensorModel(activeSensorModel);

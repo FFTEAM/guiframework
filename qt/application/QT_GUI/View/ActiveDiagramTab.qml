@@ -75,6 +75,7 @@ Rectangle {
 
             Rectangle {
                 id: monthRect
+                objectName: "monthRectName"
                 color: "transparent"
                 width: parent.width
                 height: parent.height / 3
@@ -114,6 +115,7 @@ Rectangle {
 
             Rectangle {
                 id: weekRect
+                objectName: "weekRectName"
                 color: "transparent"
                 width: parent.width
                 height: parent.height / 3

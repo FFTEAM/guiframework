@@ -7,6 +7,5 @@
         <file>View/SettingsDialog.qml</file>
         <file>View/Style.qml</file>
         <file>View/qmldir</file>
-        <file>ToolTip.qml</file>
     </qresource>
 </RCC>
