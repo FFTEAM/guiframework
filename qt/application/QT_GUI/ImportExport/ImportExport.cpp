@@ -402,8 +402,9 @@ QList<QString> ImportExport::months(quint8 aType, const QDate& aYear)
 
     QSqlQuery selectMeasurement(mDataBase);
 
-    quint64 startTimeStamp = QDateTime::toMSecsSinceEpoch(aYear);
-    quint64 endTimeStamp = QDateTime::toMSecsSinceEpoch(aYear.addYears(1));
+    quint64 startTimeStamp = QDateTime(aYear).toMSecsSinceEpoch();
+    quint64 endTimeStamp = QDateTime(aYear.addYears(1)).toMSecsSinceEpoch();
+
     selectMeasurement.prepare(
                 "SELECT "
                     "timestamp "
