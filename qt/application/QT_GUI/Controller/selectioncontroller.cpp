@@ -24,8 +24,8 @@ SelectionController::SelectionController(QObject* aParent,
                                          SensorModel& aRunModel,
                                          ActiveSensorCalcModel& aCalcModel,
                                          ImportExport& aStorage):   QObject(aParent),
-                                                                    m_currentYearText(""),
-                                                                    m_currentMonthText(""),
+                                                                    m_currentYearText("all"),
+                                                                    m_currentMonthText("all"),
                                                                     m_yearModel(aYearModel),
                                                                     m_monthModel(aMonthModel),
                                                                     m_weekModel(aWeekModel),
@@ -86,34 +86,7 @@ void SelectionController::selectYearSlot(QString aCurrentText)
             selectionMonthData.push_front(tr("all"));
             m_monthModel.setNewSelectionModel(selectionMonthData);
 
-            // set new model
-            QDate startDate = QDate::fromString(aCurrentText, "yyyy");
-            QDate endDate = QDate::fromString(aCurrentText, "yyyy").addYears(1);
-            QList<const SensorData*> dataList = m_importExportStorage.measurementsFromTo(0, startDate, endDate);
-
-            m_runModel.setNewSensorModel(dataList);
-
-            if(m_runModel.getSensorModelCount() != 0)
-            {
-                const SensorData* data = m_runModel.getSingleSensorData(0);
-                if(data)
-                {
-                    const int id = data->getId();
-                    QList<const SensorData*> singleDataList = m_importExportStorage.dataByMeasurementId(id);
-                    m_sensorModel.setNewSensorModel(singleDataList);
-                    m_activeCalcModel.updateCalcValues(m_sensorModel);
-                }
-                else
-                {
-                    qDebug() << "Error no new model set";
-                }
-            }
-            else
-            {
-                QList<const SensorData*> emptyVector;
-                m_sensorModel.setNewSensorModel(emptyVector);
-                m_activeCalcModel.updateCalcValues(m_sensorModel);
-            }
+            setAllAvailableYearData(m_currentYearText);
             updateGuiWithCurrentData();
 
             QObject* child = parent()->findChild<QObject*>("monthRectName");
@@ -141,8 +114,7 @@ void SelectionController::selectMonthSlot(QString aCurrentText)
             }
             else qDebug() << "No state change";
 
-            // get all data from currentTextYear
-
+            setAllAvailableYearData(m_currentYearText);
         }
         else
         {
@@ -167,6 +139,7 @@ void SelectionController::selectMonthSlot(QString aCurrentText)
             QList<const SensorData*> sensorList = m_importExportStorage.measurementsFromTo(0, startDate, endDate);
             m_runModel.setNewSensorModel(sensorList);
         }
+        updateGuiWithCurrentData();
     }
 }
 
@@ -198,6 +171,39 @@ void SelectionController::setAllAvailableData()
         m_activeCalcModel.updateCalcValues(m_sensorModel);
     }
     updateGuiWithCurrentData();
+}
+
+void SelectionController::setAllAvailableYearData(QString aCurrentText)
+{
+    // set new model
+    QDate startDate = QDate::fromString(aCurrentText, "yyyy");
+    QDate endDate = QDate::fromString(aCurrentText, "yyyy").addYears(1);
+    QList<const SensorData*> dataList = m_importExportStorage.measurementsFromTo(0, startDate, endDate);
+
+    m_runModel.setNewSensorModel(dataList);
+
+    if(m_runModel.getSensorModelCount() != 0)
+    {
+        const SensorData* data = m_runModel.getSingleSensorData(0);
+        if(data)
+        {
+            const int id = data->getId();
+            qDebug() << "ID = "<< id;
+            QList<const SensorData*> singleDataList = m_importExportStorage.dataByMeasurementId(id);
+            m_sensorModel.setNewSensorModel(singleDataList);
+            m_activeCalcModel.updateCalcValues(m_sensorModel);
+        }
+        else
+        {
+            qDebug() << "Error no new model set";
+        }
+    }
+    else
+    {
+        QList<const SensorData*> emptyVector;
+        m_sensorModel.setNewSensorModel(emptyVector);
+        m_activeCalcModel.updateCalcValues(m_sensorModel);
+    }
 }
 
 void SelectionController::updateGuiWithCurrentData()

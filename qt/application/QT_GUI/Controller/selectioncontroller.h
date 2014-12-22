@@ -61,6 +61,8 @@ class SelectionController: public QObject
 
         void setAllAvailableData();
 
+        void setAllAvailableYearData(QString aCurrentText);
+
         void updateGuiWithCurrentData();
 
         /**
