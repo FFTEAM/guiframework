@@ -455,9 +455,9 @@ QList<QString> ImportExport::months(quint8 aType, const QDate& aYear)
     return dataList;
 }
 
-QList<quint8> ImportExport::weeks(quint8 aType, const QDate& aYear, const QDate& aMonth)
+QList<QString> ImportExport::weeks(quint8 aType, const QDate& aYear, const QDate& aMonth)
 {
-    QList<quint8> dataList;
+    QList<QString> dataList;
 
     QSqlQuery selectMeasurement(mDataBase);
     quint64 startTimeStamp = QDateTime(aYear).addMonths(aMonth.month()).toMSecsSinceEpoch();
@@ -493,7 +493,7 @@ QList<quint8> ImportExport::weeks(quint8 aType, const QDate& aYear, const QDate&
 
     quint64 timestamp;
 
-    quint8 weekNum;
+    QString weekNum;
 
     while (selectMeasurement.next())
     {
