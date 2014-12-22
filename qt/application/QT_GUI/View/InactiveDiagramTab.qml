@@ -13,7 +13,6 @@ Rectangle {
 
     states:
     [
-
         State
         {
             name: "INIT_DIAGRAMM"
@@ -44,6 +43,7 @@ Rectangle {
 
         GroupBox {
             id: grpFilter
+            objectName: "grpFilterName"
 
             anchors.right: parent.right
 
@@ -52,89 +52,122 @@ Rectangle {
 
             title: qsTr("Filtering options")
 
-            Rectangle {
-                id: yearRect
-                color: "transparent"
+            Row {
+                id: startDateRow
                 width: parent.width
-                height: parent.height / 3
+                height: parent.height / 3 - 5
                 anchors.top: parent.top
                 anchors.topMargin: 3
 
                 Label {
-                    id: yearLabelId
-                    anchors.left: parent.left
-                    height: cmbSelectYearFilter.height
+                    id: startDateLabel
+                    height: startDateInput.height
                     width: parent.width / 6
-                    text: qsTr("Year:")
+                    text: qsTr("start date ")
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                 }
 
-                ComboBox {
-                    id: cmbSelectYearFilter
-                    anchors.left: yearLabelId.right
-                    anchors.leftMargin: 10
-                    width: parent.width - yearLabelId.width - 10
-                    currentIndex: 0
-                    model: inactiveSelectionYearModel
+                TextField{
+
+                    id: startDateInput
+                    objectName: "startDateInputName"
+                    width: parent.width / 6 * 3
+                    height: parent.height
+                    style: TextFieldStyle {
+
+                            textColor: "black"
+                            background: Rectangle {
+                                id: startDateValidateRec
+                                border.color: "grey"
+                                border.width: 1
+                            }
+                   }
+                }
+
+                Label{
+
+                    id: startDateFormatLabel
+                    height: startDateInput.height
+                    width: parent.width / 6 * 2
+                    text: qsTr("  (DD-MM-YYYY)")
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
                 }
             }
 
-            Rectangle {
-                id: monthRect
-                color: "transparent"
+            Row {
+                id: endDateRow
                 width: parent.width
-                height: parent.height / 3
-                anchors.top: yearRect.bottom
-                anchors.topMargin: 3
+                height: parent.height / 3 - 5
+                anchors.verticalCenter: parent.verticalCenter
 
                 Label {
-                    id: monthLabelId
-                    anchors.left: parent.left
-                    height: cmbSelectMonthFilter.height
+                    id: endDateLabel
+                    height: endDateInput.height
                     width: parent.width / 6
-                    text: qsTr("Month:")
+                    text: qsTr("end date ")
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                 }
 
-                ComboBox {
-                    id: cmbSelectMonthFilter
-                    anchors.left: monthLabelId.right
-                    anchors.leftMargin: 10
-                    width: parent.width - monthLabelId.width - 10
-                    currentIndex: 0
-                    // THROWS WARNING: model: inactiveSelectionMonthModel
-              }
+                TextField{
+
+                    id: endDateInput
+                    objectName: "endDateInputName"
+                    width: parent.width / 6 * 3
+                    height: parent.height
+                    style: TextFieldStyle {
+
+                            textColor: "black"
+                            background: Rectangle {
+                                id: endDateValidateRec
+                                border.color: "grey"
+                                border.width: 1
+                            }
+                   }
+                }
+
+                Label{
+
+                    id: endDateFormatLabel
+                    height: endDateInput.height
+                    width: parent.width / 6 * 2
+                    text: qsTr("  (DD-MM-YYYY)")
+                    horizontalAlignment: Text.AlignLeft
+                    verticalAlignment: Text.AlignVCenter
+                }
             }
 
-            Rectangle {
-                id: weekRect
-                color: "transparent"
+            Row{
+
+                id: filterButtonRow
                 width: parent.width
-                height: parent.height / 3
-                anchors.top: monthRect.bottom
-                anchors.topMargin: 3
+                height: parent.height / 3 - 5
+                anchors.bottom: parent.bottom
 
-                Label {
-                    id: weekLabelId
-                    anchors.left: parent.left
-                    height: cmbSelectWeekFilter.height
-                    width: parent.width / 6
-                    text: qsTr("Week:")
-                    horizontalAlignment: Text.AlignLeft
+                Label
+                {
+                    id: errorLabel
+                    objectName: "errorLabelName"
+                    width: parent.width / 6 * 3
+                    height: parent.height
+                    color: "red"
+                    horizontalAlignment: Text.AlignRight
                     verticalAlignment: Text.AlignVCenter
                 }
 
-                ComboBox {
-                    id: cmbSelectWeekFilter
-                    anchors.left: weekLabelId.right
-                    anchors.leftMargin: 10
-                    width: parent.width - weekLabelId.width - 10
-                    currentIndex: 0
-                    // THROWS WARNING: model: inactiveSelectionWeekModel
+                spacing : 3
+
+                Button{
+                    id: filterButton
+                    objectName: "filerButtonName"
+                    width: parent.width / 6
+                    height: parent.height
+                    text: qsTr("filter")
                 }
             }
+
         } // grpFilter
 
         Component {
@@ -210,6 +243,7 @@ Rectangle {
             CustomPlotBarChart {
                 state: "INIT_DIAGRAMM"
                 id: customPlot
+                objectName: "inactiveDiagramName"
 
                 anchors.left: parent.left
                 anchors.top: parent.top
@@ -219,8 +253,6 @@ Rectangle {
 
                 anchors.leftMargin: 5
                 anchors.topMargin: 5
-
-                objectName: "inactiveDiagramName"
 
                 onStateChanged: { updateDataAndGUI() }
                 Component.onCompleted: { initCustomPlot() }

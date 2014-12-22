@@ -6,10 +6,10 @@
 /**
   * @file   sensordata.h
   * @author Patrick Mathias, Markus Nebel
-  * @author Verantwortlichkeit: Patrick Mathias
-  * @date   12.12.2014 13:59:00 GMT
+  * @author responsible: Patrick Mathias
+  * @date   12.12.2014 13:56:00 GMT
   *
-  * @brief  Diese Header-Datei enhält alle Deklarationen der Klasse SensorData
+  * @brief  ToDo
   *
   */
 

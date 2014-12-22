@@ -29,7 +29,10 @@ bool DataReceiver::validateData(const quint8* aData, const quint64 aLen)
 {
     quint64 pos = 0;
     quint8 mode, mood;
-    QList<const SensorData*> sensorData;
+    quint16 averageRate;
+
+    //QList<const SensorData*> sensorData;
+    QList<rawData> rawDataList;
     STATEMACHINE state = MODE_STATE;
 
     do
@@ -77,7 +80,6 @@ bool DataReceiver::validateData(const quint8* aData, const quint64 aLen)
                 {
                     qDebug("AVGR data packet found");
                     pos++;
-                    quint16 averageRate;
                     memcpy(&averageRate, aData+pos, 2); pos += 2;
                     averageRate = qFromBigEndian(averageRate);
 
@@ -110,8 +112,9 @@ bool DataReceiver::validateData(const quint8* aData, const quint64 aLen)
                         heartRate = qFromBigEndian(heartRate);
                         steps = qFromBigEndian(steps);
 
-                        QDateTime dateTime = QDateTime::fromMSecsSinceEpoch(timeStampMs);
-                        sensorData.append(new SensorData(dateTime, heartRate, steps));
+                        rawDataList.append({timeStampMs, heartRate, steps});
+                        /*QDateTime dateTime = QDateTime::fromMSecsSinceEpoch(timeStampMs);
+                        sensorData.append(new SensorData(dateTime, heartRate, steps));*/
                     }
                     else if (0 == (aLen - pos))
                     {
@@ -139,34 +142,8 @@ bool DataReceiver::validateData(const quint8* aData, const quint64 aLen)
 
     if (FINAL_STATE == state)
     {
-        switch (mode)
-        {
-            case REST:
-                /*InactiveSensorModel::getInstance().setNewSensorModel(sensorData);
-                InactiveSensorCalcModel::getInstance().updateCalcValues(InactiveSensorModel::getInstance());*/
-                updateGuiForResting(sensorData);
-            return true;
-
-            case ACTIVITY:
-                /*ActiveSensorModel::getInstance().setNewSensorModel(sensorData);
-                ActiveSensorCalcModel::getInstance().updateCalcValues(ActiveSensorModel::getInstance());*/
-                updateGuiForActivity(sensorData);
-            return true;
-
-            default:
-                qFatal("invalid mode:" + mode);
-        }
+        updateStorage(rawDataList, mode, mood, averageRate);
     }
 
     return false;
-}
-
-void DataReceiver::handleUserData(const QString&)
-{
-
-}
-
-void DataReceiver::handleSensorData(const QString&)
-{
-
 }

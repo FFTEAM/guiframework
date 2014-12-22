@@ -12,7 +12,6 @@ SOURCES +=  main.cpp \
             Controller/printbuttoncontroller.cpp \
             Diagram/customplotbarchart.cpp \
             Diagram/customplotlinechart.cpp \
-            Controller/updatebuttoncontroller.cpp \
             Connection/DataReceiver.cpp \
             Connection/BroadcastReceiver.cpp \
             Connection/TcpConnection.cpp \
@@ -24,7 +23,11 @@ SOURCES +=  main.cpp \
             ImportExport/ImportExport.cpp \
             Settings/Settings.cpp \
             Model/selectionmodel.cpp \
-            Controller/selectioncontroller.cpp
+            Controller/selectioncontroller.cpp \
+            ImportExport/MeasureType.cpp \
+            ImportExport/MoodType.cpp \
+    Controller/initdiagramscontroller.cpp \
+    Controller/filtercontroller.cpp
 
 TRANSLATIONS = Language_Files/app_de_DE.ts \
 
@@ -38,7 +41,6 @@ HEADERS += \
             Controller/printbuttoncontroller.h \
             Diagram/customplotbarchart.h \
             Diagram/customplotlinechart.h \
-            Controller/updatebuttoncontroller.h \
             Connection/DataReceiver.h \
             Connection/BroadcastReceiver.h \
             Connection/TcpConnection.h \
@@ -50,7 +52,11 @@ HEADERS += \
             ImportExport/ImportExport.h \
             Settings/Settings.h \
             Model/selectionmodel.h \
-            Controller/selectioncontroller.h
+            Controller/selectioncontroller.h \
+            ImportExport/MeasureType.h \
+            ImportExport/MoodType.h \
+    Controller/initdiagramscontroller.h \
+    Controller/filtercontroller.h
 
 DESTPATH = .
 target.path = $$DESTPATH

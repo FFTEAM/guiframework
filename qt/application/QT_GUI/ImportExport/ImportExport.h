@@ -4,6 +4,9 @@
 #include <QObject>
 #include <QtSql/QtSql>
 
+#include "Model/Data/sensordata.h"
+#include "Connection/DataReceiver.h"
+
 class ImportExport final : public QObject
 {
     Q_OBJECT
@@ -17,6 +20,12 @@ class ImportExport final : public QObject
 
     ImportExport(const ImportExport&) = delete;
     const ImportExport& operator=(const ImportExport&) = delete;
+
+    void insertTypes();
+    void insertMoods();
+
+public slots:
+    void insertMeasurement(QList<rawData>&, quint8 type, quint8 mood, quint16 average);
 
 public:
     explicit ImportExport(QObject *parent = 0);

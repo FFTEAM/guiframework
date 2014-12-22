@@ -1,3 +1,18 @@
+//#########################################################################################
+// Projekt: Heart Rate 2 go
+// Copyright: 2014
+//#########################################################################################
+
+/**
+  * @file   selectionmodel.cpp
+  * @author Patrick Mathias, Markus Nebel
+  * @author responsible: Patrick Mathias
+  * @date   12.12.2014 13:56:00 GMT
+  *
+  * @brief  ToDo
+  *
+  */
+
 #include "selectionmodel.h"
 
 SelectionModel::SelectionModel(QObject* aParent):QAbstractListModel(aParent)

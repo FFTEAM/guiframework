@@ -6,10 +6,10 @@
 /**
   * @file   sensormodel.h
   * @author Patrick Mathias, Markus Nebel
-  * @author Verantwortlichkeit: Patrick Mathias
-  * @date   12.12.2014 14:07:00 GMT
+  * @author responsible: Patrick Mathias
+  * @date   12.12.2014 13:56:00 GMT
   *
-  * @brief  Diese Header-Datei enhält alle Deklarationen der Klasse SensoModel
+  * @brief  ToDo
   *
   */
 
@@ -53,11 +53,11 @@ class SensorModel : public QAbstractListModel
 
         ~SensorModel();
 
-        /**
-         * @brief SensorModel ist der Standardtkonstruktor der Klasse SensorModel
-         * @param aParent Zeiger auf die Basisklasse QObject
-         */
-        explicit SensorModel(QObject* aParent = 0);
+        SensorModel();
+
+        SensorModel(const SensorModel& aOther);
+
+        QList<const SensorData*> getDataList() const;
 
         /**
          * @brief addSensorData Fügt ein neues Datenobjekt dem Model hinzu
@@ -112,22 +112,9 @@ class SensorModel : public QAbstractListModel
     private:
 
         /**
-         * @brief  SensorModel Nicht in Verwendung (Definition fehlt)
-         * @param aOther Referenz auf ein Objekt der Klasse SensorModel
-         */
-        SensorModel(const SensorModel& aOther);
-
-        /**
          * @brief  cleanList Gibt Speicher aller SensoDaten frei und clear die m_sensorList
          */
         void cleanList();
-
-        /**
-         * @brief operator = Nicht in Verwendung (Definition fehlt)
-         * @param aRhs Referenz auf ein Objekt der Klasse SensorModel
-         * @return Liefert ein Objekt der Klasse SensorModel zurück (Konkatination möglich)
-         */
-        SensorModel& operator= (const SensorModel& aRhs);
 
         /**
          * @brief m_sensorList Liste mit den aktuellen Datenobjekten

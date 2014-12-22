@@ -6,18 +6,28 @@
 /**
   * @file   sensormodel.cpp
   * @author Patrick Mathias, Markus Nebel
-  * @author Verantwortlichkeit: Patrick Mathias
-  * @date   12.12.2014 14:12:00 GMT
+  * @author responsible: Patrick Mathias
+  * @date   12.12.2014 13:56:00 GMT
   *
-  * @brief Diese CPP-Datei enthält alle Implementierung der Methoden der Klasse SensorModel
+  * @brief  ToDo
   *
   */
 
 #include "sensormodel.h"
 
-SensorModel::SensorModel(QObject* aParent) : QAbstractListModel(aParent)
+SensorModel::SensorModel() : QAbstractListModel(0)
 {
     // C'tor
+}
+
+SensorModel::SensorModel(const SensorModel& aOther)
+{
+    m_sensorList = aOther.getDataList();
+}
+
+QList<const SensorData *> SensorModel::getDataList() const
+{
+    return m_sensorList;
 }
 
 SensorModel::~SensorModel()

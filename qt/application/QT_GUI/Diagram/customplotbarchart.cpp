@@ -6,10 +6,10 @@
 /**
   * @file   customplotbarchart.cpp
   * @author Patrick Mathias, Markus Nebel
-  * @author Verantwortlichkeit: Patrick Mathias
-  * @date   12.12.2014 14:12:00 GMT
+  * @author responsible: Patrick Mathias
+  * @date   12.12.2014 13:56:00 GMT
   *
-  * @brief Diese CPP-Datei enthält alle Implementierung der Methoden der Klasse CustomPlotBarChart
+  * @brief  ToDo
   *
   */
 
@@ -37,11 +37,24 @@ void CustomPlotBarChart ::initCustomPlot()
     qDebug() << "initCustomPlot()";
 }
 
+void CustomPlotBarChart::setData(SensorModel* aModel)
+{
+    qDebug() << "setData called";
+    m_inactiveModel = aModel;
+}
+
+SensorModel* CustomPlotBarChart::getData()
+{
+    return m_inactiveModel;
+}
+
 CustomPlotBarChart ::CustomPlotBarChart (QQuickItem* aParent) : QQuickPaintedItem(aParent),
+                                                                m_inactiveModel(0),
                                                                 m_CustomPlot(0),
                                                                 m_xAxis(0),
                                                                 m_yAxis(0),
                                                                 m_barChart(0)
+
 
 {
     // add connection for resizing the chart:
@@ -95,26 +108,32 @@ void CustomPlotBarChart::updateDataAndGUI()
 
 void CustomPlotBarChart::calculateData()
 {
-//    qDebug() << "calculateData called";
-//    if(m_xAxis.size() > 0) m_xAxis.clear();
-//    if(m_yAxis.size() > 0) m_yAxis.clear();
+    qDebug() << "calculateData called xyc";
+    if(m_xAxis.size() > 0) m_xAxis.clear();
+    if(m_yAxis.size() > 0) m_yAxis.clear();
 
-//    const InactiveSensorModel& model = InactiveSensorModel::getInstance();
-//    const int length = model.getSensorModelCount();
-//    double time = 1.0;
+    if(m_inactiveModel != 0)
+    {
+        const int length = m_inactiveModel->getSensorModelCount();
+        double time = 1.0;
 
-//    for(int index = 0; index < length; index++)
-//    {
-//        m_xAxis.append(time);
-//        const SensorData* data = model.getSingleSensorData(index);
-//        if(data != 0)
-//        {
-//            m_yAxis.append(data->getHeartRate());
-//            time = time + 1;
-//        }
-//        else
-//        {
-//            qDebug() << "y axis value not found";
-//        }
-//    }
+        for(int index = 0; index < length; index++)
+        {
+            m_xAxis.append(time);
+            const SensorData* data = m_inactiveModel->getSingleSensorData(index);
+            if(data != 0)
+            {
+                m_yAxis.append(data->getHeartRate());
+                time = time + 1;
+            }
+            else
+            {
+                qDebug() << "y axis value not found";
+            }
+        }
+    }
+    else
+    {
+        qDebug() << "Model not set";
+    }
 }
