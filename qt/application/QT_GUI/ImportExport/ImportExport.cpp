@@ -112,6 +112,8 @@ ImportExport::ImportExport(QObject *parent) :
 
 void ImportExport::insertTypes()
 {
+    mDataBase.transaction();
+
     for (quint8 i = 0; i < MeasureType::numOfTypes; i++)
     {
         insertTypeQuery.bindValue(":id", i);
@@ -119,12 +121,19 @@ void ImportExport::insertTypes()
         if (!insertTypeQuery.exec())
         {
             qDebug() << "FATAL insertTypeQuery.exec(): " << insertTypeQuery.lastError().databaseText() << " - " << insertTypeQuery.lastError().driverText();
+            mDataBase.rollback();
+
+            return;
         }
     }
+
+    mDataBase.commit();
 }
 
 void ImportExport::insertMoods()
 {
+    mDataBase.transaction();
+
     for (quint8 i = 0; i < MoodType::numOfTypes; i++)
     {
         insertMoodQuery.bindValue(":id", i);
@@ -132,8 +141,13 @@ void ImportExport::insertMoods()
         if (!insertMoodQuery.exec())
         {
             qDebug() << "FATAL insertMoodQuery.exec(): " << insertMoodQuery.lastError().databaseText() << " - " << insertMoodQuery.lastError().driverText();
+            mDataBase.rollback();
+
+            return;
         }
     }
+
+    mDataBase.commit();
 }
 
 void ImportExport::insertMeasurement(QList<rawData>& dataList, quint8 type, quint8 mood, quint16 average)
