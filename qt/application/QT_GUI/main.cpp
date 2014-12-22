@@ -87,11 +87,6 @@ int main(int argc, char *argv[])
     server.startServer();
 
     // EXAMPLE DATA:
-    QList<const SensorData*> sensorDataI;
-    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 1)), 200, 5, 0));
-    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 2)), 100, 3, 1));
-    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 3)), 50, 3, 2));
-
     QList<const SensorData*> sensorDataA;
     sensorDataA.append(new SensorData(QDateTime(QDate(2017, 1, 1), QTime(0, 0, 1)), 230, 5, 4));
     sensorDataA.append(new SensorData(QDateTime(QDate(2017, 1, 1), QTime(0, 0, 2)), 120, 10, 5));
@@ -114,7 +109,9 @@ int main(int argc, char *argv[])
 
     // create sensorInactiveData Model
     SensorModel inactiveSensorModel;
-    inactiveSensorModel.setNewSensorModel(sensorDataI);
+
+    // create inactiveCalcSensorModel
+    InactiveSensorCalcModel inactiveCalcSensorModel(inactiveSensorModel);
 
     // create sensorActiveModel
     SensorModel activeSensorModel;
@@ -123,9 +120,6 @@ int main(int argc, char *argv[])
     // create sensorActiveTable Model
     SensorModel activeSensorTableModel;
     activeSensorTableModel.setNewSensorModel(sensorDataTable);
-
-    // create inactiveCalcSensorModel
-    InactiveSensorCalcModel inactiveCalcSensorModel(inactiveSensorModel);
 
     // create activeCalcSensorModel
     ActiveSensorCalcModel activeCalcSensorModel(activeSensorModel);
@@ -184,10 +178,11 @@ int main(int argc, char *argv[])
     else qDebug() << "No root object available";
 
     // set controler
+    FilterController filterController(root, inactiveSensorModel, inactiveCalcSensorModel, dataStorage);
     PrintButtonController printController(root, inactiveSensorModel, activeSensorModel);
     InitDiagramsController initController(root, inactiveSensorModel, activeSensorModel);
     SelectionController selectionController(root, activeYearModel, activeMonthModel, activeWeekModel, activeSensorModel);
-    FilterController filterController(root, inactiveSensorModel, inactiveCalcSensorModel, dataStorage);
+
 
     int ret = app.exec();
     bcReceiver.exit();

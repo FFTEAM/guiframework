@@ -48,7 +48,7 @@ class SensorModel : public QAbstractListModel
         {
             SENSOR_DATE_ROLE,            /**< Zeitstempel für die Herzfrequenz  */
             SENSOR_HEART_RATE_ROLE,      /**< Herzfrequenz */
-            SENSOR_STEP_LENGTH_ROLE           /**< Schrittlänge */
+            SENSOR_STEP_LENGTH_ROLE      /**< Schrittlänge */
         };
 
         ~SensorModel();

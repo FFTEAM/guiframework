@@ -66,9 +66,8 @@ void CustomPlotLineChart::initCustomPlot()
     calculateData();
 
     m_CustomPlot->graph(0)->setData(m_xAxis, m_yAxis);
-
-    m_CustomPlot->xAxis->setRange(0, m_xAxis.size() + 1);
     m_CustomPlot->yAxis->setRange(0, 230);
+    m_CustomPlot->xAxis->setRange(0, m_xAxis.size() + 1);
     m_CustomPlot->xAxis->setLabel(tr("Time"));
     m_CustomPlot->yAxis->setLabel(tr("Heart Rate"));
 
