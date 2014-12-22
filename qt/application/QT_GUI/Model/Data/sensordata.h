@@ -71,7 +71,7 @@ class SensorData
          * @param aHeartRate Wert für die aktuelle Herzfrequenz
          * @param aStepLength Wert für die aktuelle Schrittlänge
          */
-        SensorData(const QDateTime &aDate, quint16 aHeartRate, quint16 aStepLength);
+        SensorData(const QDateTime &aDate, quint16 aHeartRate, quint16 aStepLength, quint64 aId);
 
     private:
 
@@ -92,6 +92,11 @@ class SensorData
          * @var Enthält die aktuelle Schrittlänge
          */
         quint16 m_stepLength;
+
+        /**
+         * @brief m_id id for db
+         */
+        quint64 m_id;
 };
 
 #endif // SENSORDATA_H

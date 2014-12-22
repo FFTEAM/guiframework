@@ -88,14 +88,21 @@ int main(int argc, char *argv[])
 
     // EXAMPLE DATA:
     QList<const SensorData*> sensorDataI;
-    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 1)), 200, 5));
-    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 2)), 100, 3));
-    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 3)), 50, 3));
+    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 1)), 200, 5, 0));
+    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 2)), 100, 3, 1));
+    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 3)), 50, 3, 2));
 
     QList<const SensorData*> sensorDataA;
-    sensorDataA.append(new SensorData(QDateTime(QDate(2017, 1, 1), QTime(0, 0, 1)), 230, 5));
-    sensorDataA.append(new SensorData(QDateTime(QDate(2017, 1, 1), QTime(0, 0, 2)), 120, 10));
-    sensorDataA.append(new SensorData(QDateTime(QDate(2017, 1, 1), QTime(0, 0, 3)), 30, 3));
+    sensorDataA.append(new SensorData(QDateTime(QDate(2017, 1, 1), QTime(0, 0, 1)), 230, 5, 4));
+    sensorDataA.append(new SensorData(QDateTime(QDate(2017, 1, 1), QTime(0, 0, 2)), 120, 10, 5));
+    sensorDataA.append(new SensorData(QDateTime(QDate(2017, 1, 1), QTime(0, 0, 3)), 30, 3, 6));
+
+    QList<const SensorData*> sensorDataTable;
+    sensorDataTable.append(new SensorData(QDateTime(QDate(2013, 1, 1), QTime(0, 0, 1)), 230, 5, 7));
+    sensorDataTable.append(new SensorData(QDateTime(QDate(2014, 1, 1), QTime(0, 0, 2)), 120, 10, 8));
+    sensorDataTable.append(new SensorData(QDateTime(QDate(2017, 1, 1), QTime(0, 0, 3)), 30, 3, 9));
+    sensorDataTable.append(new SensorData(QDateTime(QDate(2016, 1, 1), QTime(0, 0, 2)), 120, 10, 10));
+    sensorDataTable.append(new SensorData(QDateTime(QDate(2018, 1, 1), QTime(0, 0, 3)), 30, 3, 11));
 
     QList<QString> selectionYearData;
     selectionYearData.append("2010");
@@ -112,6 +119,10 @@ int main(int argc, char *argv[])
     // create sensorActiveModel
     SensorModel activeSensorModel;
     activeSensorModel.setNewSensorModel(sensorDataA);
+
+    // create sensorActiveTable Model
+    SensorModel activeSensorTableModel;
+    activeSensorTableModel.setNewSensorModel(sensorDataTable);
 
     // create inactiveCalcSensorModel
     InactiveSensorCalcModel inactiveCalcSensorModel(inactiveSensorModel);
@@ -148,6 +159,7 @@ int main(int argc, char *argv[])
         contex->setContextProperty("activeSelectionYearModel", &activeYearModel);
         contex->setContextProperty("activeSelectionMonthModel", &activeMonthModel);
         contex->setContextProperty("activeSelectionWeekModel", &activeWeekModel);
+        contex->setContextProperty("activeSensorTableModel", &activeSensorTableModel);
     }
     else qDebug() << "Error no contex is set";
 
