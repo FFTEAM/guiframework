@@ -350,7 +350,7 @@ QList<QString> ImportExport::years(quint8 aType)
                 "SELECT "
                     "timestamp "
                 "FROM "
-                    "Measurements "
+                    "Measurement "
                 "WHERE "
                     "type = :type;"
                 );
@@ -368,7 +368,7 @@ QList<QString> ImportExport::years(quint8 aType)
     quint64 timestamp;
 
     QDateTime yearDate;
-    QString yearStr = yearDate.toString("YYYY");
+    QString yearStr = yearDate.toString("yyyy");
 
     while (selectMeasurement.next())
     {
