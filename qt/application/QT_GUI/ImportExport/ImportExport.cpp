@@ -341,6 +341,51 @@ QList<const SensorData*> ImportExport::measurementsFromTo(quint8 aType, const QD
     return dataList;
 }
 
+QList<QString> ImportExport::years(quint8 aType)
+{
+    QList<QString> dataList;
+
+    QSqlQuery selectMeasurement(mDataBase);
+    selectMeasurement.prepare(
+                "SELECT "
+                    "timestamp "
+                "FROM "
+                    "Measurements "
+                "WHERE "
+                    "type = :type;"
+                );
+
+    selectMeasurement.bindValue(":type", aType);
+
+    if (!selectMeasurement.exec())
+    {
+        qDebug() << "FATAL selectMeasurement.exec(): " << selectMeasurement.lastError().databaseText() << " - " << selectMeasurement.lastError().driverText();
+        qDebug() << "Executed Query: " << selectMeasurement.executedQuery();
+
+        return dataList;
+    }
+
+    quint64 timestamp;
+
+    QDateTime yearDate;
+    QString yearStr = yearDate.toString("YYYY");
+
+    while (selectMeasurement.next())
+    {
+        timestamp = selectMeasurement.value(0).toLongLong();
+
+        yearDate.fromMSecsSinceEpoch(timestamp);
+        if (!dataList.contains(yearStr))
+        {
+            dataList.push_back(yearStr);
+        }
+    }
+
+    selectMeasurement.finish();
+
+    return dataList;
+}
+
 QList<const SensorData*> ImportExport::dataByMeasurementId(quint64 aId)
 {
     QList<const SensorData*> dataList;
@@ -381,6 +426,8 @@ QList<const SensorData*> ImportExport::dataByMeasurementId(quint64 aId)
 
     return dataList;
 }
+
+
 
 ImportExport::~ImportExport()
 {
