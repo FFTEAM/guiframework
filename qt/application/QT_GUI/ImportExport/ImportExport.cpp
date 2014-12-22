@@ -83,15 +83,15 @@ ImportExport::ImportExport(QObject *parent) :
             }
             else if (!insertMoodQuery.prepare("INSERT OR REPLACE INTO Mood(id, name) VALUES(:id, :name);"))
             {
-                qDebug() << "FATAL insertMoodQuery.prepare(): " << insertMoodQuery.lastError().databaseText();
+                qDebug() << "FATAL insertMoodQuery.prepare(): " << insertMoodQuery.lastError().databaseText() << " - " << insertMoodQuery.lastError().driverText();
             }
             else if (!insertMeasurementQuery.prepare("INSERT INTO Measurement(type, mood, average, timestamp, duration) VALUES(:type, :mood, :average, :timestamp, :duration);"))
             {
-                qDebug() << "FATAL insertMeasurementQuery.prepare(): " << insertMeasurementQuery.lastError().databaseText();
+                qDebug() << "FATAL insertMeasurementQuery.prepare(): " << insertMeasurementQuery.lastError().databaseText() << " - " << insertMeasurementQuery.lastError().driverText();
             }
             else if (!insertDataQuery.prepare("INSERT INTO Data(measurement, seconds, heartrate, steps) VALUES(:measurement, :seconds, :heartrate, :steps);"))
             {
-                qDebug() << "FATAL insertDataQuery.prepare(): " << insertDataQuery.lastError().databaseText();
+                qDebug() << "FATAL insertDataQuery.prepare(): " << insertDataQuery.lastError().databaseText() << " - " << insertDataQuery.lastError().driverText();
             }
             else
             {
@@ -118,7 +118,7 @@ void ImportExport::insertTypes()
         insertTypeQuery.bindValue(":name", MeasureType::typeName[i]);
         if (!insertTypeQuery.exec())
         {
-            qDebug() << "FATAL insertTypeQuery.exec(): " << insertTypeQuery.lastError().databaseText();
+            qDebug() << "FATAL insertTypeQuery.exec(): " << insertTypeQuery.lastError().databaseText() << " - " << insertTypeQuery.lastError().driverText();
         }
     }
 }
@@ -131,7 +131,7 @@ void ImportExport::insertMoods()
         insertMoodQuery.bindValue(":name", MoodType::typeName[i]);
         if (!insertMoodQuery.exec())
         {
-            qDebug() << "FATAL insertMoodQuery.exec(): " << insertMoodQuery.lastError().databaseText();
+            qDebug() << "FATAL insertMoodQuery.exec(): " << insertMoodQuery.lastError().databaseText() << " - " << insertMoodQuery.lastError().driverText();
         }
     }
 }
@@ -157,7 +157,7 @@ void ImportExport::insertMeasurement(QList<rawData>& dataList, quint8 type, quin
 
     if (!insertMeasurementQuery.exec())
     {
-        qDebug() << "FATAL insertMeasurementQuery.exec(): " << insertMeasurementQuery.lastError().databaseText();
+        qDebug() << "FATAL insertMeasurementQuery.exec(): " << insertMeasurementQuery.lastError().databaseText() << " - " << insertMeasurementQuery.lastError().driverText();
         mDataBase.rollback();
 
         return;
@@ -166,6 +166,8 @@ void ImportExport::insertMeasurement(QList<rawData>& dataList, quint8 type, quin
     if (!res.isValid())
     {
         qDebug() << "INVALID lastInsertId()!";
+        mDataBase.rollback();
+
         return;
     }
     quint64 measurementId = res.toInt(0);
@@ -179,7 +181,7 @@ void ImportExport::insertMeasurement(QList<rawData>& dataList, quint8 type, quin
 
         if (!insertDataQuery.exec())
         {
-            qDebug() << "FATAL insertDataQuery.exec(): " << insertDataQuery.lastError().databaseText();
+            qDebug() << "FATAL insertDataQuery.exec(): " << insertDataQuery.lastError().databaseText() << " - " << insertDataQuery.lastError().driverText();
             mDataBase.rollback();
 
             return;
