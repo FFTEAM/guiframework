@@ -118,14 +118,9 @@ class CustomPlotBarChart : public QQuickPaintedItem
          */
         QCPBars* m_barChart;
 
-        /*void routeMouseEvents( QMouseEvent* event );
-
-        virtual void mousePressEvent( QMouseEvent* event );
-        virtual void mouseReleaseEvent( QMouseEvent* event );
-        virtual void mouseMoveEvent( QMouseEvent* event );
-        virtual void mouseDoubleClickEvent( QMouseEvent* event );*/
-
         virtual void hoverMoveEvent(QHoverEvent * event);
+        QCPItemText *textLabel;
+
         QVector<double> m_tickValueVector;
 
         QVector<QString> m_tickLabelVector;
@@ -140,8 +135,6 @@ class CustomPlotBarChart : public QQuickPaintedItem
          */
         void calculateData();
     private slots:
-        void showPointToolTip(QMouseEvent *event);
-
         void calculateTicksAndLabels();
 };
 
