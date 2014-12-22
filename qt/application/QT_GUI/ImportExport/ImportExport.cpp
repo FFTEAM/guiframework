@@ -347,7 +347,7 @@ QList<const SensorData*> ImportExport::dataByMeasurementId(quint64 aId)
     QSqlQuery selectMeasurement(mDataBase);
     selectMeasurement.prepare(
                 "SELECT "
-                    "seconds, heartrate, steps"
+                    "seconds, heartrate, steps "
                 "FROM "
                     "Data "
                 "WHERE "
