@@ -265,7 +265,6 @@ QList<const SensorData*> ImportExport::measurements(quint8 aType)
         duration = selectMeasurement.value(3).toInt();
         type = selectMeasurement.value(4).toString();
         mood = selectMeasurement.value(5).toString();
-        qDebug() << measurementId << " " << average << " " << timestamp << " " << duration << " " << type << " " << mood;
 
         dataList.push_back(new SensorData(QDateTime().fromMSecsSinceEpoch(timestamp), average, duration, measurementId));
     }
@@ -333,7 +332,6 @@ QList<const SensorData*> ImportExport::measurementsFromTo(quint8 aType, const QD
         duration = selectMeasurement.value(3).toInt();
         type = selectMeasurement.value(4).toString();
         mood = selectMeasurement.value(5).toString();
-        qDebug() << measurementId << " " << average << " " << timestamp << " " << duration << " " << type << " " << mood;
 
         dataList.push_back(new SensorData(QDateTime().fromMSecsSinceEpoch(timestamp), average, duration, measurementId));
     }
@@ -356,7 +354,7 @@ QList<const SensorData*> ImportExport::dataByMeasurementId(quint64 aId)
                     "measurement >= :id;"
                 );
 
-    selectMeasurement.bindValue(":type", aId);
+    selectMeasurement.bindValue(":id", aId);
 
     if (!selectMeasurement.exec())
     {
