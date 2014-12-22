@@ -60,7 +60,7 @@ void SensorModel::addSensorData(const SensorData* aSensorData)
 void SensorModel::setNewSensorModel(QList<const SensorData*>& aSensorModel)
 {
     beginResetModel();
-    //cleanList();
+    cleanList();
     m_sensorList = aSensorModel;
     endResetModel();
 }
