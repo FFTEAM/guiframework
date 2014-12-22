@@ -94,6 +94,11 @@ void CustomPlotBarChart::paint(QPainter* aPainter)
     }
 }
 
+void CustomPlotBarChart::hoverMoveEvent(QHoverEvent * event)
+{
+    qDebug() << Q_FUNC_INFO;
+}
+
 void CustomPlotBarChart::showPointToolTip(QMouseEvent *event)
 {
     qDebug() << Q_FUNC_INFO;

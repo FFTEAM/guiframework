@@ -124,6 +124,8 @@ class CustomPlotBarChart : public QQuickPaintedItem
         virtual void mouseReleaseEvent( QMouseEvent* event );
         virtual void mouseMoveEvent( QMouseEvent* event );
         virtual void mouseDoubleClickEvent( QMouseEvent* event );*/
+
+        virtual void hoverMoveEvent(QHoverEvent * event);
         QVector<double> m_tickValueVector;
 
         QVector<QString> m_tickLabelVector;
