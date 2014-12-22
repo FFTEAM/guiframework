@@ -377,6 +377,7 @@ QList<QString> ImportExport::years(quint8 aType)
         yearDate.fromMSecsSinceEpoch(timestamp);
         yearStr = yearDate.toString("yyyy");
 
+        qDebug() << yearStr;
         if (!dataList.contains(yearStr))
         {
             dataList.push_back(yearStr);

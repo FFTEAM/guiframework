@@ -100,14 +100,6 @@ int main(int argc, char *argv[])
     sensorDataTable.append(new SensorData(QDateTime(QDate(2016, 1, 1), QTime(0, 0, 2)), 120, 10, 10));
     sensorDataTable.append(new SensorData(QDateTime(QDate(2018, 1, 1), QTime(0, 0, 3)), 30, 3, 11));
 
-    QList<QString> selectionYearData;
-    selectionYearData.append("2010");
-    selectionYearData.append("2011");
-    selectionYearData.append("2012");
-    selectionYearData.append("2013");
-    selectionYearData.append("2014");
-    selectionYearData.append("2015");
-
     // create sensorInactiveData Model
     SensorModel inactiveSensorModel;
 
@@ -127,7 +119,6 @@ int main(int argc, char *argv[])
 
     // create selectionValue models
     SelectionModel activeYearModel, activeMonthModel, activeWeekModel;
-    activeYearModel.setNewSelectionModel(selectionYearData);
 
     qmlRegisterType<CustomPlotBarChart>("CostumPlot", 1, 0, "CustomPlotBarChart");
     qmlRegisterType<CustomPlotLineChart>("CostumPlot", 1, 0, "CustomPlotLineChart");
@@ -180,11 +171,10 @@ int main(int argc, char *argv[])
 
     // set controler
     FilterController filterController(root, inactiveSensorModel, inactiveCalcSensorModel, dataStorage);
+    SelectionController selectionController(root, activeYearModel, activeMonthModel, activeWeekModel, activeSensorModel,activeSensorTableModel, dataStorage);
     TableSelectionController tableController(root, activeSensorTableModel, activeSensorModel, activeCalcSensorModel, dataStorage);
     PrintButtonController printController(root, inactiveSensorModel, activeSensorModel);
     InitDiagramsController initController(root, inactiveSensorModel, activeSensorModel);
-    SelectionController selectionController(root, activeYearModel, activeMonthModel, activeWeekModel, activeSensorModel);
-
 
     int ret = app.exec();
     bcReceiver.exit();
