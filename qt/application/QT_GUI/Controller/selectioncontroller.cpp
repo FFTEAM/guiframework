@@ -22,6 +22,7 @@ SelectionController::SelectionController(QObject* aParent,
                                          SelectionModel& aWeekModel,
                                          SensorModel& aInactiveModel,
                                          SensorModel& aRunModel,
+                                         ActiveSensorCalcModel& aCalcModel,
                                          ImportExport& aStorage):   QObject(aParent),
                                                                     m_currentText(""),
                                                                     m_yearModel(aYearModel),
@@ -29,6 +30,7 @@ SelectionController::SelectionController(QObject* aParent,
                                                                     m_weekModel(aWeekModel),
                                                                     m_sensorModel(aInactiveModel),
                                                                     m_runModel(aRunModel),
+                                                                    m_activeCalcModel(aCalcModel),
                                                                     m_importExportStorage(aStorage)
 {
     //C'tor
@@ -55,9 +57,29 @@ SelectionController::SelectionController(QObject* aParent,
     // get all possible years in storage
     QList<QString> dataList = m_importExportStorage.years(0);
     dataList.push_front("all");
+
+    // set combobox
     m_yearModel.setNewSelectionModel(dataList);
 
-    // set run model
+    // set table with runs
+    QList<const SensorData*> sensorList = m_importExportStorage.measurements(0);
+    m_runModel.setNewSensorModel(sensorList);
+
+    if(m_runModel.getSensorModelCount() != 0)
+    {
+        const SensorData* data = m_runModel.getSingleSensorData(0);
+        if(data)
+        {
+            const int id = data->getId();
+            QList<const SensorData*> singleDataList = m_importExportStorage.dataByMeasurementId(id);
+            m_sensorModel.setNewSensorModel(singleDataList);
+            m_activeCalcModel.updateCalcValues(m_sensorModel);
+        }
+        else
+        {
+            qDebug() << "Error no new model set";
+        }
+    }
 }
 
 void SelectionController::selectYearSlot(QString aCurrentText)
