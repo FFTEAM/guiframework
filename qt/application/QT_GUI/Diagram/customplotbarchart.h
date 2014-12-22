@@ -118,6 +118,13 @@ class CustomPlotBarChart : public QQuickPaintedItem
          */
         QCPBars* m_barChart;
 
+        /*void routeMouseEvents( QMouseEvent* event );
+
+        virtual void mousePressEvent( QMouseEvent* event );
+        virtual void mouseReleaseEvent( QMouseEvent* event );
+        virtual void mouseMoveEvent( QMouseEvent* event );
+        virtual void mouseDoubleClickEvent( QMouseEvent* event );*/
+
         /**
          * @brief updateCustomPlotSize Aktualisiert die Größe des Diagramms
          */
@@ -127,6 +134,8 @@ class CustomPlotBarChart : public QQuickPaintedItem
          * @brief calculateData Berechnet anhand der Sensordaten des Models die Diagrammwerte
          */
         void calculateData();
+    private slots:
+        void showPointToolTip(QMouseEvent *event);
 };
 
 #endif // CUSTOMPLOTBARCHART_H

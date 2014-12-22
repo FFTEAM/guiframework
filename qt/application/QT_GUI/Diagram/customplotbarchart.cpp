@@ -19,6 +19,7 @@
 void CustomPlotBarChart ::initCustomPlot()
 {
     m_CustomPlot = new QCustomPlot();
+    connect(m_CustomPlot, SIGNAL(mouseMove(QMouseEvent*)), this, SLOT(showPointToolTip(QMouseEvent*)));
 
     m_barChart = new QCPBars(m_CustomPlot->xAxis, m_CustomPlot->yAxis);
     m_CustomPlot->addPlottable(m_barChart);
@@ -32,6 +33,7 @@ void CustomPlotBarChart ::initCustomPlot()
     m_CustomPlot->xAxis->setLabel(tr("Time"));
     m_CustomPlot->yAxis->setLabel(tr("Heart Rate"));
 
+    m_CustomPlot->setInteractions( QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables );
     updateCustomPlotSize();
 
     qDebug() << "initCustomPlot()";
@@ -57,6 +59,10 @@ CustomPlotBarChart ::CustomPlotBarChart (QQuickItem* aParent) : QQuickPaintedIte
 
 
 {
+    setFlag( QQuickItem::ItemHasContents, true );
+    // setRenderTarget(QQuickPaintedItem::FramebufferObject);
+    setAcceptHoverEvents(true);
+    setAcceptedMouseButtons( Qt::AllButtons );
     // add connection for resizing the chart:
     connect(this, &QQuickPaintedItem::widthChanged, this, &CustomPlotBarChart::updateCustomPlotSize);
     connect(this, &QQuickPaintedItem::heightChanged, this, &CustomPlotBarChart::updateCustomPlotSize);
@@ -78,6 +84,15 @@ void CustomPlotBarChart::paint(QPainter* aPainter)
         m_CustomPlot->toPainter( &qcpPainter );
         aPainter->drawPixmap( QPoint(), picture );
     }
+}
+
+void CustomPlotBarChart::showPointToolTip(QMouseEvent *event)
+{
+    qDebug() << Q_FUNC_INFO;
+    int x = m_CustomPlot->xAxis->pixelToCoord(event->pos().x());
+    int y = m_CustomPlot->yAxis->pixelToCoord(event->pos().y());
+
+    m_CustomPlot->setToolTip(QString("%1 , %2").arg(x).arg(y));
 }
 
 void CustomPlotBarChart::updateCustomPlotSize()
