@@ -34,6 +34,8 @@ FilterController::FilterController(QObject* aParent,
         else qDebug() << "No child found";
     }
     else qDebug() << "Signal could not attached to a slot";
+
+    setAllAvailableDataFromStorage();
 }
 
 void FilterController::validateUserInputSlot()
@@ -41,60 +43,67 @@ void FilterController::validateUserInputSlot()
     const QString inputStartDate    = parent()->findChild<QObject*>("startDateInputName")->property("text").toString();
     const QString inputEndDate      = parent()->findChild<QObject*>("endDateInputName")->property("text").toString();
 
-    QDate startDate = QDate::fromString(inputStartDate, "dd-MM-yyyy");
-    QDate endDate   = QDate::fromString(inputEndDate, "dd-MM-yyyy");
-
-    if(startDate.isValid() == true && endDate.isValid() == true)
+    if(inputStartDate.size() == 0 and inputEndDate.size() == 0)
     {
-        QObject* errorLabel = parent()->findChild<QObject*>("errorLabelName");
-        if(errorLabel)
-        {
-            if(!errorLabel->property("text").toString().isEmpty())
-            {
-                errorLabel->setProperty("text","");
-            }
-        }
-        else qDebug() << "No errorLabel";
-
-        // Get data from filter settings
-        QList<const SensorData*> dataList = m_importExportStorgae.measurementsFromTo(startDate, endDate);
-
-        // Update Model
-        m_inactiveSensorModel.setNewSensorModel(dataList);
-        m_inactiveCalcModel.updateCalcValues(m_inactiveSensorModel);
-
-        updateGuiWithCurrentData();
+        setAllAvailableDataFromStorage();
     }
     else
     {
-        if(startDate.isValid() == false && endDate.isValid() == true)
+        QDate startDate = QDate::fromString(inputStartDate, "dd-MM-yyyy");
+        QDate endDate   = QDate::fromString(inputEndDate, "dd-MM-yyyy");
+
+        if(startDate.isValid() == true && endDate.isValid() == true)
         {
             QObject* errorLabel = parent()->findChild<QObject*>("errorLabelName");
             if(errorLabel)
             {
-                errorLabel->setProperty("text",tr("invalid start date  "));
+                if(!errorLabel->property("text").toString().isEmpty())
+                {
+                    errorLabel->setProperty("text","");
+                }
             }
             else qDebug() << "No errorLabel";
+
+            // Get data from filter settings
+            QList<const SensorData*> dataList = m_importExportStorgae.measurementsFromTo(1, startDate, endDate);
+
+            // Update Model
+            m_inactiveSensorModel.setNewSensorModel(dataList);
+            m_inactiveCalcModel.updateCalcValues(m_inactiveSensorModel);
+
+            updateGuiWithCurrentData();
         }
         else
         {
-            if(endDate.isValid() == false && startDate.isValid() == true)
-            {
-               QObject* errorLabel = parent()->findChild<QObject*>("errorLabelName");
-               if(errorLabel)
-               {
-                    errorLabel->setProperty("text",tr("invalid end date  "));
-               }
-               else qDebug() << "No errorLabel";
-            }
-            else
+            if(startDate.isValid() == false && endDate.isValid() == true)
             {
                 QObject* errorLabel = parent()->findChild<QObject*>("errorLabelName");
                 if(errorLabel)
                 {
-                    errorLabel->setProperty("text",tr("invalid start date / end date  "));
+                    errorLabel->setProperty("text",tr("invalid start date  "));
                 }
                 else qDebug() << "No errorLabel";
+            }
+            else
+            {
+                if(endDate.isValid() == false && startDate.isValid() == true)
+                {
+                    QObject* errorLabel = parent()->findChild<QObject*>("errorLabelName");
+                    if(errorLabel)
+                    {
+                        errorLabel->setProperty("text",tr("invalid end date  "));
+                    }
+                    else qDebug() << "No errorLabel";
+                }
+                else
+                {
+                    QObject* errorLabel = parent()->findChild<QObject*>("errorLabelName");
+                    if(errorLabel)
+                    {
+                        errorLabel->setProperty("text",tr("invalid start date / end date  "));
+                    }
+                    else qDebug() << "No errorLabel";
+                }
             }
         }
     }
@@ -118,4 +127,14 @@ void FilterController::updateGuiWithCurrentData()
         activeDiagram->setProperty("state","END_UPDATE_DIAGRAMM");
     }
     else qDebug() << "No child found";
+}
+
+void FilterController::setAllAvailableDataFromStorage()
+{
+    // Get all available data from storage
+    QList<const SensorData*> allData = m_importExportStorgae.measurements(1);
+
+    // Update Model
+    m_inactiveSensorModel.setNewSensorModel(allData);
+    m_inactiveCalcModel.updateCalcValues(m_inactiveSensorModel);
 }

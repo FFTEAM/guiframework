@@ -24,6 +24,7 @@ void CustomPlotBarChart ::initCustomPlot()
     m_CustomPlot->addPlottable(m_barChart);
 
     calculateData();
+    calculateTicksAndLabels();
 
     m_barChart->setData(m_xAxis, m_yAxis);
 
@@ -31,6 +32,10 @@ void CustomPlotBarChart ::initCustomPlot()
     m_CustomPlot->yAxis->setRange(0, MAX_HEARTRATE);
     m_CustomPlot->xAxis->setLabel(tr("Time"));
     m_CustomPlot->yAxis->setLabel(tr("Heart Rate"));
+
+    m_CustomPlot->xAxis->setAutoTickLabels(false);
+    m_CustomPlot->xAxis->setAutoTicks(false);
+    m_CustomPlot->xAxis->setTickLabelRotation(45);
 
     updateCustomPlotSize();
 
@@ -53,7 +58,9 @@ CustomPlotBarChart ::CustomPlotBarChart (QQuickItem* aParent) : QQuickPaintedIte
                                                                 m_CustomPlot(0),
                                                                 m_xAxis(0),
                                                                 m_yAxis(0),
-                                                                m_barChart(0)
+                                                                m_barChart(0),
+                                                                m_tickValueVector(0),
+                                                                m_tickLabelVector(0)
 
 
 {
@@ -97,6 +104,7 @@ void CustomPlotBarChart::updateDataAndGUI()
         m_CustomPlot->addPlottable(m_barChart);
 
         calculateData();
+        calculateTicksAndLabels();
 
         m_barChart->setData(m_xAxis, m_yAxis);
         m_CustomPlot->xAxis->setRange(0, m_xAxis.size() + 1);
@@ -135,5 +143,28 @@ void CustomPlotBarChart::calculateData()
     else
     {
         qDebug() << "Model not set";
+    }
+}
+
+void CustomPlotBarChart::calculateTicksAndLabels()
+{
+    if(m_tickValueVector.size() != 0) m_tickValueVector.clear();
+    if(m_tickLabelVector.size() != 0) m_tickValueVector.clear();
+
+    if(m_inactiveModel != 0)
+    {
+        double time = 1.0;
+        const int length = m_inactiveModel->getSensorModelCount();
+        for(int i = 0; i<length; i++)
+        {
+            const SensorData* data = m_inactiveModel->getSingleSensorData(i);
+            QDate date(data->getDate().date());
+            m_tickLabelVector.append(date.toString("dd.MM.yyyy"));
+            m_tickValueVector.append(time);
+            time = time + 1;
+        }
+
+        m_CustomPlot->xAxis->setTickVector(m_tickValueVector);
+        m_CustomPlot->xAxis->setTickVectorLabels(m_tickLabelVector);
     }
 }

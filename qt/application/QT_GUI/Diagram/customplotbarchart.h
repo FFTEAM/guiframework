@@ -118,6 +118,10 @@ class CustomPlotBarChart : public QQuickPaintedItem
          */
         QCPBars* m_barChart;
 
+        QVector<double> m_tickValueVector;
+
+        QVector<QString> m_tickLabelVector;
+
         /**
          * @brief updateCustomPlotSize Aktualisiert die Größe des Diagramms
          */
@@ -127,6 +131,8 @@ class CustomPlotBarChart : public QQuickPaintedItem
          * @brief calculateData Berechnet anhand der Sensordaten des Models die Diagrammwerte
          */
         void calculateData();
+
+        void calculateTicksAndLabels();
 };
 
 #endif // CUSTOMPLOTBARCHART_H

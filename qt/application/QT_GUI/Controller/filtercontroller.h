@@ -42,6 +42,8 @@ class FilterController : public QObject
         ImportExport& m_importExportStorgae;
 
         void updateGuiWithCurrentData();
+
+        void setAllAvailableDataFromStorage();
 };
 
 #endif // FILTERCONTROLLER_H
