@@ -121,10 +121,12 @@ void ImportExport::insertTypes()
         if (!insertTypeQuery.exec())
         {
             qDebug() << "FATAL insertTypeQuery.exec(): " << insertTypeQuery.lastError().databaseText() << " - " << insertTypeQuery.lastError().driverText();
+            qDebug() << "Executed Query: " << insertTypeQuery.executedQuery();
             mDataBase.rollback();
 
             return;
         }
+        insertTypeQuery.finish();
     }
 
     mDataBase.commit();
@@ -141,11 +143,13 @@ void ImportExport::insertMoods()
         if (!insertMoodQuery.exec())
         {
             qDebug() << "FATAL insertMoodQuery.exec(): " << insertMoodQuery.lastError().databaseText() << " - " << insertMoodQuery.lastError().driverText();
+            qDebug() << "Executed Query: " << insertMoodQuery.executedQuery();
             mDataBase.rollback();
 
             return;
         }
-    }
+        insertMoodQuery.finish();
+    }   
 
     mDataBase.commit();
 }
@@ -172,6 +176,7 @@ void ImportExport::insertMeasurement(QList<rawData>& dataList, quint8 type, quin
     if (!insertMeasurementQuery.exec())
     {
         qDebug() << "FATAL insertMeasurementQuery.exec(): " << insertMeasurementQuery.lastError().databaseText() << " - " << insertMeasurementQuery.lastError().driverText();
+        qDebug() << "Executed Query: " << insertMeasurementQuery.executedQuery();
         mDataBase.rollback();
 
         return;
@@ -196,10 +201,13 @@ void ImportExport::insertMeasurement(QList<rawData>& dataList, quint8 type, quin
         if (!insertDataQuery.exec())
         {
             qDebug() << "FATAL insertDataQuery.exec(): " << insertDataQuery.lastError().databaseText() << " - " << insertDataQuery.lastError().driverText();
+            qDebug() << "Executed Query: " << insertDataQuery.executedQuery();
+
             mDataBase.rollback();
 
             return;
         }
+        insertDataQuery.finish();
     }
 
     mDataBase.commit();
@@ -207,12 +215,70 @@ void ImportExport::insertMeasurement(QList<rawData>& dataList, quint8 type, quin
 
 /** getter
  */
+
+QList<const SensorData*> ImportExport::measurements(quint8 aType)
+{
+    QList<const SensorData*> dataList;
+    QSqlQuery selectMeasurement(mDataBase);
+    selectMeasurement.prepare(
+                "SELECT "
+                    "m.id, "
+                    "m.average, "
+                    "m.timestamp, "
+                    "m.duration, "
+                    "Type.name, "
+                    "Mood.name "
+                "FROM "
+                    "Measurement m "
+                "INNER JOIN "
+                    "Type, "
+                    "Mood "
+                "ON "
+                    "m.type=Type.id "
+                "AND "
+                    "m.mood=Mood.id "
+                "WHERE "
+                    "m.type = :type;"
+                );
+    selectMeasurement.bindValue(":type", aType);
+
+    if (!selectMeasurement.exec())
+    {
+        qDebug() << "FATAL selectMeasurement.exec(): " << selectMeasurement.lastError().databaseText() << " - " << selectMeasurement.lastError().driverText();
+        qDebug() << "Executed Query: " << selectMeasurement.executedQuery();
+
+        return dataList;
+    }
+
+    quint64 measurementId;
+    quint64 average;
+    quint64 timestamp;
+    quint64 duration;
+    QString type;
+    QString mood;
+
+    while (selectMeasurement.next())
+    {
+        measurementId = selectMeasurement.value(0).toInt();
+        average = selectMeasurement.value(1).toInt();
+        timestamp = selectMeasurement.value(2).toLongLong();
+        duration = selectMeasurement.value(3).toInt();
+        type = selectMeasurement.value(4).toString();
+        mood = selectMeasurement.value(5).toString();
+        qDebug() << measurementId << " " << average << " " << timestamp << " " << duration << " " << type << " " << mood;
+
+        dataList.push_back(new SensorData(QDateTime().fromMSecsSinceEpoch(timestamp), average, duration, measurementId));
+    }
+
+    selectMeasurement.finish();
+
+    return dataList;
+}
+
 QList<const SensorData*> ImportExport::measurementsFromTo(quint8 aType, const QDate& aStart, const QDate& sEnd)
 {
     quint64 startTimeStamp = QDateTime(aStart).toMSecsSinceEpoch();
     quint64 endTimeStamp = QDateTime(sEnd).addDays(1).toMSecsSinceEpoch();
-
-    qDebug() << startTimeStamp << endTimeStamp;
 
     QList<const SensorData*> dataList;
     QSqlQuery selectMeasurement(mDataBase);
@@ -247,6 +313,7 @@ QList<const SensorData*> ImportExport::measurementsFromTo(quint8 aType, const QD
     if (!selectMeasurement.exec())
     {
         qDebug() << "FATAL selectMeasurement.exec(): " << selectMeasurement.lastError().databaseText() << " - " << selectMeasurement.lastError().driverText();
+        qDebug() << "Executed Query: " << selectMeasurement.executedQuery();
 
         return dataList;
     }
