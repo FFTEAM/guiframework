@@ -207,14 +207,71 @@ void ImportExport::insertMeasurement(QList<rawData>& dataList, quint8 type, quin
 
 /** getter
  */
-QList<const SensorData*> ImportExport::measurementsFromTo(const QDate& start, const QDate& end)
+QList<const SensorData*> ImportExport::measurementsFromTo(quint8 type, const QDate& start, const QDate& end)
 {
-    quint64 startTimeStamp = QDateTime(start).toTime_t();
-    quint64 endTimeStamp = QDateTime(end).toTime_t();
+    quint64 startTimeStamp = QDateTime(start).toMSecsSinceEpoch();
+    quint64 endTimeStamp = QDateTime(end).addDays(1).toMSecsSinceEpoch();
+
+    qDebug() << startTimeStamp << endTimeStamp;
 
     QList<const SensorData*> dataList;
+    QSqlQuery selectMeasurement(mDataBase);
+    selectMeasurement.prepare(
+                "SELECT "
+                    "m.id, "
+                    "m.average, "
+                    "m.timestamp, "
+                    "m.duration, "
+                    "Type.name, "
+                    "Mood.name "
+                "FROM "
+                    "Measurement m "
+                "INNER JOIN "
+                    "Type, "
+                    "Mood "
+                "ON "
+                    "m.type=Type.id "
+                "AND "
+                    "m.mood=Mood.id "
+                "WHERE "
+                    "m.timestamp >= :startTimeStamp "
+                "AND "
+                    "m.timestamp <= :endTimeStamp "
+                "AND "
+                    "m.type = :type;"
+                );
+    selectMeasurement.bindValue(":startTimeStamp", startTimeStamp);
+    selectMeasurement.bindValue(":endTimeStamp", endTimeStamp);
+    selectMeasurement.bindValue(":type", type);
 
+    if (!selectMeasurement.exec())
+    {
+        qDebug() << "FATAL insertDataQuery.exec(): " << selectMeasurement.lastError().databaseText() << " - " << selectMeasurement.lastError().driverText();
 
+        return dataList;
+    }
+
+    quint64 measurementId;
+    quint64 average;
+    quint64 timestamp;
+    quint64 duration;
+    QString type;
+    QString mood;
+
+    while (selectMeasurement.next())
+    {
+        measurementId = selectMeasurement.value(0).toInt();
+        average = selectMeasurement.value(1).toInt();
+        timestamp = selectMeasurement.value(2).toLongLong();
+        duration = selectMeasurement.value(3).toInt();
+        type = selectMeasurement.value(4).toString();
+        mood = selectMeasurement.value(5).toString();
+        qDebug() << measurementId << " " << average << " " << timestamp << " " << duration << " " << type << " " << mood;
+
+        dataList.push_back(new SensorData(QDateTime().fromMSecsSinceEpoch(timestamp), average, duration, measurementId));
+    }
+
+    selectMeasurement.finish();
 
     return dataList;
 }
