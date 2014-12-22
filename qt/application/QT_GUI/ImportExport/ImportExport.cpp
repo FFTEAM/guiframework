@@ -207,10 +207,10 @@ void ImportExport::insertMeasurement(QList<rawData>& dataList, quint8 type, quin
 
 /** getter
  */
-QList<const SensorData*> ImportExport::measurementsFromTo(quint8 type, const QDate& start, const QDate& end)
+QList<const SensorData*> ImportExport::measurementsFromTo(quint8 aType, const QDate& aStart, const QDate& sEnd)
 {
-    quint64 startTimeStamp = QDateTime(start).toMSecsSinceEpoch();
-    quint64 endTimeStamp = QDateTime(end).addDays(1).toMSecsSinceEpoch();
+    quint64 startTimeStamp = QDateTime(aStart).toMSecsSinceEpoch();
+    quint64 endTimeStamp = QDateTime(sEnd).addDays(1).toMSecsSinceEpoch();
 
     qDebug() << startTimeStamp << endTimeStamp;
 
@@ -242,11 +242,11 @@ QList<const SensorData*> ImportExport::measurementsFromTo(quint8 type, const QDa
                 );
     selectMeasurement.bindValue(":startTimeStamp", startTimeStamp);
     selectMeasurement.bindValue(":endTimeStamp", endTimeStamp);
-    selectMeasurement.bindValue(":type", type);
+    selectMeasurement.bindValue(":type", aType);
 
     if (!selectMeasurement.exec())
     {
-        qDebug() << "FATAL insertDataQuery.exec(): " << selectMeasurement.lastError().databaseText() << " - " << selectMeasurement.lastError().driverText();
+        qDebug() << "FATAL selectMeasurement.exec(): " << selectMeasurement.lastError().databaseText() << " - " << selectMeasurement.lastError().driverText();
 
         return dataList;
     }

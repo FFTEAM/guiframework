@@ -32,7 +32,7 @@ public:
     explicit ImportExport(QObject *parent = 0);
     virtual ~ImportExport();
 
-    QList<const SensorData*> measurementsFromTo(const QDate& start, const QDate& end);
+    QList<const SensorData*> measurementsFromTo(quint8, const QDate&, const QDate&);
 
     explicit operator bool() const;
 };
