@@ -3,19 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="@string/settings_category_general">
-
-        <CheckBoxPreference
-            android:key="preference_keep_screen_on"
-            android:title="@string/title_keep_screen_on"
-            android:summary="@string/summary_keep_screen_on"
-            android:defaultValue="false" />
+        android:title="@string/settings_category_wearable">
 
         <CheckBoxPreference
             android:key="preference_remember_vibration"
             android:title="@string/title_remember_vibrate"
             android:summary="@string/summary_remember_vibrate"
             android:defaultValue="true" />
+
+        <CheckBoxPreference
+            android:key="preference_keep_screen_on"
+            android:title="@string/title_keep_screen_on"
+            android:summary="@string/summary_keep_screen_on"
+            android:defaultValue="false" />
 
         <EditTextPreference
             android:key="preference_measure_interval"
@@ -24,14 +24,6 @@
             android:dialogTitle="@string/summary_measure_interval"
             android:defaultValue="3"
             android:inputType="number" />
-
-        <EditTextPreference
-            android:key="preference_static_ip"
-            android:title="@string/title_static_ip"
-            android:summary="@string/summary_static_ip"
-            android:dialogTitle="@string/summary_static_ip"
-            android:defaultValue=""
-            android:inputType="textNoSuggestions" />
 
         <!--
         <ListPreference
@@ -43,6 +35,33 @@
             android:entryValues="@array/entryvalues_list_styles"
             android:defaultValue="black" />
         -->
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/settings_category_handheld">
+
+        <CheckBoxPreference
+            android:key="preference_send_directly"
+            android:title="@string/title_send_directly"
+            android:summary="@string/summary_send_directly"
+            android:defaultValue="true" />
+
+
+        <CheckBoxPreference
+            android:key="preference_open_app"
+            android:title="@string/title_open_app"
+            android:summary="@string/summary_open_app"
+            android:defaultValue="true" />
+
+        <EditTextPreference
+            android:key="preference_static_ip"
+            android:title="@string/title_static_ip"
+            android:summary="@string/summary_static_ip"
+            android:dialogTitle="@string/summary_static_ip"
+            android:defaultValue=""
+            android:inputType="textNoSuggestions" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

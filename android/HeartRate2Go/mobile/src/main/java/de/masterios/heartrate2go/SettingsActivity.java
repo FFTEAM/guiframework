@@ -49,7 +49,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                     "(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b";
 
             String value = sharedPreferences.getString(key, "");
-            if(!value.matches(ipPattern)) {
+            if(!value.equals("") && !value.matches(ipPattern)) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString(key, "");
                 editor.apply();

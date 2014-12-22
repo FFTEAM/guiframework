@@ -8,27 +8,33 @@
     <string name="action_settings">Einstellungen</string>
 
     <string name="settings_title">Einstellungen</string>
-    <string name="settings_category_general">Allgemein</string>
+    <string name="settings_category_handheld">Handheld</string>
+    <string name="settings_category_wearable">Wearable</string>
 
     <string name="title_keep_screen_on">Bildschirm angeschaltet lassen</string>
-    <string name="summary_keep_screen_on">Wirkt sich in höherem Akkuverbrauch aus..</string>
+    <string name="summary_keep_screen_on">Wirkt sich in höherem Akkuverbrauch aus</string>
 
     <string name="title_remember_vibrate">Erinnerung</string>
-    <string name="summary_remember_vibrate">Erinnere alle 15 Minuten, dass HeartRate2Go noch aktiv ist..</string>
+    <string name="summary_remember_vibrate">Erinnere alle 15 Minuten, dass HeartRate2Go noch aktiv ist</string>
 
     <string name="title_measure_interval">Messungsinterval</string>
-    <string name="summary_measure_interval">Zeit zwischen den Messungen in Sekunden.</string>
+    <string name="summary_measure_interval">Zeit zwischen den Messungen in Sekunden</string>
 
     <string name="title_static_ip">Statische Ziel Adresse</string>
-    <string name="summary_static_ip">IP-Adresse des Gerätes. Leer für DHCP.</string>
-    <string name="ip_not_valid">IP ist nicht gültig.</string>
+    <string name="summary_static_ip">IP-Adresse des PCs\n(Leer für Broadcast-Erkennung)\nPort: 1234 (für NAT-Konfiguration)</string>
+    <string name="ip_not_valid">IP ist nicht gültig</string>
 
     <string name="title_list_styles">Hintergrundfarbe</string>
     <string name="summary_list_styles">Auswahl der verfügbaren Hintergrundfarben</string>
 
+    <string name="title_send_directly">Sende Daten direkt</string>
+    <string name="summary_send_directly">Sende Daten an den PC, nachdem sie von der Smartwatch gesendet wurden</string>
+
+    <string name="title_open_app">Öffne App</string>
+    <string name="summary_open_app">Öffne App automatisch beim Empfang von Daten</string>
+
     <string name="date_format">dd.MM.yyyy HH:mm:ss</string>
     <string name="measure_mode_activity">Aktivitätsmessung</string>
     <string name="measure_mode_rest">Ruhemessung</string>
-
 
 </resources>
