@@ -455,6 +455,64 @@ QList<QString> ImportExport::months(quint8 aType, const QDate& aYear)
     return dataList;
 }
 
+QList<quint8> ImportExport::weeks(quint8 aType, const QDate& aYear, const QDate& aMonth)
+{
+    QList<quint8> dataList;
+
+    QSqlQuery selectMeasurement(mDataBase);
+    quint64 startTimeStamp = QDateTime(aYear).addMonths(aMonth.month()).toMSecsSinceEpoch();
+    quint64 endTimeStamp = QDateTime(aYear).addMonths(aMonth.month()+1).toMSecsSinceEpoch();
+
+    selectMeasurement.prepare(
+                "SELECT "
+                    "timestamp "
+                "FROM "
+                    "Measurement "
+                "WHERE "
+                    "type = :type "
+                "AND "
+                    "timestamp >= :startTimeStamp "
+                "AND "
+                    "timestamp <= :endTimeStamp "
+                "ORDER BY "
+                    "timestamp "
+                "ASC;"
+                );
+
+    selectMeasurement.bindValue(":type", aType);
+    selectMeasurement.bindValue(":startTimeStamp", startTimeStamp);
+    selectMeasurement.bindValue(":endTimeStamp", endTimeStamp);
+
+    if (!selectMeasurement.exec())
+    {
+        qDebug() << "FATAL selectMeasurement.exec(): " << selectMeasurement.lastError().databaseText() << " - " << selectMeasurement.lastError().driverText();
+        qDebug() << "Executed Query: " << selectMeasurement.executedQuery();
+
+        return dataList;
+    }
+
+    quint64 timestamp;
+
+    quint8 weekNum;
+
+    while (selectMeasurement.next())
+    {
+        timestamp = selectMeasurement.value(0).toLongLong();
+
+        QDateTime weekDate = QDateTime::fromMSecsSinceEpoch(timestamp);
+        weekNum = weekDate.date().weekNumber();
+
+        if (!dataList.contains(weekNum))
+        {
+            dataList.push_back(weekNum);
+        }
+    }
+
+    selectMeasurement.finish();
+
+    return dataList;
+}
+
 QList<const SensorData*> ImportExport::dataByMeasurementId(quint64 aId)
 {
     QList<const SensorData*> dataList;

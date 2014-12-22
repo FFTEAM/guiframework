@@ -34,6 +34,7 @@ public:
 
     QList<QString> years(quint8);
     QList<QString> months(quint8, const QDate&);
+    QList<quint8> weeks(quint8, const QDate&, const QDate&);
     QList<const SensorData*> dataByMeasurementId(quint64);
     QList<const SensorData*> measurements(quint8);
     QList<const SensorData*> measurementsFromTo(quint8, const QDate&, const QDate&);
