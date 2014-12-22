@@ -19,6 +19,7 @@
 #include <QObject>
 #include "Model/selectionmodel.h"
 #include "Model/sensormodel.h"
+#include "ImportExport/ImportExport.h"
 
 class SelectionController: public QObject
 {
@@ -32,7 +33,13 @@ class SelectionController: public QObject
          * @param aMonthModel           Reference to Month Model
          * @param aWeekModel            Reference to Week Model
          */
-        SelectionController(QObject* aParent, SelectionModel& aYearModel, SelectionModel& aMonthModel, SelectionModel& aWeekModel, SensorModel& aInactiveModel);
+        SelectionController(QObject* aParent,
+                            SelectionModel& aYearModel,
+                            SelectionModel& aMonthModel,
+                            SelectionModel& aWeekModel,
+                            SensorModel& aInactiveModel,
+                            SensorModel& aRunModel,
+                            ImportExport& aStorage);
 
     public slots:
 
@@ -80,6 +87,11 @@ class SelectionController: public QObject
          * @brief m_inactiveSensorModel hold the current inactiveSensorModel
          */
         SensorModel& m_sensorModel;
+
+        SensorModel& m_runModel;
+
+        ImportExport& m_importExportStorage;
+
 };
 
 #endif // SELECTIONCONTROLLER_H

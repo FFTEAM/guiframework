@@ -20,12 +20,16 @@ SelectionController::SelectionController(QObject* aParent,
                                          SelectionModel& aYearModel,
                                          SelectionModel& aMonthModel,
                                          SelectionModel& aWeekModel,
-                                         SensorModel& aInactiveModel):   QObject(aParent),
-                                                                         m_currentText(""),
-                                                                         m_yearModel(aYearModel),
-                                                                         m_monthModel(aMonthModel),
-                                                                         m_weekModel(aWeekModel),
-                                                                         m_sensorModel(aInactiveModel)
+                                         SensorModel& aInactiveModel,
+                                         SensorModel& aRunModel,
+                                         ImportExport& aStorage):   QObject(aParent),
+                                                                    m_currentText(""),
+                                                                    m_yearModel(aYearModel),
+                                                                    m_monthModel(aMonthModel),
+                                                                    m_weekModel(aWeekModel),
+                                                                    m_sensorModel(aInactiveModel),
+                                                                    m_runModel(aRunModel),
+                                                                    m_importExportStorage(aStorage)
 {
     //C'tor
     if(aParent)
@@ -47,6 +51,13 @@ SelectionController::SelectionController(QObject* aParent,
         }
     }
     else qDebug() << "Signal could not attached to a slot";
+
+    // get all possible years in storage
+    QList<QString> dataList = m_importExportStorage.years(0);
+    dataList.push_front("all");
+    m_yearModel.setNewSelectionModel(dataList);
+
+    // set run model
 }
 
 void SelectionController::selectYearSlot(QString aCurrentText)
@@ -55,43 +66,65 @@ void SelectionController::selectYearSlot(QString aCurrentText)
     {
         m_currentText = aCurrentText;
 
-        // ToDo read Information from database
+        if(0 == m_currentText.compare("all"))
+        {
+            // read all informations from storage
+            QObject* child = parent()->findChild<QObject*>("yearRectName");
+            if(child)
+            {
+                child->setProperty("state", "BEGIN_SELECTION");
+                qDebug() << "State change to BEGIN_SELECTION";
+            }
+            else qDebug() << "No state change";
+        }
+        else
+        {
+            // get all possible month from storage
+            // update model
 
-        // Example Data
-        QList<QString> selectionMonthData;
-        selectionMonthData.append("Januar");
-        selectionMonthData.append("März");
-        selectionMonthData.append("Juni");
-        selectionMonthData.append("Juli");
-        selectionMonthData.append("Dezember");
-        m_monthModel.setNewSelectionModel(selectionMonthData);
+            QObject* child = parent()->findChild<QObject*>("yearRectName");
+            if(child)
+            {
+                child->setProperty("state", "BEGIN_SELECTION_MONTH");
+                qDebug() << "State change to BEGIN_SELECTION_MONTH";
+            }
+
+            // Example Data
+            QList<QString> selectionMonthData;
+            selectionMonthData.append("Januar");
+            selectionMonthData.append("März");
+            selectionMonthData.append("Juni");
+            selectionMonthData.append("Juli");
+            selectionMonthData.append("Dezember");
+            m_monthModel.setNewSelectionModel(selectionMonthData);
+        }
     }
 }
 
 void SelectionController::selectMonthSlot(QString aCurrentText)
 {
-    QList<QString> selectionWeekData;
-    selectionWeekData.append("1");
-    selectionWeekData.append("2");
-    selectionWeekData.append("3");
-    selectionWeekData.append("4");
+//    QList<QString> selectionWeekData;
+//    selectionWeekData.append("1");
+//    selectionWeekData.append("2");
+//    selectionWeekData.append("3");
+//    selectionWeekData.append("4");
 
-    m_weekModel.setNewSelectionModel(selectionWeekData);
+//    m_weekModel.setNewSelectionModel(selectionWeekData);
 }
 
 void SelectionController::selectWeekSlot(QString aCurrentText)
 {
-    // EXAMPLE DATA:
-    QList<const SensorData*> sensorDataI;
-    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 1)), 200, 5, 1));
-    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 2)), 100, 3, 2));
-    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 3)), 50, 3, 3));
-    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 1)), 200, 5, 4));
-    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 2)), 100, 3, 5));
-    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 3)), 50, 3, 6));
-    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 1)), 200, 5, 7));
-    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 2)), 100, 3, 8));
-    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 3)), 50, 3, 9));
+//    // EXAMPLE DATA:
+//    QList<const SensorData*> sensorDataI;
+//    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 1)), 200, 5, 1));
+//    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 2)), 100, 3, 2));
+//    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 3)), 50, 3, 3));
+//    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 1)), 200, 5, 4));
+//    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 2)), 100, 3, 5));
+//    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 3)), 50, 3, 6));
+//    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 1)), 200, 5, 7));
+//    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 2)), 100, 3, 8));
+//    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 3)), 50, 3, 9));
 
-    m_sensorModel.setNewSensorModel(sensorDataI);
+//    m_sensorModel.setNewSensorModel(sensorDataI);
 }

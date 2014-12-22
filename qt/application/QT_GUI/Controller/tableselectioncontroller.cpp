@@ -28,7 +28,6 @@ void TableSelectionController::selectSingleRunSlot(int aIndex)
     qDebug() << "selectSingleRunSlot called" << aIndex;
     const SensorData* singleData =  m_runModel.getSingleSensorData(aIndex);
     const int id = singleData->getId();
-    qDebug() << "ID = "<< id;
 
     // call storage for measurements with current id
     QList<const SensorData*> dataList = m_importExportStorage.dataByMeasurementId(id);

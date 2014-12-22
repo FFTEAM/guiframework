@@ -368,13 +368,16 @@ QList<QString> ImportExport::years(quint8 aType)
     quint64 timestamp;
 
     QDateTime yearDate;
-    QString yearStr = yearDate.toString("yyyy");
+    QString yearStr;
 
     while (selectMeasurement.next())
     {
         timestamp = selectMeasurement.value(0).toLongLong();
 
         yearDate.fromMSecsSinceEpoch(timestamp);
+        yearStr = yearDate.toString("yyyy");
+
+        qDebug() << yearStr;
         if (!dataList.contains(yearStr))
         {
             dataList.push_back(yearStr);

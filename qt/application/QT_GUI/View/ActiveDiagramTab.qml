@@ -11,25 +11,6 @@ Rectangle {
     anchors.fill: parent
     anchors.margins: 5
 
-    states:
-    [
-
-        State
-        {
-            name: "INIT_DIAGRAMM"
-        },
-
-        State
-        {
-            name: "BEGIN_UPDATE_DIAGRAMM"
-        },
-
-        State
-        {
-            name: "END_UPDATE_DIAGRAMM"
-        }
-    ]
-
     Rectangle {
         id: upperRectid
         color: "transparent"
@@ -43,6 +24,7 @@ Rectangle {
 
         GroupBox {
             id: grpFilter
+            objectName: "selectionGrpName"
             title: qsTr("Filtering options")
 
             anchors.right: parent.right
@@ -51,6 +33,10 @@ Rectangle {
 
             Rectangle {
                 id: yearRect
+                objectName: "yearRectName"
+
+                state: "BEGIN_SELECTION"
+
                 color: "transparent"
                 width: parent.width
                 height: parent.height / 3
@@ -95,6 +81,8 @@ Rectangle {
                 anchors.top: yearRect.bottom
                 anchors.topMargin: 3
 
+                visible: false
+
                 Label {
                     id: monthLabelId
                     anchors.left: parent.left
@@ -131,6 +119,8 @@ Rectangle {
                 height: parent.height / 3
                 anchors.top: monthRect.bottom
                 anchors.topMargin: 3
+
+                visible:  false
 
                 Label {
                     id: weekLabelId
@@ -353,4 +343,37 @@ Rectangle {
             }
         }
     }
+
+    states:
+    [
+
+        State
+        {
+            name: "INIT_DIAGRAMM"
+        },
+
+        State
+        {
+            name: "BEGIN_UPDATE_DIAGRAMM"
+        },
+
+        State
+        {
+            name: "END_UPDATE_DIAGRAMM"
+        },
+
+        State
+        {
+            name: "BEGIN_SELECTION"
+            PropertyChanges { target:monthRect ; visible: false }
+            PropertyChanges { target:weekRect ; visible: false }
+        },
+
+        State
+        {
+            name: "BEGIN_SELECTION_MONTH"
+            PropertyChanges { target:monthRect ; visible: true }
+            PropertyChanges { target:weekRect ; visible: true }
+        }
+    ]
 }
