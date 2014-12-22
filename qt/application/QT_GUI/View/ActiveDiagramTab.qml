@@ -108,7 +108,7 @@ Rectangle {
                     currentIndex: 0
                     model: activeSelectionMonthModel
 
-                    onCountChanged:
+                    onPressedChanged:
                     {
                         onComboboxPressed(currentText);
                     }
@@ -149,7 +149,7 @@ Rectangle {
                     currentIndex: 0
                     model: activeSelectionWeekModel
 
-                    onCountChanged:
+                    onPressedChanged:
                     {
                         onComboboxPressed(currentText);
                     }
@@ -369,20 +369,6 @@ Rectangle {
         State
         {
             name: "END_UPDATE_DIAGRAMM"
-        },
-
-        State
-        {
-            name: "BEGIN_SELECTION"
-            PropertyChanges { target:monthRect ; visible: false }
-            PropertyChanges { target:weekRect ; visible: false }
-        },
-
-        State
-        {
-            name: "BEGIN_SELECTION_MONTH"
-            PropertyChanges { target:monthRect ; visible: true }
-            PropertyChanges { target:weekRect ; visible: true }
         }
     ]
 }

@@ -72,7 +72,12 @@ class SelectionController: public QObject
         /**
          * @brief m_currentText String with the current year of combobox
          */
-        QString m_currentText;
+        QString m_currentYearText;
+
+        /**
+         * @brief m_currentMonthText String with the current month of combobox
+         */
+        QString m_currentMonthText;
 
         /**
          * @brief m_yearModel hold the available year values

@@ -24,7 +24,8 @@ SelectionController::SelectionController(QObject* aParent,
                                          SensorModel& aRunModel,
                                          ActiveSensorCalcModel& aCalcModel,
                                          ImportExport& aStorage):   QObject(aParent),
-                                                                    m_currentText(""),
+                                                                    m_currentYearText(""),
+                                                                    m_currentMonthText(""),
                                                                     m_yearModel(aYearModel),
                                                                     m_monthModel(aMonthModel),
                                                                     m_weekModel(aWeekModel),
@@ -62,16 +63,15 @@ SelectionController::SelectionController(QObject* aParent,
     m_yearModel.setNewSelectionModel(dataList);
 
     setAllAvailableData();
-
 }
 
 void SelectionController::selectYearSlot(QString aCurrentText)
 {
-    if(m_currentText.compare(aCurrentText) != 0)
+    if(m_currentYearText.compare(aCurrentText) != 0)
     {
-        m_currentText = aCurrentText;
+        m_currentYearText = aCurrentText;
 
-        if(0 == m_currentText.compare("all"))
+        if(0 == m_currentYearText.compare("all"))
         {
             // read all informations from storage
             QObject* monthChild = parent()->findChild<QObject*>("monthRectName");
@@ -87,12 +87,7 @@ void SelectionController::selectYearSlot(QString aCurrentText)
         else
         {
             // get all possible month from storage
-            QList<QString> selectionMonthData;
-            selectionMonthData.append("Januar");
-            selectionMonthData.append("März");
-            selectionMonthData.append("Juni");
-            selectionMonthData.append("Juli");
-            selectionMonthData.append("Dezember");
+            QList<QString> selectionMonthData = m_importExportStorage.months(0, QDate::fromString(aCurrentText, "yyyy"));
             selectionMonthData.push_front(tr("all"));
             m_monthModel.setNewSelectionModel(selectionMonthData);
 
@@ -137,6 +132,33 @@ void SelectionController::selectYearSlot(QString aCurrentText)
 
 void SelectionController::selectMonthSlot(QString aCurrentText)
 {
+    if(m_currentMonthText.compare(aCurrentText) != 0)
+    {
+        m_currentMonthText = aCurrentText;
+
+        if(0 == m_currentMonthText.compare("all"))
+        {
+            // read all informations from storage
+            QObject* weekChild = parent()->findChild<QObject*>("weekRectName");
+            if(weekChild)
+            {
+                weekChild->setProperty("visible", "false");
+                // get all data from month
+            }
+            else qDebug() << "No state change";
+        }
+        else
+        {
+            QList<QString> weekList = m_importExportStorage.weeks(0,QDate::fromString(m_currentYearText, "yyyy"),QDate::fromString(m_currentMonthText, "MMMM"));
+            m_weekModel.setNewSelectionModel(weekList);
+            QObject* child = parent()->findChild<QObject*>("weekRectName");
+            if(child)
+            {
+                child->setProperty("visible", "true");
+            }
+        }
+    }
+
 //    QList<QString> selectionWeekData;
 //    selectionWeekData.append("1");
 //    selectionWeekData.append("2");
