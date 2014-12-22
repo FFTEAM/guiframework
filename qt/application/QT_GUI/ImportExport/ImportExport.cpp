@@ -343,6 +343,47 @@ QList<const SensorData*> ImportExport::measurementsFromTo(quint8 aType, const QD
     return dataList;
 }
 
+QList<const SensorData*> ImportExport::dataByMeasurementId(quint64 aId)
+{
+    QList<const SensorData*> dataList;
+    QSqlQuery selectMeasurement(mDataBase);
+    selectMeasurement.prepare(
+                "SELECT "
+                    "seconds, heartrate, steps"
+                "FROM "
+                    "Data "
+                "WHERE "
+                    "measurement >= :id;"
+                );
+
+    selectMeasurement.bindValue(":type", aId);
+
+    if (!selectMeasurement.exec())
+    {
+        qDebug() << "FATAL selectMeasurement.exec(): " << selectMeasurement.lastError().databaseText() << " - " << selectMeasurement.lastError().driverText();
+        qDebug() << "Executed Query: " << selectMeasurement.executedQuery();
+
+        return dataList;
+    }
+
+    quint64 seconds;
+    quint64 heartrate;
+    quint64 steps;
+
+    while (selectMeasurement.next())
+    {
+        seconds = selectMeasurement.value(1).toLongLong();
+        heartrate = selectMeasurement.value(1).toInt();
+        steps = selectMeasurement.value(3).toLongLong();
+
+        dataList.push_back(new SensorData(QDateTime().fromMSecsSinceEpoch(seconds), heartrate, steps, aId));
+    }
+
+    selectMeasurement.finish();
+
+    return dataList;
+}
+
 ImportExport::~ImportExport()
 {
     mDataBase.close();

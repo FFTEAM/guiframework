@@ -32,6 +32,7 @@ public:
     explicit ImportExport(QObject *parent = 0);
     virtual ~ImportExport();
 
+    QList<const SensorData*> dataByMeasurementId(quint64);
     QList<const SensorData*> measurements(quint8);
     QList<const SensorData*> measurementsFromTo(quint8, const QDate&, const QDate&);
 
