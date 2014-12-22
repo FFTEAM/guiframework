@@ -306,9 +306,9 @@ QList<const SensorData*> ImportExport::measurementsFromTo(quint8 aType, const QD
                 "AND "
                     "m.timestamp <= :endTimeStamp "
                 "AND "
-                    "m.type = :type"
+                    "m.type = :type "
                 "ORDER BY "
-                    "timestamp "
+                    "m.timestamp "
                 "ASC;"
                 );
     selectMeasurement.bindValue(":startTimeStamp", startTimeStamp);
@@ -388,6 +388,64 @@ QList<QString> ImportExport::years(quint8 aType)
         if (!dataList.contains(yearStr))
         {
             dataList.push_back(yearStr);
+        }
+    }
+
+    selectMeasurement.finish();
+
+    return dataList;
+}
+
+QList<QString> ImportExport::months(quint8 aType, const QDate& aYear)
+{
+    QList<QString> dataList;
+
+    QSqlQuery selectMeasurement(mDataBase);
+
+    quint64 startTimeStamp = QDateTime::toMSecsSinceEpoch(aYear);
+    quint64 endTimeStamp = QDateTime::toMSecsSinceEpoch(aYear.addYears(1));
+    selectMeasurement.prepare(
+                "SELECT "
+                    "timestamp "
+                "FROM "
+                    "Measurement "
+                "WHERE "
+                    "type = :type "
+                "AND "
+                    "timestamp >= :startTimeStamp "
+                "AND "
+                    "timestamp <= :endTimeStamp "
+                "ORDER BY "
+                    "timestamp "
+                "ASC;"
+                );
+
+    selectMeasurement.bindValue(":type", aType);
+    selectMeasurement.bindValue(":startTimeStamp", startTimeStamp);
+    selectMeasurement.bindValue(":endTimeStamp", endTimeStamp);
+
+    if (!selectMeasurement.exec())
+    {
+        qDebug() << "FATAL selectMeasurement.exec(): " << selectMeasurement.lastError().databaseText() << " - " << selectMeasurement.lastError().driverText();
+        qDebug() << "Executed Query: " << selectMeasurement.executedQuery();
+
+        return dataList;
+    }
+
+    quint64 timestamp;
+
+    QString monthStr;
+
+    while (selectMeasurement.next())
+    {
+        timestamp = selectMeasurement.value(0).toLongLong();
+
+        QDateTime monthDate = QDateTime::fromMSecsSinceEpoch(timestamp);
+        monthStr = monthDate.toString("MMMM");
+
+        if (!dataList.contains(monthStr))
+        {
+            dataList.push_back(monthStr);
         }
     }
 
