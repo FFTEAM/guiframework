@@ -238,7 +238,10 @@ QList<const SensorData*> ImportExport::measurements(quint8 aType)
                 "AND "
                     "m.mood=Mood.id "
                 "WHERE "
-                    "m.type = :type;"
+                    "m.type = :type "
+                "ORDER BY "
+                    "timestamp "
+                "ASC;"
                 );
     selectMeasurement.bindValue(":type", aType);
 
@@ -303,7 +306,10 @@ QList<const SensorData*> ImportExport::measurementsFromTo(quint8 aType, const QD
                 "AND "
                     "m.timestamp <= :endTimeStamp "
                 "AND "
-                    "m.type = :type;"
+                    "m.type = :type"
+                "ORDER BY "
+                    "timestamp "
+                "ASC;"
                 );
     selectMeasurement.bindValue(":startTimeStamp", startTimeStamp);
     selectMeasurement.bindValue(":endTimeStamp", endTimeStamp);
@@ -352,7 +358,10 @@ QList<QString> ImportExport::years(quint8 aType)
                 "FROM "
                     "Measurement "
                 "WHERE "
-                    "type = :type;"
+                    "type = :type "
+                "ORDER BY "
+                    "timestamp "
+                "ASC;"
                 );
 
     selectMeasurement.bindValue(":type", aType);
@@ -397,7 +406,10 @@ QList<const SensorData*> ImportExport::dataByMeasurementId(quint64 aId)
                 "FROM "
                     "Data "
                 "WHERE "
-                    "measurement >= :id;"
+                    "measurement >= :id "
+                "ORDER BY "
+                    "seconds "
+                "ASC;"
                 );
 
     selectMeasurement.bindValue(":id", aId);

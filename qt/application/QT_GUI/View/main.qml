@@ -109,13 +109,16 @@ ApplicationWindow
             }
 
             frame: Rectangle { color: Style.tabViewTabBgColor }
-        }*/
+        }*/    
     }
 
     statusBar: StatusBar {
         RowLayout {
             anchors.fill: parent
-            Label { text: "No device connected!" }
+            Label {
+                text: "No device connected!"
+                renderType: Text.NativeRendering
+            }
         }
     }
 }
