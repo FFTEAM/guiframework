@@ -460,8 +460,8 @@ QList<QString> ImportExport::weeks(quint8 aType, const QDate& aYear, const QDate
     QList<QString> dataList;
 
     QSqlQuery selectMeasurement(mDataBase);
-    quint64 startTimeStamp = QDateTime(aYear).addMonths(aMonth.month()).toMSecsSinceEpoch();
-    quint64 endTimeStamp = QDateTime(aYear).addMonths(aMonth.month()+1).toMSecsSinceEpoch();
+    quint64 startTimeStamp = QDateTime(aYear).addMonths(aMonth.month()-1).toMSecsSinceEpoch();
+    quint64 endTimeStamp = QDateTime(aYear).addMonths(aMonth.month()).toMSecsSinceEpoch();
 
     selectMeasurement.prepare(
                 "SELECT "
@@ -500,7 +500,8 @@ QList<QString> ImportExport::weeks(quint8 aType, const QDate& aYear, const QDate
         timestamp = selectMeasurement.value(0).toLongLong();
 
         QDateTime weekDate = QDateTime::fromMSecsSinceEpoch(timestamp);
-        weekNum = weekDate.date().weekNumber();
+        quint8 week = weekDate.date().weekNumber();
+        weekNum = QString(week);
 
         if (!dataList.contains(weekNum))
         {
