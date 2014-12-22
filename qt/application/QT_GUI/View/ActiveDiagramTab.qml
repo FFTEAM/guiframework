@@ -51,6 +51,7 @@ Rectangle {
                     text: qsTr("Year:")
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
+                    renderType: Text.NativeRendering
                 }
 
                 ComboBox {
@@ -92,6 +93,7 @@ Rectangle {
                     text: qsTr("Month:")
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
+                    renderType: Text.NativeRendering
                 }
 
                 ComboBox {
@@ -132,6 +134,7 @@ Rectangle {
                     text: qsTr("Week:")
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
+                    renderType: Text.NativeRendering
                 }
 
                 ComboBox {
@@ -167,11 +170,13 @@ Rectangle {
                         text: activeCalcDescription
                         anchors.verticalCenter: parent.verticalCenter
                         width: (parent.width - 10)/2
+                        renderType: Text.NativeRendering
                     }
                     Text {
                         text: activeCalcValue
                         anchors.verticalCenter: parent.verticalCenter
                         width: (parent.width - 10)/2
+                        renderType: Text.NativeRendering
                     }
                 }
             }
@@ -288,6 +293,7 @@ Rectangle {
                             Text {
                                 color: Style.tableViewTextColor
                                 text: styleData.value
+                                renderType: Text.NativeRendering
                             }
                         }
                     }
@@ -340,6 +346,7 @@ Rectangle {
                     Text {
                         color: Style.tableViewTextColor
                         text: styleData.value
+                        renderType: Text.NativeRendering
                     }
                 }
             }

@@ -66,6 +66,7 @@ Rectangle {
                     text: qsTr("start date ")
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
+                    renderType: Text.NativeRendering
                 }
 
                 TextField{
@@ -75,13 +76,13 @@ Rectangle {
                     width: parent.width / 6 * 3
                     height: parent.height
                     style: TextFieldStyle {
-
-                            textColor: "black"
-                            background: Rectangle {
-                                id: startDateValidateRec
-                                border.color: "grey"
-                                border.width: 1
-                            }
+                        textColor: "black"
+                        background: Rectangle {
+                            id: startDateValidateRec
+                            border.color: "grey"
+                            border.width: 1
+                        }
+                        renderType: Text.NativeRendering
                    }
                 }
 
@@ -93,6 +94,7 @@ Rectangle {
                     text: qsTr("  (DD-MM-YYYY)")
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
+                    renderType: Text.NativeRendering
                 }
             }
 
@@ -109,6 +111,7 @@ Rectangle {
                     text: qsTr("end date ")
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
+                    renderType: Text.NativeRendering
                 }
 
                 TextField{
@@ -118,13 +121,13 @@ Rectangle {
                     width: parent.width / 6 * 3
                     height: parent.height
                     style: TextFieldStyle {
-
-                            textColor: "black"
-                            background: Rectangle {
-                                id: endDateValidateRec
-                                border.color: "grey"
-                                border.width: 1
-                            }
+                        textColor: "black"
+                        background: Rectangle {
+                            id: endDateValidateRec
+                            border.color: "grey"
+                            border.width: 1
+                        }
+                        renderType: Text.NativeRendering
                    }
                 }
 
@@ -136,6 +139,7 @@ Rectangle {
                     text: qsTr("  (DD-MM-YYYY)")
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
+                    renderType: Text.NativeRendering
                 }
             }
 
@@ -155,6 +159,7 @@ Rectangle {
                     color: "red"
                     horizontalAlignment: Text.AlignRight
                     verticalAlignment: Text.AlignVCenter
+                    renderType: Text.NativeRendering
                 }
 
                 spacing : 3
@@ -163,7 +168,7 @@ Rectangle {
                     id: filterButton
                     objectName: "filerButtonName"
                     width: parent.width / 6
-                    height: parent.height
+                    height: parent.height               
                     text: qsTr("filter")
                 }
             }
@@ -184,12 +189,14 @@ Rectangle {
                               text: inactiveCalcDescription
                               anchors.verticalCenter: parent.verticalCenter
                               width: (parent.width - 10)/2
+                              renderType: Text.NativeRendering
                           }
 
                           Text {
                              text: inactiveCalcValue
                              anchors.verticalCenter: parent.verticalCenter
-                              width: (parent.width - 10)/2
+                             width: (parent.width - 10)/2
+                             renderType: Text.NativeRendering
                           }
                      }
                  }
@@ -216,7 +223,7 @@ Rectangle {
 
                         model: inactiveSensorCalcModel
                         interactive: false
-                        delegate: inactiveListDelegate
+                        delegate: inactiveListDelegate                   
            }
         }
     }
@@ -291,7 +298,7 @@ Rectangle {
                 {
                     role: "heartRate";
                     title: qsTr("HeartRate");
-                   width: inactiveTableId.width/3
+                    width: inactiveTableId.width/3
                 }
 
                 itemDelegate:
@@ -299,6 +306,7 @@ Rectangle {
                     Text {
                         color: Style.tableViewTextColor
                         text: styleData.value
+                        renderType: Text.NativeRendering
                     }
                 }
             }

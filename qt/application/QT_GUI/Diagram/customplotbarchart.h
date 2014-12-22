@@ -118,7 +118,7 @@ class CustomPlotBarChart : public QQuickPaintedItem
          */
         QCPBars* m_barChart;
 
-        virtual void hoverMoveEvent(QHoverEvent * event);
+        //virtual void hoverMoveEvent(QHoverEvent * event);
         QCPItemText *textLabel;
 
         QVector<double> m_tickValueVector;
