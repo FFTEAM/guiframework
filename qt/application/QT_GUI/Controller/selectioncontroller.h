@@ -57,12 +57,6 @@ class SelectionController: public QObject
          */
         void selectMonthSlot(QString aCurrentText);
 
-        /**
-         * @brief selectWeekSlot Slot to get current week from view
-         * @param aIndex current index of combobox
-         */
-        void selectWeekSlot(QString aCurrentText);
-
     private:
 
         void setAllAvailableData();

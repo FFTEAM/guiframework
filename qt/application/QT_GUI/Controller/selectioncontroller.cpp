@@ -47,11 +47,6 @@ SelectionController::SelectionController(QObject* aParent,
         {
             QObject::connect(child, SIGNAL(onComboboxPressed(QString)), this, SLOT(selectMonthSlot(QString)));
         }
-        child = aParent->findChild<QObject*>("cmbSelectWeekFilterName");
-        if(child)
-        {
-            QObject::connect(child, SIGNAL(onComboboxPressed(QString)), this, SLOT(selectWeekSlot(QString)));
-        }
     }
     else qDebug() << "Signal could not attached to a slot";
 
@@ -79,7 +74,7 @@ void SelectionController::selectYearSlot(QString aCurrentText)
             if(monthChild && weekChild)
             {
                 monthChild->setProperty("visible", "false");
-                weekChild->setProperty("visible", "false");
+                //monthChild->setProperty("currentIndex",0);
                 setAllAvailableData();
             }
             else qDebug() << "No state change";
@@ -143,46 +138,36 @@ void SelectionController::selectMonthSlot(QString aCurrentText)
             if(weekChild)
             {
                 weekChild->setProperty("visible", "false");
-                // get all data from month
             }
             else qDebug() << "No state change";
+
+            // get all data from currentTextYear
+
         }
         else
         {
+            // set possible weeks
             QList<QString> weekList = m_importExportStorage.weeks(0,QDate::fromString(m_currentYearText, "yyyy"),QDate::fromString(m_currentMonthText, "MMMM"));
             m_weekModel.setNewSelectionModel(weekList);
-            QObject* child = parent()->findChild<QObject*>("weekRectName");
-            if(child)
-            {
-                child->setProperty("visible", "true");
-            }
+
+            // calculate start/end Date
+            int year = QDate::fromString(m_currentYearText,"yyyy").year();
+            qDebug() << "Year:" <<year;
+            int month = QDate::fromString(m_currentMonthText,"MMMM").month();
+            qDebug() << "Month" << month;
+            QDate startDate(year, month, 1);
+            qDebug() << "Valid = " << startDate.isValid();
+            QDate endDate(startDate);
+            endDate = endDate.addMonths(1);
+
+            qDebug() << "Startdate" << startDate.toString();
+            qDebug() << "Enddate" << endDate.toString();
+
+            // get data from storage and update model
+            QList<const SensorData*> sensorList = m_importExportStorage.measurementsFromTo(0, startDate, endDate);
+            m_runModel.setNewSensorModel(sensorList);
         }
     }
-
-//    QList<QString> selectionWeekData;
-//    selectionWeekData.append("1");
-//    selectionWeekData.append("2");
-//    selectionWeekData.append("3");
-//    selectionWeekData.append("4");
-
-//    m_weekModel.setNewSelectionModel(selectionWeekData);
-}
-
-void SelectionController::selectWeekSlot(QString aCurrentText)
-{
-//    // EXAMPLE DATA:
-//    QList<const SensorData*> sensorDataI;
-//    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 1)), 200, 5, 1));
-//    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 2)), 100, 3, 2));
-//    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 3)), 50, 3, 3));
-//    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 1)), 200, 5, 4));
-//    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 2)), 100, 3, 5));
-//    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 3)), 50, 3, 6));
-//    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 1)), 200, 5, 7));
-//    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 2)), 100, 3, 8));
-//    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 3)), 50, 3, 9));
-
-    //    m_sensorModel.setNewSensorModel(sensorDataI);
 }
 
 void SelectionController::setAllAvailableData()

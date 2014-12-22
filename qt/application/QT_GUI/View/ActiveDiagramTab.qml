@@ -148,11 +148,6 @@ Rectangle {
                     width: parent.width - weekLabelId.width - 10
                     currentIndex: 0
                     model: activeSelectionWeekModel
-
-                    onPressedChanged:
-                    {
-                        onComboboxPressed(currentText);
-                    }
                 }
             }
         } // grpFilter
