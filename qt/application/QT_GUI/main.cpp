@@ -171,7 +171,7 @@ int main(int argc, char *argv[])
 
     // set controler
     FilterController filterController(root, inactiveSensorModel, inactiveCalcSensorModel, dataStorage);
-    SelectionController selectionController(root, activeYearModel, activeMonthModel, activeWeekModel, activeSensorModel,activeSensorTableModel, dataStorage);
+    SelectionController selectionController(root, activeYearModel, activeMonthModel, activeWeekModel, activeSensorModel,activeSensorTableModel, activeCalcSensorModel, dataStorage);
     TableSelectionController tableController(root, activeSensorTableModel, activeSensorModel, activeCalcSensorModel, dataStorage);
     PrintButtonController printController(root, inactiveSensorModel, activeSensorModel);
     InitDiagramsController initController(root, inactiveSensorModel, activeSensorModel);

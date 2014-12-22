@@ -19,6 +19,7 @@
 #include <QObject>
 #include "Model/selectionmodel.h"
 #include "Model/sensormodel.h"
+#include "Model/activesensorcalcmodel.h"
 #include "ImportExport/ImportExport.h"
 
 class SelectionController: public QObject
@@ -39,6 +40,7 @@ class SelectionController: public QObject
                             SelectionModel& aWeekModel,
                             SensorModel& aInactiveModel,
                             SensorModel& aRunModel,
+                            ActiveSensorCalcModel& aCalcModel,
                             ImportExport& aStorage);
 
     public slots:
@@ -89,6 +91,8 @@ class SelectionController: public QObject
         SensorModel& m_sensorModel;
 
         SensorModel& m_runModel;
+
+        ActiveSensorCalcModel& m_activeCalcModel;
 
         ImportExport& m_importExportStorage;
 
