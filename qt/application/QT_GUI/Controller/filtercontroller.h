@@ -19,6 +19,7 @@
 #include <QObject>
 #include "Model/sensormodel.h"
 #include "Model/inactivesensorcalcmodel.h"
+#include "ImportExport/ImportExport.h"
 #include <QDate>
 
 class FilterController : public QObject
@@ -26,7 +27,7 @@ class FilterController : public QObject
     Q_OBJECT
     public:
 
-        FilterController(QObject* aParent, SensorModel& aModel, InactiveSensorCalcModel& aCalcModel);
+        FilterController(QObject* aParent, SensorModel& aModel, InactiveSensorCalcModel& aCalcModel, ImportExport& aStorage);
 
     public slots:
 
@@ -34,11 +35,11 @@ class FilterController : public QObject
 
     private:
 
-
-
         SensorModel& m_inactiveSensorModel;
 
         InactiveSensorCalcModel& m_inactiveCalcModel;
+
+        ImportExport& m_importExportStorgae;
 
         void updateGuiWithCurrentData();
 };

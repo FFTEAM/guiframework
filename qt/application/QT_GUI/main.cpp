@@ -187,7 +187,7 @@ int main(int argc, char *argv[])
     PrintButtonController printController(root, inactiveSensorModel, activeSensorModel);
     InitDiagramsController initController(root, inactiveSensorModel, activeSensorModel);
     SelectionController selectionController(root, activeYearModel, activeMonthModel, activeWeekModel, activeSensorModel);
-    FilterController filterController(root, inactiveSensorModel, inactiveCalcSensorModel);
+    FilterController filterController(root, inactiveSensorModel, inactiveCalcSensorModel, dataStorage);
 
     int ret = app.exec();
     bcReceiver.exit();

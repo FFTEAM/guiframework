@@ -17,9 +17,11 @@
 
 FilterController::FilterController(QObject* aParent,
                                    SensorModel& aModel,
-                                   InactiveSensorCalcModel& aCalcModel) : QObject(aParent),
-                                                                         m_inactiveSensorModel(aModel),
-                                                                         m_inactiveCalcModel(aCalcModel)
+                                   InactiveSensorCalcModel& aCalcModel,
+                                   ImportExport& aStorage) : QObject(aParent),
+                                                             m_inactiveSensorModel(aModel),
+                                                             m_inactiveCalcModel(aCalcModel),
+                                                             m_importExportStorgae(aStorage)
 {
     // C'tor
     if(aParent)
@@ -54,21 +56,11 @@ void FilterController::validateUserInputSlot()
         }
         else qDebug() << "No errorLabel";
 
-        // ToDo query to database with current dates to get QList for model
+        // Get data from filter settings
+        QList<const SensorData*> dataList = m_importExportStorgae.measurementsFromTo(startDate, endDate);
 
-        // EXAMPLE DATA:
-        QList<const SensorData*> sensorDataI;
-        sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 1)), 200, 5, 7));
-        sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 2)), 100, 3, 8));
-        sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 3)), 50, 3, 9));
-        sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 1)), 210, 5, 11));
-        sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 2)), 100, 3, 22));
-        sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 3)), 50, 3, 11));
-        sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 1)), 200, 5, 22));
-        sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 2)), 100, 3, 11));
-        sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 3)), 10, 3, 22));
-
-        m_inactiveSensorModel.setNewSensorModel(sensorDataI);
+        // Update Model
+        m_inactiveSensorModel.setNewSensorModel(dataList);
         m_inactiveCalcModel.updateCalcValues(m_inactiveSensorModel);
 
         updateGuiWithCurrentData();
