@@ -13,12 +13,12 @@ NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=946
 NormalPos.bottom=399
-Class=LaTeXView
-Document=bericht.tex
+Class=BibTeXView
+Document=literatur.bib
 
 [Frame0_View0,0]
-TopLine=153
-Cursor=0
+TopLine=19
+Cursor=971
 
 [Frame1]
 Flags=0
@@ -32,11 +32,11 @@ NormalPos.top=26
 NormalPos.right=946
 NormalPos.bottom=399
 Class=LaTeXView
-Document=einleitung.tex
+Document=bericht.tex
 
 [Frame1_View0,0]
-TopLine=76
-Cursor=5499
+TopLine=153
+Cursor=0
 
 [Frame2]
 Flags=0
@@ -50,11 +50,11 @@ NormalPos.top=26
 NormalPos.right=946
 NormalPos.bottom=399
 Class=LaTeXView
-Document=deckblatt.tex
+Document=einleitung.tex
 
 [Frame2_View0,0]
-TopLine=7
-Cursor=545
+TopLine=36
+Cursor=2540
 
 [Frame3]
 Flags=0
@@ -68,11 +68,11 @@ NormalPos.top=26
 NormalPos.right=946
 NormalPos.bottom=399
 Class=LaTeXView
-Document=hauptteil-android.tex
+Document=deckblatt.tex
 
 [Frame3_View0,0]
-TopLine=0
-Cursor=71
+TopLine=7
+Cursor=545
 
 [Frame4]
 Flags=0
@@ -86,11 +86,11 @@ NormalPos.top=26
 NormalPos.right=946
 NormalPos.bottom=399
 Class=LaTeXView
-Document=hauptteil-qt.tex
+Document=hauptteil-android.tex
 
 [Frame4_View0,0]
 TopLine=0
-Cursor=10
+Cursor=71
 
 [Frame5]
 Flags=0
@@ -104,10 +104,10 @@ NormalPos.top=26
 NormalPos.right=946
 NormalPos.bottom=399
 Class=LaTeXView
-Document=fazit.tex
+Document=hauptteil-qt.tex
 
 [Frame5_View0,0]
-TopLine=4
+TopLine=0
 Cursor=10
 
 [Frame6]
@@ -122,11 +122,11 @@ NormalPos.top=26
 NormalPos.right=946
 NormalPos.bottom=399
 Class=LaTeXView
-Document=verzeichnisse.tex
+Document=fazit.tex
 
 [Frame6_View0,0]
-TopLine=4
-Cursor=384
+TopLine=0
+Cursor=737
 
 [Frame7]
 Flags=0
@@ -139,16 +139,16 @@ NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=946
 NormalPos.bottom=399
-Class=BibTeXView
-Document=literatur.bib
+Class=LaTeXView
+Document=verzeichnisse.tex
 
 [Frame7_View0,0]
-TopLine=19
-Cursor=971
+TopLine=4
+Cursor=384
 
 [SessionInfo]
 FrameCount=8
-ActiveFrame=5
+ActiveFrame=2
 
 [Bookmarks]
 einleitung.tex=6 
