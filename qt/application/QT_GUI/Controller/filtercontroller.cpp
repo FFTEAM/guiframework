@@ -7,7 +7,7 @@
   * @file   filtercontroller.cpp
   * @author Patrick Mathias, Markus Nebel
   * @author responsible: Patrick Mathias
-  * @date   12.12.2014 13:56:00 GMT
+  * @date   21.12.2014 13:13:05 GMT
   *
   * @brief  Implementation file of FilterController class
   *

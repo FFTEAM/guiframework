@@ -7,7 +7,7 @@
   * @file   tableselectioncontroller.cpp
   * @author Patrick Mathias, Markus Nebel
   * @author responsible: Patrick Mathias
-  * @date   12.12.2014 13:56:00 GMT
+  * @date   22.12.2014 10:31:00 GMT
   *
   * @brief  Implementation file of TableSelectionController class
   *

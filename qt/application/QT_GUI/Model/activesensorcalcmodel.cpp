@@ -7,7 +7,7 @@
   * @file   activesensorcalcmodel.cpp
   * @author Patrick Mathias, Markus Nebel
   * @author responsible: Patrick Mathias
-  * @date   12.12.2014 13:56:00 GMT
+  * @date   16.12.2014 13:16:00 GMT
   *
   * @brief  TImplementation file of ActiveSensorCalcModel class
   *

@@ -7,7 +7,7 @@
   * @file   selcetionmodel.h
   * @author Patrick Mathias, Markus Nebel
   * @author responsible: Patrick Mathias
-  * @date   12.12.2014 13:56:00 GMT
+  * @date   19.12.2014 09:10:00 GMT
   *
   * @brief  Include all declarations from SelectionModel
   *

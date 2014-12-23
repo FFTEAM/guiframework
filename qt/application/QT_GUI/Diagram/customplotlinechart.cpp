@@ -7,7 +7,7 @@
   * @file   customplotlinechart.cpp
   * @author Patrick Mathias, Markus Nebel
   * @author responsible: Patrick Mathias
-  * @date   12.12.2014 13:56:00 GMT
+  * @date   16.12.2014 15:50:00 GMT
   *
   * @brief  Implementation file of CustomPlotLineChart class
   *

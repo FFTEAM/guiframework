@@ -7,7 +7,7 @@
   * @file   calcsensordata.h
   * @author Patrick Mathias, Markus Nebel
   * @author responsible: Patrick Mathias
-  * @date   12.12.2014 13:56:00 GMT
+  * @date   14.12.2014 13:00:00 GMT
   *
   * @brief  Include all declarations from CalcSensorData
   *

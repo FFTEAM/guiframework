@@ -7,7 +7,7 @@
   * @file   ressourcefilepath.h
   * @author Patrick Mathias, Markus Nebel
   * @author responsible: Patrick Mathias
-  * @date   12.12.2014 13:56:00 GMT
+  * @date   27.11.2014 10:10:00 GMT
   *
   * @brief  Header file with important path
   *

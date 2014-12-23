@@ -7,7 +7,7 @@
   * @file   printbuttoncontroller.h
   * @author Patrick Mathias, Markus Nebel
   * @author responsible: Patrick Mathias
-  * @date   12.12.2014 13:56:00 GMT
+  * @date   20.12.2014 14:55:00 GMT
   *
   * @brief  Inlcude all declarations from PrintButtonController
   *

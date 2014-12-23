@@ -7,7 +7,7 @@
   * @file   sensorcalcmodel.cpp
   * @author Patrick Mathias, Markus Nebel
   * @author responsible: Patrick Mathias
-  * @date   12.12.2014 13:56:00 GMT
+  * @date   15.12.2014 21:52:00 GMT
   *
   * @brief  Implementation file of SensorCalcModel class
   *
