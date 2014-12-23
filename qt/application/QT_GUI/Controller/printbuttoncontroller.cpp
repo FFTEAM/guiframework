@@ -6,10 +6,10 @@
 /**
   * @file   printbuttoncontroller.cpp
   * @author Patrick Mathias, Markus Nebel
-  * @author Verantwortlichkeit: Patrick Mathias
-  * @date   12.12.2014 14:12:00 GMT
+  * @author responsible: Patrick Mathias
+  * @date   12.12.2014 13:56:00 GMT
   *
-  * @brief Diese CPP-Datei enthält alle Implementierung der Methoden der Klasse PrintButtonController
+  * @brief  ToDo
   *
   */
 

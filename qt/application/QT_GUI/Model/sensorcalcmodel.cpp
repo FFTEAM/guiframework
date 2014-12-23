@@ -1,3 +1,18 @@
+//#########################################################################################
+// Projekt: Heart Rate 2 go
+// Copyright: 2014
+//#########################################################################################
+
+/**
+  * @file   sensorcalcmodel.cpp
+  * @author Patrick Mathias, Markus Nebel
+  * @author responsible: Patrick Mathias
+  * @date   12.12.2014 13:56:00 GMT
+  *
+  * @brief  ToDo
+  *
+  */
+
 #include "sensorcalcmodel.h"
 
 SensorCalcModel::SensorCalcModel(SensorModel& aModel,QObject* aParent): QAbstractListModel(aParent),
@@ -20,9 +35,9 @@ void SensorCalcModel::updateCalcValues(const SensorModel& aModel)
     {
         // Default values
         m_calcSensorList.clear();
-        m_calcSensorList.append(CalcSensorData("maximal heartrate:",0));
-        m_calcSensorList.append(CalcSensorData("minimal heartrate:",0));
-        m_calcSensorList.append(CalcSensorData("average heartrate:",0));
+        m_calcSensorList.append(CalcSensorData(tr("maximal heartrate:"),0));
+        m_calcSensorList.append(CalcSensorData(tr("minimal heartrate:"),0));
+        m_calcSensorList.append(CalcSensorData(tr("average heartrate:"),0));
     }
     else
     {
@@ -51,9 +66,9 @@ void SensorCalcModel::updateCalcValues(const SensorModel& aModel)
 
         // update Values
         m_calcSensorList.clear();
-        m_calcSensorList.append(CalcSensorData("maximal heartrate:", tmpMaximum));
-        m_calcSensorList.append(CalcSensorData("minimal heartrate:", tmpMinimum));
-        m_calcSensorList.append(CalcSensorData("average heartrate:", QString::number(tmpAverage / aModel.m_sensorList.size(),'f',1).toDouble()));
+        m_calcSensorList.append(CalcSensorData(tr("maximal heartrate:"), tmpMaximum));
+        m_calcSensorList.append(CalcSensorData(tr("minimal heartrate:"), tmpMinimum));
+        m_calcSensorList.append(CalcSensorData(tr("average heartrate:"), QString::number(tmpAverage / aModel.m_sensorList.size(),'f',1).toDouble()));
     }
     endResetModel();
 }

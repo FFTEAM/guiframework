@@ -6,10 +6,10 @@
 /**
   * @file   customplotbarchart.h
   * @author Patrick Mathias, Markus Nebel
-  * @author Verantwortlichkeit: Patrick Mathias
-  * @date   12.12.2014 14:10:00 GMT
+  * @author responsible: Patrick Mathias
+  * @date   12.12.2014 13:56:00 GMT
   *
-  * @brief Diese Header-Datei enhält alle Deklarationen der Klasse CustomPlotBarChart
+  * @brief  ToDo
   *
   */
 
@@ -118,6 +118,13 @@ class CustomPlotBarChart : public QQuickPaintedItem
          */
         QCPBars* m_barChart;
 
+        //virtual void hoverMoveEvent(QHoverEvent * event);
+        QCPItemText *textLabel;
+
+        QVector<double> m_tickValueVector;
+
+        QVector<QString> m_tickLabelVector;
+
         /**
          * @brief updateCustomPlotSize Aktualisiert die Größe des Diagramms
          */
@@ -127,6 +134,8 @@ class CustomPlotBarChart : public QQuickPaintedItem
          * @brief calculateData Berechnet anhand der Sensordaten des Models die Diagrammwerte
          */
         void calculateData();
+    private slots:
+        void calculateTicksAndLabels();
 };
 
 #endif // CUSTOMPLOTBARCHART_H

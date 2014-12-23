@@ -1,6 +1,8 @@
 package de.masterios.heartrate2go;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.Node;
@@ -15,10 +17,17 @@ public class DataLayerListenerService extends WearableListenerService {
 
     private static final String MESSAGE_RECEIVED_PATH = "/heartrate2go-message";
 
+    SharedPreferences mSharedPreferences;
+
     NetworkBroadcast mNetworkBroadcast;
     HeartRateMeasure mHeartRateMeasure;
 
-    public DataLayerListenerService() {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
         mNetworkBroadcast = new NetworkBroadcast(this);
         mNetworkBroadcast.setBroadcastFinishedListener(new NetworkBroadcast.BroadcastFinishedListener() {
             @Override
@@ -45,11 +54,23 @@ public class DataLayerListenerService extends WearableListenerService {
             if(!data.equals("")) {
                 mHeartRateMeasure.setDataFromString(data);
                 HeartRateFile.saveMeasureToFile(this, mHeartRateMeasure);
-                mNetworkBroadcast.sendBroadcastAsync();
 
-                Intent intent = new Intent(getBaseContext(), HandheldActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getApplication().startActivity(intent);
+                boolean isSendDirectly = mSharedPreferences.getBoolean("preference_send_directly", false);
+                String ip = mSharedPreferences.getString("preference_static_ip", "");
+                if(isSendDirectly && null != mNetworkBroadcast && null != mHeartRateMeasure) {
+                    if (ip.equals("")) {
+                        mNetworkBroadcast.sendBroadcastAsync();
+                    } else {
+                        mHeartRateMeasure.sendDataAsync(ip);
+                    }
+                }
+
+                boolean isOpenApp = mSharedPreferences.getBoolean("preference_open_app", false);
+                if(isOpenApp) {
+                    Intent intent = new Intent(getBaseContext(), HandheldActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    getApplication().startActivity(intent);
+                }
             }
         }
     }

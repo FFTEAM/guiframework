@@ -6,8 +6,8 @@
 /**
   * @file   main.cpp
   * @author Patrick Mathias, Markus Nebel
-  * @author Verantwortlichkeit: Patrick Mathias
-  * @date   12.12.2014 13:01:00 GMT
+  * @author responsible: Patrick Mathias
+  * @date   12.12.2014 13:56:00 GMT
   *
   * @brief  In der Main.cpp wird die Application erzeugt und die Sprache festgelegt. Zusätzlich
   * werden die Controller und die Größe des Applikationsfenster initialisert. Abschließend werden die
@@ -15,6 +15,7 @@
   *
   */
 
+#include <QApplication>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QTranslator>
@@ -33,6 +34,8 @@
 #include "Controller/printbuttoncontroller.h"
 #include "Controller/selectioncontroller.h"
 #include "Controller/initdiagramscontroller.h"
+#include "Controller/filtercontroller.h"
+#include "Controller/tableselectioncontroller.h"
 
 // inlcude path for diagrams on view
 #include "Diagram/customplotbarchart.h"
@@ -85,42 +88,23 @@ int main(int argc, char *argv[])
     // listen for incoming data connections:
     server.startServer();
 
-    // EXAMPLE DATA:
-    QList<const SensorData*> sensorDataI;
-    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 1)), 200, 5));
-    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 2)), 100, 3));
-    sensorDataI.append(new SensorData(QDateTime(QDate(2015, 1, 1), QTime(0, 0, 3)), 50, 3));
-
-    QList<const SensorData*> sensorDataA;
-    sensorDataA.append(new SensorData(QDateTime(QDate(2017, 1, 1), QTime(0, 0, 1)), 230, 5));
-    sensorDataA.append(new SensorData(QDateTime(QDate(2017, 1, 1), QTime(0, 0, 2)), 120, 10));
-    sensorDataA.append(new SensorData(QDateTime(QDate(2017, 1, 1), QTime(0, 0, 3)), 30, 3));
-
-    QList<QString> selectionYearData;
-    selectionYearData.append("2010");
-    selectionYearData.append("2011");
-    selectionYearData.append("2012");
-    selectionYearData.append("2013");
-    selectionYearData.append("2014");
-    selectionYearData.append("2015");
-
     // create sensorInactiveData Model
     SensorModel inactiveSensorModel;
-    inactiveSensorModel.setNewSensorModel(sensorDataI);
-
-    // create sensorActiveModel
-    SensorModel activeSensorModel;
-    activeSensorModel.setNewSensorModel(sensorDataA);
 
     // create inactiveCalcSensorModel
     InactiveSensorCalcModel inactiveCalcSensorModel(inactiveSensorModel);
+
+    // create sensorActiveModel
+    SensorModel activeSensorModel;
+
+    // create sensorActiveTable Model
+    SensorModel activeSensorTableModel;
 
     // create activeCalcSensorModel
     ActiveSensorCalcModel activeCalcSensorModel(activeSensorModel);
 
     // create selectionValue models
-    SelectionModel inactiveYearModel, inactiveMonthModel, inactiveWeekModel;
-    inactiveYearModel.setNewSelectionModel(selectionYearData);
+    SelectionModel activeYearModel, activeMonthModel, activeWeekModel;
 
     qmlRegisterType<CustomPlotBarChart>("CostumPlot", 1, 0, "CustomPlotBarChart");
     qmlRegisterType<CustomPlotLineChart>("CostumPlot", 1, 0, "CustomPlotLineChart");
@@ -144,9 +128,10 @@ int main(int argc, char *argv[])
         contex->setContextProperty("activeSensorDataModel", &activeSensorModel);
         contex->setContextProperty("inactiveSensorCalcModel", &inactiveCalcSensorModel);
         contex->setContextProperty("activeSensorCalcModel", &activeCalcSensorModel);
-        contex->setContextProperty("inactiveSelectionYearModel", &inactiveYearModel);
-        contex->setContextProperty("inactiveSelectionMonthModel", &inactiveMonthModel);
-        contex->setContextProperty("inactiveSelectionWeekModel", &inactiveWeekModel);
+        contex->setContextProperty("activeSelectionYearModel", &activeYearModel);
+        contex->setContextProperty("activeSelectionMonthModel", &activeMonthModel);
+        contex->setContextProperty("activeSelectionWeekModel", &activeWeekModel);
+        contex->setContextProperty("activeSensorTableModel", &activeSensorTableModel);
     }
     else qDebug() << "Error no contex is set";
 
@@ -171,9 +156,11 @@ int main(int argc, char *argv[])
     else qDebug() << "No root object available";
 
     // set controler
+    FilterController filterController(root, inactiveSensorModel, inactiveCalcSensorModel, dataStorage);
+    SelectionController selectionController(root, activeYearModel, activeMonthModel, activeWeekModel, activeSensorModel,activeSensorTableModel, activeCalcSensorModel, dataStorage);
+    TableSelectionController tableController(root, activeSensorTableModel, activeSensorModel, activeCalcSensorModel, dataStorage);
     PrintButtonController printController(root, inactiveSensorModel, activeSensorModel);
     InitDiagramsController initController(root, inactiveSensorModel, activeSensorModel);
-    SelectionController selectionController(root, inactiveYearModel, inactiveMonthModel, inactiveWeekModel, inactiveSensorModel);
 
     int ret = app.exec();
     bcReceiver.exit();

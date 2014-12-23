@@ -6,19 +6,22 @@
 /**
   * @file   sensordata.cpp
   * @author Patrick Mathias, Markus Nebel
-  * @author Verantwortlichkeit: Patrick Mathias
-  * @date   12.12.2014 14:12:00 GMT
+  * @author responsible: Patrick Mathias
+  * @date   12.12.2014 13:56:00 GMT
   *
-  * @brief Diese CPP-Datei enthält alle Implementierung der Methoden der Klasse SensorData
+  * @brief  ToDo
+  *
   */
 
 #include "sensordata.h"
 
 SensorData::SensorData(const QDateTime& aDate,
                        quint16 aHeartRate,
-                       quint16 aStepLength) :   m_date(aDate),
-                                                       m_heartRate(aHeartRate),
-                                                       m_stepLength(aStepLength)
+                       quint16 aStepLength,
+                       quint64 aId) :   m_date(aDate),
+                                        m_heartRate(aHeartRate),
+                                        m_stepLength(aStepLength),
+                                        m_id(aId)
 {
     // C'tor
 }
@@ -52,4 +55,9 @@ void SensorData::setHeartRate(quint16 aHeartRate)
 void SensorData::setStepLength(quint16 aStepLength)
 {
     m_stepLength = aStepLength;
+}
+
+quint64 SensorData::getId() const
+{
+    return m_id;
 }

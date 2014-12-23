@@ -6,10 +6,10 @@
 /**
   * @file   sensormodel.h
   * @author Patrick Mathias, Markus Nebel
-  * @author Verantwortlichkeit: Patrick Mathias
-  * @date   12.12.2014 14:07:00 GMT
+  * @author responsible: Patrick Mathias
+  * @date   12.12.2014 13:56:00 GMT
   *
-  * @brief  Diese Header-Datei enhält alle Deklarationen der Klasse SensoModel
+  * @brief  ToDo
   *
   */
 
@@ -48,7 +48,7 @@ class SensorModel : public QAbstractListModel
         {
             SENSOR_DATE_ROLE,            /**< Zeitstempel für die Herzfrequenz  */
             SENSOR_HEART_RATE_ROLE,      /**< Herzfrequenz */
-            SENSOR_STEP_LENGTH_ROLE           /**< Schrittlänge */
+            SENSOR_STEP_LENGTH_ROLE      /**< Schrittlänge */
         };
 
         ~SensorModel();

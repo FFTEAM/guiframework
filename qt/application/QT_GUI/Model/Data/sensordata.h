@@ -6,10 +6,10 @@
 /**
   * @file   sensordata.h
   * @author Patrick Mathias, Markus Nebel
-  * @author Verantwortlichkeit: Patrick Mathias
-  * @date   12.12.2014 13:59:00 GMT
+  * @author responsible: Patrick Mathias
+  * @date   12.12.2014 13:56:00 GMT
   *
-  * @brief  Diese Header-Datei enhält alle Deklarationen der Klasse SensorData
+  * @brief  ToDo
   *
   */
 
@@ -66,12 +66,18 @@ class SensorData
         void setStepLength(quint16 aStepLength);
 
         /**
+         * @brief getId Id from selected run
+         * @return
+         */
+        quint64 getId() const;
+
+        /**
          * @brief SensorData Allgemeiner Konstruktor für die Klasse SensorData
          * @param aDate Wert für den aktuellen Zeitstempel
          * @param aHeartRate Wert für die aktuelle Herzfrequenz
          * @param aStepLength Wert für die aktuelle Schrittlänge
          */
-        SensorData(const QDateTime &aDate, quint16 aHeartRate, quint16 aStepLength);
+        SensorData(const QDateTime &aDate, quint16 aHeartRate, quint16 aStepLength, quint64 aId);
 
     private:
 
@@ -92,6 +98,11 @@ class SensorData
          * @var Enthält die aktuelle Schrittlänge
          */
         quint16 m_stepLength;
+
+        /**
+         * @brief m_id id for db
+         */
+        quint64 m_id;
 };
 
 #endif // SENSORDATA_H

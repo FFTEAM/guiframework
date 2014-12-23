@@ -6,28 +6,10 @@ import "."
 
 Rectangle {
     id: outerRect
+    objectName: "outerRectName"
     color: Style.tabBackgroundColor
     anchors.fill: parent
     anchors.margins: 5
-
-    states:
-    [
-
-        State
-        {
-            name: "INIT_DIAGRAMM"
-        },
-
-        State
-        {
-            name: "BEGIN_UPDATE_DIAGRAMM"
-        },
-
-        State
-        {
-            name: "END_UPDATE_DIAGRAMM"
-        }
-    ]
 
     Rectangle {
         id: upperRectid
@@ -42,16 +24,19 @@ Rectangle {
 
         GroupBox {
             id: grpFilter
+            objectName: "selectionGrpName"
+            title: qsTr("Filtering options")
 
             anchors.right: parent.right
-
             height: parent.height
             width: parent.width / 2 - 10
 
-            title: qsTr("Filtering options")
-
             Rectangle {
                 id: yearRect
+                objectName: "yearRectName"
+
+                state: "BEGIN_SELECTION"
+
                 color: "transparent"
                 width: parent.width
                 height: parent.height / 3
@@ -66,25 +51,39 @@ Rectangle {
                     text: qsTr("Year:")
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
+                    renderType: Text.NativeRendering
                 }
 
                 ComboBox {
+
                     id: cmbSelectYearFilter
+                    objectName: "cmbSelectYearFilterName"
+
+                    signal onComboboxPressed(string text);
+
                     anchors.left: yearLabelId.right
                     anchors.leftMargin: 10
                     width: parent.width - yearLabelId.width - 10
                     currentIndex: 0
-                    model: inactiveSelectionYearModel
+                    model: activeSelectionYearModel
+
+                    onPressedChanged: {
+
+                        onComboboxPressed(currentText);
+                    }
                 }
             }
 
             Rectangle {
                 id: monthRect
+                objectName: "monthRectName"
                 color: "transparent"
                 width: parent.width
                 height: parent.height / 3
                 anchors.top: yearRect.bottom
                 anchors.topMargin: 3
+
+                visible: false
 
                 Label {
                     id: monthLabelId
@@ -94,25 +93,38 @@ Rectangle {
                     text: qsTr("Month:")
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
+                    renderType: Text.NativeRendering
                 }
 
                 ComboBox {
                     id: cmbSelectMonthFilter
+                    objectName: "cmbSelectMonthFilterName"
+
+                    signal onComboboxPressed(string text);
+
                     anchors.left: monthLabelId.right
                     anchors.leftMargin: 10
                     width: parent.width - monthLabelId.width - 10
                     currentIndex: 0
-                    // THROWS WARNING: model: inactiveSelectionMonthModel
+                    model: activeSelectionMonthModel
+
+                    onPressedChanged:
+                    {
+                        onComboboxPressed(currentText);
+                    }
               }
             }
 
             Rectangle {
                 id: weekRect
+                objectName: "weekRectName"
                 color: "transparent"
                 width: parent.width
                 height: parent.height / 3
                 anchors.top: monthRect.bottom
                 anchors.topMargin: 3
+
+                visible:  false
 
                 Label {
                     id: weekLabelId
@@ -122,42 +134,47 @@ Rectangle {
                     text: qsTr("Week:")
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
+                    renderType: Text.NativeRendering
                 }
 
                 ComboBox {
                     id: cmbSelectWeekFilter
+                    objectName: "cmbSelectWeekFilterName"
+
+                    signal onComboboxPressed(string text);
+
                     anchors.left: weekLabelId.right
                     anchors.leftMargin: 10
                     width: parent.width - weekLabelId.width - 10
                     currentIndex: 0
-                    // THROWS WARNING: model: inactiveSelectionWeekModel
+                    model: activeSelectionWeekModel
                 }
             }
         } // grpFilter
 
         Component {
 
-                 id: activeListDelegate
-                 Item {
-                     width: parent.width - 10
-                     height: listView2.height/ listView2.count
-                     Row {
-                          spacing: 2
-                          width: parent.width - 10
-
-                          Text {
-                              text: activeCalcDescription
-                              anchors.verticalCenter: parent.verticalCenter
-                              width: (parent.width - 10)/2
-                          }
-
-                          Text {
-                              text: activeCalcValue
-                              anchors.verticalCenter: parent.verticalCenter
-                              width: (parent.width - 10)/2
-                          }
-                     }
-                 }
+            id: activeListDelegate
+            Item {
+                width: parent.width - 10
+                height: listView2.height/ listView2.count
+                Row {
+                    spacing: 2
+                    width: parent.width - 10
+                    Text {
+                        text: activeCalcDescription
+                        anchors.verticalCenter: parent.verticalCenter
+                        width: (parent.width - 10)/2
+                        renderType: Text.NativeRendering
+                    }
+                    Text {
+                        text: activeCalcValue
+                        anchors.verticalCenter: parent.verticalCenter
+                        width: (parent.width - 10)/2
+                        renderType: Text.NativeRendering
+                    }
+                }
+            }
         }
 
         GroupBox {
@@ -169,18 +186,16 @@ Rectangle {
             title: qsTr("Active Heartrate Details")
 
             ListView {
-                        id: listView2
-                        height: parent.height
-                        width: parent.width
-                        anchors.right: parent.right
-                        anchors.top: parent.top
+                id: listView2
+                height: parent.height
+                width: parent.width
+                anchors.right: parent.right
+                anchors.top: parent.top
 
-                        model: activeSensorCalcModel
-                        interactive: false
-                        delegate: activeListDelegate
+                model: activeSensorCalcModel
+                interactive: false
+                delegate: activeListDelegate
            }
-
-
         }
     }
 
@@ -188,12 +203,11 @@ Rectangle {
         id: innerRect
         color: "transparent"
 
-        anchors.bottom: parent.bottom;
-        anchors.left: parent.left;
-
         width: parent.width
         height: parent.height / 4 * 3
 
+        anchors.bottom: parent.bottom;
+        anchors.left: parent.left;
         anchors.topMargin: 5
         anchors.bottomMargin: 5
 
@@ -208,12 +222,11 @@ Rectangle {
             {
                 anchors.left: parent.left
                 anchors.top: parent.top
+                anchors.leftMargin: 5
+                anchors.topMargin: 5
 
                 width: parent.width - 10;
                 height: parent.height - 10;
-
-                anchors.leftMargin: 5
-                anchors.topMargin: 5
 
                 Tab{
                     id: tab1
@@ -263,7 +276,6 @@ Rectangle {
                             title: qsTr("Date");
                             width: parent.width/3 * 2
                         }
-
                         TableViewColumn
                         {
                             role: "heartRate";
@@ -276,6 +288,7 @@ Rectangle {
                             Text {
                                 color: Style.tableViewTextColor
                                 text: styleData.value
+                                renderType: Text.NativeRendering
                             }
                         }
                     }
@@ -290,10 +303,10 @@ Rectangle {
             height: parent.height
             width: parent.width / 2 - 10
 
-
             TableView {
 
-                id: tableId
+                id: tableRunId
+                objectName: "tableRunName"
                 anchors.left: parent.left
                 anchors.top: parent.top
 
@@ -303,20 +316,24 @@ Rectangle {
                 anchors.leftMargin: 5
                 anchors.topMargin: 5
 
-                model: activeSensorDataModel
+                model: activeSensorTableModel
+
+                onSelectionChanged:
+                {
+                    clicked(currentRow);
+                }
 
                 TableViewColumn
                 {
                     role: "date";
                     title: qsTr("Date");
-                    width: tableId.width/3 * 2
+                    width: tableRunId.width/3 * 2
                 }
-
                 TableViewColumn
                 {
                     role: "heartRate";
                     title: qsTr("HeartRate");
-                    width: tableId.width/3
+                    width: tableRunId.width/3
                 }
 
                 itemDelegate:
@@ -324,9 +341,29 @@ Rectangle {
                     Text {
                         color: Style.tableViewTextColor
                         text: styleData.value
+                        renderType: Text.NativeRendering
                     }
                 }
             }
         }
     }
+
+    states:
+    [
+
+        State
+        {
+            name: "INIT_DIAGRAMM"
+        },
+
+        State
+        {
+            name: "BEGIN_UPDATE_DIAGRAMM"
+        },
+
+        State
+        {
+            name: "END_UPDATE_DIAGRAMM"
+        }
+    ]
 }

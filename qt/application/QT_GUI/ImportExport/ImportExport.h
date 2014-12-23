@@ -2,6 +2,7 @@
 #define IMPORTEXPORT_H
 
 #include <QObject>
+#include <QDateTime>
 #include <QtSql/QtSql>
 
 #include "Model/Data/sensordata.h"
@@ -31,7 +32,12 @@ public:
     explicit ImportExport(QObject *parent = 0);
     virtual ~ImportExport();
 
-    QStringList getMeasureValues();
+    QList<QString> years(quint8);
+    QList<QString> months(quint8, const QDate&);
+    QList<QString> weeks(quint8, const QDate&, const QDate&);
+    QList<const SensorData*> dataByMeasurementId(quint64);
+    QList<const SensorData*> measurements(quint8);
+    QList<const SensorData*> measurementsFromTo(quint8, const QDate&, const QDate&);
 
     explicit operator bool() const;
 };

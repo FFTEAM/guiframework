@@ -8,23 +8,30 @@
     <string name="action_settings">Settings</string>
 
     <string name="settings_title">Settings</string>
-    <string name="settings_category_general">General</string>
+    <string name="settings_category_handheld">Handheld</string>
+    <string name="settings_category_wearable">Wearable</string>
 
     <string name="title_keep_screen_on">Keep screen on</string>
-    <string name="summary_keep_screen_on">Keeping screen on will result in higher battery drain..</string>
+    <string name="summary_keep_screen_on">Keeping screen on will result in higher battery drain</string>
 
     <string name="title_remember_vibrate">Reminder</string>
-    <string name="summary_remember_vibrate">Remind every 15 minutes HeartRate2Go is still active..</string>
+    <string name="summary_remember_vibrate">Remind every 15 minutes HeartRate2Go is still active</string>
 
     <string name="title_measure_interval">Measurement Interval</string>
-    <string name="summary_measure_interval">Time in seconds between each measurement.</string>
+    <string name="summary_measure_interval">Time in seconds between each measurement</string>
 
     <string name="title_static_ip">Static target address</string>
-    <string name="summary_static_ip">IP address from the device. Empty for DHCP.</string>
-    <string name="ip_not_valid">IP is not valid.</string>
+    <string name="summary_static_ip">IP address of the PC\n(Empty for broadcast discovery)\nPort: 1234 (for NAT configuration)</string>
+    <string name="ip_not_valid">IP is not valid</string>
 
     <string name="title_list_styles">Backgroundcolor</string>
-    <string name="summary_list_styles">Choose between the available colors.</string>
+    <string name="summary_list_styles">Choose between the available colors</string>
+
+    <string name="title_send_directly">Direct data sending</string>
+    <string name="summary_send_directly">Send data directly to PC after receiving from smartwatch</string>
+
+    <string name="title_open_app">Open app</string>
+    <string name="summary_open_app">Open app automatically after receiving from smartwatch</string>
 
     <string name="date_format">yyyy-MM-dd HH:mm:ss</string>
     <string name="measure_mode_activity">Activity measurement</string>

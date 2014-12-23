@@ -66,6 +66,9 @@ public class HandheldActivity extends Activity implements AdapterView.OnItemSele
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_handheld);
+
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
         mTextViewCaption = (TextView) findViewById(R.id.text_view_caption);
         mFrameLayout = (FrameLayout) findViewById(R.id.frame_layout);
         mTextViewCenter = (TextView) findViewById(R.id.text_view_center);
@@ -96,8 +99,6 @@ public class HandheldActivity extends Activity implements AdapterView.OnItemSele
         // refresh preferences on wearable
         SettingsActivity.syncSettingsToWearable(this);
         mHeartRateMeasure = HeartRateMeasure.getInstance();
-
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         mNetworkBroadcast = new NetworkBroadcast(this);
         mNetworkBroadcast.setBroadcastFinishedListener(new NetworkBroadcast.BroadcastFinishedListener() {
