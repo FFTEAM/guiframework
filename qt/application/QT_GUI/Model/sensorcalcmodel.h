@@ -9,7 +9,7 @@
   * @author responsible: Patrick Mathias
   * @date   12.12.2014 13:56:00 GMT
   *
-  * @brief  ToDo
+  * @brief  Include all declarations from SensorCalcModel
   *
   */
 
@@ -21,29 +21,45 @@
 #include "Model/sensormodel.h"
 #include <QDebug>
 
+/**
+ * @brief The SensorCalcModel class This class represents a model for calculate data to show on view
+ *
+ *  This is the parent class of InactiveSensorCalcModel and ActiveSensorCalcModel. Duplicated code from
+ *  both sub classes is abstract to this class
+ *
+ */
 class SensorCalcModel: public QAbstractListModel
 {
     Q_OBJECT
     public:
 
+        /**
+         * @brief SensorCalcModel Constructor to init all attributes on class
+         * @param aModel    Reference to a SensorModel with inactvie or active sensor data
+         * @param aParent   Pointer to QAbstractLisModel parent class
+         */
         SensorCalcModel(SensorModel& aModel, QObject* aParent = 0);
 
+        /**
+         * @brief setNewSensorCalcModel Add a new sensor data list with calculate values to model
+         * @param aSensorModel
+         */
         void setNewSensorCalcModel(const QList<CalcSensorData>& aSensorModel);
 
         /**
-         * @brief updateCalcValues aktualisiert die Attribute, wenn sich die Daten ändern
+         * @brief updateCalcValues Update all calc values when data from model change
          */
         void updateCalcValues(const SensorModel& aModel);
 
     protected:
 
         /**
-         * @brief m_calcSensorList Liste mit den berechneten Werten
+         * @brief m_calcSensorList QList with sensor data objects (Data from Model)
          */
         QList<CalcSensorData> m_calcSensorList;
 
         /**
-         * @brief m_Model model with current data to calculate specil information
+         * @brief m_Model Reference from SensorModel to calculate data
          */
         SensorModel& m_Model;
 };

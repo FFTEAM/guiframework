@@ -9,7 +9,7 @@
   * @author responsible: Patrick Mathias
   * @date   12.12.2014 13:56:00 GMT
   *
-  * @brief  ToDo
+  * @brief  Implementation file of FilterController class
   *
   */
 
@@ -21,7 +21,7 @@ FilterController::FilterController(QObject* aParent,
                                    ImportExport& aStorage) : QObject(aParent),
                                                              m_inactiveSensorModel(aModel),
                                                              m_inactiveCalcModel(aCalcModel),
-                                                             m_importExportStorgae(aStorage)
+                                                             m_importExportStorage(aStorage)
 {
     // C'tor
     if(aParent)
@@ -67,7 +67,7 @@ void FilterController::validateUserInputSlot()
             else qDebug() << "No errorLabel";
 
             // Get data from filter settings
-            QList<const SensorData*> dataList = m_importExportStorgae.measurementsFromTo(1, startDate, endDate);
+            QList<const SensorData*> dataList = m_importExportStorage.measurementsFromTo(1, startDate, endDate);
 
             // Update Model
             m_inactiveSensorModel.setNewSensorModel(dataList);
@@ -134,7 +134,7 @@ void FilterController::updateGuiWithCurrentData()
 void FilterController::setAllAvailableDataFromStorage()
 {
     // Get all available data from storage
-    QList<const SensorData*> allData = m_importExportStorgae.measurements(1);
+    QList<const SensorData*> allData = m_importExportStorage.measurements(1);
 
     // Update Model
     m_inactiveSensorModel.setNewSensorModel(allData);

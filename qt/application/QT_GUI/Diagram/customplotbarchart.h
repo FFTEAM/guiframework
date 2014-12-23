@@ -9,7 +9,7 @@
   * @author responsible: Patrick Mathias
   * @date   12.12.2014 13:56:00 GMT
   *
-  * @brief  ToDo
+  * @brief  Include all declarations from CustomPlotBarChart
   *
   */
 
@@ -23,15 +23,12 @@
 #include <QColor>
 #include <QVector>
 
-/** Konstante für die maximale erfassbare Herzfrequenz */
+/** Fix attribute for heart rate */
 const int MAX_HEARTRATE = 230;
 
 /**
- * @brief The CustomPlotBarChart class
+ * @brief The CustomPlotBarChart class Paint a bar chart on view. This class in include in qml code
  *
- * Diese Klasse generiert ein Balkendiagramm zur Darstellung der Messdaten einer Ruheplusmessung.
- * Diesbezüglich wird das third_party Produkt qCustomPlot verwendet. Diese Klasse wird im späteren
- * Verlauf als QML Komponente registriert und verwendet.
  */
 class CustomPlotBarChart : public QQuickPaintedItem
 {
@@ -39,102 +36,122 @@ class CustomPlotBarChart : public QQuickPaintedItem
 
     public:
 
+        /** A new define qml attribute to get the current data to diagram */
         Q_PROPERTY(SensorModel* data READ getData WRITE setData)
 
+        /**
+         * @brief setData SETTER-Method to set the data
+         */
         void setData(SensorModel*);
 
+        /**
+         * @brief getData GETTER-Method to get the current data
+         * @return current data of diagram
+         */
         SensorModel* getData();
 
         /**
-         * @brief CustomPlotBarChart ist der Standardtkonstruktor der Klasse CustomPlotBarChart
-         * @param aParent Zeiger auf die Basisklasse QObject
+         * @brief CustomPlotBarChart Constructor to init attributes and parent class
+         * @param aParent Pointer to QQuickItem parent class
          */
         CustomPlotBarChart (QQuickItem* aParent = 0);
 
+
         /**
-         * @brief ~CustomPlotBarChart ist der Desktruktor der Klasse CustomPlotBarChart
+         * @brief CustomPlotBarChart Copy-Constructor is not allowed
+         * @param aOther    Reference to a other CustomPlotBarChart to init Object
+         */
+        CustomPlotBarChart(const CustomPlotBarChart& aOther) = delete;
+
+        /**
+         * @brief operator = Copy-Assigment Operator is not allowed
+         * @param aRhs  Right side of Copy-Assigment Operator
+         * @return
+         */
+        CustomPlotBarChart& operator= (const CustomPlotBarChart& aRhs) = delete;
+
+        /**
+         * @brief ~CustomPlotBarChart Destructor of class
          */
         virtual ~CustomPlotBarChart ();
 
         /**
-         * @brief initCustomPlot Initialistert das Diagramm und legt die Skalierung fest
+         * @brief initCustomPlot Set range and size of diagram
          *
-         * Diese Methode wird von der View automatisch aufgerufen, um das Diagramm zu initialisieren
+         * This function is called from view to init diagram
          */
         Q_INVOKABLE void initCustomPlot();
 
         /**
-         * @brief updateDataAndGUI Löscht das veraltete Diagramm und erzuegt ein neues Diagramm
+         * @brief updateDataAndGUI delete old diagram and repaint a new diagram
          *
-         * Diese Methode wird von der View automatisch aufgerufen, um das Diagramm zu aktualisieren
+         * This function is called from view to update diagram
          */
         Q_INVOKABLE void updateDataAndGUI();
 
         /**
-         * @brief paint Zeichnet auf Grundlage der Messdaten ein entsprechdes Diagramm
-         * @param aPainter QPainter Objekt zum Zeichnen des Diagramms
+         * @brief paint paint with the current data a diagram
+         * @param aPainter QPainter object to paint diagram
          *
-         * Diese Methode muss vom Entwickler neu implementiert werden.
+         * This function must be implement from developer
          */
         void paint(QPainter* aPainter);
 
     private:
 
         /**
-         * @brief m_inactiveModel pointer to inactiveModel to update diagram with current values
+         * @brief m_inactiveModel Pointer to inactiveModel to update diagram with current values
          */
         SensorModel* m_inactiveModel;
 
         /**
-         * @brief CustomPlotBarChart Nicht in Verwendung (Definition fehlt)
-         * @param aOther Referenz auf ein Objekt der Klasse CustomPlotBarChart
-         */
-        CustomPlotBarChart(const CustomPlotBarChart& aOther);
-
-        /**
-         * @brief operator = Nicht in Verwendung (Definition fehlt)
-         * @param aRhs Referenz auf ein Objekt der Klasse CustomPlotBarChart
-         * @return Liefert ein Objekt der Klasse CustomPlotBarChart zurück (Konkatination möglich)
-         */
-        CustomPlotBarChart& operator= (const CustomPlotBarChart& aRhs);
-
-        /**
-         * @brief m_CustomPlot Enthält ein Objekt der Klasse QCustomPlot
+         * @brief m_CustomPlot Pointer to a object from third party class QCustomPlot
          */
         QCustomPlot*    m_CustomPlot;
 
         /**
-         * @brief m_xAxis Repräsentiert die Daten der X-Achse
+         * @brief m_xAxis Vector with all values for x-Axis
          */
         QVector<double> m_xAxis;
 
         /**
-         * @brief m_yAxis Repräsentiert die Daten der Y-Achse
+         * @brief m_yAxis Vector with all values for y-Axis
          */
         QVector<double> m_yAxis;
 
         /**
-         * @brief m_barChart Repräsentiert den Diagrammtyp
+         * @brief m_barChart Object with the current type of diagram
          */
         QCPBars* m_barChart;
 
-        //virtual void hoverMoveEvent(QHoverEvent * event);
+        /**
+         * @brief textLabel Label for a overview text
+         */
         QCPItemText *textLabel;
 
+        /**
+         * @brief m_tickValueVector Vector for additional informations on x-Axis
+         */
         QVector<double> m_tickValueVector;
 
+        /**
+         * @brief m_tickLabelVector Vector with lables for additional informations on x-Axis
+         */
         QVector<QString> m_tickLabelVector;
 
         /**
-         * @brief updateCustomPlotSize Aktualisiert die Größe des Diagramms
+         * @brief updateCustomPlotSize Update the size of the diagram
          */
         void updateCustomPlotSize();
 
         /**
-         * @brief calculateData Berechnet anhand der Sensordaten des Models die Diagrammwerte
+         * @brief calculateData Calculate data from attached Model
          */
         void calculateData();
-    private slots:
+
+        /**
+         * @brief calculateTicksAndLabels Calculate additional informations for x-Axis
+         */
         void calculateTicksAndLabels();
 };
 

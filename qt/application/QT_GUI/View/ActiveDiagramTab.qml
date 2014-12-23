@@ -147,7 +147,6 @@ Rectangle {
                     anchors.leftMargin: 10
                     width: parent.width - weekLabelId.width - 10
                     currentIndex: 0
-                    model: activeSelectionWeekModel
                 }
             }
         } // grpFilter

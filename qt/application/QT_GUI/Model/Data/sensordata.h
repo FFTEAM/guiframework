@@ -9,7 +9,7 @@
   * @author responsible: Patrick Mathias
   * @date   12.12.2014 13:56:00 GMT
   *
-  * @brief  ToDo
+  * @brief  Include all declarations from SensorData
   *
   */
 
@@ -20,62 +20,60 @@
 #include <QDateTime>
 
 /**
- * @brief The SensorData class
- *
- * Diese Klasse kapselt einen Datensatz an Sensordaten, welche durch die Smartwatch generiert wird.
- * Das spätere Model enthält eine Liste von Datenobjekten dieser Klasse.
+ * @brief The SensorData class Store all sensor values from a single measurement
  */
 class SensorData
 {
     public:
 
         /**
-         * @brief getDate Liefert den Zeitstempel zur Herzfrequenz zurück
-         * @return Zeitstempel zur Herzfrequenz
+         * @brief getDate GETTER-METHOD to get current time
+         * @return Current time
          */
         const QDateTime& getDate () const;
 
         /**
-         * @brief getDate Liefert die aktuelle Herzfrequenz zurück
-         * @return Aktuelle Herzfrequenz
+         * @brief getDate GETTER-METHOD to get current heart rate
+         * @return Current heart rate
          */
         quint16 getHeartRate() const;
 
         /**
-         * @brief getStepLength Liefert die aktuelle Schrittlänge zurück
-         * @return Aktuelle Schrittlänge
+         * @brief getStepLength GETTER-Method to get current step length
+         * @return Current step length
          */
         quint16 getStepLength() const;
 
         /**
-         * @brief setDate Setzt den Wert für den Zeitstempel neu
-         * @param aDate Neuer Wert für den Zeitstempel
+         * @brief setDate SETTER-Method to set new time
+         * @param aDate QDateTime with new time value
          */
         void setDate(const QDateTime& aDate);
 
         /**
-         * @brief setHeartRate Setzt den Wert für die Herzfrequenz neu
-         * @param aHeartRate Neuer Wert für die Herzfrequenz
+         * @brief setHeartRate SETTER-Method to set new heart rate
+         * @param aHeartRate New heart rate value
          */
         void setHeartRate(quint16 aHeartRate);
 
         /**
-         * @brief setStepLength Setzt den Wert für die Schrittlänge
-         * @param aStepLength Neuer Wert für die Schrittlänge
+         * @brief setStepLength SETTER-Method to set new step length
+         * @param aStepLength New step length value
          */
         void setStepLength(quint16 aStepLength);
 
         /**
-         * @brief getId Id from selected run
-         * @return
+         * @brief getId GETTER-Method to get the id of a single measurement
+         * @return Current ID of a single measurement
          */
         quint64 getId() const;
 
         /**
-         * @brief SensorData Allgemeiner Konstruktor für die Klasse SensorData
-         * @param aDate Wert für den aktuellen Zeitstempel
-         * @param aHeartRate Wert für die aktuelle Herzfrequenz
-         * @param aStepLength Wert für die aktuelle Schrittlänge
+         * @brief SensorData Constructor to init all attributes
+         * @param aDate         New time value
+         * @param aHeartRate    New heart rate value
+         * @param aStepLength   New step length value
+         * @param aId           New id value
          */
         SensorData(const QDateTime &aDate, quint16 aHeartRate, quint16 aStepLength, quint64 aId);
 
@@ -83,24 +81,25 @@ class SensorData
 
         /**
          * @brief m_date
-         * @var Zeitstempel für die aktuelle Herzferquenz
+         * @var Time of sensor data
          */
         QDateTime m_date;
 
         /**
          * @brief m_heartRate
-         * @var Enthält die aktuelle Herzfrequenz
+         * @var Actual heart rate
          */
         quint16 m_heartRate;
 
         /**
          * @brief m_stepLength
-         * @var Enthält die aktuelle Schrittlänge
+         * @var Actual step length
          */
         quint16 m_stepLength;
 
         /**
-         * @brief m_id id for db
+         * @brief m_id
+         * @var Actual ID of a measurement for database
          */
         quint64 m_id;
 };

@@ -9,7 +9,7 @@
   * @author responsible: Patrick Mathias
   * @date   12.12.2014 13:56:00 GMT
   *
-  * @brief  ToDo
+  * @brief Include all declarations from InactiveSensorCalcModel
   *
   */
 
@@ -18,49 +18,54 @@
 
 #include "Model/sensorcalcmodel.h"
 
+/**
+ * @brief The InactiveSensorCalcModel class This class represents a model for inactive calc values
+ */
 class InactiveSensorCalcModel : public SensorCalcModel
 {
     public:
 
         /**
-         * @brief InactiveSensorCalcModel Constructor
+         * @brief InactiveSensorCalcModel Constructor to init all attributes
+         * @param aModel Reference to a SensorModel to calculate data
          */
         InactiveSensorCalcModel(SensorModel& aModel);
 
         /**
-         * @brief The SensorRoles enum
-         *
-         * In diesem enum werden die Rollen definiert, welche später für die Kommunikation mit
-         * der View verwendet werden.
+         * @brief The SensorCalcRoles enum Inlcude all roles from model
          */
         enum SensorCalcRoles
         {
-            INACTIVE_SENSOR_CALC_VALUE_ROLE = 0,
-            INACTIVE_SENSOR_CALC_DESCRIPTION_ROLE
+            INACTIVE_SENSOR_CALC_VALUE_ROLE = 0,    /**< Role for a single inactive calc value */
+            INACTIVE_SENSOR_CALC_DESCRIPTION_ROLE   /**< Role for a single inactive calc description */
         };
 
         /**
-         * @brief data Liefert der View die zur jeweiligen Rolle gehörenden Daten
-         * @param aIndex Index aktuellen Model
-         * @param aRole Aktuelle Rolle
-         * @return Liefert ein Wertepaar (Rolle,Wert) zurück
+         * @brief data Return to a index and role a QVariant value for view
+         * @param aIndex Index of model
+         * @param aRole Current Role
+         * @return QVariant value with value and role
+         *
+         * This function is used by model/view on QT
          */
         QVariant data(const QModelIndex & aIndex, int aRole = Qt::DisplayRole) const;
 
         /**
-         * @brief rowCount Liefert die aktuelle Anzahl der Einträge im Model zurück
+         * @brief rowCount Actual count of rows in model
          * @param aParent -
-         * @return Anzahl der Einträge
+         * @return Count of rows in model
+         *
+         * This function is used by model/view on QT
          */
         int rowCount(const QModelIndex & aParent = QModelIndex()) const;
 
         protected:
 
         /**
-         * @brief roleNames Verbindet die Rollen und die dazugehrigen Attribute der Klasse
-         * @return QHash mit der Zuweisung der Rollen von der View und der Klasse
+         * @brief roleNames Connect Roles on view with roles in model
+         * @return QHash with the connected roles
          *
-         * Diese Methode wird ebenfalls vom Model/View Konzept von QT verwendet.
+         * This function is used by model/view on QT
          */
         QHash<int, QByteArray> roleNames() const;
 };

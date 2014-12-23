@@ -9,7 +9,7 @@
   * @author responsible: Patrick Mathias
   * @date   12.12.2014 13:56:00 GMT
   *
-  * @brief  ToDo
+  * @brief  Include all declarations from SensorModel
   *
   */
 
@@ -21,106 +21,119 @@
 #include <QDebug>
 
 /**
- * @brief The SensorModel class
+ * @brief The SensorModel class This class represents a model for inactvie and active sensor data.
  *
- * Diese Klasse fungiert als Model für das Model/ View Konzept. In diesem Zusammenhang besitzt
- * diese Klasse eine Liste mit Elementen der Klasse SensorData. Diese Liste repräsentiert die Daten, welche
- * durch das Model verwaltet wird. Wird eine Änderung an dem Datenbestand durchgeführt, aktualisiert sich
- * automatische die View mit dem neuen Datenbestand. Diese Aufgabe wird mit Hilfe dieser Klasse realisert.
- * Des weiteren ist diese Klasse als Singleton Pattern modeliert worden. Dies besitzt den Vorteil, dass
- * das Model Global an allen Stellen in der Applikation verwendet werden kann und nicht mehrmals neu
- * erzuegt werden muss.
+ * The model is needed to update automatically view when the model data get change. This model is used in diagrams
+ *
  */
 class SensorModel : public QAbstractListModel
 {
     Q_OBJECT
     public:
 
+        /** fried declaration to allow SensorCalcModel to acces on attributes in the class */
         friend class SensorCalcModel;
 
         /**
          * @brief The SensorRoles enum
          *
-         * In diesem enum werden die Rollen definiert, welche später für die Kommunikation mit
-         * der View verwendet werden.
+         * This enum store all Roles wich are needed for communcation with view
          */
+
         enum SensorRoles
         {
-            SENSOR_DATE_ROLE,            /**< Zeitstempel für die Herzfrequenz  */
-            SENSOR_HEART_RATE_ROLE,      /**< Herzfrequenz */
-            SENSOR_STEP_LENGTH_ROLE      /**< Schrittlänge */
+            SENSOR_DATE_ROLE,            /**< Role for time stamp */
+            SENSOR_HEART_RATE_ROLE,      /**< Role for heart rate */
+            SENSOR_STEP_LENGTH_ROLE      /**< Role for step length */
         };
 
+        /**
+         * @brief ~SensorModel Destructor is needed to declare a new QVariant type
+         */
         ~SensorModel();
 
+        /**
+         * @brief SensorModel Constructor is needed to declare a new QVariant type
+         */
         SensorModel();
 
+        /**
+         * @brief SensorModel Copy-Constructor is needed to declare a new QVariant type
+         * @param aOther
+         */
         SensorModel(const SensorModel& aOther);
 
+        /**
+         * @brief getDataList GETTER-Method for data list
+         * @return
+         */
         QList<const SensorData*> getDataList() const;
 
         /**
-         * @brief addSensorData Fügt ein neues Datenobjekt dem Model hinzu
-         * @param aSensorData Neues Datenenobjekt
+         * @brief addSensorData Add a new data object to model
+         * @param aSensorData New data object
          */
         void addSensorData(const SensorData* aSensorData);
 
         /**
-         * @brief setNewSensorModel Fügt eine neue Menge an Datenobjekten dem Model hinzu
-         * @param aSensorModel Liste mit neuen Datenobjekten
+         * @brief setNewSensorModel Add a new list of data objects to model
+         * @param aSensorModel List with new data objects
          */
         void setNewSensorModel(QList<const SensorData*>& aSensorModel);
 
         /**
-         * @brief getSensorModelCount Liefert die Anzahl an Datenobjekten im Model zurück
-         * @return Anzahl der Datenobjekte
+         * @brief getSensorModelCount GETTER-Method for the size of the data list
+         * @return Size of data list
          */
         int getSensorModelCount() const;
 
         /**
-         * @brief getSingleSensorData Liefert ein einzelnes Datenobjekt zurück
-         * @param aIndex Index des Datenobjektes
-         * @return Ausgewähltes Datenobjekt
+         * @brief getSingleSensorData GETTER-Method for a single data object
+         * @param aIndex Index in model to find the data object
+         * @return Selected data object
          */
         const SensorData* getSingleSensorData(const int aIndex) const;
 
         /**
-         * @brief data Liefert der View die zur jeweiligen Rolle gehörenden Daten
-         * @param aIndex Index aktuellen Model
-         * @param aRole Aktuelle Rolle
-         * @return Liefert ein Wertepaar (Rolle,Wert) zurück
+         * @brief data Return to a index and role a QVariant value for view
+         * @param aIndex Index of model
+         * @param aRole Current Role
+         * @return QVariant value with value and role
+         *
+         * This function is used by model/view on QT
          */
         QVariant data(const QModelIndex & aIndex, int aRole = Qt::DisplayRole) const;
 
         /**
-         * @brief rowCount Liefert die aktuelle Anzahl der Einträge im Model zurück
+         * @brief rowCount Actual count of rows in model
          * @param aParent -
-         * @return Anzahl der Einträge
+         * @return Count of rows in model
+         *
+         * This function is used by model/view on QT
          */
         int rowCount(const QModelIndex & aParent = QModelIndex()) const;
 
     protected:
 
         /**
-         * @brief roleNames Verbindet die Rollen und die dazugehrigen Attribute der Klasse
-         * @return QHash mit der Zuweisung der Rollen von der View und der Klasse
+         * @brief roleNames Connect Roles on view with roles in model
+         * @return QHash with the connected roles
          *
-         * Diese Methode wird ebenfalls vom Model/View Konzept von QT verwendet.
+         * This function is used by model/view on QT
          */
         QHash<int, QByteArray> roleNames() const;
 
     private:
 
         /**
-         * @brief  cleanList Gibt Speicher aller SensoDaten frei und clear die m_sensorList
+         * @brief  cleanList clear sensorList and clean memory
          */
         void cleanList();
 
         /**
-         * @brief m_sensorList Liste mit den aktuellen Datenobjekten
+         * @brief m_sensorList QList with all data objects
          */
         QList<const SensorData*> m_sensorList;
-
 };
 
 #endif // SENSORMODEL_H

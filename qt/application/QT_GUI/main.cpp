@@ -9,9 +9,10 @@
   * @author responsible: Patrick Mathias
   * @date   12.12.2014 13:56:00 GMT
   *
-  * @brief  In der Main.cpp wird die Application erzeugt und die Sprache festgelegt. Zusätzlich
-  * werden die Controller und die Größe des Applikationsfenster initialisert. Abschließend werden die
-  * Diagramm zur darstellung der Messadten an der View registriert.
+  * @brief  Implementation file of main.cpp
+  *
+  * In this file all language files are load. QML engine is definded and view is showed.
+  * All models and controllers are init. Data Receiver and database get installed.
   *
   */
 
@@ -47,13 +48,14 @@
 #include "Settings/Settings.h"
 #include "ImportExport/ImportExport.h"
 
+/** declare a new QVariant typ for view */
 Q_DECLARE_METATYPE(SensorModel)
 
 /**
- * @brief main  Main-Methode erzeugt Applikation und offenet die View
- * @param argc  Anzahl der Elemente von argv
- * @param argv  Enthält die Kommandozeilen Parameter
- * @return 0 falls alles OK ist
+ * @brief main  main method to create application
+ * @param argc  count of elements in argv
+ * @param argv  include all commando line parameter
+ * @return Return 0 if ok otherwise a error code not equal 0
  */
 int main(int argc, char *argv[])
 {
@@ -104,7 +106,7 @@ int main(int argc, char *argv[])
     ActiveSensorCalcModel activeCalcSensorModel(activeSensorModel);
 
     // create selectionValue models
-    SelectionModel activeYearModel, activeMonthModel, activeWeekModel;
+    SelectionModel activeYearModel, activeMonthModel;
 
     qmlRegisterType<CustomPlotBarChart>("CostumPlot", 1, 0, "CustomPlotBarChart");
     qmlRegisterType<CustomPlotLineChart>("CostumPlot", 1, 0, "CustomPlotLineChart");
@@ -130,7 +132,6 @@ int main(int argc, char *argv[])
         contex->setContextProperty("activeSensorCalcModel", &activeCalcSensorModel);
         contex->setContextProperty("activeSelectionYearModel", &activeYearModel);
         contex->setContextProperty("activeSelectionMonthModel", &activeMonthModel);
-        contex->setContextProperty("activeSelectionWeekModel", &activeWeekModel);
         contex->setContextProperty("activeSensorTableModel", &activeSensorTableModel);
     }
     else qDebug() << "Error no contex is set";
@@ -157,7 +158,7 @@ int main(int argc, char *argv[])
 
     // set controler
     FilterController filterController(root, inactiveSensorModel, inactiveCalcSensorModel, dataStorage);
-    SelectionController selectionController(root, activeYearModel, activeMonthModel, activeWeekModel, activeSensorModel,activeSensorTableModel, activeCalcSensorModel, dataStorage);
+    SelectionController selectionController(root, activeYearModel, activeMonthModel, activeSensorModel,activeSensorTableModel, activeCalcSensorModel, dataStorage);
     TableSelectionController tableController(root, activeSensorTableModel, activeSensorModel, activeCalcSensorModel, dataStorage);
     PrintButtonController printController(root, inactiveSensorModel, activeSensorModel);
     InitDiagramsController initController(root, inactiveSensorModel, activeSensorModel);

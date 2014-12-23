@@ -9,7 +9,7 @@
   * @author responsible: Patrick Mathias
   * @date   12.12.2014 13:56:00 GMT
   *
-  * @brief  ToDo
+  * @brief  Implementation file of SelectionController class
   *
   */
 
@@ -19,7 +19,6 @@
 SelectionController::SelectionController(QObject* aParent,
                                          SelectionModel& aYearModel,
                                          SelectionModel& aMonthModel,
-                                         SelectionModel& aWeekModel,
                                          SensorModel& aInactiveModel,
                                          SensorModel& aRunModel,
                                          ActiveSensorCalcModel& aCalcModel,
@@ -28,7 +27,6 @@ SelectionController::SelectionController(QObject* aParent,
                                                                     m_currentMonthText(""),
                                                                     m_yearModel(aYearModel),
                                                                     m_monthModel(aMonthModel),
-                                                                    m_weekModel(aWeekModel),
                                                                     m_sensorModel(aInactiveModel),
                                                                     m_runModel(aRunModel),
                                                                     m_activeCalcModel(aCalcModel),
@@ -112,10 +110,6 @@ void SelectionController::selectMonthSlot(QString aCurrentText)
         }
         else
         {
-            // set possible weeks
-            QList<QString> weekList = m_importExportStorage.weeks(0,QDate::fromString(m_currentYearText, "yyyy"),QDate::fromString(m_currentMonthText, "MMMM"));
-            m_weekModel.setNewSelectionModel(weekList);
-
             // calculate start/end Date
             int year = QDate::fromString(m_currentYearText,"yyyy").year();
             qDebug() << "Year:" <<year;
@@ -125,9 +119,6 @@ void SelectionController::selectMonthSlot(QString aCurrentText)
             qDebug() << "Valid = " << startDate.isValid();
             QDate endDate(startDate);
             endDate = endDate.addMonths(1);
-
-            qDebug() << "Startdate" << startDate.toString();
-            qDebug() << "Enddate" << endDate.toString();
 
             // get data from storage and update model
             QList<const SensorData*> sensorList = m_importExportStorage.measurementsFromTo(0, startDate, endDate);

@@ -9,7 +9,7 @@
   * @author responsible: Patrick Mathias
   * @date   12.12.2014 13:56:00 GMT
   *
-  * @brief  ToDo
+  * @brief  Inlcude all declarations from PrintButtonController
   *
   */
 
@@ -24,62 +24,61 @@
 #include <QTextDocument>
 
 /**
- * @brief The PrintButtonController class
+ * @brief The PrintButtonController class Print all selected inactive and active sensor data
+ *
+ *  This class use a QTextDocument to format print output. The current format is given through html
+ *  code
  */
 class PrintButtonController : public QObject
 {
     Q_OBJECT
     public:
 
-        /** PrintButtonController ist der Konstruktor der Klasse PrintButtonController
-         * @param aParent Zeiger auf die Basisklasse QObject
-         *
-         * Der Konstruktor verbindet das Signal von dem GUI mit dem entsprechenden SLOT
+        /**
+         * @brief PrintButtonController Constructor to init all attributes
+         * @param aParent                   Pointer to qObject parent class
+         * @param aModelForInactiveData     Reference to SensorModel with inactvie sensor data
+         * @param aModelForActiveData       Reference to SensorModel with active sensor data
          */
         PrintButtonController(QObject* aParent, SensorModel& aModelForInactiveData, SensorModel& aModelForActiveData);
 
-    signals:
+        /**
+         * @brief PrintButtonController Copy-Constructor is not allowed
+         * @param aOther    Reference to a other PrintButtonController to init Object
+         */
+        PrintButtonController(const PrintButtonController& aOther) = delete;
+
+        /**
+         * @brief operator = Copy-Assigment Operator is not allowed
+         * @param aRhs  Right side of Copy-Assigment Operator
+         * @return
+         */
+        PrintButtonController& operator= (const PrintButtonController& aRhs) = delete;
 
     public slots:
 
         /**
-         * @brief clickPrintButtonSlot ist der Slot für das "printActionIsTriggered" Signal
+         * @brief clickPrintButtonSlot Slot to print all data
          */
         void clickPrintButtonSlot();
 
     private:
 
         /**
-         * @brief m_inactiveDatamodel hold the model with inactive Data
+         * @brief m_inactiveDatamodel SensorModel with the current inactvie sensor data
          */
         SensorModel& m_inactiveDatamodel;
 
         /**
-         * @brief m_activeDataModel hold the model with active Data
+         * @brief m_activeDataModel SensorModel with the current active sensor data
          */
         SensorModel& m_activeDataModel;
 
         /**
-         * @brief PrintButtonController Nicht in Verwendung (Definition fehlt)
-         * @param aOther Referenz auf ein Objekt der Klasse PrintButtonController
-         */
-        PrintButtonController(const PrintButtonController& aOther);
-
-        /**
-         * @brief operator = Nicht in Verwendung (Definition fehlt)
-         * @param aRhs Referenz auf ein Objekt der Klasse PrintButtonController
-         * @return Liefert ein Objekt der Klasse PrintButtonController zurück (Konkatination möglich)
-         */
-        PrintButtonController& operator= (const PrintButtonController& aRhs);
-
-        /**
-         * @brief createSensorDataFile erzeugt ein QTextDocument für die spätere Druckfunktion.
-         * @param aPrinter ist eine Instanz der Klasse QPrinter
-         * @param aType legt fest, ob die Pulswerte der Ruhephase oder der Belastungsphase verwendet werden sollen
-         * @param aOverviewName legt die Überschrift für den Ausdruck fest
-         *
-         * Diese Methode erzeugt auf Grundlage der Parameter ein QTextDocument. Dieses Dokument wird anhand von HTML Code beschrieben.
-         * Der Vorteil hierfür sind die vielen formatierungsmöglichkeiten von HTML. Abschließend wird das Dokument dem QPrinter übergeben.
+         * @brief createSensorDataFile Create a QTextDocument with all data in html format and delegate print to QPrinter
+         * @param aPrinter          Reference to a QPrinter Object to print data
+         * @param aModel            Reference to a SensorModel with the actual data
+         * @param aOverviewName     Overview name for print output
          */
         void createSensorDataFile(QPrinter& aPrinter,const SensorModel& aModel, const QString aOverviewName);
 };

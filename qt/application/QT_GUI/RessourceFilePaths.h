@@ -9,7 +9,7 @@
   * @author responsible: Patrick Mathias
   * @date   12.12.2014 13:56:00 GMT
   *
-  * @brief  ToDo
+  * @brief  Header file with important path
   *
   */
 
@@ -19,7 +19,7 @@
 #include <QString>
 
     /**
-     * @brief MAIN_VIEW Der Pfad zu der Main-QML Datei
+     * @brief MAIN_VIEW Path to mailn.qml fiel
      */
     const QString MAIN_VIEW = "qrc:/View/main.qml";
 
