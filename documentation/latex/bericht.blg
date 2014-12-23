@@ -1,0 +1,27 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: bericht.aux
+A level-1 auxiliary file: deckblatt.aux
+A level-1 auxiliary file: inhaltsverzeichnis.aux
+A level-1 auxiliary file: einleitung.aux
+A level-1 auxiliary file: hauptteil-android.aux
+A level-1 auxiliary file: hauptteil-qt.aux
+A level-1 auxiliary file: fazit.aux
+A level-1 auxiliary file: verzeichnisse.aux
+The style file: alpha.bst
+I found no \citation commands---while reading file bericht.aux
+Database file #1: literatur.bib
+You're missing a field name---line 10 of file literatur.bib
+ : 
+ : %   author =       {Echelon Corporation},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 20 of file literatur.bib
+ : 
+ : %   author =       {Echelon Corporation},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 30 of file literatur.bib
+ : 
+ : %zu 1.3. Pulsoxymetrie
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+(There were 4 error messages)
