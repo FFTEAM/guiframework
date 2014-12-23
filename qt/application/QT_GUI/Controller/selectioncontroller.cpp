@@ -24,8 +24,8 @@ SelectionController::SelectionController(QObject* aParent,
                                          SensorModel& aRunModel,
                                          ActiveSensorCalcModel& aCalcModel,
                                          ImportExport& aStorage):   QObject(aParent),
-                                                                    m_currentYearText("all"),
-                                                                    m_currentMonthText("all"),
+                                                                    m_currentYearText(""),
+                                                                    m_currentMonthText(""),
                                                                     m_yearModel(aYearModel),
                                                                     m_monthModel(aMonthModel),
                                                                     m_weekModel(aWeekModel),
@@ -50,13 +50,6 @@ SelectionController::SelectionController(QObject* aParent,
     }
     else qDebug() << "Signal could not attached to a slot";
 
-    // get all possible years in storage
-    QList<QString> dataList = m_importExportStorage.years(0);
-    dataList.push_front(tr("all"));
-
-    // set combobox
-    m_yearModel.setNewSelectionModel(dataList);
-
     setAllAvailableData();
 }
 
@@ -74,7 +67,6 @@ void SelectionController::selectYearSlot(QString aCurrentText)
             if(monthChild && weekChild)
             {
                 monthChild->setProperty("visible", "false");
-                //monthChild->setProperty("currentIndex",0);
                 setAllAvailableData();
             }
             else qDebug() << "No state change";
@@ -89,10 +81,12 @@ void SelectionController::selectYearSlot(QString aCurrentText)
             setAllAvailableYearData(m_currentYearText);
             updateGuiWithCurrentData();
 
-            QObject* child = parent()->findChild<QObject*>("monthRectName");
-            if(child)
+            QObject* childRect = parent()->findChild<QObject*>("monthRectName");
+            QObject* childCombobox = parent()->findChild<QObject*>("cmbSelectMonthFilterName");
+            if(childRect && childCombobox)
             {
-                child->setProperty("visible", "true");
+                childCombobox->setProperty("currentIndex",0);
+                childRect->setProperty("visible", "true");
             }
         }
     }
@@ -138,6 +132,28 @@ void SelectionController::selectMonthSlot(QString aCurrentText)
             // get data from storage and update model
             QList<const SensorData*> sensorList = m_importExportStorage.measurementsFromTo(0, startDate, endDate);
             m_runModel.setNewSensorModel(sensorList);
+
+            if(m_runModel.getSensorModelCount() != 0)
+            {
+                const SensorData* data = m_runModel.getSingleSensorData(0);
+                if(data)
+                {
+                    const int id = data->getId();
+                    QList<const SensorData*> singleDataList = m_importExportStorage.dataByMeasurementId(id);
+                    m_sensorModel.setNewSensorModel(singleDataList);
+                    m_activeCalcModel.updateCalcValues(m_sensorModel);
+                }
+                else
+                {
+                    qDebug() << "Error no new model set";
+                }
+            }
+            else
+            {
+                QList<const SensorData*> emptyVector;
+                m_sensorModel.setNewSensorModel(emptyVector);
+                m_activeCalcModel.updateCalcValues(m_sensorModel);
+            }
         }
         updateGuiWithCurrentData();
     }
@@ -145,6 +161,13 @@ void SelectionController::selectMonthSlot(QString aCurrentText)
 
 void SelectionController::setAllAvailableData()
 {
+    // get all possible years in storage
+    QList<QString> dataList = m_importExportStorage.years(0);
+    dataList.push_front(tr("all"));
+
+    // set combobox
+    m_yearModel.setNewSelectionModel(dataList);
+
     // set table with runs
     QList<const SensorData*> sensorList = m_importExportStorage.measurements(0);
     m_runModel.setNewSensorModel(sensorList);
