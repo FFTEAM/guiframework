@@ -158,19 +158,31 @@ Rectangle {
                 width: parent.width - 10
                 height: listView2.height/ listView2.count
                 Row {
-                    spacing: 2
+                    spacing: 10
                     width: parent.width - 10
-                    Text {
+                    Label {
                         text: activeCalcDescription
                         anchors.verticalCenter: parent.verticalCenter
-                        width: (parent.width - 10)/2
+                        width: (parent.width)/10 * 4
                         renderType: Text.NativeRendering
+                        horizontalAlignment: Text.AlignRight
+                        verticalAlignment: Text.AlignVCenter
                     }
-                    Text {
+                    Label {
                         text: activeCalcValue
                         anchors.verticalCenter: parent.verticalCenter
-                        width: (parent.width - 10)/2
+                        width: (parent.width)/10 * 2
                         renderType: Text.NativeRendering
+                        horizontalAlignment: Text.AlignRight
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                    Label {
+                        text: activeCalcUnitOfMeasurement
+                        anchors.verticalCenter: parent.verticalCenter
+                        width: (parent.width)/10 * 4
+                        renderType: Text.NativeRendering
+                        horizontalAlignment: Text.AlignLeft
+                        verticalAlignment: Text.AlignVCenter
                     }
                 }
             }

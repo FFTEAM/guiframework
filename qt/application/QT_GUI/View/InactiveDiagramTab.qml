@@ -182,21 +182,24 @@ Rectangle {
                      width: parent.width - 10
                      height: listView1.height/listView1.count
                      Row {
-                          spacing: 2
+                          spacing: 10
                           width: parent.width - 10
 
-                          Text {
+                          Label {
                               text: inactiveCalcDescription
                               anchors.verticalCenter: parent.verticalCenter
                               width: (parent.width - 10)/2
                               renderType: Text.NativeRendering
+                              horizontalAlignment: Text.AlignRight
+                              verticalAlignment: Text.AlignVCenter
                           }
-
-                          Text {
+                          Label {
                              text: inactiveCalcValue
                              anchors.verticalCenter: parent.verticalCenter
                              width: (parent.width - 10)/2
                              renderType: Text.NativeRendering
+                             horizontalAlignment: Text.AlignLeft
+                             verticalAlignment: Text.AlignVCenter
                           }
                      }
                  }
@@ -220,6 +223,7 @@ Rectangle {
 
                         anchors.right: parent.right
                         anchors.top: parent.top
+                        anchors.topMargin: 7
 
                         model: inactiveSensorCalcModel
                         interactive: false

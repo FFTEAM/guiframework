@@ -36,8 +36,9 @@ class ActiveSensorCalcModel: public SensorCalcModel
          */
         enum SensorCalcRoles
         {
-            ACTIVE_SENSOR_CALC_VALUE_ROLE = 0,      /**< Role for a single active calc value */
-            ACTIVE_SENSOR_CALC_DESCRIPTION_ROLE     /**< Role for a single active calc description */
+            ACTIVE_SENSOR_CALC_VALUE_ROLE = 0,          /**< Role for a single active calc value */
+            ACTIVE_SENSOR_CALC_DESCRIPTION_ROLE,        /**< Role for a single active calc description */
+            ACTIVE_SENSOR_CALC_UNITOFMEASUREMENT_ROLE   /**< Role for a single active calc unit of measurement */
         };
 
         /**

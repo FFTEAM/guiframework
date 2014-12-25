@@ -27,11 +27,13 @@ QVariant ActiveSensorCalcModel::data(const QModelIndex& aIndex, int aRole) const
 
     switch(aRole)
     {
-        case ACTIVE_SENSOR_CALC_VALUE_ROLE:         return calcSensorData.getCalcValue(); break;
+        case ACTIVE_SENSOR_CALC_VALUE_ROLE:             return calcSensorData.getCalcValue(); break;
 
-        case ACTIVE_SENSOR_CALC_DESCRIPTION_ROLE:   return calcSensorData.getDescription(); break;
+        case ACTIVE_SENSOR_CALC_DESCRIPTION_ROLE:       return calcSensorData.getDescription(); break;
 
-        default:                                    return QVariant();
+        case ACTIVE_SENSOR_CALC_UNITOFMEASUREMENT_ROLE: return calcSensorData.getUnitOfMeasurement(); break;
+
+        default:                                        return QVariant();
     }
 }
 
@@ -48,7 +50,7 @@ void ActiveSensorCalcModel::updateCalcValues(const SensorModel& aModel)
     beginResetModel();
     if(0 == aModel.getSensorModelCount())
     {
-        m_calcSensorList.append(CalcSensorData(tr("duration:"), 0));
+        m_calcSensorList.append(CalcSensorData(tr("duration:"), 0, tr("seconds")));
     }
     else
     {
@@ -63,7 +65,7 @@ void ActiveSensorCalcModel::updateCalcValues(const SensorModel& aModel)
         const int duration = endDate.toTime_t() - startDate.toTime_t();
 
         // set result to model
-        m_calcSensorList.append(CalcSensorData(tr("duration:"), duration));
+        m_calcSensorList.append(CalcSensorData(tr("duration:"), duration, tr("seconds")));
     }
     endResetModel();
 }
@@ -72,8 +74,9 @@ QHash<int, QByteArray> ActiveSensorCalcModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
 
-    roles[ACTIVE_SENSOR_CALC_VALUE_ROLE]          = "activeCalcValue";
-    roles[ACTIVE_SENSOR_CALC_DESCRIPTION_ROLE]    = "activeCalcDescription";
+    roles[ACTIVE_SENSOR_CALC_VALUE_ROLE]                = "activeCalcValue";
+    roles[ACTIVE_SENSOR_CALC_DESCRIPTION_ROLE]          = "activeCalcDescription";
+    roles[ACTIVE_SENSOR_CALC_UNITOFMEASUREMENT_ROLE]    = "activeCalcUnitOfMeasurement";
 
     return roles;
 }

@@ -29,8 +29,15 @@ class CalcSensorData
          * @brief CalcSensorData Constructor to init all attributes
          * @param aDescription  Description of calculate data
          * @param aValue        Value from the calculate data
+         * @param aUnit         Value from current unit
          */
-        CalcSensorData(const QString aDescription,const double aValue);
+        CalcSensorData(const QString aDescription,const double aValue,const QString aUnit);
+
+        /**
+         * @brief getUnitOfMeasurement GETTER-Method to get the current unit of measurement
+         * @return Current unit of measurement
+         */
+        QString getUnitOfMeasurement()const;
 
         /**
          * @brief getDescription GETTER-Method to get the current description
@@ -43,6 +50,12 @@ class CalcSensorData
          * @return Current value
          */
         double getCalcValue() const ;
+
+        /**
+         * @brief setUnitOfMeasurement SETTER-Method to set the current unit of measurement
+         * @param aUnit QString with new unit of measurement
+         */
+        void setUnitOfMeasurement(const QString aUnit);
 
         /**
          * @brief setDescription SETTER-Method to set the current description
@@ -69,6 +82,12 @@ class CalcSensorData
          * @var Double with the calculate value
          */
         double m_CalcValue;
+
+        /**
+         * @brief m_UnitOfMeasurement
+         * @var QString with the unit of measurement
+         */
+        QString m_UnitOfMeasurement;
 };
 
 #endif // CALCSENSORDATA_H

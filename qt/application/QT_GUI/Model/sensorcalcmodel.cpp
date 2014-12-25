@@ -35,9 +35,9 @@ void SensorCalcModel::updateCalcValues(const SensorModel& aModel)
     {
         // Default values
         m_calcSensorList.clear();
-        m_calcSensorList.append(CalcSensorData(tr("maximal heartrate:"),0));
-        m_calcSensorList.append(CalcSensorData(tr("minimal heartrate:"),0));
-        m_calcSensorList.append(CalcSensorData(tr("average heartrate:"),0));
+        m_calcSensorList.append(CalcSensorData(tr("maximal heartrate:"), 0, ""));
+        m_calcSensorList.append(CalcSensorData(tr("minimal heartrate:"), 0, ""));
+        m_calcSensorList.append(CalcSensorData(tr("average heartrate:"), 0, ""));
     }
     else
     {
@@ -66,9 +66,9 @@ void SensorCalcModel::updateCalcValues(const SensorModel& aModel)
 
         // update Values
         m_calcSensorList.clear();
-        m_calcSensorList.append(CalcSensorData(tr("maximal heartrate:"), tmpMaximum));
-        m_calcSensorList.append(CalcSensorData(tr("minimal heartrate:"), tmpMinimum));
-        m_calcSensorList.append(CalcSensorData(tr("average heartrate:"), QString::number(tmpAverage / aModel.m_sensorList.size(),'f',1).toDouble()));
+        m_calcSensorList.append(CalcSensorData(tr("maximal heartrate:"), tmpMaximum, ""));
+        m_calcSensorList.append(CalcSensorData(tr("minimal heartrate:"), tmpMinimum, ""));
+        m_calcSensorList.append(CalcSensorData(tr("average heartrate:"), QString::number(tmpAverage / aModel.m_sensorList.size(),'f',1).toDouble(), ""));
     }
     endResetModel();
 }

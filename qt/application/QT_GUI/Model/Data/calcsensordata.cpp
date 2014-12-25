@@ -15,10 +15,18 @@
 
 #include "calcsensordata.h"
 
-CalcSensorData::CalcSensorData(const QString aDescription, const double aValue):    m_Descritpion(aDescription),
-                                                                                    m_CalcValue(aValue)
+CalcSensorData::CalcSensorData(const QString aDescription,
+                               const double aValue,
+                               const QString aUnit):   m_Descritpion(aDescription),
+                                                       m_CalcValue(aValue),
+                                                       m_UnitOfMeasurement(aUnit)
 {
     // C'tor
+}
+
+QString CalcSensorData::getUnitOfMeasurement() const
+{
+    return m_UnitOfMeasurement;
 }
 
 QString CalcSensorData::getDescription() const
@@ -29,6 +37,11 @@ QString CalcSensorData::getDescription() const
 double CalcSensorData::getCalcValue() const
 {
     return m_CalcValue;
+}
+
+void CalcSensorData::setUnitOfMeasurement(const QString aUnit)
+{
+    m_UnitOfMeasurement = aUnit;
 }
 
 void CalcSensorData::setDescription(const QString aDescription)
