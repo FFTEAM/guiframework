@@ -27,13 +27,6 @@ ApplicationWindow
     }
 
     Action {
-        id: saveActionID
-        text: qsTr("&Save")
-        shortcut: StandardKey.Save
-        tooltip: qsTr("Save data to System")
-    }
-
-    Action {
         signal printActionIsTriggered();
 
         objectName: "printActionName"
@@ -51,7 +44,6 @@ ApplicationWindow
 
                MenuItem { text: qsTr("Settings"); action: settingsActionID }
                MenuSeparator {}
-               MenuItem { text: qsTr("Save"); action: saveActionID }
                MenuItem { text: qsTr("Print"); action: printActionID }
                MenuSeparator {}
                MenuItem { text: qsTr("Exit"); onTriggered: Qt.quit() }

@@ -9,7 +9,6 @@ SOURCES +=  main.cpp \
             Thirdparty/qcustomplot.cpp \
             Model/Data/sensordata.cpp \
             Model/sensormodel.cpp \
-            Controller/printbuttoncontroller.cpp \
             Diagram/customplotbarchart.cpp \
             Diagram/customplotlinechart.cpp \
             Connection/DataReceiver.cpp \
@@ -26,11 +25,10 @@ SOURCES +=  main.cpp \
             Controller/selectioncontroller.cpp \
             ImportExport/MeasureType.cpp \
             ImportExport/MoodType.cpp \
-    Controller/initdiagramscontroller.cpp \
-    Controller/filtercontroller.cpp \
-    Controller/tableselectioncontroller.cpp
-
-TRANSLATIONS = Language_Files/app_de_DE.ts \
+            Controller/initdiagramscontroller.cpp \
+            Controller/filtercontroller.cpp \
+            Controller/tableselectioncontroller.cpp \
+            Controller/printcontroller.cpp
 
 RESOURCES += qml.qrc \
 
@@ -39,7 +37,6 @@ HEADERS += \
             Thirdparty/qcustomplot.h \
             RessourceFilePaths.h \
             Model/sensormodel.h \
-            Controller/printbuttoncontroller.h \
             Diagram/customplotbarchart.h \
             Diagram/customplotlinechart.h \
             Connection/DataReceiver.h \
@@ -56,9 +53,10 @@ HEADERS += \
             Controller/selectioncontroller.h \
             ImportExport/MeasureType.h \
             ImportExport/MoodType.h \
-    Controller/initdiagramscontroller.h \
-    Controller/filtercontroller.h \
-    Controller/tableselectioncontroller.h
+            Controller/initdiagramscontroller.h \
+            Controller/filtercontroller.h \
+            Controller/tableselectioncontroller.h \
+            Controller/printcontroller.h
 
 DESTPATH = .
 target.path = $$DESTPATH

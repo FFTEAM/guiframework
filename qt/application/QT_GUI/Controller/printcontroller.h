@@ -4,17 +4,17 @@
 //#########################################################################################
 
 /**
-  * @file   printbuttoncontroller.h
+  * @file   printcontroller.h
   * @author Patrick Mathias, Markus Nebel
   * @author responsible: Patrick Mathias
   * @date   20.12.2014 14:55:00 GMT
   *
-  * @brief  Inlcude all declarations from PrintButtonController
+  * @brief  Inlcude all declarations from PrintController
   *
   */
 
-#ifndef PRINTBUTTONCONTROLLER_H
-#define PRINTBUTTONCONTROLLER_H
+#ifndef PRINTCONTROLLER_H
+#define PRINTCONTROLLER_H
 
 #include <QObject>
 #include <QDebug>
@@ -24,36 +24,36 @@
 #include <QTextDocument>
 
 /**
- * @brief The PrintButtonController class Print all selected inactive and active sensor data
+ * @brief The PrintController class Print all selected inactive and active sensor data
  *
  *  This class use a QTextDocument to format print output. The current format is given through html
  *  code
  */
-class PrintButtonController : public QObject
+class PrintController : public QObject
 {
     Q_OBJECT
     public:
 
         /**
-         * @brief PrintButtonController Constructor to init all attributes
+         * @brief PrintController Constructor to init all attributes
          * @param aParent                   Pointer to qObject parent class
          * @param aModelForInactiveData     Reference to SensorModel with inactvie sensor data
          * @param aModelForActiveData       Reference to SensorModel with active sensor data
          */
-        PrintButtonController(QObject* aParent, SensorModel& aModelForInactiveData, SensorModel& aModelForActiveData);
+        PrintController(QObject* aParent, SensorModel& aModelForInactiveData, SensorModel& aModelForActiveData);
 
         /**
          * @brief PrintButtonController Copy-Constructor is not allowed
          * @param aOther    Reference to a other PrintButtonController to init Object
          */
-        PrintButtonController(const PrintButtonController& aOther) = delete;
+        PrintController(const PrintController& aOther) = delete;
 
         /**
          * @brief operator = Copy-Assigment Operator is not allowed
          * @param aRhs  Right side of Copy-Assigment Operator
          * @return
          */
-        PrintButtonController& operator= (const PrintButtonController& aRhs) = delete;
+        PrintController& operator= (const PrintController& aRhs) = delete;
 
     public slots:
 

@@ -32,7 +32,7 @@
 #include "Model/selectionmodel.h"
 
 // include paths for contollers
-#include "Controller/printbuttoncontroller.h"
+#include "Controller/printcontroller.h"
 #include "Controller/selectioncontroller.h"
 #include "Controller/initdiagramscontroller.h"
 #include "Controller/filtercontroller.h"
@@ -160,7 +160,7 @@ int main(int argc, char *argv[])
     FilterController filterController(root, inactiveSensorModel, inactiveCalcSensorModel, dataStorage);
     SelectionController selectionController(root, activeYearModel, activeMonthModel, activeSensorModel,activeSensorTableModel, activeCalcSensorModel, dataStorage);
     TableSelectionController tableController(root, activeSensorTableModel, activeSensorModel, activeCalcSensorModel, dataStorage);
-    PrintButtonController printController(root, inactiveSensorModel, activeSensorModel);
+    PrintController printController(root, inactiveSensorModel, activeSensorModel);
     InitDiagramsController initController(root, inactiveSensorModel, activeSensorModel);
 
     int ret = app.exec();
