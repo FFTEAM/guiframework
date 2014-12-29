@@ -73,38 +73,9 @@ ApplicationWindow
             title: qsTr("Activity Heart rate")
             source: "qrc:/View/ActiveDiagramTab.qml"
         }
-
-        /*style: TabViewStyle {
-            frameOverlap: 1
-            tabsAlignment: Qt.AlignHCenter
-
-            tab: Rectangle {
-                color: styleData.selected ? Style.tabViewSelectedTabBgColor : Style.tabViewTabBgColor
-                border.color: Style.tabViewTabBorderColor
-                implicitWidth: //Math.max(text.width + 4, 80)
-                implicitHeight: 30
-                radius: 1
-                Text {
-                    id: text
-                    anchors.centerIn: parent
-                    text: styleData.title
-                    font.weight: styleData.selected ? Font.DemiBold : Font.Normal
-                    color: styleData.selected ? Style.tabViewSelectedTabFontColor : Style.tabViewTabFontColor
-                }
-            }
-
-            tabBar: Rectangle {
-                color: Style.tabViewTabBgColor
-                CustomBorder: {
-
-                }
-            }
-
-            frame: Rectangle { color: Style.tabViewTabBgColor }
-        }*/    
     }
 
-    statusBar: StatusBar {
+    /*statusBar: StatusBar {
         RowLayout {
             anchors.fill: parent
             Label {
@@ -112,5 +83,5 @@ ApplicationWindow
                 renderType: Text.NativeRendering
             }
         }
-    }
+    }*/
 }

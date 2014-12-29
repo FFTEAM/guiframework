@@ -15,7 +15,7 @@
 
 #include "activesensorcalcmodel.h"
 
-ActiveSensorCalcModel::ActiveSensorCalcModel(SensorModel& aModel): SensorCalcModel(aModel,0)
+ActiveSensorCalcModel::ActiveSensorCalcModel(SensorModel& aModel): SensorCalcModel(aModel, 0)
 {
     updateCalcValues(m_Model);
 }
@@ -50,11 +50,10 @@ void ActiveSensorCalcModel::updateCalcValues(const SensorModel& aModel)
     beginResetModel();
     if(0 == aModel.getSensorModelCount())
     {
-        m_calcSensorList.append(CalcSensorData(tr("duration:"), 0, tr("seconds")));
+        m_calcSensorList.append(CalcSensorData(QObject::tr("duration:"), 0, QObject::tr("seconds")));
     }
     else
     {
-
         // get start date of data
         QDateTime startDate =  aModel.getSingleSensorData(0)->getDate();
 
@@ -65,7 +64,7 @@ void ActiveSensorCalcModel::updateCalcValues(const SensorModel& aModel)
         const int duration = endDate.toTime_t() - startDate.toTime_t();
 
         // set result to model
-        m_calcSensorList.append(CalcSensorData(tr("duration:"), duration, tr("seconds")));
+        m_calcSensorList.append(CalcSensorData(QObject::tr("duration:"), duration, QObject::tr("seconds")));
     }
     endResetModel();
 }

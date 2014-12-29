@@ -15,8 +15,8 @@
 
 #include "sensorcalcmodel.h"
 
-SensorCalcModel::SensorCalcModel(SensorModel& aModel,QObject* aParent): QAbstractListModel(aParent),
-                                                                        m_Model(aModel)
+SensorCalcModel::SensorCalcModel(SensorModel& aModel, QObject* aParent): QAbstractListModel(aParent),
+                                                                         m_Model(aModel)
 {
     // C'tor
 }

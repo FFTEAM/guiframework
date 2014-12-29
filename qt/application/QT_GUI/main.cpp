@@ -62,6 +62,17 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationName("GUI-Frameworks");
     QCoreApplication::setApplicationName("HeartRate");
 
+    QApplication app(argc, argv);
+
+    //multiple language
+    QTranslator qtTranslator;
+    qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    app.installTranslator(&qtTranslator);
+
+    QTranslator myappTranslator;
+    myappTranslator.load(":/Language_Files/app_" + QLocale::system().name() + ".qm");
+    app.installTranslator(&myappTranslator);
+
     Settings& test = Settings::getInstance();
     if (!test)
     {
@@ -79,8 +90,6 @@ int main(int argc, char *argv[])
         qDebug("FATAL error while creating Database instance");
         return 1;
     }
-
-    QApplication app(argc, argv);
 
     BroadcastReceiver bcReceiver;
     // run broadcast receiver thread loop:
@@ -110,15 +119,6 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<CustomPlotBarChart>("CostumPlot", 1, 0, "CustomPlotBarChart");
     qmlRegisterType<CustomPlotLineChart>("CostumPlot", 1, 0, "CustomPlotLineChart");
-
-    //multiple language
-    QTranslator qtTranslator;
-    qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-    app.installTranslator(&qtTranslator);
-
-    QTranslator myappTranslator;
-    myappTranslator.load(":/Language_Files/app_" + QLocale::system().name() + ".qm");
-    app.installTranslator(&myappTranslator);
 
     QQmlApplicationEngine engine;
 
