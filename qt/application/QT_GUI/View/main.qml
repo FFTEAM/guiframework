@@ -1,5 +1,6 @@
 import QtQuick 2.3
-import QtQuick.Controls 1.2
+import QtQuick.Controls 1.3
+import QtQuick.Controls.Styles 1.3
 import QtQuick.Window 2.0
 import QtQuick.Layouts 1.0
 import "."
@@ -42,8 +43,8 @@ ApplicationWindow
         Menu {
                title: qsTr("File")
 
-               MenuItem { text: qsTr("Settings"); action: settingsActionID }
-               MenuSeparator {}
+               //MenuItem { text: qsTr("Settings"); action: settingsActionID }
+               //MenuSeparator {}
                MenuItem { text: qsTr("Print"); action: printActionID }
                MenuSeparator {}
                MenuItem { text: qsTr("Exit"); onTriggered: Qt.quit() }
@@ -60,17 +61,19 @@ ApplicationWindow
         objectName: "TabViewName"
         anchors.fill: parent
 
-        Tab {
+        IconTab {
             id: inactiveDiagramTabID
             objectName: "diagramTabName"
             title: qsTr("Resting Heart rate")
+            iconSource: "qrc:/Images/standing_black.png"
             source: "qrc:/View/InactiveDiagramTab.qml"
         }
 
-        Tab {
+        IconTab {
             id: activeDiagramTabID
             objectName: "diagramTabName"
             title: qsTr("Activity Heart rate")
+            iconSource: "qrc:/Images/running_black.png"
             source: "qrc:/View/ActiveDiagramTab.qml"
         }
     }

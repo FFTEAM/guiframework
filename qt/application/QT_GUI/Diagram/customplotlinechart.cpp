@@ -86,6 +86,9 @@ void CustomPlotLineChart::updateDataAndGUI()
         calculateData();
 
         m_CustomPlot->graph(0)->setData(m_xAxis, m_yAxis);
+        m_CustomPlot->graph(0)->setPen(QPen(QColor(50, 120, 220)));
+        m_CustomPlot->graph(0)->setBrush(QBrush(QColor(50, 120, 220, 60)));
+
         m_CustomPlot->xAxis->setRange(0, m_xAxis.size() + 1);
         m_CustomPlot->yAxis->setRange(0, 230);
 

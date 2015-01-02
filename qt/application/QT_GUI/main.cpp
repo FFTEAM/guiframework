@@ -63,6 +63,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("HeartRate");
 
     QApplication app(argc, argv);
+    app.setWindowIcon(QIcon(":/Images/heart_icon.png"));
 
     //multiple language
     QTranslator qtTranslator;

@@ -19,13 +19,6 @@
 void CustomPlotBarChart ::initCustomPlot()
 {
     m_CustomPlot = new QCustomPlot();
-    QCPItemText *textLabel = new QCPItemText(m_CustomPlot);
-    m_CustomPlot->addItem(textLabel);
-    textLabel->setPositionAlignment(Qt::AlignTop|Qt::AlignHCenter);
-    textLabel->position->setType(QCPItemPosition::ptAxisRectRatio);
-    textLabel->position->setCoords(0.5, 0); // place position at center/top of axis rect
-    textLabel->setText("Text Item Demo");
-    textLabel->setPen(QPen(Qt::black)); // show black border around text
 
     m_barChart = new QCPBars(m_CustomPlot->xAxis, m_CustomPlot->yAxis);
     m_CustomPlot->addPlottable(m_barChart);
@@ -125,6 +118,8 @@ void CustomPlotBarChart::updateDataAndGUI()
         m_CustomPlot->clearPlottables();
         m_barChart = new QCPBars(m_CustomPlot->xAxis, m_CustomPlot->yAxis);
         m_CustomPlot->addPlottable(m_barChart);
+        m_barChart->setPen(QPen(QColor(75, 200, 75)));
+        m_barChart->setBrush(QBrush(QColor(75, 200, 75, 100)));
 
         calculateData();
         calculateTicksAndLabels();

@@ -7,5 +7,9 @@
         <file>View/SettingsDialog.qml</file>
         <file>View/Style.qml</file>
         <file>View/qmldir</file>
+        <file>Images/heart_icon.png</file>
+        <file>View/IconTab.qml</file>
+        <file>Images/running_black.png</file>
+        <file>Images/standing_black.png</file>
     </qresource>
 </RCC>
