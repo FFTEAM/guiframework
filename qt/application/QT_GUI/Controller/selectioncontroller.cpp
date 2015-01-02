@@ -33,6 +33,8 @@ SelectionController::SelectionController(QObject* aParent,
                                                                     m_importExportStorage(aStorage)
 {
     //C'tor
+    connect(&DataReceiver::getInstance(), SIGNAL(signalizeController(quint8)), this, SLOT(newDataFromDeviceSlot(quint8)));
+
     if(aParent)
     {
         QObject* child =  aParent->findChild<QObject*>("cmbSelectYearFilterName");
@@ -147,6 +149,32 @@ void SelectionController::selectMonthSlot(QString aCurrentText)
             }
         }
         updateGuiWithCurrentData();
+    }
+}
+
+void SelectionController::newDataFromDeviceSlot(quint8 aType)
+{
+    if(0 == aType)
+    {
+        QObject* selectionYear = parent()->findChild<QObject*>("cmbSelectYearFilterName");
+        QObject* selectionMonth = parent()->findChild<QObject*>("cmbSelectMonthFilterName");
+
+        if(selectionYear && selectionMonth)
+        {
+            QString actualYear = selectionYear->property("currentText").toString();
+            m_currentYearText = "";
+
+            if(0 == actualYear.compare("all"))
+            {
+                selectYearSlot(actualYear);
+            }
+            else
+            {
+                QString actualMonth = selectionYear->property("currentText").toString();
+                m_currentMonthText = "";
+                selectMonthSlot(actualMonth);
+            }
+        }
     }
 }
 

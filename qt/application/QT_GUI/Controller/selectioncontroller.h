@@ -75,6 +75,12 @@ class SelectionController: public QObject
          */
         void selectMonthSlot(QString aCurrentText);
 
+        /**
+         * @brief newDataFromDeviceSlot Slot to update view if new data from device is available
+         * @param aType Type of measurement values
+         */
+        void newDataFromDeviceSlot(quint8 aType);
+
     private:
 
         /**

@@ -23,7 +23,9 @@ FilterController::FilterController(QObject* aParent,
                                                              m_inactiveCalcModel(aCalcModel),
                                                              m_importExportStorage(aStorage)
 {
-    // C'tor
+    // Connect signal from data receiver to slot
+    connect(&DataReceiver::getInstance(), SIGNAL(signalizeController(quint8)), this, SLOT(newDataFromDeviceSlot(quint8)));
+
     if(aParent)
     {
         QObject* child = aParent->findChild<QObject*>("filerButtonName");
@@ -44,7 +46,7 @@ void FilterController::validateUserInputSlot()
     const QString inputStartDate    = parent()->findChild<QObject*>("startDateInputName")->property("text").toString();
     const QString inputEndDate      = parent()->findChild<QObject*>("endDateInputName")->property("text").toString();
 
-    if(inputStartDate.size() == 0 and inputEndDate.size() == 0)
+    if(0 == inputStartDate.size() && 0 == inputEndDate.size())
     {
         setAllAvailableDataFromStorage();
         updateGuiWithCurrentData();
@@ -108,6 +110,14 @@ void FilterController::validateUserInputSlot()
                 }
             }
         }
+    }
+}
+
+void FilterController::newDataFromDeviceSlot(quint8 aType)
+{
+    if(1 == aType)
+    {
+        validateUserInputSlot();
     }
 }
 
