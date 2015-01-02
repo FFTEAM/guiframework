@@ -41,6 +41,7 @@ class DataReceiver : public QObject
 
 signals:
     void updateStorage(QList<rawData>&, quint8, quint8, quint16);
+    void signalizeController(quint8);
 
 public:
     static DataReceiver& getInstance();
