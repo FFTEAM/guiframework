@@ -259,8 +259,8 @@
     <name>main</name>
     <message>
         <location filename="QT_GUI/View/main.qml" line="10"/>
-        <source>HeartRate Manager</source>
-        <translation>HeartRate Manager</translation>
+        <source>HeartRate2Go</source>
+        <translation>HeartRate2Go</translation>
     </message>
     <message>
         <location filename="QT_GUI/View/main.qml" line="34"/>

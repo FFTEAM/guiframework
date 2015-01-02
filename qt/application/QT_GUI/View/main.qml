@@ -8,7 +8,7 @@ import "."
 ApplicationWindow
 {
     id: rootWindow
-    title: qsTr("HeartRate Manager")
+    title: qsTr("HeartRate2Go")
     color: Style.windowBackgroundColor
     visible: true
     visibility: "Maximized"
