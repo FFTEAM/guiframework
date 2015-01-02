@@ -260,7 +260,7 @@
     <message>
         <location filename="QT_GUI/View/main.qml" line="10"/>
         <source>HeartRate Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>HeartRate Manager</translation>
     </message>
     <message>
         <location filename="QT_GUI/View/main.qml" line="34"/>
