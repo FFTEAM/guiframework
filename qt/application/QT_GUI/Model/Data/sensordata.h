@@ -39,10 +39,10 @@ class SensorData
         quint16 getHeartRate() const;
 
         /**
-         * @brief getStepLength GETTER-Method to get current step length
-         * @return Current step length
+         * @brief getStepCount GETTER-Method to get current step count
+         * @return Current step count
          */
-        quint16 getStepLength() const;
+        quint16 getStepCount() const;
 
         /**
          * @brief setDate SETTER-Method to set new time
@@ -57,10 +57,10 @@ class SensorData
         void setHeartRate(quint16 aHeartRate);
 
         /**
-         * @brief setStepLength SETTER-Method to set new step length
-         * @param aStepLength New step length value
+         * @brief setStepCount SETTER-Method to set new step count
+         * @param aStepCount New step count value
          */
-        void setStepLength(quint16 aStepLength);
+        void setStepCount(quint16 aStepCount);
 
         /**
          * @brief getId GETTER-Method to get the id of a single measurement
@@ -92,10 +92,10 @@ class SensorData
         quint16 m_heartRate;
 
         /**
-         * @brief m_stepLength
-         * @var Actual step length
+         * @brief m_stepCount
+         * @var Actual step count
          */
-        quint16 m_stepLength;
+        quint16 m_stepCount;
 
         /**
          * @brief m_id

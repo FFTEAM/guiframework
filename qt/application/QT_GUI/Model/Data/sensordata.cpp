@@ -17,10 +17,10 @@
 
 SensorData::SensorData(const QDateTime& aDate,
                        quint16 aHeartRate,
-                       quint16 aStepLength,
+                       quint16 aStepCount,
                        quint64 aId) :   m_date(aDate),
                                         m_heartRate(aHeartRate),
-                                        m_stepLength(aStepLength),
+                                        m_stepCount(aStepCount),
                                         m_id(aId)
 {
     // C'tor
@@ -37,9 +37,9 @@ quint16 SensorData::getHeartRate() const
     return m_heartRate;
 }
 
-quint16 SensorData::getStepLength() const
+quint16 SensorData::getStepCount() const
 {
-    return m_stepLength;
+    return m_stepCount;
 }
 
 void SensorData::setDate(const QDateTime& aDate)
@@ -52,9 +52,9 @@ void SensorData::setHeartRate(quint16 aHeartRate)
     m_heartRate = aHeartRate;
 }
 
-void SensorData::setStepLength(quint16 aStepLength)
+void SensorData::setStepCount(quint16 aStepCount)
 {
-    m_stepLength = aStepLength;
+    m_stepCount = aStepCount;
 }
 
 quint64 SensorData::getId() const

@@ -44,7 +44,7 @@ class SensorModel : public QAbstractListModel
         {
             SENSOR_DATE_ROLE,            /**< Role for time stamp */
             SENSOR_HEART_RATE_ROLE,      /**< Role for heart rate */
-            SENSOR_STEP_LENGTH_ROLE      /**< Role for step length */
+            SENSOR_STEP_COUNT_ROLE       /**< Role for step count */
         };
 
         /**
