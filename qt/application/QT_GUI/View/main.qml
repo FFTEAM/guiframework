@@ -1,6 +1,5 @@
 import QtQuick 2.3
-import QtQuick.Controls 1.3
-import QtQuick.Controls.Styles 1.3
+import QtQuick.Controls 1.2
 import QtQuick.Window 2.0
 import QtQuick.Layouts 1.0
 import "."
@@ -12,7 +11,7 @@ ApplicationWindow
     color: Style.windowBackgroundColor
     visible: true
     visibility: "Maximized"
-    minimumWidth: 800
+    minimumWidth: 975
     minimumHeight: 600
 
     Action {
@@ -43,8 +42,6 @@ ApplicationWindow
         Menu {
                title: qsTr("File")
 
-               //MenuItem { text: qsTr("Settings"); action: settingsActionID }
-               //MenuSeparator {}
                MenuItem { text: qsTr("Print"); action: printActionID }
                MenuSeparator {}
                MenuItem { text: qsTr("Exit"); onTriggered: Qt.quit() }

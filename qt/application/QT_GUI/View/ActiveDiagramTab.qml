@@ -338,13 +338,19 @@ Rectangle {
                 {
                     role: "date";
                     title: qsTr("Date");
-                    width: tableRunId.width/3 * 2
+                    width: tableRunId.width/4 * 2
                 }
                 TableViewColumn
                 {
                     role: "heartRate";
-                    title: qsTr("HeartRate");
-                    width: tableRunId.width/3
+                    title: qsTr("heart rate");
+                    width: tableRunId.width/4
+                }
+                TableViewColumn
+                {
+                    role: "stepCount";
+                    title: qsTr("Step count");
+                    width: tableRunId.width/4
                 }
 
                 itemDelegate:

@@ -58,6 +58,7 @@ Rectangle {
                 height: parent.height / 3 - 5
                 anchors.top: parent.top
                 anchors.topMargin: 3
+                spacing: 3
 
                 Label {
                     id: startDateLabel
@@ -91,7 +92,7 @@ Rectangle {
                     id: startDateFormatLabel
                     height: startDateInput.height
                     width: parent.width / 6 * 2
-                    text: qsTr("  (DD-MM-YYYY)")
+                    text: qsTr("(DD-MM-YYYY)")
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     renderType: Text.NativeRendering
@@ -103,6 +104,7 @@ Rectangle {
                 width: parent.width
                 height: parent.height / 3 - 5
                 anchors.verticalCenter: parent.verticalCenter
+                spacing: 3
 
                 Label {
                     id: endDateLabel
@@ -136,7 +138,7 @@ Rectangle {
                     id: endDateFormatLabel
                     height: endDateInput.height
                     width: parent.width / 6 * 2
-                    text: qsTr("  (DD-MM-YYYY)")
+                    text: qsTr("(DD-MM-YYYY)")
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                     renderType: Text.NativeRendering
