@@ -59,6 +59,12 @@ class FilterController : public QObject
          */
         void validateUserInputSlot();
 
+        /**
+         * @brief newDataFromDeviceSlot Slot to update view if new data from device is available
+         * @param aType Type of measurement values
+         */
+        void newDataFromDeviceSlot(quint8 aType);
+
     private:
 
         /**

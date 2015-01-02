@@ -94,7 +94,7 @@ QVariant SensorModel::data(const QModelIndex &aIndex, int aRole) const
 
         case SENSOR_DATE_ROLE:          return sensorData->getDate(); break;
 
-        case SENSOR_STEP_LENGTH_ROLE:   return sensorData->getStepLength(); break;
+        case SENSOR_STEP_COUNT_ROLE:   return sensorData->getStepCount(); break;
 
         default:                        return QVariant();
     }
@@ -109,10 +109,9 @@ int SensorModel::rowCount(const QModelIndex &aParent) const
 QHash<int, QByteArray> SensorModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-
     roles[SENSOR_HEART_RATE_ROLE]   = "heartRate";
     roles[SENSOR_DATE_ROLE]         = "date";
-    roles[SENSOR_STEP_LENGTH_ROLE]  = "stepLength";
+    roles[SENSOR_STEP_COUNT_ROLE]   = "stepCount";
 
     return roles;
 }
