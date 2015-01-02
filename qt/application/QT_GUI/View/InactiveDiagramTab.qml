@@ -185,12 +185,12 @@ Rectangle {
                      height: listView1.height/listView1.count
                      Row {
                           spacing: 10
-                          width: parent.width - 10
+                          width: parent.width
 
                           Label {
                               text: inactiveCalcDescription
                               anchors.verticalCenter: parent.verticalCenter
-                              width: (parent.width - 10)/2
+                              width: (parent.width - 10)/3 * 2
                               renderType: Text.NativeRendering
                               horizontalAlignment: Text.AlignRight
                               verticalAlignment: Text.AlignVCenter
@@ -198,7 +198,7 @@ Rectangle {
                           Label {
                              text: inactiveCalcValue
                              anchors.verticalCenter: parent.verticalCenter
-                             width: (parent.width - 10)/2
+                             width: (parent.width - 10)/3
                              renderType: Text.NativeRendering
                              horizontalAlignment: Text.AlignLeft
                              verticalAlignment: Text.AlignVCenter

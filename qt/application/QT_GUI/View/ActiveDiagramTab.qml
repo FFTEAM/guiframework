@@ -35,8 +35,6 @@ Rectangle {
                 id: yearRect
                 objectName: "yearRectName"
 
-                state: "BEGIN_SELECTION"
-
                 color: "transparent"
                 width: parent.width
                 height: parent.height / 3
@@ -163,7 +161,7 @@ Rectangle {
                     Label {
                         text: activeCalcDescription
                         anchors.verticalCenter: parent.verticalCenter
-                        width: (parent.width)/10 * 4
+                        width: (parent.width)/10 * 5
                         renderType: Text.NativeRendering
                         horizontalAlignment: Text.AlignRight
                         verticalAlignment: Text.AlignVCenter
@@ -179,7 +177,7 @@ Rectangle {
                     Label {
                         text: activeCalcUnitOfMeasurement
                         anchors.verticalCenter: parent.verticalCenter
-                        width: (parent.width)/10 * 4
+                        width: (parent.width)/10 * 3
                         renderType: Text.NativeRendering
                         horizontalAlignment: Text.AlignLeft
                         verticalAlignment: Text.AlignVCenter
