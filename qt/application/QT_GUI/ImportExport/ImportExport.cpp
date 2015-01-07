@@ -530,7 +530,7 @@ QList<const SensorData*> ImportExport::dataByMeasurementId(quint64 aId)
                 "FROM "
                     "Data "
                 "WHERE "
-                    "measurement >= :id "
+                    "measurement = :id "
                 "ORDER BY "
                     "seconds "
                 "ASC;"
