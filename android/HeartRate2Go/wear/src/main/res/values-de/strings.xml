@@ -10,8 +10,11 @@
     <string name="settings_changed">Einstellungen geändert</string>
     <string name="still_active">HeartRate2Go ist noch aktiv...</string>
 
-    <string name="title_activity_dialog_mode">Messungsmodus?</string>
+    <string name="title_activity_dialog_mode">Modus</string>
     <string name="question_measure_mode">Handelt es sich um eine Aktivitäts- oder Ruhemessung?</string>
+
+    <string name="title_activity_dialog_mood">Stimmung</string>
+    <string name="question_measure_mood">Wie haben Sie sich während der Messung gefühlt?</string>
 
     <string name="title_activity_dialog_mobile_not_found">Gerät nicht gefunden</string>
     <string name="question_mobile_not_found">Es konnte keine Verbindung zum gekoppelten Gerät hergestellt werden. Daten verwerfen oder erneut versuchen?</string>

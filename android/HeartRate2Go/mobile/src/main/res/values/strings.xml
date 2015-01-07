@@ -24,7 +24,7 @@
     <string name="summary_static_ip">IP address of the PC\n(Empty for broadcast discovery)\nPort: 1234 (for NAT configuration)</string>
     <string name="ip_not_valid">IP is not valid</string>
 
-    <string name="title_list_styles">Backgroundcolor</string>
+    <string name="title_list_styles">Background color</string>
     <string name="summary_list_styles">Choose between the available colors</string>
 
     <string name="title_send_directly">Direct data sending</string>
@@ -33,8 +33,27 @@
     <string name="title_open_app">Open app</string>
     <string name="summary_open_app">Open app automatically after receiving from smartwatch</string>
 
-    <string name="date_format">yyyy-MM-dd HH:mm:ss</string>
+    <string name="title_delete_after_send">Delete after send</string>
+    <string name="summary_delete_after_send">Delete measurement after sending to PC</string>
+
+    <string name="title_debug_mode">Debug mode</string>
+    <string name="summary_debug_mode">i.e. adding random measurements</string>
+    <string name="add_random_measurement">+ random</string>
+    <string name="send_all_measurements">Send all</string>
+    <string name="measurements_sent">measurements sent</string>
+    <string name="only_with_static_ip">This will only work with static ip</string>
+
     <string name="measure_mode_activity">Activity measurement</string>
     <string name="measure_mode_rest">Rest measurement</string>
+
+    <string name="data_sent">Data sent&#8230;</string>
+    <string name="data_not_sent">Data not sent&#8230;</string>
+
+    <string name="delete_sure">delete Measurement?</string>
+    <string name="delete_yes">Yes</string>
+    <string name="delete_no">No</string>
+
+    <string name="axis_label_x">Sek</string>
+    <string name="axis_label_y">Bpm</string>
 
 </resources>

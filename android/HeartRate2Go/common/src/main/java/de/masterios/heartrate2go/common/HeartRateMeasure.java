@@ -1,5 +1,8 @@
 package de.masterios.heartrate2go.common;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -39,6 +42,14 @@ public class HeartRateMeasure {
 
     public synchronized void setMeasureMode(MeasureMode measureMode) {
         mMeasureMode = measureMode;
+    }
+
+    public synchronized MeasureMood getMeasureMood() {
+        return mMeasureMood;
+    }
+
+    public synchronized void setMeasureMood(MeasureMood measureMood) {
+        mMeasureMood = measureMood;
     }
 
     public synchronized static HeartRateMeasure getInstance() {
@@ -98,12 +109,35 @@ public class HeartRateMeasure {
         return heartRate;
     }
 
+    public synchronized long getTimeStampMsAt(int index) {
+        long timestampMs = 0;
+        if(index >= 0 && index < mHeartRateDataList.size()) {
+            timestampMs =  mHeartRateDataList.get(index).getTimeStampMs();
+        }
+        return timestampMs;
+    }
+
     public synchronized long getStartTimeStampMs() {
         long timeSpampMs = -1;
         if(mHeartRateDataList.size() > 0) {
             timeSpampMs = mHeartRateDataList.get(0).getTimeStampMs();
         }
         return timeSpampMs;
+    }
+
+    public synchronized long getDurationMs() {
+        long duration = 0;
+        if(MeasureMode.REST == mMeasureMode) {
+            duration = 60000;
+        } else {
+            int size = mHeartRateDataList.size();
+            if(size > 0) {
+                long start = mHeartRateDataList.get(0).getTimeStampMs();
+                long end = mHeartRateDataList.get(size-1).getTimeStampMs();
+                duration = end - start;
+            }
+        }
+        return duration;
     }
 
     public synchronized String getDataAsString() {
@@ -169,10 +203,19 @@ public class HeartRateMeasure {
         }
     }
 
+    DataSentListener mDataSentListener;
+    public interface DataSentListener {
+        public void onDataSent(boolean success);
+    }
+    public void setDataSentListener(DataSentListener dataSentListener) {
+        mDataSentListener = dataSentListener;
+    }
+
     public synchronized void sendDataAsync(final String ip) {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                boolean isSuccess = false;
                 try {
                     Socket socket = new Socket(ip, TCP_DATA_PORT);
                     OutputStream out = socket.getOutputStream();
@@ -214,8 +257,13 @@ public class HeartRateMeasure {
                     }
                     outputStream.close();
                     socket.close();
+                    isSuccess = true;
                 } catch (IOException e) {
                     e.printStackTrace();
+                }
+
+                if(null != mDataSentListener) {
+                    mDataSentListener.onDataSent(isSuccess);
                 }
             }
         }).start();
@@ -252,8 +300,10 @@ public class HeartRateMeasure {
     }
 
     public void createRandomTestData() {
-        long currentTime = System.currentTimeMillis();
-        Random rdm = new Random(currentTime);
+        final long tenYears = 315360000000L;
+        final long minValue = System.currentTimeMillis() - tenYears;
+        Random rdm = new Random(minValue);
+        long currentTime = minValue + (((long)rdm.nextInt(315360000)) * 1000L);
 
         int mode = rdm.nextInt(3);
         switch(mode) {

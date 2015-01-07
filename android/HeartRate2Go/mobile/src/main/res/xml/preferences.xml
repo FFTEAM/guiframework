@@ -54,6 +54,12 @@
             android:summary="@string/summary_open_app"
             android:defaultValue="true" />
 
+        <CheckBoxPreference
+            android:key="preference_delete_after_send"
+            android:title="@string/title_delete_after_send"
+            android:summary="@string/summary_delete_after_send"
+            android:defaultValue="true" />
+
         <EditTextPreference
             android:key="preference_static_ip"
             android:title="@string/title_static_ip"
@@ -61,6 +67,12 @@
             android:dialogTitle="@string/summary_static_ip"
             android:defaultValue=""
             android:inputType="textNoSuggestions" />
+
+        <CheckBoxPreference
+            android:key="preference_debug_mode"
+            android:title="@string/title_debug_mode"
+            android:summary="@string/summary_debug_mode"
+            android:defaultValue="false" />
 
     </PreferenceCategory>
 
