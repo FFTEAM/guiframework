@@ -63,8 +63,7 @@ void SelectionController::selectYearSlot(QString aCurrentText)
         {
             // read all informations from storage
             QObject* monthChild = parent()->findChild<QObject*>("monthRectName");
-            QObject* weekChild = parent()->findChild<QObject*>("weekRectName");
-            if(monthChild && weekChild)
+            if(monthChild)
             {
                 monthChild->setProperty("visible", "false");
                 setAllAvailableData();
@@ -100,14 +99,6 @@ void SelectionController::selectMonthSlot(QString aCurrentText)
 
         if(0 == m_currentMonthText.compare("all"))
         {
-            // read all informations from storage
-            QObject* weekChild = parent()->findChild<QObject*>("weekRectName");
-            if(weekChild)
-            {
-                weekChild->setProperty("visible", "false");
-            }
-            else qDebug() << "No state change";
-
             setAllAvailableYearData(m_currentYearText);
         }
         else
@@ -166,10 +157,12 @@ void SelectionController::newDataFromDeviceSlot(quint8 aType)
 
             if(0 == actualYear.compare("all"))
             {
+                qDebug()<< "Select Year Slot called";
                 selectYearSlot(actualYear);
             }
             else
             {
+                qDebug()<< "Select Month Slot called";
                 QString actualMonth = selectionYear->property("currentText").toString();
                 m_currentMonthText = "";
                 selectMonthSlot(actualMonth);
@@ -180,6 +173,7 @@ void SelectionController::newDataFromDeviceSlot(quint8 aType)
 
 void SelectionController::setAllAvailableData()
 {
+    qDebug() << "setAllAvailableData() called";
     // get all possible years in storage
     QList<QString> dataList = m_importExportStorage.years(0);
     dataList.push_front(tr("all"));
