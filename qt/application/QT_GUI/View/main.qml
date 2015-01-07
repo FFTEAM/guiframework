@@ -2,6 +2,7 @@ import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Window 2.0
 import QtQuick.Layouts 1.0
+import QtQuick.Controls.Styles 1.0
 import "."
 
 ApplicationWindow
@@ -54,24 +55,62 @@ ApplicationWindow
     }
 
     TabView {
-        id: tableviewID
+
+        id: tabviewId
         objectName: "TabViewName"
         anchors.fill: parent
+
+        // Costumize tab view
+        style: TabViewStyle {
+            tabsAlignment: Qt.AlignLeft
+            frameOverlap: 0
+            frame: Rectangle { color: "whitesmoke";}
+
+            tab: Rectangle {
+                id: tabbarId
+                color: styleData.selected ? "whitesmoke":"grey"
+                implicitWidth: Math.max(text.width + 25, 100)
+                implicitHeight: 25
+                radius: 2
+
+                // Add Icon to tab
+                Image {
+                    id: logoId
+                    source: tabviewId.getTab(styleData.index).iconSource
+                    height: parent.height - 5
+                    width: tabbarId.implicitWidth - text.width - 12
+                    anchors.left: parent.left
+                    anchors.leftMargin: 5
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
+                // Add text to tab
+                Text {
+                    id: text
+                    text: styleData.title
+                    height: parent.height
+                    color: styleData.selected ? "black":"white"
+                    verticalAlignment: Text.AlignVCenter
+                    anchors.right: parent.right
+                    anchors.rightMargin: 5
+               }
+            }
+        }
 
         IconTab {
             id: inactiveDiagramTabID
             objectName: "diagramTabName"
             title: qsTr("Resting Heart rate")
-            iconSource: "qrc:/Images/standing_black.png"
             source: "qrc:/View/InactiveDiagramTab.qml"
+            iconSource: "qrc:/Images/standing_black.png"
         }
 
         IconTab {
             id: activeDiagramTabID
             objectName: "diagramTabName"
             title: qsTr("Activity Heart rate")
-            iconSource: "qrc:/Images/running_black.png"
             source: "qrc:/View/ActiveDiagramTab.qml"
+            iconSource: "qrc:/Images/running_black.png"
         }
     }
 
