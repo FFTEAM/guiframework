@@ -269,8 +269,6 @@ QList<const SensorData*> ImportExport::measurements(quint8 aType)
         type = selectMeasurement.value(4).toString();
         mood = selectMeasurement.value(5).toString();
 
-        qDebug() << "msID: " << measurementId;
-
         dataList.push_back(new SensorData(QDateTime().fromMSecsSinceEpoch(timestamp), average, duration, measurementId));
     }
 

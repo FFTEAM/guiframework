@@ -142,7 +142,7 @@ bool DataReceiver::validateData(const quint8* aData, const quint64 aLen)
 
     if (FINAL_STATE == state)
     {
-        updateStorage(rawDataList, mode, mood, averageRate);
+        emit updateStorage(rawDataList, mode, mood, averageRate);
         emit signalizeController(mode);
     }
 

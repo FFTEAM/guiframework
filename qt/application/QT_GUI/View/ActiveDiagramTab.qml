@@ -28,7 +28,7 @@ Rectangle {
             title: qsTr("Filtering options")
 
             anchors.right: parent.right
-            height: parent.height
+            height: parent.height / 3 * 2
             width: parent.width / 2 - 10
 
             Rectangle {
@@ -37,7 +37,7 @@ Rectangle {
 
                 color: "transparent"
                 width: parent.width
-                height: parent.height / 3
+                height: parent.height / 2
                 anchors.top: parent.top
                 anchors.topMargin: 3
 
@@ -111,41 +111,6 @@ Rectangle {
                         onComboboxPressed(currentText);
                     }
               }
-            }
-
-            Rectangle {
-                id: weekRect
-                objectName: "weekRectName"
-                color: "transparent"
-                width: parent.width
-                height: parent.height / 3
-                anchors.top: monthRect.bottom
-                anchors.topMargin: 3
-
-                visible:  false
-
-                Label {
-                    id: weekLabelId
-                    anchors.left: parent.left
-                    height: cmbSelectWeekFilter.height
-                    width: parent.width / 6
-                    text: qsTr("Week:")
-                    horizontalAlignment: Text.AlignLeft
-                    verticalAlignment: Text.AlignVCenter
-                    renderType: Text.NativeRendering
-                }
-
-                ComboBox {
-                    id: cmbSelectWeekFilter
-                    objectName: "cmbSelectWeekFilterName"
-
-                    signal onComboboxPressed(string text);
-
-                    anchors.left: weekLabelId.right
-                    anchors.leftMargin: 10
-                    width: parent.width - weekLabelId.width - 10
-                    currentIndex: 0
-                }
             }
         } // grpFilter
 
@@ -281,14 +246,21 @@ Rectangle {
 
                         TableViewColumn
                         {
-                            role: "date";
-                            title: qsTr("Date");
-                            width: parent.width/3 * 2
+                            role: "measurepoint";
+                            title: qsTr("Seconds since start");
+                            width: parent.width/3
                         }
                         TableViewColumn
                         {
                             role: "heartRate";
                             title: qsTr("HeartRate");
+                            width: parent.width/3
+                        }
+
+                        TableViewColumn
+                        {
+                            role: "stepCount";
+                            title: qsTr("Steps");
                             width: parent.width/3
                         }
 
@@ -308,6 +280,8 @@ Rectangle {
         GroupBox {
             title: qsTr("Raw data:")
             anchors.right: parent.right
+            anchors.top: grpFilter.bottom
+            //anchors.bottom: parent.bottom
 
             height: parent.height
             width: parent.width / 2 - 10
