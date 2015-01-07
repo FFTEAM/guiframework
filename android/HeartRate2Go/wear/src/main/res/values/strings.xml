@@ -10,8 +10,11 @@
     <string name="settings_changed">Settings changed</string>
     <string name="still_active">HeartRate2Go is still active...</string>
 
-    <string name="title_activity_dialog_mode">Measure mode?</string>
+    <string name="title_activity_dialog_mode">Measure mode</string>
     <string name="question_measure_mode">Will the following measure be in activity or in rest?</string>
+
+    <string name="title_activity_dialog_mood">Measure mood</string>
+    <string name="question_measure_mood">How did you feel during the measurement?</string>
 
     <string name="title_activity_dialog_mobile_not_found">Mobile not found</string>
     <string name="question_mobile_not_found">Could not connect to mobile device. Dismiss data or retry sending?</string>

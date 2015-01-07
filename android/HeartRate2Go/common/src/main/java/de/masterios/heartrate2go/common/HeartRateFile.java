@@ -9,6 +9,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,5 +78,29 @@ public class HeartRateFile {
     public static String getFileName(HeartRateMeasure heartRateMeasure) {
         long timeStampMs = heartRateMeasure.getStartTimeStampMs();
         return (String) DateFormat.format("yyyy-MM-dd_HH-mm-ss", timeStampMs);
+    }
+
+    public static String getFilenameFromDateString(Context context, String date) {
+        String filename = date;
+        SimpleDateFormat source = new SimpleDateFormat(context.getString(R.string.date_format));
+        SimpleDateFormat target = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        try {
+            filename = target.format(source.parse(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return filename;
+    }
+
+    public static String getDateStringFromFilename(Context context, String filename) {
+        String date = filename;
+        SimpleDateFormat target = new SimpleDateFormat(context.getString(R.string.date_format));
+        SimpleDateFormat source = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        try {
+            date = target.format(source.parse(filename));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 }

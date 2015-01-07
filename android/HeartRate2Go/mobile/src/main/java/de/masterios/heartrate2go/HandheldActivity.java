@@ -1,7 +1,10 @@
 package de.masterios.heartrate2go;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -16,6 +19,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,20 +47,28 @@ import java.util.List;
 import de.masterios.heartrate2go.common.HeartRateFile;
 import de.masterios.heartrate2go.common.HeartRateMeasure;
 import de.masterios.heartrate2go.common.MeasureMode;
+import de.masterios.heartrate2go.common.MeasureMood;
 
-public class HandheldActivity extends Activity implements AdapterView.OnItemSelectedListener {
+public class HandheldActivity extends Activity implements AdapterView.OnItemSelectedListener, HeartRateMeasure.DataSentListener {
 
     NetworkBroadcast mNetworkBroadcast;
     HeartRateMeasure mHeartRateMeasure;
 
-    TextView mTextViewCaption;
-    FrameLayout mFrameLayout;
-    TextView mTextViewCenter;
     Spinner mFilenameSpinner;
     ImageButton mButtonDismiss;
     ImageButton mButtonSend;
 
+    LinearLayout mLinearLayoutDebug;
+
+    LinearLayout mLinearLayoutMeasureHeader;
+    ImageView mImageViewMode;
+    ImageView mImageViewMood;
+
+    LinearLayout mLinearLayoutGraphView;
+    FrameLayout mFrameLayoutContainer;
     GraphView mGraphView;
+
+    TextView mTextViewCenter;
 
     SharedPreferences mSharedPreferences;
 
@@ -69,9 +82,6 @@ public class HandheldActivity extends Activity implements AdapterView.OnItemSele
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        mTextViewCaption = (TextView) findViewById(R.id.text_view_caption);
-        mFrameLayout = (FrameLayout) findViewById(R.id.frame_layout);
-        mTextViewCenter = (TextView) findViewById(R.id.text_view_center);
         mFilenameSpinner = (Spinner) findViewById(R.id.filename_spinner);
         mFilenameSpinner.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -85,20 +95,28 @@ public class HandheldActivity extends Activity implements AdapterView.OnItemSele
         mButtonDismiss = (ImageButton) findViewById(R.id.button_dismiss);
         mButtonSend = (ImageButton) findViewById(R.id.button_send);
 
+        mLinearLayoutDebug = (LinearLayout) findViewById(R.id.linear_layout_debug);
+
+        mLinearLayoutMeasureHeader = (LinearLayout) findViewById(R.id.linear_layout_measure_header);
+        mImageViewMode = (ImageView) findViewById(R.id.image_view_mode);
+        mImageViewMood = (ImageView) findViewById(R.id.image_view_mood);
+
+        mLinearLayoutGraphView = (LinearLayout) findViewById(R.id.linear_layout_graph_view);
+        mFrameLayoutContainer = (FrameLayout) findViewById(R.id.frame_layout_container);
         mGraphView = new BarGraphView(this, "");
-        mGraphView.setShowHorizontalLabels(false);
         mGraphView.setManualYAxisBounds(150, 50);
         mGraphView.setCustomLabelFormatter(new CustomLabelFormatter() {
             @Override
             public String formatLabel(double value, boolean isValueX) {
-                return ""+((int) value);
+                return "" + ((int) value);
             }
         });
-        mFrameLayout.addView(mGraphView);
+        mFrameLayoutContainer.addView(mGraphView);
+
+        mTextViewCenter = (TextView) findViewById(R.id.text_view_center);
 
         // refresh preferences on wearable
         SettingsActivity.syncSettingsToWearable(this);
-        mHeartRateMeasure = HeartRateMeasure.getInstance();
 
         mNetworkBroadcast = new NetworkBroadcast(this);
         mNetworkBroadcast.setBroadcastFinishedListener(new NetworkBroadcast.BroadcastFinishedListener() {
@@ -106,7 +124,9 @@ public class HandheldActivity extends Activity implements AdapterView.OnItemSele
             public void onBroadcastFinished(final InetAddress from, String answer) {
                 if(null != from && null != answer) {
                     System.out.println("got answer " + answer + " from " + from.getHostAddress());
-                    mHeartRateMeasure.sendDataAsync(from.toString());
+                    if(null != mHeartRateMeasure) {
+                        mHeartRateMeasure.sendDataAsync(from.toString());
+                    }
                 }
             }
         });
@@ -124,22 +144,32 @@ public class HandheldActivity extends Activity implements AdapterView.OnItemSele
             List<String> fileNames = HeartRateFile.getMeasureFileNames(context);
             mDisplayNames.clear();
             for (String s : fileNames) {
-                mDisplayNames.add(getDateStringFromFilename(s));
+                mDisplayNames.add(HeartRateFile.getDateStringFromFilename(context, s));
             }
             Collections.sort(mDisplayNames, Collections.reverseOrder());
             mSpinnerArrayAdapter.notifyDataSetChanged();
 
+
+            Boolean isDeleteAfterSend = mSharedPreferences.getBoolean("preference_delete_after_send", true);
             if (mDisplayNames.size() > 0) {
                 mFilenameSpinner.setSelection(0);
                 mButtonDismiss.setEnabled(true);
                 mButtonDismiss.setImageResource(R.drawable.dismiss_white);
                 mButtonSend.setEnabled(true);
-                mButtonSend.setImageResource(R.drawable.send_white);
+                if(isDeleteAfterSend) {
+                    mButtonSend.setImageResource(R.drawable.send_and_dismiss_white);
+                } else {
+                    mButtonSend.setImageResource(R.drawable.send_white);
+                }
             } else {
                 mButtonDismiss.setEnabled(false);
                 mButtonDismiss.setImageResource(R.drawable.dismiss_grey);
                 mButtonSend.setEnabled(false);
-                mButtonSend.setImageResource(R.drawable.send_grey);
+                if(isDeleteAfterSend) {
+                    mButtonSend.setImageResource(R.drawable.send_and_dismiss_grey);
+                } else {
+                    mButtonSend.setImageResource(R.drawable.send_grey);
+                }
             }
 
             addDataToGraph();
@@ -161,24 +191,43 @@ public class HandheldActivity extends Activity implements AdapterView.OnItemSele
         boolean isDataAvailable = mDisplayNames.size() > 0;
 
         if(isDataAvailable) {
-            String captionText = getString(R.string.caption_text);
             switch(mHeartRateMeasure.getMeasureMode()) {
                 case ACTIVITY:
-                    captionText += " (" + getString(R.string.measure_mode_activity) + ")";
+                    mImageViewMode.setImageResource(R.drawable.running_white);
                     break;
                 case REST:
-                    captionText += " (" + getString(R.string.measure_mode_rest) + ")";
+                    mImageViewMode.setImageResource(R.drawable.standing_white);
                     break;
             }
-            mTextViewCaption.setText(captionText);
+
+            switch (mHeartRateMeasure.getMeasureMood()) {
+                case GOOD:
+                    mImageViewMood.setImageResource(R.drawable.good);
+                    break;
+                case AVERAGE:
+                    mImageViewMood.setImageResource(R.drawable.average);
+                    break;
+                case BAD:
+                    mImageViewMood.setImageResource(R.drawable.bad);
+                    break;
+            }
 
             mGraphView.setVisibility(View.VISIBLE);
-            mTextViewCaption.setVisibility(View.VISIBLE);
+            mLinearLayoutGraphView.setVisibility(View.VISIBLE);
+            mLinearLayoutMeasureHeader.setVisibility(View.VISIBLE);
             mTextViewCenter.setVisibility(View.INVISIBLE);
         } else {
             mGraphView.setVisibility(View.INVISIBLE);
-            mTextViewCaption.setVisibility(View.INVISIBLE);
+            mLinearLayoutGraphView.setVisibility(View.INVISIBLE);
+            mLinearLayoutMeasureHeader.setVisibility(View.INVISIBLE);
             mTextViewCenter.setVisibility(View.VISIBLE);
+        }
+
+        Boolean isDebugMode = mSharedPreferences.getBoolean("preference_debug_mode", false);
+        if(isDebugMode) {
+            mLinearLayoutDebug.setVisibility(View.VISIBLE);
+        } else {
+            mLinearLayoutDebug.setVisibility(View.GONE);
         }
     }
 
@@ -215,15 +264,20 @@ public class HandheldActivity extends Activity implements AdapterView.OnItemSele
     private void addDataToGraph() {
         String selectedDate = (String) mFilenameSpinner.getSelectedItem();
         if(null != selectedDate && !selectedDate.equals("")) {
-            mHeartRateMeasure = HeartRateFile.openMeasureFromFile(this, getFilenameFromDateString(selectedDate));
+            String filename = HeartRateFile.getFilenameFromDateString(getBaseContext(), selectedDate);
+            mHeartRateMeasure = HeartRateFile.openMeasureFromFile(this, filename);
+            mHeartRateMeasure.setDataSentListener(this);
 
             int size = mHeartRateMeasure.getSize();
             if(size > 0) {
                 GraphView.GraphViewData[] graphViewDataSets = new GraphView.GraphViewData[size];
+                long startTime = mHeartRateMeasure.getStartTimeStampMs();
                 for (int i = 0; i < size; i++) {
+
                     double heartrate = (double) mHeartRateMeasure.getHeartRateAt(i);
+                    int minutes = (int)(((mHeartRateMeasure.getTimeStampMsAt(i) - startTime) / 1000) / 60);
                     try {
-                        graphViewDataSets[i] = new GraphView.GraphViewData(i, heartrate);
+                        graphViewDataSets[i] = new GraphView.GraphViewData(minutes, heartrate);
                     } catch(NumberFormatException e) {
                         e.printStackTrace();
                     }
@@ -236,12 +290,23 @@ public class HandheldActivity extends Activity implements AdapterView.OnItemSele
                         case ACTIVITY:
                             name = getString(R.string.measure_mode_activity);
                             barColor = Color.rgb(50, 120, 220);
+                            long duration = mHeartRateMeasure.getDurationMs() / 1000; // Minutes
+                            final int RESOLUTION = 6;
+                            StringBuilder sb = new StringBuilder();
+                            int stepSize = (int) ((double)duration / (double)RESOLUTION);
+                            for(int i=1; i < RESOLUTION-1; i++) {
+                                sb.append((stepSize*i) + ";");
+                            }
+                            mGraphView.setHorizontalLabels(sb.toString().split(";"));
+                            mGraphView.setShowHorizontalLabels(true);
                             break;
                         case REST:
                             name = getString(R.string.measure_mode_rest);
                             barColor = Color.rgb(75, 200, 75);
+                            mGraphView.setShowHorizontalLabels(false);
                             break;
                     }
+
                     mGraphView.removeAllSeries();
                     mGraphView.addSeries(new GraphViewSeries(name, new GraphViewSeries.GraphViewSeriesStyle(barColor, 3), graphViewDataSets)); // data
                 }
@@ -254,57 +319,93 @@ public class HandheldActivity extends Activity implements AdapterView.OnItemSele
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
-    public void onButtonTestClick(View view) {
-        HeartRateMeasure temp = HeartRateMeasure.getInstance();
-        temp.createRandomTestData();
-        HeartRateFile.saveMeasureToFile(this, temp);
-        refreshFilesList(this);
-
-    }
-
-    private String getFilenameFromDateString(String date) {
-        String filename = date;
-        SimpleDateFormat source = new SimpleDateFormat(getString(R.string.date_format));
-        SimpleDateFormat target = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-        try {
-            filename = target.format(source.parse(date));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return filename;
-    }
-
-    private String getDateStringFromFilename(String filename) {
-        String date = filename;
-        SimpleDateFormat target = new SimpleDateFormat(getString(R.string.date_format));
-        SimpleDateFormat source = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-        try {
-            date = target.format(source.parse(filename));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date;
-    }
-
     public void onButtonDismissClick(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.delete_sure))
+                .setPositiveButton(getString(R.string.delete_yes), dialogClickListener)
+                .setNegativeButton(getString(R.string.delete_no), dialogClickListener)
+                .show();
+    }
+
+    private void deleteCurrentMeasurement() {
+        Context context = getBaseContext();
         String selectedDate = (String) mFilenameSpinner.getSelectedItem();
         if(null != selectedDate && !selectedDate.equals("")) {
-            HeartRateFile.deleteFile(this, getFilenameFromDateString(selectedDate));
-            refreshFilesList(getBaseContext());
+            HeartRateFile.deleteFile(this, HeartRateFile.getFilenameFromDateString(context, selectedDate));
+            refreshFilesList(context);
         }
     }
 
     public void onButtonSendClick(View view) {
         if(null != mNetworkBroadcast && null != mHeartRateMeasure) {
-            final String ip = mSharedPreferences.getString("preference_static_ip", "");
-
+            String ip = mSharedPreferences.getString("preference_static_ip", "");
             if (ip.equals("")) {
-                showToast("send broadcast and data");
                 mNetworkBroadcast.sendBroadcastAsync();
             } else {
-                showToast("send data to " + ip);
                 mHeartRateMeasure.sendDataAsync(ip);
             }
+        }
+    }
+
+    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    deleteCurrentMeasurement();
+                    break;
+                case DialogInterface.BUTTON_NEGATIVE:
+                    // do nothing
+                    break;
+            }
+        }
+    };
+
+    @Override
+    public void onDataSent(final boolean success) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(success) {
+                    Boolean isDeleteAfterSend = mSharedPreferences.getBoolean("preference_delete_after_send", true);
+                    if(isDeleteAfterSend) {
+                        deleteCurrentMeasurement();
+                    }
+                    showToast(getString(R.string.data_sent));
+                } else {
+                    showToast(getString(R.string.data_not_sent));
+                }
+            }
+        });
+    }
+
+    public void onButtonAddRandomMeasurementClick(View view) {
+        HeartRateMeasure temp = HeartRateMeasure.getInstance();
+        temp.createRandomTestData();
+        HeartRateFile.saveMeasureToFile(this, temp);
+        refreshFilesList(this);
+    }
+
+    public void onButtonSendAllMeasurementsClick(View view) {
+        final String ip = mSharedPreferences.getString("preference_static_ip", "");
+        if (!ip.equals("")) {
+            if (null != mNetworkBroadcast) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Context context = getBaseContext();
+                        for (String s : mDisplayNames) {
+                            String filename = HeartRateFile.getFilenameFromDateString(context, s);
+                            HeartRateMeasure temp = HeartRateFile.openMeasureFromFile(context, filename);
+                            temp.sendDataAsync(ip);
+                            try { Thread.sleep(20); } catch (InterruptedException e) { }
+                        }
+                    }
+                }).start();
+            }
+            showToast(mDisplayNames.size() + " " + getString(R.string.measurements_sent));
+        } else {
+            showToast(getString(R.string.only_with_static_ip));
         }
     }
 }

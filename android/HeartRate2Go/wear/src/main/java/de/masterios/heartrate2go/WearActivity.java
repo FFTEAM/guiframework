@@ -18,11 +18,13 @@ import android.widget.Toast;
 import de.masterios.heartrate2go.common.HeartRateData;
 import de.masterios.heartrate2go.common.HeartRateMeasure;
 import de.masterios.heartrate2go.common.MeasureMode;
+import de.masterios.heartrate2go.common.MeasureMood;
 
 public class WearActivity extends Activity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final int RESULT_CODE_MEASURE_MODE = 1;
-    private static final int RESULT_CODE_MOBILE_NOT_FOUND = 2;
+    private static final int RESULT_CODE_MEASURE_MOOD = 2;
+    private static final int RESULT_CODE_MOBILE_NOT_FOUND = 3;
 
     private static final int INACTIVE = 0;
 
@@ -302,9 +304,8 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         refreshTextViewTime(INACTIVE);
         refreshActionButtons();
 
-        if(null != mHeartRateDataSync && null != mHeartRateMeasure) {
-            mHeartRateDataSync.sendMessageAsync(mHeartRateMeasure.getDataAsString());
-        }
+        Intent intent = new Intent(this, DialogMoodActivity.class);
+        startActivityForResult(intent, RESULT_CODE_MEASURE_MOOD);
 
         refreshActionButtons();
     }
@@ -354,33 +355,52 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode == RESULT_OK) {
-            if(RESULT_CODE_MEASURE_MODE == requestCode) {
-                int result = data.getExtras().getInt(DialogModeActivity.ACTIVITY_RESULT);
-                switch(result) {
-                    case DialogModeActivity.ACTIVITY:
-                        mHeartRateMeasure.setMeasureMode(MeasureMode.ACTIVITY);
-                        break;
-                    case DialogModeActivity.REST:
-                        mHeartRateMeasure.setMeasureMode(MeasureMode.REST);
-                        break;
-                }
-                startLogging();
-
-            } else if(RESULT_CODE_MOBILE_NOT_FOUND == requestCode) {
-                int result = data.getExtras().getInt(DialogMobileNotFoundActivity.ACTIVITY_RESULT);
-
-                switch(result) {
-                    case DialogMobileNotFoundActivity.DISMISS:
-                        if (null != mHeartRateMeasure) {
-                            mHeartRateMeasure.clear();
-                        }
-                        break;
-                    case DialogMobileNotFoundActivity.RETRY:
-                        if (null != mHeartRateDataSync && null != mHeartRateMeasure) {
-                            mHeartRateDataSync.sendMessageAsync(mHeartRateMeasure.getDataAsString());
-                        }
-                        break;
-                }
+            int result;
+            switch(requestCode) {
+                case RESULT_CODE_MEASURE_MODE:
+                    result = data.getExtras().getInt(DialogModeActivity.ACTIVITY_RESULT);
+                    switch (result) {
+                        case DialogModeActivity.ACTIVITY:
+                            mHeartRateMeasure.setMeasureMode(MeasureMode.ACTIVITY);
+                            break;
+                        case DialogModeActivity.REST:
+                            mHeartRateMeasure.setMeasureMode(MeasureMode.REST);
+                            break;
+                    }
+                    startLogging();
+                    break;
+                case RESULT_CODE_MEASURE_MOOD:
+                    result = data.getExtras().getInt(DialogMoodActivity.ACTIVITY_RESULT);
+                    switch (result) {
+                        case DialogMoodActivity.GOOD:
+                            mHeartRateMeasure.setMeasureMood(MeasureMood.GOOD);
+                            break;
+                        case DialogMoodActivity.AVERAGE:
+                            mHeartRateMeasure.setMeasureMood(MeasureMood.AVERAGE);
+                            break;
+                        case DialogMoodActivity.BAD:
+                            mHeartRateMeasure.setMeasureMood(MeasureMood.BAD);
+                            break;
+                    }
+                    if(null != mHeartRateDataSync && null != mHeartRateMeasure) {
+                        mHeartRateDataSync.sendMessageAsync(mHeartRateMeasure.getDataAsString());
+                    }
+                    break;
+                case RESULT_CODE_MOBILE_NOT_FOUND:
+                    result = data.getExtras().getInt(DialogMobileNotFoundActivity.ACTIVITY_RESULT);
+                    switch (result) {
+                        case DialogMobileNotFoundActivity.DISMISS:
+                            if (null != mHeartRateMeasure) {
+                                mHeartRateMeasure.clear();
+                            }
+                            break;
+                        case DialogMobileNotFoundActivity.RETRY:
+                            if (null != mHeartRateDataSync && null != mHeartRateMeasure) {
+                                mHeartRateDataSync.sendMessageAsync(mHeartRateMeasure.getDataAsString());
+                            }
+                            break;
+                    }
+                    break;
             }
         }
     }
