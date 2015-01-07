@@ -93,6 +93,7 @@ ApplicationWindow
                     verticalAlignment: Text.AlignVCenter
                     anchors.right: parent.right
                     anchors.rightMargin: 5
+                    renderType: Text.NativeRendering
                }
             }
         }
@@ -119,7 +120,7 @@ ApplicationWindow
             anchors.fill: parent
             Label {
                 text: "No device connected!"
-                renderType: Text.NativeRendering
+
             }
         }
     }*/
