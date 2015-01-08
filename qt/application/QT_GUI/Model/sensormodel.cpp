@@ -20,7 +20,8 @@ SensorModel::SensorModel() : QAbstractListModel(0)
     // C'tor
 }
 
-SensorModel::SensorModel(const SensorModel& aOther)
+SensorModel::SensorModel(const SensorModel& aOther) :
+    QAbstractListModel()
 {
     m_sensorList = aOther.getDataList();
 }
