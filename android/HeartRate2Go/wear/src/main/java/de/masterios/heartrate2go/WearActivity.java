@@ -151,9 +151,11 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
                         refreshTextViewSteps(steps);
 
                         if (State.STARTED == mCurrentState) {
-                            HeartRateData heartRateData =
-                                    new HeartRateData(System.currentTimeMillis(), heartRate, steps);
-                            mHeartRateMeasure.add(heartRateData);
+                            if(0 != heartRate) { // TODO implement setting maybe
+                                HeartRateData heartRateData =
+                                        new HeartRateData(System.currentTimeMillis(), heartRate, steps);
+                                mHeartRateMeasure.add(heartRateData);
+                            }
                         }
                     }
                 });
@@ -219,9 +221,10 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
                     }
                 });
 
-                if(null != mHeartRateDataSync && null != mHeartRateMeasure) {
+                if(null != mHeartRateMeasure) {
                     mHeartRateMeasure.convertToRestMeasurement();
-                    mHeartRateDataSync.sendMessageAsync(mHeartRateMeasure.getDataAsString());
+                    Intent intent = new Intent(WearActivity.this, DialogMoodActivity.class);
+                    startActivityForResult(intent, RESULT_CODE_MEASURE_MOOD);
                 }
             }
         });
