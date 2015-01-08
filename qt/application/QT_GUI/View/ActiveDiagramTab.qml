@@ -26,7 +26,7 @@ Rectangle {
             id: activeListDelegate
             Item {
                 width: parent.width - 10
-                height: listView2.height/ listView2.count
+                height: listView2.height / listView2.count
                 Row {
                     spacing: 10
                     width: parent.width - 10
@@ -61,7 +61,7 @@ Rectangle {
         GroupBox {
             id: grpDetails
             anchors.left: parent.left
-            height: parent.height / 3
+            height: 100
             width: parent.width
 
             title: qsTr("Active Heartrate Details")
@@ -84,7 +84,7 @@ Rectangle {
             title: qsTr("Pulse flow over time:")
             anchors.left: parent.left
             anchors.top: grpDetails.bottom
-            height: parent.height / 3 * 2 - 10
+            height: parent.height - grpDetails.height - 10
             width: parent.width
 
             TabView
@@ -210,7 +210,7 @@ Rectangle {
             title: qsTr("Filtering options")
 
             anchors.right: parent.right
-            height: parent.height / 3 * 1
+            height: cmbSelectYearFilter.height * 2 + 10 //parent.height / 5
             width: parent.width
 
             Rectangle {
@@ -218,7 +218,7 @@ Rectangle {
                 objectName: "yearRectName"
 
                 color: "transparent"
-                width: parent.width
+                width: parent.width / 2
                 height: parent.height / 2
                 anchors.top: parent.top
                 anchors.topMargin: 3
@@ -235,15 +235,14 @@ Rectangle {
                 }
 
                 ComboBox {
-
                     id: cmbSelectYearFilter
                     objectName: "cmbSelectYearFilterName"
 
                     signal onComboboxPressed(string text);
 
                     anchors.left: yearLabelId.right
-                    anchors.leftMargin: 10
-                    width: parent.width - yearLabelId.width - 10
+                    anchors.leftMargin: 0
+                    width: parent.width - yearLabelId.width - 5
                     currentIndex: 0
                     model: activeSelectionYearModel
 
@@ -258,9 +257,9 @@ Rectangle {
                 id: monthRect
                 objectName: "monthRectName"
                 color: "transparent"
-                width: parent.width
-                height: parent.height / 3
-                anchors.top: yearRect.bottom
+                width: parent.width / 2
+                height: parent.height / 2
+                anchors.left: yearRect.right
                 anchors.topMargin: 3
 
                 visible: false
@@ -292,18 +291,18 @@ Rectangle {
                     {
                         onComboboxPressed(currentText);
                     }
-              }
+                }
             }
         } // grpFilter
 
-
         GroupBox {
+            id: grpRawData
             title: qsTr("Raw data:")
             anchors.right: parent.right
             anchors.top: grpFilter.bottom
             //anchors.bottom: parent.bottom
 
-            height: parent.height / 3 * 2 - 10
+            height: parent.height - 10 - grpFilter.height //parent.height / 4 * 3 - 10
             width: parent.width
 
             TableView {
