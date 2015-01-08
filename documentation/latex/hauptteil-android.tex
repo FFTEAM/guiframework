@@ -1,7 +1,39 @@
 \newpage
-\section{Hauptteil - Android} \label{sec:hauptteil_android}
-\subsection{Hauptteil - Part1}
-Text
+\section{Android} \label{sec:hauptteil_android}
+
+\subsection{Android (Standard)}
+Das Android-Betriebsystem erfreut sich weltweit größter Beliebtheit. Android ist mit über 
+75\% auf dem Markt das meist verbreitete Mobil-Betriebsystem für Smartphones und Tablets. 
+Ein großer Vorteil des mobilen Betriebssystems ist die Möglichkeit, die Funktionalität 
+durch Installation zusätzlicher Anwendungen (Apps) zu erweitern. Android liegt aktuell
+in der Version 5.0 (Lollipop) vor, wobei die vorliegende Implementierung der Version
+4.4 zugrunde liegt.
+\\[0.5cm]
+Erstellt werden Apps i.d.R. mit Hilfe des Android Frameworks in der Programmiersprache Java. 
+Das Android Framework passt in die Kategorie der modernen Gui-Frameworks, da die Programmlogik
+strikt von den Definitionen für das Layout getrennt ist. Das Layout wird durch Dateien mit
+XML-Struktur festegelegt und kann so unabhängig vom Code angepasst werden.
+
+\subsection{Android Wear}
+Android Wear als noch recht neues Bestriebssystem stellt eine ressourcenschonende Version
+des Standard-Android-Betriebssystems für Wearables (Smartwatches, Armbänder, etc.) dar. 
+Die Wearables bringen in den meisten Fällen Sensoren für Fitness-Tracking (z.B. Pulsmesser,
+und Schrittzähler) mit, die durch die Android API bereits unterstützt werden. Das Wearable-Gerät 
+kann zwar selbstständig agieren, ist jedoch ohne entsprechende Hardware zur Nutzung von Internet,
+W-Lan oder anderen Ressourcen auf ein gekoppeltes Handheld-Gerät angewiesen. Auch Hersteller
+Google betont, dass das Betriebsystem grundlegend zur Kopplung mit einem Smartphone bzw. Tablet
+(Im folgenden allgemein: Handheld) ausgelegt ist. Notifications vom Handheld, werden beispielsweise
+bequem auf das Wearable-Gerät weitergeleitet, während in die andere Richtung Spracheingaben auf dem
+Wearable-Gerät interpretiert und zum Handheld-Gerät zur weiteren Verarbeitung übermittelt werden können.
+Die Kommunikation findet dabei i.d.R. über eine spezielle Wearable-Bluetooth-API statt.
+\\[0.5cm]
+Die Design-Prinzipien, die grundlegend auf den Entwicklerseiten von Android Wear empfohlen werden,
+unterstreichen ebenfalls die enge Verbundenheit zum Handheld-Gerät. So sollen rechen- bzw. zeitintensive
+Tasks auf das leistungsfähigere Handheld-gerät ausgelagert werden und Konfigurationen für
+Wearable-Apps weitesgehend auf dem Handheld-Gerät vorgenommen werden. So bietet es sich an,
+für eine Wearable-App gleich eine zugehörige Handheld-App mitzuliefern. Die Installation einer
+Wearable-App erfolgt dabei auch über das Handheld-Gerät: Eine APK-Installations-Datei kann mehrere
+Apps für verschiedene Geräte enthalten, die dann automatisch verteilt werden. Apps für Android Wear werden unter den gleichen Bedingungen erstellt, wie Apps für das Standard-Android-Betriebssystem. Zusätzlich unterstützt Android Wear sowohl runde und quadratische Display-Typen, was bei der Gestaltung des Layouts zu beachten ist.
 
 %\bigskip
 %\begin{figure}[H]
