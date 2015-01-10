@@ -56,7 +56,7 @@ Um bei der Verwendung einer TCP/IP-Datenübertragung eine sichere Konnektivität
 \\
 Die Implementierung des UDP-Servers in der BroadcastReceiver-Klasse erfolgt durch Ableitung von QThread und einem auf Port 45454 gebundenen QUdpSocket-Objekt\cite{qudpsocket}. Die Thread-Loop wartet anschließend auf eingehende Datagramme.\\
 \\
-Beim Eintreffen eines Datagramms wird zunächst überprüft ob es sich dabei um das erwartete Magic-Packet handelt. Ist dies der Fall wird das Datagramm an den Absender an Port 45455 zurück gesendet. Der Absender kann dadurch beim Empfang der Antwort die IP-Adresse des Servers ermitteln und eine Verbindung über TCP herstellen. Hat sich das Magic-Packet als falsch herausgestellt, wird das Datagramm verworfen.\\
+Beim Eintreffen eines Datagramms wird zunächst überprüft, ob es sich dabei um das erwartete Magic-Packet handelt. Ist dies der Fall, wird das Datagramm an den Absender an Port 45455 zurück gesendet. Der ursprüngliche Absender kann dadurch beim Empfang der Antwort die IP-Adresse des Servers ermitteln und eine TCP-Verbindung herstellen. Hat sich das Magic-Packet als falsch herausgestellt, wird das Datagramm verworfen.\\
 \\
 Bei dem Magic-Packet handelt es sich um den ASCII-String der UUID ''86417ce4-4f19-4a59-ae27-f404653e9751''.
 
@@ -106,21 +106,15 @@ In den Tabellen \ref{tbl:pdu} und \ref{tbl:datafield-description} wird das für 
 		\label{tbl:datafield-description}
 \end{table*}
 
-\subsection{Datenspeicherung}
-TODO Themen:
-\begin{itemize}
-\item SQLite
-\item QSqlDatabase \cite{qsqldatabase}
-\item Datenbank Struktur
-\item 
-\end{itemize}
+\subsection{Datenhaltung}
+\subsubsection{SQLite}
+Zur Speicherung sämtlicher Messungen, und damit verbundenen Datensätze, wird auf die SQLite-Datenbankengine zurückgegriffen. Das Qt-Framework bietet mit der QSqlDatabase-Klasse eine Abstraktion zu vielen SQL-basierenden Datenbankengines an\cite{qsqldatabase}. Unter anderem unterstützt sie SQLite. Der Datenbank-Container wird plattformunabhängig im Benutzerverzeichnis des die Anwendung ausführenden Benutzers im Verzeichnis ''HeartRate'' gespeichert.
 
 \subsubsection{Datenbankschema}
-
 \begin{figure}[H]
 	\centering
-	\visioToPDF{images/database-scheme.pdf}
-	\includegraphics[width=0.9\textwidth]{images/database-scheme.pdf}
+	\visioToPDF{images/database-schema.pdf}
+	\includegraphics[width=0.9\textwidth]{images/database-schema.pdf}
 	\caption{Das SQLite Datenbankschema}
 	\label{pic:database-scheme}
 \end{figure}
