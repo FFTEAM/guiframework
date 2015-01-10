@@ -119,6 +119,17 @@ citecolor = black] {hyperref}
 
 \setlength{\parindent}{0pt}
 
+%% Literaturverzeichnis
+\usepackage{url}
+\usepackage[backend=bibtex,block=none,style=numeric,sorting=none]{biblatex}
+\addbibresource{literatur.bib}
+\DeclareFieldFormat[misc]{title}{\textit{#1}\isdot}
+\DeclareFieldFormat{url}{\newline\url{#1}}
+\DefineBibliographyStrings{german}{%
+  backrefpage = {Seite},% originally "cited on page"
+  backrefpages = {Seiten},% originally "cited on pages"
+}
+
 
 %% Andere Packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\usepackage{a4wide} %%Kleinere Seitenr�nder = mehr Text pro Zeile.

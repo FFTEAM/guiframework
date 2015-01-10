@@ -1,13 +1,16 @@
 \newpage
 
 %% Literaturverzeichnis
-%% ==> Eine Datei 'literatur.bib' wird hierfür benötigt.
-%% ==> Sie müssen hierfür BibTeX verwenden (Projekt | Eigenschaften... | BibTeX)
+%% ==> Eine Datei 'literatur.bib' wird hierfï¿½r benï¿½tigt.
+%% ==> Sie mï¿½ssen hierfï¿½r BibTeX verwenden (Projekt | Eigenschaften... | BibTeX)
 
 \addcontentsline{toc}{section}{Literaturverzeichnis}
-%\nocite{*} %Auch nicht-zitierte BibTeX-Einträge werden angezeigt.
-\bibliographystyle{alpha} %Art der Ausgabe: plain / apalike / amsalpha / ...
-\bibliography{literatur} %Eine Datei 'literatur.bib' wird hierfür benötigt.
+%\nocite{*} %Auch nicht-zitierte BibTeX-Eintrï¿½ge werden angezeigt.
+%\bibliographystyle{alpha} %Art der Ausgabe: plain / apalike / amsalpha / ...
+%\bibliography{literatur} %Eine Datei 'literatur.bib' wird hierfï¿½r benï¿½tigt.
+
+\def\bibfont{\footnotesize}
+\printbibliography[title={Literaturverzeichnis}]
 
 %% Abbildungsverzeichnis
 %\clearpage
@@ -21,9 +24,9 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% ANHÄNGE
+%% ANHï¿½NGE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \appendix
-%% ==> Schreiben Sie hier Ihren Text oder fügen Sie externe Dateien ein.
+%% ==> Schreiben Sie hier Ihren Text oder fï¿½gen Sie externe Dateien ein.
 
-%\input{Dateiname} %Eine Datei 'Dateiname.tex' wird hierfür benötigt.
+%\input{Dateiname} %Eine Datei 'Dateiname.tex' wird hierfï¿½r benï¿½tigt.
