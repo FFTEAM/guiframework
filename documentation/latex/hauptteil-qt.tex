@@ -48,10 +48,16 @@ TODO Themen:
 \begin{itemize}
 \item Kommunikation über TCP Verbindung \cite{qtcpserver}
 \item Server-Discovery per Broadcast \cite{qudpsocket}
-\item DataReceiver
 \end{itemize}
 
-\subsection{Datenverwaltung}
+\subsubsection{DataReceiver}
+Die DataReceiver-Klasse nimmt das eigentliche Parsing unter Beachtung der Network-Byte-Order (BigEndian) des vom Smartphone erhaltenen Byte-Vektors vor. Sie abstrahiert lediglich die Byte-Vektor-Darstellung der Daten von der vom Modell benötigten Listen-Repräsentation. Die Klasse ist als Singleton implementiert, da sie aufgrund des verwendeten Signal-Slot-Konzepts instanziiert werden muss.\\
+\\
+Der Parsevorgang wird mit Hilfe eines Zustandsautomaten realisiert, da die zu erwartenden Daten einem festgelegten Schema folgen müssen.\\
+\\
+Nach einem erfolgreichen Parsevorgang werden die so gewonnenen Datensätze an die ImportExport-Klasse übermittelt und der FilterController mit einem Signal über das Eintreffen neuer Daten benachrichtigt.
+
+\subsection{Datenspeicherung}
 TODO Themen:
 \begin{itemize}
 \item SQLite
