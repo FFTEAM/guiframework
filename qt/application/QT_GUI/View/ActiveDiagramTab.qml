@@ -260,6 +260,7 @@ Rectangle {
                 width: parent.width / 2
                 height: parent.height / 2
                 anchors.left: yearRect.right
+                anchors.top: parent.top
                 anchors.topMargin: 3
 
                 visible: false
