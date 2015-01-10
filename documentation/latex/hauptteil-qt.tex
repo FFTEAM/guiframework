@@ -43,6 +43,21 @@ The Book of QT 4.0 Daniel Molkentin
 
 \subsection{Umsetzung mittels QML}
 
+Die Qt-Meta-Language kurz QML ist eine deklarative Programmiersprache für die Erstellung von Benutzeroberflächen. QML ist ein Teil von QtQuick und stellt eine Alternative zum Qt-Widget System dar. Die Hauptintention von QML ist die Erstellung von Benutzeroberflächen für Mobile-Systeme oder Desktop-Anwendungen. Hierfür ist eine einfache Syntax gewählt worden, sowie eine Integration von externem JavaScript Code. Infolgedessen, kann eine Trennung der Back-End und Front-End Entwicklung einer Applikation realisiert werden. Dieser Umstand zeigt einen großen Vorteil von QML gegenüber dem Qt-Widget System. Das Qt-Widget System, ermöglicht die Erstellung von Benutzeroberflächen mit Hilfe von C++ Code. Der Nachteil hiervon ist zum einen die fehlende Trennung von Applikation und Darstellungsschicht und zum anderen die mangelnde Übersicht im Quellcode bezüglich der View. Darüberhinaus ermöglicht QML die Erstellung von Animationen ohne zusätzliche Hilfsmittel. Des Weiteren können 3D- Animationen mittels OpenGl performanter und weniger fehleranfälliger als beim Qt-Widget System gezeichnet werden. \\
+
+Durch die Verwendung von QML wird dem Entwickler eine Vielzahl an Freiheiten angeboten. Diese können beispielsweise für die Erstellung von eigenen Komponenten oder die benutzerdefinierte Anpassung von standardisierten Elementen genutzt werden. Im Verlauf des Projektes, sind mehrere QML Elemente benutzerspezifisch angepasst worden. Im Nachfolgenden wird eine QML spezifische Technik vorgestellt, wie ein QML Element durch den Entwickler manuell angepasst werden kann. \\
+
+Für die Realisierung eines eigenen benutzerspezifischen QML Elements bietet QML  eine Property namens „style“ an. Mit Hilfe dieser, kann die Standardimplementierung eines QML Elements überschrieben werden. In Abbildung XX ist ein einfaches Tab Element mit Hilfe einer TabViewStyle, sowie einer neuen Tab-Komponente benutzerspezifisch angepasst worden. \\
+
+\begin{center}
+\includegraphics[scale=0.5]{images/TabView.png}  \\
+\end{center}
+
+
+Hierfür ist zu Beginn eine neue QML-Datei mit dem Namen der neuen Tab-Komponenten angelegt worden. Anschließend wurde der „style“ Property der TabView Komponente, welche die einzelnen Tab-Elemente zusammenfasst, ein neues TabViewStyle Element zugewiesen. Dieses Element enthält alle spezifischen Anpassungen bezüglich des angepassten Tabs. In diesem Fall ist die Farbe, Größe, Schrift, Höhe bzw. Breite des Standard Tabs angepasst worden. Ebenfalls ist ein neues Icon dem Tab hinzugefügt worden, um dem Anwender einen besseren Überblick auf die Applikation zu geben. \\
+
+Abschließend sollte noch erwähnt werden, dass die Third-Party Komponente QCostumPlot (Erstellung der Diagramme) mit Hilfe einer eigenen QML Komponenten in die bestehende View integriert wurde. Hierfür musste ein neuer QML Type registriert und an der View angemeldet werden. Zusätzlich wurde das QML State System für das Aktualisieren der einzelnen Diagramme verwendet.  \\
+
 \subsection{Datenübertragung}
 \subsubsection{Verzicht auf Bluetooth}
 Ursprünglich war geplant die Datenübertragung vom Smartphone zur Desktop-PC-Anwendung mittels Serial-Port-Profile oder RFCOMM über Bluetooth zu implementieren. Allerdings zeigte sich sehr früh beim Implementierungsversuch mittels der Qt-Bluetooth Klassen-Bibliothek QBluetooth einige Schwierigkeiten bezüglich der Plattformunabhängigkeit. QBluetooth unterstützt lediglich Mac, Linux und Android. Windows wird aufgrund seiner Vielzahl uneinheitlicher Bluetooth-Stacks nicht unterstützt. Da zu erwarten ist, dass der Großteil der Zielgruppe von HeartRate2Go Windows als Betriebssystem einsetzt, wurde die Alternative TCP/IP gewählt.
