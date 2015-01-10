@@ -92,11 +92,9 @@ QVariant SensorModel::data(const QModelIndex &aIndex, int aRole) const
     switch(aRole)
     {
         case SENSOR_HEART_RATE_ROLE:    return sensorData->getHeartRate(); break;
-
-        case SENSOR_MEASUREPOINT:       return sensorData->getDate().toTime_t();
+        case SENSOR_MEASUREPOINT:       return sensorData->getDate().toTime_t(); break;
         case SENSOR_DATE_ROLE:          return sensorData->getDate(); break;
-
-        case SENSOR_STEP_COUNT_ROLE:   return sensorData->getStepCount(); break;
+        case SENSOR_STEP_COUNT_ROLE:    return sensorData->getStepCount(); break;
 
         default:                        return QVariant();
     }

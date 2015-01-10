@@ -73,7 +73,7 @@ void PrintController::createSensorDataFile(QPrinter& aPrinter, const SensorModel
         QString heartRate;
         heartRate.append(QString("%1").arg(data->getHeartRate()));
         qDebug() << heartRate;
-        QString date = data->getDate().toString("dd-MM-yy hh:mm:ss");
+        QString date = data->getDate().toString("mm:ss");
         htmlTableRow += "<tr><td align=\"center\" valign=\"middle\">" + date + "</td><td align=\"center\" valign=\"middle\">" + heartRate + "</td></tr>";
     }
 

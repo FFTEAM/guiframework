@@ -50,7 +50,7 @@ void ActiveSensorCalcModel::updateCalcValues(const SensorModel& aModel)
     beginResetModel();
     if(0 == aModel.getSensorModelCount())
     {
-        m_calcSensorList.append(CalcSensorData(QObject::tr("duration:"), 0, QObject::tr("seconds")));
+        m_calcSensorList.append(CalcSensorData(QObject::tr("duration:"), 0.0, QObject::tr("hours")));
     }
     else
     {
@@ -60,11 +60,14 @@ void ActiveSensorCalcModel::updateCalcValues(const SensorModel& aModel)
         // get end date of data
         QDateTime endDate = aModel.getSingleSensorData(aModel.getSensorModelCount() - 1)->getDate();
 
-        // calculate duration
-        const int duration = endDate.toTime_t() - startDate.toTime_t();
+        // calculate duration in seconds
+        const int durationInSeconds = endDate.toTime_t() - startDate.toTime_t();
+
+        // calculate duration in hours
+        const double duration = durationInSeconds/3600.0;
 
         // set result to model
-        m_calcSensorList.append(CalcSensorData(QObject::tr("duration:"), duration, QObject::tr("seconds")));
+        m_calcSensorList.append(CalcSensorData(QObject::tr("duration:"), QString::number(duration, 'f', 2).toDouble(), QObject::tr("hours")));
     }
     endResetModel();
 }

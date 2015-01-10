@@ -4,68 +4,76 @@
 <context>
     <name>ActiveDiagramTab</name>
     <message>
-        <location filename="../View/ActiveDiagramTab.qml" line="28"/>
+        <location filename="../View/ActiveDiagramTab.qml" line="210"/>
         <source>Filtering options</source>
         <translation>Filter Optionen</translation>
     </message>
     <message>
-        <location filename="../View/ActiveDiagramTab.qml" line="51"/>
+        <location filename="../View/ActiveDiagramTab.qml" line="231"/>
         <source>Year:</source>
         <translation>Jahr:</translation>
     </message>
     <message>
-        <location filename="../View/ActiveDiagramTab.qml" line="93"/>
+        <location filename="../View/ActiveDiagramTab.qml" line="272"/>
         <source>Month:</source>
         <translation>Monat:</translation>
     </message>
     <message>
-        <location filename="../View/ActiveDiagramTab.qml" line="134"/>
         <source>Week:</source>
-        <translation>Woche:</translation>
+        <translation type="obsolete">Woche:</translation>
     </message>
     <message>
-        <location filename="../View/ActiveDiagramTab.qml" line="197"/>
+        <location filename="../View/ActiveDiagramTab.qml" line="67"/>
         <source>Active Heartrate Details</source>
         <translation>Belastungsmessungs-Details</translation>
     </message>
     <message>
-        <location filename="../View/ActiveDiagramTab.qml" line="227"/>
+        <location filename="../View/ActiveDiagramTab.qml" line="84"/>
         <source>Pulse flow over time:</source>
         <translation>Pulsverlaufübersicht:</translation>
     </message>
     <message>
-        <location filename="../View/ActiveDiagramTab.qml" line="251"/>
+        <location filename="../View/ActiveDiagramTab.qml" line="109"/>
         <source>Chart</source>
         <translation>Diagramm</translation>
     </message>
     <message>
-        <location filename="../View/ActiveDiagramTab.qml" line="275"/>
+        <location filename="../View/ActiveDiagramTab.qml" line="152"/>
         <source>Data</source>
         <translation>Daten</translation>
     </message>
     <message>
-        <location filename="../View/ActiveDiagramTab.qml" line="287"/>
-        <location filename="../View/ActiveDiagramTab.qml" line="340"/>
+        <location filename="../View/ActiveDiagramTab.qml" line="164"/>
+        <source>Seconds since start</source>
+        <translation>Zeitmessung ab Start</translation>
+    </message>
+    <message>
+        <location filename="../View/ActiveDiagramTab.qml" line="177"/>
+        <source>Steps</source>
+        <translation>Anzahl Schritte</translation>
+    </message>
+    <message>
+        <location filename="../View/ActiveDiagramTab.qml" line="331"/>
         <source>Date</source>
         <translation>Datum</translation>
     </message>
     <message>
-        <location filename="../View/ActiveDiagramTab.qml" line="293"/>
+        <location filename="../View/ActiveDiagramTab.qml" line="170"/>
         <source>HeartRate</source>
         <translation>Herzfrequenz</translation>
     </message>
     <message>
-        <location filename="../View/ActiveDiagramTab.qml" line="311"/>
+        <location filename="../View/ActiveDiagramTab.qml" line="300"/>
         <source>Raw data:</source>
         <translation>Belastungspulsmessungen:</translation>
     </message>
     <message>
-        <location filename="../View/ActiveDiagramTab.qml" line="346"/>
+        <location filename="../View/ActiveDiagramTab.qml" line="337"/>
         <source>heart rate</source>
         <translation>Herzfrequenz</translation>
     </message>
     <message>
-        <location filename="../View/ActiveDiagramTab.qml" line="352"/>
+        <location filename="../View/ActiveDiagramTab.qml" line="343"/>
         <source>Step count</source>
         <translation>Anzahl Schritte</translation>
     </message>
@@ -196,22 +204,26 @@
     <name>QObject</name>
     <message>
         <location filename="../Model/activesensorcalcmodel.cpp" line="53"/>
-        <location filename="../Model/activesensorcalcmodel.cpp" line="67"/>
+        <location filename="../Model/activesensorcalcmodel.cpp" line="70"/>
         <source>duration:</source>
         <translation>Dauer:</translation>
     </message>
     <message>
         <location filename="../Model/activesensorcalcmodel.cpp" line="53"/>
-        <location filename="../Model/activesensorcalcmodel.cpp" line="67"/>
+        <location filename="../Model/activesensorcalcmodel.cpp" line="70"/>
+        <source>hours</source>
+        <translation>Stunden</translation>
+    </message>
+    <message>
         <source>seconds</source>
-        <translation>Sekunden</translation>
+        <translation type="obsolete">Sekunden</translation>
     </message>
 </context>
 <context>
     <name>SelectionController</name>
     <message>
-        <location filename="../Controller/selectioncontroller.cpp" line="78"/>
-        <location filename="../Controller/selectioncontroller.cpp" line="185"/>
+        <location filename="../Controller/selectioncontroller.cpp" line="77"/>
+        <location filename="../Controller/selectioncontroller.cpp" line="179"/>
         <source>all</source>
         <translation>all</translation>
     </message>
@@ -278,22 +290,22 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../View/main.qml" line="10"/>
+        <location filename="../View/main.qml" line="11"/>
         <source>HeartRate2Go</source>
         <translation>HeartRate2Go</translation>
     </message>
     <message>
-        <location filename="../View/main.qml" line="34"/>
+        <location filename="../View/main.qml" line="35"/>
         <source>&amp;Print</source>
         <translation>&amp;Drucken</translation>
     </message>
     <message>
-        <location filename="../View/main.qml" line="36"/>
+        <location filename="../View/main.qml" line="37"/>
         <source>Print data</source>
         <translation>Drucken der einzelnen Messungen</translation>
     </message>
     <message>
-        <location filename="../View/main.qml" line="43"/>
+        <location filename="../View/main.qml" line="44"/>
         <source>File</source>
         <translation>Datei</translation>
     </message>
@@ -302,32 +314,32 @@
         <translation type="obsolete">Einstellungen</translation>
     </message>
     <message>
-        <location filename="../View/main.qml" line="45"/>
+        <location filename="../View/main.qml" line="46"/>
         <source>Print</source>
         <translation>Drucken</translation>
     </message>
     <message>
-        <location filename="../View/main.qml" line="47"/>
+        <location filename="../View/main.qml" line="48"/>
         <source>Exit</source>
         <translation>Schließen</translation>
     </message>
     <message>
-        <location filename="../View/main.qml" line="51"/>
+        <location filename="../View/main.qml" line="52"/>
         <source>?</source>
         <translation>?</translation>
     </message>
     <message>
-        <location filename="../View/main.qml" line="52"/>
+        <location filename="../View/main.qml" line="53"/>
         <source>About</source>
         <translation>Informationen</translation>
     </message>
     <message>
-        <location filename="../View/main.qml" line="64"/>
+        <location filename="../View/main.qml" line="104"/>
         <source>Resting Heart rate</source>
         <translation>Ruhepulsmessungen</translation>
     </message>
     <message>
-        <location filename="../View/main.qml" line="72"/>
+        <location filename="../View/main.qml" line="112"/>
         <source>Activity Heart rate</source>
         <translation>Aktivitätsmessungen</translation>
     </message>
