@@ -65,7 +65,7 @@ Abschließend sollte noch erwähnt werden, dass die Third-Party Komponente QCost
 
 \subsection{Datenübertragung}
 \subsubsection{Verzicht auf Bluetooth}
-Ursprünglich war geplant die Datenübertragung vom Smartphone zur Desktop-PC-Anwendung mittels Serial-Port-Profile oder RFCOMM über Bluetooth zu implementieren. Allerdings zeigte sich sehr früh beim Implementierungsversuch mittels der Qt-Bluetooth Klassen-Bibliothek QBluetooth einige Schwierigkeiten bezüglich der Plattformunabhängigkeit. QBluetooth unterstützt lediglich Mac, Linux und Android. Windows wird aufgrund seiner Vielzahl uneinheitlicher Bluetooth-Stacks nicht unterstützt. Da zu erwarten ist, dass der Großteil der Zielgruppe von HeartRate2Go Windows als Betriebssystem einsetzt, wurde die Alternative TCP/IP gewählt.
+Ursprünglich war geplant die Datenübertragung vom Smartphone zur Desktop-PC-Anwendung mittels Serial-Port-Profile oder RFCOMM über Bluetooth zu implementieren. Allerdings zeigte sich sehr früh beim Implementierungsversuch mittels der Qt-Bluetooth Klassen-Bibliothek QBluetooth einige Schwierigkeiten bezüglich der Plattformunabhängigkeit. QBluetooth unterstützt lediglich Linux, BlackBerry und Android\cite{qtbluetooth}. Die nativen Bluetooth-Stacks von Windows und OS X werden nicht unterstützt. Da zu erwarten ist, dass der Großteil der Zielgruppe von HeartRate2Go Windows als Betriebssystem einsetzt, wurde die Alternative TCP/IP gewählt.
 
 \subsubsection{TCP-Server}
 Die Qt-Komponente der HeartRate2Go Anwendung agiert für die Datenübertragung als TCP-Server. Die Umsetzung wird mit Hilfe der QTcpServer-Klasse der Qt-Bibliothek vorgenommen\cite{qtcpserver}. Eingehende Verbindungen werden in der TcpConnection-Klasse verarbeitet, die sich von der QThread-Klasse ableitet und dadurch die asynchrone Verarbeitung mehrerer Verbindungen sicherstellt.\\
@@ -100,7 +100,7 @@ In den Tabellen \ref{tbl:pdu} und \ref{tbl:datafield-description} wird das für 
 			\hline
 			Mode & \texttt{0x00} & 1 & Typ der Messung\\
 			\hline
-			Mood & \texttt{0x01} & 1 & Gemütszustand bei der Messung\\
+			Mood & \texttt{0x01} & 1 & Gefühlszustand bei der Messung\\
 			\hline
 			Average & \texttt{0x02} & 2 & Durchschnitt aller Messwerte\\
 			\hline
@@ -143,7 +143,7 @@ Das Datenbankschema besteht aus den vier in Abbildung \ref{pic:database-scheme} 
 	\label{pic:database-scheme}
 \end{figure}
 
-Tabelle \ref{tbl:database-entities} erläutert deren Aufgaben im Einzelnen.
+Tabelle \ref{tbl:database-entities} erläutert deren Aufgaben im Einzelnen. Zu einem \textit{Measurement}-Eintrag gehören ein oder mehrere \textit{Data}-Einträge. \textit{Mood} und \textit{Type} enthalten die möglichen Gefühlszustände und Arten von Messungen. In der aktuellen Ausführung enthält \textit{Mood} nur ''gut'', ''durchschnittlich'' und ''schlecht''. \textit{Type} enthält Ruhe- und Aktivitätsmessung.  
 \begin{table*}[h]
 	\centering
 		\begin{tabularx}{\textwidth}{l|X}
