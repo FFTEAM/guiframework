@@ -3,13 +3,16 @@
 
 \subsection{Model-View Konzept}
 
-In der Praxis werden viele User Interfaces mit dem MVC Pattern realisiert. Dieses Pattern besteht aus der View, dem Controller und dem Model. In diesem Zusammenhang wird eine strikte Trennung der einzelnen Schichten angestrebt. Das Ziel dieses Ansatzes, liegt in dem Austausch der View, ohne eine Anpassung der internen Datenstruktur durchführen zu müssen. Eine weitere Variante dieses Konzeptes ist das Model/View Konzept. Hierbei wird die View mit dem Controller kombiniert. Die Aufgabe der View es ist mit Hilfe des Models dem Benutzer die Informationen anzuzeigen. Der Controller reagiert lediglich auf Interaktion des Benutzers mit der View. Zusätzlich kann bei einer Model/View Architektur das Konzept eines „delegates“ eingeführt werden. Dieser besitzt die Aufgabe, die einzelnen Datenelemente des Models benutzerspezifisch anzuzeigen oder auf bestimmte Veränderungen des Datenbestandes von Seiten des Benutzers auf der View zu reagieren. Das Zusammenspiel der einzelnen Komponenten wird in Abbildung 1 nochmals graphisch veranschaulicht. \\
+In der Praxis werden viele User Interfaces mit dem MVC Pattern realisiert. Dieses Pattern besteht aus der View, dem Controller und dem Model. In diesem Zusammenhang wird eine strikte Trennung der einzelnen Schichten angestrebt. Das Ziel dieses Ansatzes, liegt in dem Austausch der View, ohne eine Anpassung der internen Datenstruktur durchführen zu müssen. Eine weitere Variante dieses Konzeptes ist das Model/View Konzept. Hierbei wird die View mit dem Controller kombiniert. Die Aufgabe der View es ist mit Hilfe des Models dem Benutzer die Informationen anzuzeigen. Der Controller reagiert lediglich auf Interaktion des Benutzers mit der View. Zusätzlich kann bei einer Model/View Architektur das Konzept eines „delegates“ eingeführt werden. Dieser besitzt die Aufgabe, die einzelnen Datenelemente des Models benutzerspezifisch anzuzeigen oder auf bestimmte Veränderungen des Datenbestandes von Seiten des Benutzers auf der View zu reagieren. Das Zusammenspiel der einzelnen Komponenten wird in Abbildung \ref{pic:ModelView} nochmals graphisch veranschaulicht.
 
-\begin{center}
-\includegraphics[scale=1.0]{images/ModelView.png}  \\
-\end{center}
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1.0]{images/ModelView.png}
+	\caption{Veranschaulichung des Model-View-Konzepts}
+	\label{pic:ModelView}
+\end{figure}
 
-In Abbildung 1 wird deutlich, dass eine Trennung zwischen der Speicherung und der Darstellung der Daten besteht. Die Aufgabe des Models besteht darin, der View und dem Delegate minimalistische Schnittstellen für die Kommunikation bereitzustellen. Die Kommunikation zwischen den einzelnen Komponenten wird in QT mit Hilfe des Signal und Slot Konzeptes realisiert. Findet eine Änderung am Datenbestand des Models statt, wird ein Signal an die View und den entsprechenden Delegate geschickt. Diese rufen die entsprechenden Slots auf und aktualisieren die View. Im umgekehrten Fall, wenn der Benutzer die Daten via View verändert, schickt diese ein Signal an das Model und den Delegate. Ein weiteres Hilfsmittel der View ist der Modelindex. Dieser Index wird verwendet, um die einzelnen Informationen aus dem Datenbestand zu lesen. \\
+In Abbildung \ref{pic:ModelView} wird deutlich, dass eine Trennung zwischen der Speicherung und der Darstellung der Daten besteht. Die Aufgabe des Models besteht darin, der View und dem Delegate minimalistische Schnittstellen für die Kommunikation bereitzustellen. Die Kommunikation zwischen den einzelnen Komponenten wird in QT mit Hilfe des Signal und Slot Konzeptes realisiert. Findet eine Änderung am Datenbestand des Models statt, wird ein Signal an die View und den entsprechenden Delegate geschickt. Diese rufen die entsprechenden Slots auf und aktualisieren die View. Im umgekehrten Fall, wenn der Benutzer die Daten via View verändert, schickt diese ein Signal an das Model und den Delegate. Ein weiteres Hilfsmittel der View ist der Modelindex. Dieser Index wird verwendet, um die einzelnen Informationen aus dem Datenbestand zu lesen. \\
 
 Ein Modelindex ist eine Referenz auf einen einzelnen Datensatz des Models. Durch die Zuhilfenahme eines Delegates, kann dieser benutzerspezifisch auf der View dargestellt werden. Diesbezüglich muss erwähnt werden, dass es mehrere Möglichkeiten für die Erstellung der View unter QT existieren. Eine Möglichkeit ist die Erstellung mittels QT Widgets. Diese können durch Qt bereitgestellte Klassen erzeugt werden. Hierbei ist eine eindeutige Trennung zwischen View und Model schwer möglich. Eine andere Variante ist die Erstellung mittels QML. QML ist eine Art Beschreibungssprache für Benutzeroberflächen. Hierbei muss lediglich eine Beschreibung der GUI angegeben werden. Diese ist so allgemein gehalten, dass Designer oder UI-Entwickler ohne irgendwelche Vorkenntnisse einer Programmiersprache eine View anfertigen können. Der Vorteil hiervon liegt in der klaren Trennung der einzelnen Aufgaben. Ein Designer kann sich ausschließlich um das UI kümmern und ein Software-Entwickler um das dazugehörige Model und den Controller. Diesbezüglich existiert eine klare Trennung zwischen dem Model und der View.\\
 
@@ -47,12 +50,14 @@ Die Qt-Meta-Language kurz QML ist eine deklarative Programmiersprache für die E
 
 Durch die Verwendung von QML wird dem Entwickler eine Vielzahl an Freiheiten angeboten. Diese können beispielsweise für die Erstellung von eigenen Komponenten oder die benutzerdefinierte Anpassung von standardisierten Elementen genutzt werden. Im Verlauf des Projektes, sind mehrere QML Elemente benutzerspezifisch angepasst worden. Im Nachfolgenden wird eine QML spezifische Technik vorgestellt, wie ein QML Element durch den Entwickler manuell angepasst werden kann. \\
 
-Für die Realisierung eines eigenen benutzerspezifischen QML Elements bietet QML  eine Property namens „style“ an. Mit Hilfe dieser, kann die Standardimplementierung eines QML Elements überschrieben werden. In Abbildung XX ist ein einfaches Tab Element mit Hilfe einer TabViewStyle, sowie einer neuen Tab-Komponente benutzerspezifisch angepasst worden. \\
+Für die Realisierung eines eigenen benutzerspezifischen QML Elements bietet QML  eine Property namens „style“ an. Mit Hilfe dieser, kann die Standardimplementierung eines QML Elements überschrieben werden. In Abbildung \ref{pic:TabView} ist ein einfaches Tab Element mit Hilfe einer TabViewStyle, sowie einer neuen Tab-Komponente benutzerspezifisch angepasst worden.
 
-\begin{center}
-\includegraphics[scale=0.5]{images/TabView.png}  \\
-\end{center}
-
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6]{images/TabView.png}
+	\caption{Customized TabBar einer TabView}
+	\label{pic:TabView}
+\end{figure}
 
 Hierfür ist zu Beginn eine neue QML-Datei mit dem Namen der neuen Tab-Komponenten angelegt worden. Anschließend wurde der „style“ Property der TabView Komponente, welche die einzelnen Tab-Elemente zusammenfasst, ein neues TabViewStyle Element zugewiesen. Dieses Element enthält alle spezifischen Anpassungen bezüglich des angepassten Tabs. In diesem Fall ist die Farbe, Größe, Schrift, Höhe bzw. Breite des Standard Tabs angepasst worden. Ebenfalls ist ein neues Icon dem Tab hinzugefügt worden, um dem Anwender einen besseren Überblick auf die Applikation zu geben. \\
 
