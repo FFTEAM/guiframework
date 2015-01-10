@@ -1,2 +1,9 @@
 **/.*
+**/*.aux
+**/*.log
+**/*.bbl
+**/*.blg
+**/*.out
+**/*.pdf
+**/*.toc
 qt/application/QT_GUI/QT_GUI.pro.user*
