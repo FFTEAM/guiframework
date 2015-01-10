@@ -52,7 +52,7 @@ Wenn der TcpServer eine eingehende Verbindung annimmt, erzeugt er ein Objekt der
 Die Thread-Loop der TcpConnection-Klasse wartet auf eingehende Bytes und hängt diese an ein QByteArray-Objekt an. Nach dem Trennen der Verbindung wird dieses QByteArray zur weiteren Auswertung an den DataReceiver übergeben.
 
 \subsubsection{Server-Discovery}
-Um bei der Verwendung einer TCP/IP-Datenübertragung eine sichere Konnektivität zwischen Smartphone und Desktop-PC zu gewährleisten, muss der Anwender einen zusätzlichen Konfigurationsaufwand zur Ermittlung und Konfiguration der IP-Adresse in Kauf nehmen. Die HeartRate2Go Desktop-Anwendung verfügt deshalb über einen UDP-Server, der mittels eines einfachen Broadcast-Protokolls die Server-Discovery automatisiert und so dem Anwender den Konfigurationsaufwand gänzlich erspart\footnote{Für Netze in denen Broadcast-Messages blockiert, oder die über Netz-Grenzen geroutet werden, ist weiterhin eine manuelle Konfiguration notwendig.}.\\
+Um bei der Verwendung einer TCP/IP-Datenübertragung eine sichere Konnektivität zwischen Smartphone und Desktop-PC zu gewährleisten, muss der Anwender einen zusätzlichen Konfigurationsaufwand zur Ermittlung und Konfiguration der IP-Adresse in Kauf nehmen. Die HeartRate2Go Desktop-Anwendung verfügt deshalb über einen UDP-Server, der mittels eines einfachen Broadcast-Protokolls die Server-Discovery automatisiert und so dem Anwender den Konfigurationsaufwand gänzlich erspart\footnote{Für Netze in denen Broadcast-Messages blockiert, oder die über Netz-Grenzen hinweg geroutet werden, ist weiterhin eine manuelle Konfiguration notwendig.}.\\
 \\
 Die Implementierung des UDP-Servers in der BroadcastReceiver-Klasse erfolgt durch Ableitung von QThread und einem auf Port 45454 gebundenen QUdpSocket-Objekt\cite{qudpsocket}. Die Thread-Loop wartet anschließend auf eingehende Datagramme.\\
 \\
@@ -65,7 +65,28 @@ Die DataReceiver-Klasse nimmt das eigentliche Parsing unter Beachtung der Networ
 \\
 Der Parsevorgang wird mit Hilfe eines Zustandsautomaten realisiert, da die zu erwartenden Daten einem festgelegten Schema folgen müssen.\\
 \\
-Nach einem erfolgreichen Parsevorgang werden die so gewonnenen Datensätze an die ImportExport-Klasse übermittelt und der FilterController mit einem Signal über das Eintreffen neuer Daten benachrichtigt.
+Nach einem erfolgreichen Parsevorgang werden die so gewonnenen Datensätze an die ImportExport-Klasse übermittelt und der FilterController mit einem Signal über das Eintreffen neuer Daten benachrichtigt.\\
+\\
+In Tabelle \ref{tbl:pdu} wird das für die Datenübertragung verwendete Protokoll erläutert. Das \textit{Data}-Datenfeld darf dabei als einziges Datenfeld mehrfach vorkommen und dient zur Übertragung der einzelnen vorgenommenen Messungen während eines Gesamt-Messvorgangs. Bei einer Ruhemessung ist hier ein einziger Datensatz zu erwarten. Bei einer Aktivitätsmessung ist die Anzahl der \textit{Data}-Datensätze abhängig von der Dauer der Messung und des konfigurierten Messintervalls.
+\begin{table*}[h]
+	\centering
+		\begin{tabularx}{\textwidth}{l|l|l|X}
+			\hline
+			Bezeichnung & Byte & Länge & Beschreibung \\
+			\hline
+			\hline
+			Mode & \texttt{0x00} & 1 & Typ der Messung\\
+			\hline
+			Mood & \texttt{0x01} & 1 & Gemütszustand bei der Messung\\
+			\hline
+			Average & \texttt{0x02} & 2 & Durchschnitt aller Messwerte\\
+			\hline
+			Data & \texttt{0xff} & 12 & Datensatz eines Messpunktes\\
+			\hline
+		\end{tabularx}
+		\caption{Protokoll-Datenfelder der Datenübertragung (Länge in Byte)}
+		\label{tbl:pdu}
+\end{table*}
 
 \subsection{Datenspeicherung}
 TODO Themen:
