@@ -44,6 +44,9 @@ The Book of QT 4.0 Daniel Molkentin
 \subsection{Umsetzung mittels QML}
 
 \subsection{Datenübertragung}
+\subsubsection{Verzicht auf Bluetooth}
+Ursprünglich war geplant die Datenübertragung vom Smartphone zur Desktop-PC-Anwendung mittels Serial-Port-Profile oder RFCOMM über Bluetooth zu implementieren. Allerdings zeigte sich sehr früh beim Implementierungsversuch mittels der Qt-Bluetooth Klassen-Bibliothek QBluetooth einige Schwierigkeiten bezüglich der Plattformunabhängigkeit. QBluetooth unterstützt lediglich Mac, Linux und Android. Windows wird aufgrund seiner Vielzahl uneinheitlicher Bluetooth-Stacks nicht unterstützt. Da zu erwarten ist, dass der Großteil der Zielgruppe von HeartRate2Go Windows als Betriebssystem einsetzt, wurde die Alternative TCP/IP gewählt.
+
 \subsubsection{TCP-Server}
 Die Qt-Komponente der HeartRate2Go Anwendung agiert für die Datenübertragung als TCP-Server. Die Umsetzung wird mit Hilfe der QTcpServer-Klasse der Qt-Bibliothek vorgenommen\cite{qtcpserver}. Eingehende Verbindungen werden in der TcpConnection-Klasse verarbeitet, die sich von der QThread-Klasse ableitet und dadurch die asynchrone Verarbeitung mehrerer Verbindungen sicherstellt.\\
 \\
@@ -108,9 +111,10 @@ In den Tabellen \ref{tbl:pdu} und \ref{tbl:datafield-description} wird das für 
 
 \subsection{Datenhaltung}
 \subsubsection{SQLite}
-Zur Speicherung sämtlicher Messungen, und damit verbundenen Datensätze, wird auf die SQLite-Datenbankengine zurückgegriffen. Das Qt-Framework bietet mit der QSqlDatabase-Klasse eine Abstraktion zu vielen SQL-basierenden Datenbankengines an\cite{qsqldatabase}. Unter anderem unterstützt sie SQLite. Der Datenbank-Container wird plattformunabhängig im Benutzerverzeichnis des die Anwendung ausführenden Benutzers im Verzeichnis ''HeartRate'' gespeichert.
+Zur Speicherung sämtlicher Messungen, und damit verbundenen Datensätzen, wird auf die SQLite-Datenbankengine zurückgegriffen. Das Qt-Framework bietet mit der QSqlDatabase-Klasse eine Abstraktion zu vielen SQL-basierenden Datenbankengines an\cite{qsqldatabase}. Unter anderem unterstützt sie die SQLite-Engine. Der SQLite-Datenbank-Container wird plattformunabhängig im Benutzerverzeichnis des die Anwendung ausführenden Benutzers im Verzeichnis ''HeartRate'' gespeichert.
 
 \subsubsection{Datenbankschema}
+Das Datenbankschema besteht aus den vier in Abbildung \ref{pic:database-scheme} dargestellten Entitäten \textit{Measurement}, \textit{Data}, \textit{Mood} und \textit{Type}. 
 \begin{figure}[H]
 	\centering
 	\visioToPDF{images/database-schema.pdf}
@@ -119,6 +123,7 @@ Zur Speicherung sämtlicher Messungen, und damit verbundenen Datensätze, wird a
 	\label{pic:database-scheme}
 \end{figure}
 
+Tabelle \ref{tbl:database-entities} erläutert deren Aufgaben im Einzelnen.
 \begin{table*}[h]
 	\centering
 		\begin{tabularx}{\textwidth}{l|X}
@@ -135,4 +140,6 @@ Zur Speicherung sämtlicher Messungen, und damit verbundenen Datensätze, wird a
 			Type & Speichert die möglichen Messungstypen, die jeder Messung zugeordnet werden\\
 			\hline
 		\end{tabularx}
+		\caption{Aufbau des \textit{Data}-Datenfeldes aus Tabelle \ref{tbl:pdu}}
+		\label{tbl:database-entities}
 \end{table*}
