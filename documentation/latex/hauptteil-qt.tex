@@ -61,13 +61,13 @@ Beim Eintreffen eines Datagramms wird zunächst überprüft ob es sich dabei um 
 Bei dem Magic-Packet handelt es sich um den ASCII-String der UUID ''86417ce4-4f19-4a59-ae27-f404653e9751''.
 
 \subsubsection{DataReceiver}
-Die DataReceiver-Klasse nimmt das eigentliche Parsing unter Beachtung der Network-Byte-Order (BigEndian) des vom Smartphone erhaltenen Byte-Vektors vor. Sie abstrahiert lediglich die Byte-Vektor-Darstellung der Daten von der vom Modell benötigten Listen-Repräsentation. Die Klasse ist als Singleton implementiert, da sie aufgrund des verwendeten Signal-Slot-Konzepts instanziiert werden muss.\\
+Die DataReceiver-Klasse nimmt das eigentliche Parsing des vom Smartphone erhaltenen Byte-Vektors unter Beachtung der Network-Byte-Order vor. Sie abstrahiert lediglich die Byte-Vektor-Darstellung der Daten von der vom Modell benötigten Listen-Repräsentation. Die Klasse ist als Singleton implementiert, da sie aufgrund des verwendeten Signal-Slot-Konzepts instanziiert werden muss.\\
 \\
 Der Parsevorgang wird mit Hilfe eines Zustandsautomaten realisiert, da die zu erwartenden Daten einem festgelegten Schema folgen müssen.\\
 \\
 Nach einem erfolgreichen Parsevorgang werden die so gewonnenen Datensätze an die ImportExport-Klasse übermittelt und der FilterController mit einem Signal über das Eintreffen neuer Daten benachrichtigt.\\
 \\
-In Tabelle \ref{tbl:pdu} wird das für die Datenübertragung verwendete Protokoll erläutert. Das \textit{Data}-Datenfeld darf dabei als einziges Datenfeld mehrfach vorkommen und dient zur Übertragung der einzelnen vorgenommenen Messungen während eines Gesamt-Messvorgangs. Bei einer Ruhemessung ist hier ein einziger Datensatz zu erwarten. Bei einer Aktivitätsmessung ist die Anzahl der \textit{Data}-Datensätze abhängig von der Dauer der Messung und des konfigurierten Messintervalls.
+In den Tabellen \ref{tbl:pdu} und \ref{tbl:datafield-description} wird das für die Datenübertragung verwendete Protokoll erläutert. Das \textit{Data}-Datenfeld darf dabei als einziges Datenfeld mehrfach vorkommen und dient zur Übertragung der einzelnen vorgenommenen Messungen während eines Gesamt-Messvorgangs. Bei einer Ruhemessung ist hier ein einziger Datensatz zu erwarten. Bei einer Aktivitätsmessung ist die Anzahl der \textit{Data}-Datensätze abhängig von der Dauer der Messung und des konfigurierten Messintervalls. Weiterhin dient ein leeres \textit{Data}-Feld als Sentinel um das korrekte Ende der Übertragung (EOT) zu signalisieren.
 \begin{table*}[h]
 	\centering
 		\begin{tabularx}{\textwidth}{l|l|l|X}
@@ -81,11 +81,29 @@ In Tabelle \ref{tbl:pdu} wird das für die Datenübertragung verwendete Protokol
 			\hline
 			Average & \texttt{0x02} & 2 & Durchschnitt aller Messwerte\\
 			\hline
-			Data & \texttt{0xff} & 12 & Datensatz eines Messpunktes\\
+			Data & \texttt{0xff} & 12/0 & Datensatz eines Messpunktes/EOT\\
 			\hline
 		\end{tabularx}
 		\caption{Protokoll-Datenfelder der Datenübertragung (Länge in Byte)}
 		\label{tbl:pdu}
+\end{table*}
+
+\begin{table*}[h]
+	\centering
+		\begin{tabularx}{\textwidth}{l|l|l|X}
+			\hline
+			Bezeichnung & Länge & Typ & Beschreibung \\
+			\hline
+			\hline
+			Zeitstempel & 8 & ulong & Zeitpunkt in Millisekunden des aktuellen Messpunktes\\
+			\hline
+			Puls & 2 & ushort & Pulswert dieses Messpunktes\\
+			\hline
+			Schritte & 2 & ushort & Anzahl der Schritte (inkrementell)\\
+			\hline
+		\end{tabularx}
+		\caption{Aufbau des \textit{Data}-Datenfeldes aus Tabelle \ref{tbl:pdu}}
+		\label{tbl:datafield-description}
 \end{table*}
 
 \subsection{Datenspeicherung}
