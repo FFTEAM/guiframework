@@ -57,11 +57,66 @@ TODO
 \subsection{Tests}
 Es werden unterschiedliche Testfälle hinsichtlich Fehlerverhalten bei den vorgesehenen Ausführungsroutinen angefertigt und geprüft. Die Testfälle und deren Ergebnisse werden tabellarisch aufgelistet.
 \subsubsection{Wearable-App}
-Im Vordergrund steht bei der Wearable-App die ständige Definiertheit des Zustandsautomaten. In folgender Tabelle werden alle Zustände und Folgezustände aufgelistet und verifiziert. 
-TODO TABELLE
+Im Vordergrund steht bei der Wearable-App die ständige Definiertheit des Zustandsautomaten. In folgender Tabelle \ref{tbl:testcases_wearable} werden alle Zustände, Zustandsänderungen und Folgezustände aufgelistet und verifiziert. Die in Abbildung \ref{fig:structure_wearable} gezeigte Zustandsabfolge gilt hier als Referenz.
+
+\begin{table*}[h]
+	\centering
+	  \rowcolors{1}{}{lightgray}
+		\begin{tabularx}{\textwidth}{lXlc}
+			\textbf{Zustand} 			& \textbf{Änderung} 	& \textbf{Folgezustand} 	&  \\
+			Start (1) 						& Starte Messung 			& Messungsabfrage (2) 		& \ok \\
+			Messungsabfrage (2) 	& Aktivität 					& Aktivitätsmessung (3) 	& \ok \\
+			Aktivitätsmessung (3) & Pause 							& Aktivitätsmessung (3) 	& \ok \\
+			Aktivitätsmessung (3) & Stopp 							& Stimmungsabfrage (5) 		& \ok \\
+			Messungsabfrage (2) 	& Ruhe 								& Ruhemessung (4) 				& \ok \\
+			Ruhemessung (4) 			& Stopp 							& Stimmungsabfrage (5) 		& \ok \\
+			Stimmungsabfrage (5) 	& + Verbindung 				& Start (1) 							& \ok \\
+			Stimmungsabfrage (5) 	& - Verbindung 				& Retry-Abfrage (6) 			& \ok \\
+			Retry-Abfrage (6) 		& Retry + Verbindung 	& Start (1) 							& \ok \\
+			Retry-Abfrage (6) 		& Retry - Verbindung 	& Retry-Abfrage (6) 			& \ok \\
+		\end{tabularx}
+		\caption{Testfälle: Wearable}
+		\label{tbl:testcases_wearable}
+\end{table*}
+
 \subsubsection{Handheld-App}
-Die Handheld-App muss in der Rolle des Daten-Vermittlers zwischen Wearable-Gerät und IP-Endgerät die Messdaten zuverlässig und unverändert weiterleiten. Die korrekte Darstellung von Messdaten ist ebenfalls ein Testkriterium. Außerdem wird die Anwendung und Übertragung von Einstellungen geprüft. Die nachstehende Tabelle zeigt die Testkriterien auf.
-TODO TABELLE
+Die Handheld-App muss in der Rolle des Daten-Vermittlers zwischen Wearable-Gerät und IP-Endgerät die Messdaten zuverlässig und unverändert weiterleiten. Die korrekte Darstellung von Messdaten ist ebenfalls ein Testkriterium. Außerdem wird die Anwendung und Übertragung von Einstellungen geprüft. Die nachstehende Tabellen \ref{tbl:testcases_handheld_behavior} und \ref{tbl:testcases_handheld_settings} zeigen die Testkriterien auf.
+
+\begin{table*}[h]
+	\centering
+	  \rowcolors{1}{}{lightgray}
+		\begin{tabularx}{\linewidth}{Xc}
+			\textbf{Testfall}																		& \\
+			Daten auf grafischer Oberfläche korrekt anzeigen		& \ok \\
+			Daten mit Hintergrund-Dienst versenden							& \ok \\
+			Daten mit grafischer Oberfläche versenden						& \ok \\
+			Toast über Versende-Status anzeigen									& \ok \\
+			Daten löschen			 																	& \ok \\
+			Zufällige Daten erzeugen (Debugmodus)								& \ok \\
+			Alle Datensätze versenden (Debugmodus)							& \ok \\
+			Daten bei nur bei erfolgreicher Verbindung löschen	& \ok \\
+		\end{tabularx}
+		\caption{Testfälle: Handheld-Verhalten}
+		\label{tbl:testcases_handheld_behavior}
+\end{table*}
+
+\begin{table*}[h]
+	\centering
+	  \rowcolors{1}{}{lightgray}
+		\begin{tabularx}{\linewidth}{Xlc}
+			\textbf{Einstellung}						& \textbf{Typ} 				& \\
+			Erinnerung											& Wearable 						& \ok \\
+			Bildschirm angeschaltet lassen 	& Wearable 						& \ok \\
+			Messungsintervall 							& Wearable 						& \ok \\
+			Sende Daten direkt 							& Handheld 						& \ok \\
+			Öffne App automatisch						& Handheld 						& \ok \\
+			Löschen nach Versand						& Handheld 						& \ok \\
+			Statische Ziel-Adresse					& Handheld 						& \ok \\
+			Debug-Modus							 				& Handheld 						& \ok \\
+		\end{tabularx}
+		\caption{Testfälle: Handheld-Einstellungen}
+		\label{tbl:testcases_handheld_settings}
+\end{table*}
 
 %\lstset{language=Java}
 %\begin{lstlisting}[caption=Listing, label=lst:Listing]
