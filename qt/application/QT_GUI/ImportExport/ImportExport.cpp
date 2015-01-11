@@ -165,6 +165,44 @@ void ImportExport::insertMeasurement(QList<rawData>& dataList, quint8 type, quin
     quint64 timestamp = dataList[0].timeStamp; // starttime
     quint64 duration = dataList[dataEntries-1].timeStamp - timestamp; // endtime
 
+    // check if measurement is already stored in db:
+    QSqlQuery selectMeasurement(mDataBase);
+    selectMeasurement.prepare(
+                "SELECT "
+                    "m.id "
+                "FROM "
+                    "Measurement m "
+                "WHERE "
+                    "m.type = :type "
+                "AND "
+                    "m.mood = :mood "
+                "AND "
+                    "m.average = :average "
+                "AND "
+                    "m.timestamp = :timestamp "
+                "AND "
+                    "m.duration = :duration;"
+                );
+    selectMeasurement.bindValue(":type", type);
+    selectMeasurement.bindValue(":mood", mood);
+    selectMeasurement.bindValue(":average", average);
+    selectMeasurement.bindValue(":timestamp", timestamp);
+    selectMeasurement.bindValue(":duration", duration);
+
+    if (!selectMeasurement.exec())
+    {
+        qDebug() << "FATAL selectMeasurement.exec(): " << selectMeasurement.lastError().databaseText() << " - " << selectMeasurement.lastError().driverText();
+        qDebug() << "Executed Query: " << selectMeasurement.executedQuery();
+
+        return;
+    }
+    else if (selectMeasurement.next())
+    {
+        qDebug() << "This Measurement seem to be already inserted to this database! Ignoring it...";
+
+        return;
+    }
+
     mDataBase.transaction();
 
     insertMeasurementQuery.bindValue(":type", type);
