@@ -20,7 +20,6 @@ SOURCES +=  main.cpp \
             Model/inactivesensorcalcmodel.cpp \
             Model/sensorcalcmodel.cpp \
             ImportExport/ImportExport.cpp \
-            Settings/Settings.cpp \
             Model/selectionmodel.cpp \
             Controller/selectioncontroller.cpp \
             ImportExport/MeasureType.cpp \
@@ -28,7 +27,8 @@ SOURCES +=  main.cpp \
             Controller/initdiagramscontroller.cpp \
             Controller/filtercontroller.cpp \
             Controller/tableselectioncontroller.cpp \
-            Controller/printcontroller.cpp
+            Controller/printcontroller.cpp \
+    Settings/Settings.cpp
 
 RESOURCES += qml.qrc \
 
@@ -48,7 +48,6 @@ HEADERS += \
             Model/inactivesensorcalcmodel.h \
             Model/activesensorcalcmodel.h \
             ImportExport/ImportExport.h \
-            Settings/Settings.h \
             Model/selectionmodel.h \
             Controller/selectioncontroller.h \
             ImportExport/MeasureType.h \
@@ -56,7 +55,8 @@ HEADERS += \
             Controller/initdiagramscontroller.h \
             Controller/filtercontroller.h \
             Controller/tableselectioncontroller.h \
-            Controller/printcontroller.h
+            Controller/printcontroller.h \
+    Settings/Settings.h
 
 DESTPATH = .
 target.path = $$DESTPATH
