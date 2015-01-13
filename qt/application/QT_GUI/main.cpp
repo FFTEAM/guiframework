@@ -74,12 +74,13 @@ int main(int argc, char *argv[])
     myappTranslator.load(":/Language_Files/app_" + QLocale::system().name() + ".qm");
     app.installTranslator(&myappTranslator);
 
-    Settings& test = Settings::getInstance();
-    if (!test)
+    Settings& settings = Settings::getInstance();
+    if (!settings)
     {
         qDebug("FATAL error while instanciating Settings!!");
         return 1;
     }
+
     /******************************************
     * instanciate dataStorage
     * has to be referenced to the model

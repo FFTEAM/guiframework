@@ -1,3 +1,18 @@
+//#########################################################################################
+// Projekt: Heart Rate 2 go
+// Copyright: 2014
+//#########################################################################################
+
+/**
+  * @file   ImportExport.cpp
+  * @author Patrick Mathias, Markus Nebel
+  * @author responsible: Markus Nebel
+  * @date   12.12.2014 14:33:34 GMT
+  *
+  * @brief  Implementation file of ImportExport class
+  *
+  */
+
 #include "ImportExport.h"
 #include "MeasureType.h"
 #include "MoodType.h"
@@ -251,9 +266,6 @@ void ImportExport::insertMeasurement(QList<rawData>& dataList, quint8 type, quin
     mDataBase.commit();
 }
 
-/** getter
- */
-
 QList<const SensorData*> ImportExport::measurements(quint8 aType)
 {
     QList<const SensorData*> dataList;
@@ -489,65 +501,6 @@ QList<QString> ImportExport::months(quint8 aType, const QDate& aYear)
         if (!dataList.contains(monthStr))
         {
             dataList.push_back(monthStr);
-        }
-    }
-
-    selectMeasurement.finish();
-
-    return dataList;
-}
-
-QList<QString> ImportExport::weeks(quint8 aType, const QDate& aYear, const QDate& aMonth)
-{
-    QList<QString> dataList;
-
-    QSqlQuery selectMeasurement(mDataBase);
-    quint64 startTimeStamp = QDateTime(aYear).addMonths(aMonth.month()-1).toMSecsSinceEpoch();
-    quint64 endTimeStamp = QDateTime(aYear).addMonths(aMonth.month()).toMSecsSinceEpoch();
-
-    selectMeasurement.prepare(
-                "SELECT "
-                    "timestamp "
-                "FROM "
-                    "Measurement "
-                "WHERE "
-                    "type = :type "
-                "AND "
-                    "timestamp >= :startTimeStamp "
-                "AND "
-                    "timestamp <= :endTimeStamp "
-                "ORDER BY "
-                    "timestamp "
-                "ASC;"
-                );
-
-    selectMeasurement.bindValue(":type", aType);
-    selectMeasurement.bindValue(":startTimeStamp", startTimeStamp);
-    selectMeasurement.bindValue(":endTimeStamp", endTimeStamp);
-
-    if (!selectMeasurement.exec())
-    {
-        qDebug() << "FATAL selectMeasurement.exec(): " << selectMeasurement.lastError().databaseText() << " - " << selectMeasurement.lastError().driverText();
-        qDebug() << "Executed Query: " << selectMeasurement.executedQuery();
-
-        return dataList;
-    }
-
-    quint64 timestamp;
-
-    QString weekNum;
-
-    while (selectMeasurement.next())
-    {
-        timestamp = selectMeasurement.value(0).toLongLong();
-
-        QDateTime weekDate = QDateTime::fromMSecsSinceEpoch(timestamp);
-        quint8 week = weekDate.date().weekNumber();
-        weekNum = QString(week);
-
-        if (!dataList.contains(weekNum))
-        {
-            dataList.push_back(weekNum);
         }
     }
 
