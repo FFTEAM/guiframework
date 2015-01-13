@@ -58,7 +58,7 @@ public class NetworkBroadcast {
                     socket.setSoTimeout(TIMEOUT_MS);
                     socket.setReuseAddress(true);
 
-                    InetAddress adr = getBroadcastAddress(); // TODO ?
+                    InetAddress adr = getBroadcastAddress();
                     System.out.println(adr.getHostAddress());
                     socket.setBroadcast(true);
                     DatagramPacket packet_out =
