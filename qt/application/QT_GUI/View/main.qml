@@ -16,18 +16,6 @@ ApplicationWindow
     minimumHeight: 600
 
     Action {
-        objectName: "settingsActionName"
-        id: settingsActionID
-        text: "&Settings"
-        tooltip: "Set configuration"
-        onTriggered: {
-            var component = Qt.createComponent("qrc:/View/SettingsDialog.qml");
-            var window = component.createObject(rootWindow);
-            window.show;
-        }
-    }
-
-    Action {
         signal printActionIsTriggered();
 
         objectName: "printActionName"
@@ -46,11 +34,6 @@ ApplicationWindow
                MenuItem { text: qsTr("Print"); action: printActionID }
                MenuSeparator {}
                MenuItem { text: qsTr("Exit"); onTriggered: Qt.quit() }
-        }
-
-        Menu {
-               title: qsTr("?")
-               MenuItem { text: qsTr("About"); onTriggered: Qt.quit() }
         }
     }
 
@@ -114,14 +97,4 @@ ApplicationWindow
             iconSource: "qrc:/Images/running_black.png"
         }
     }
-
-    /*statusBar: StatusBar {
-        RowLayout {
-            anchors.fill: parent
-            Label {
-                text: "No device connected!"
-
-            }
-        }
-    }*/
 }
