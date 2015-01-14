@@ -15,6 +15,22 @@ Project repo for "gui frameworks"
 |
 |-- presentation		Power-Point Präsentation
 |
-|-- presentation		Power-Point Präsentation
-|
-|-- qt				Projekt für QT-Creator 3.2.2
+|-- qt				
+|   |-- application		Projekt für QT-Creator 3.2.2	
+|   |-- Example_Database	Beispiel Datenbank für QT-Anwendung
+
+
+
+Note:
+- Apk-Installations-Datei enthält sowhl die Wearable-App als auch die handheld-App.
+
+- Die Beispiel-Datenbank kann unter Windows folgendermaßen angewendet werden:
+
+	- Qt-Anwendung erstmalig starten und wieder schließen
+	  um  Benutzerordner anlegen zu lassen
+
+	- Datei "qt\Example_Database\pastMeasurements.db3" in den
+	  Benutzerordner (z.B. "C:\Users\<Name>\HeartRate2Go\")
+	  kopieren.
+
+	- Anwendung erneut starten
