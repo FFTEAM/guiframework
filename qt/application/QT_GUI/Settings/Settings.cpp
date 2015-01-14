@@ -38,10 +38,13 @@ Settings::Settings() :
     mSettings(),
     mDirectory(QDir::homePath() + "/HeartRate"),
     mIsValid(false),
-    mDataTimeFormat("DD.MM.YYYY HH:MM:SS"),
+    mDateFormat((QLocale::system().country() == QLocale::Germany ? "dd.MM.yyyy" : "MM/dd/yyyy")),
+    mTimeFormat((QLocale::system().country() == QLocale::Germany ? "hh:mm:ss" : "hh:mm:ss ap")),
     mDataDirectory(mDirectory.path())
 {
-    qDebug() << mDirectory.path();
+    qDebug() << mDataDirectory;
+    qDebug() << mDateFormat;
+    qDebug() << mTimeFormat;
 
     if (!mDirectory.exists())
     {

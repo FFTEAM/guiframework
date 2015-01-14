@@ -50,24 +50,14 @@ void ActiveSensorCalcModel::updateCalcValues(const SensorModel& aModel)
     beginResetModel();
     if(0 == aModel.getSensorModelCount())
     {
-        m_calcSensorList.append(CalcSensorData(QObject::tr("duration:"), 0.0, QObject::tr("hours")));
+        m_calcSensorList.append(CalcSensorData(QObject::tr("Step count")+":", 0, ""));
     }
     else
     {
-        // get start date of data
-        QDateTime startDate =  aModel.getSingleSensorData(0)->getDate();
-
-        // get end date of data
-        QDateTime endDate = aModel.getSingleSensorData(aModel.getSensorModelCount() - 1)->getDate();
-
-        // calculate duration in seconds
-        const int durationInSeconds = endDate.toTime_t() - startDate.toTime_t();
-
-        // calculate duration in hours
-        const double duration = durationInSeconds/3600.0;
+        const quint64 steps = aModel.getSingleSensorData(aModel.getSensorModelCount() - 1)->getStepCount();
 
         // set result to model
-        m_calcSensorList.append(CalcSensorData(QObject::tr("duration:"), QString::number(duration, 'f', 2).toDouble(), QObject::tr("hours")));
+        m_calcSensorList.append(CalcSensorData(QObject::tr("Step count")+":", steps, ""));
     }
     endResetModel();
 }

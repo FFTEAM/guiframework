@@ -17,7 +17,7 @@
 
 SensorData::SensorData(const QDateTime& aDate,
                        quint16 aHeartRate,
-                       quint16 aStepCount,
+                       quint64 aStepCount,
                        quint64 aId) :   m_date(aDate),
                                         m_heartRate(aHeartRate),
                                         m_stepCount(aStepCount),
@@ -37,7 +37,7 @@ quint16 SensorData::getHeartRate() const
     return m_heartRate;
 }
 
-quint16 SensorData::getStepCount() const
+quint64 SensorData::getStepCount() const
 {
     return m_stepCount;
 }

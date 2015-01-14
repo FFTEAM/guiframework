@@ -273,7 +273,7 @@ Rectangle {
         }
 
         GroupBox {
-            title: qsTr("Raw data:")
+            title: qsTr("Available Measurements")
             anchors.right: parent.right
 
             height: parent.height
@@ -297,7 +297,14 @@ Rectangle {
                 {
                     role: "date";
                     title: qsTr("Date");
-                    width: inactiveTableId.width/3 * 2
+                    width: inactiveTableId.width/3
+                }
+
+                TableViewColumn
+                {
+                    role: "time";
+                    title: qsTr("Time");
+                    width: inactiveTableId.width/3
                 }
 
                 TableViewColumn

@@ -43,9 +43,11 @@ class SensorModel : public QAbstractListModel
         enum SensorRoles
         {
             SENSOR_MEASUREPOINT,         /**< Role for seconds since start */
-            SENSOR_DATE_ROLE,            /**< Role for time stamp */
+            SENSOR_DATE_ROLE,            /**< Role for date stamp */
+            SENSOR_TIME_ROLE,            /**< Role for time stamp */
             SENSOR_HEART_RATE_ROLE,      /**< Role for heart rate */
-            SENSOR_STEP_COUNT_ROLE       /**< Role for step count */
+            SENSOR_STEPS_ROLE,           /**< Role for step count */
+            SENSOR_DURATION_ROLE         /**< Role for duration */
         };
 
         /**

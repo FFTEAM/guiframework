@@ -42,7 +42,7 @@ class SensorData
          * @brief getStepCount GETTER-Method to get current step count
          * @return Current step count
          */
-        quint16 getStepCount() const;
+        quint64 getStepCount() const;
 
         /**
          * @brief setDate SETTER-Method to set new time
@@ -75,7 +75,7 @@ class SensorData
          * @param aStepLength   New step length value
          * @param aId           New id value
          */
-        SensorData(const QDateTime &aDate, quint16 aHeartRate, quint16 aStepLength, quint64 aId);
+        SensorData(const QDateTime &aDate, quint16 aHeartRate, quint64 aStepLength, quint64 aId);
 
     private:
 
@@ -95,7 +95,7 @@ class SensorData
          * @brief m_stepCount
          * @var Actual step count
          */
-        quint16 m_stepCount;
+        quint64 m_stepCount;
 
         /**
          * @brief m_id

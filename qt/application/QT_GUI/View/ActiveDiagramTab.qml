@@ -173,7 +173,7 @@ Rectangle {
 
                         TableViewColumn
                         {
-                            role: "stepCount";
+                            role: "steps";
                             title: qsTr("Steps");
                             width: parent.width/3
                         }
@@ -298,7 +298,7 @@ Rectangle {
 
         GroupBox {
             id: grpRawData
-            title: qsTr("Raw data:")
+            title: qsTr("Available Measurements")
             anchors.right: parent.right
             anchors.top: grpFilter.bottom
             //anchors.bottom: parent.bottom
@@ -330,20 +330,26 @@ Rectangle {
                 {
                     role: "date";
                     title: qsTr("Date");
-                    width: tableRunId.width/4 * 2
+                    width: tableRunId.width/4
+                }
+                TableViewColumn
+                {
+                    role: "time";
+                    title: qsTr("Time");
+                    width: tableRunId.width/4
                 }
                 TableViewColumn
                 {
                     role: "heartRate";
                     title: qsTr("heart rate");
-                    width: tableRunId.width/4 * 2
+                    width: tableRunId.width/4
                 }
-                //TableViewColumn
-                //{
-                //    role: "stepCount";
-                //    title: qsTr("Step count");
-                //    width: tableRunId.width/4
-                //}
+                TableViewColumn
+                {
+                    role: "duration";
+                    title: qsTr("Duration");
+                    width: tableRunId.width/4
+                }
 
                 itemDelegate:
                 Item {

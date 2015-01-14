@@ -65,9 +65,14 @@ public:
     ~Settings();
 
     /**
-     * @brief mDataTimeFormat representin the selected mDateTimeFormat
+     * @brief mDataFormat representing the operating system defined DateFormat
      */
-    QString mDataTimeFormat;
+    const QString mDateFormat;
+
+    /**
+     * @brief mTimeFormat representing the operating system defined TimeFormat
+     */
+    const QString mTimeFormat;
 
     /**
      * @brief mDataDirectory string of the HeartRate2Go user directory

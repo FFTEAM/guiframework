@@ -315,7 +315,7 @@ QList<const SensorData*> ImportExport::measurements(quint8 aType)
         measurementId = selectMeasurement.value(0).toInt();
         average = selectMeasurement.value(1).toInt();
         timestamp = selectMeasurement.value(2).toLongLong();
-        duration = selectMeasurement.value(3).toInt();
+        duration = selectMeasurement.value(3).toLongLong();
         type = selectMeasurement.value(4).toString();
         mood = selectMeasurement.value(5).toString();
 

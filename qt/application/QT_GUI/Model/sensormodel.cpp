@@ -14,6 +14,7 @@
   */
 
 #include "sensormodel.h"
+#include "Settings/Settings.h"
 
 SensorModel::SensorModel() : QAbstractListModel(0)
 {
@@ -93,8 +94,10 @@ QVariant SensorModel::data(const QModelIndex &aIndex, int aRole) const
     {
         case SENSOR_HEART_RATE_ROLE:    return sensorData->getHeartRate(); break;
         case SENSOR_MEASUREPOINT:       return sensorData->getDate().toTime_t(); break;
-        case SENSOR_DATE_ROLE:          return sensorData->getDate(); break;
-        case SENSOR_STEP_COUNT_ROLE:    return sensorData->getStepCount(); break;
+        case SENSOR_TIME_ROLE:          return sensorData->getDate().toString(Settings::getInstance().mTimeFormat); break;
+        case SENSOR_DATE_ROLE:          return sensorData->getDate().toString(Settings::getInstance().mDateFormat); break;
+        case SENSOR_STEPS_ROLE:         return sensorData->getStepCount(); break;
+        case SENSOR_DURATION_ROLE:      qDebug() << "ms: " << sensorData->getStepCount(); return QTime::fromMSecsSinceStartOfDay(sensorData->getStepCount()).toString(Settings::getInstance().mTimeFormat); /*in this case it's the duration!*/; break;
 
         default:                        return QVariant();
     }
@@ -111,8 +114,10 @@ QHash<int, QByteArray> SensorModel::roleNames() const
     QHash<int, QByteArray> roles;
     roles[SENSOR_HEART_RATE_ROLE]   = "heartRate";
     roles[SENSOR_MEASUREPOINT]      = "measurepoint";
+    roles[SENSOR_TIME_ROLE]         = "time";
     roles[SENSOR_DATE_ROLE]         = "date";
-    roles[SENSOR_STEP_COUNT_ROLE]   = "stepCount";
+    roles[SENSOR_STEPS_ROLE]        = "steps";
+    roles[SENSOR_DURATION_ROLE]     = "duration";
 
     return roles;
 }
