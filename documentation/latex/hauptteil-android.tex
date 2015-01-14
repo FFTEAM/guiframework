@@ -43,7 +43,7 @@ Das Handheld-Gerät soll die Messdaten per Bluetooth an ein Bluetooth-fähiges E
 \subsection{Vorbereitung}
 Im Rahmen des Projektes werden eine Motorola Moto 360 Smartwatch und ein Samsung Galaxy S4 Smartphone als Testgeräte verwendet. Auf der Moto 360 läuft Android Wear in der Version 5.0 und auf dem Galaxy S4 läuft Android in der Version 4.4 (Cyanogenmod 11 Custom-Rom). Die Geräte sind grundsätzlich gekoppelt und die gleichnamige Google App "`Android Wear"' verwaltet auf dem Smartphone (im Hintergrund) die Verbindung zur Smartwatch. Die Entwicklung erfolgt mit Hilfe der Entwicklungsumgebung "`Android Studio"', die ebenfalls von Google veröffentlicht wurde. Dabei kann die Smartphone-App direkt über USB "`debugged"' werden, während der Debugging-Vorgang bei der Smartwatch über das gekoppelte Smartphone per Bluetooth gebrückt wird.
 
-\subsection{Einschränkungen}
+\subsection{Einschränkungen} \label{sec:einschraenkungen}
 Bei Verwendung der Bluetooth-Library in der Qt-Framework Anwendung konnten Inkompatibilitäten nicht umgegangen werden (Näheres im Abschnitt QT Framework Anwendung). Aus diesem Grund soll die von der Handheld-App ausgehende Verbindung als TCP/IP Verbindung implementiert werden. Dabei soll ein UDP-Broadcast verwendet werden, um die Handheld-App im Netzwerk bekannt zu machen. Alternativ kann aber auch eine feste Adressierung angegeben werden. Da das Software-Paket sich letztlich an den gewöhnlichen Heimanwender richtet, ist grundsätzlich ein Heimnetzwerk mit Router und verbundenen Endgeräten zu erwarten und diese Anpassung sogar der Bluetooth-Variante vorzuziehen, da Bluetooth-Hardware zwar an Notebooks, jedoch vergleichsweise selten an feststehenden PCs verfügbar ist.
 
 \subsection{Implementierung}

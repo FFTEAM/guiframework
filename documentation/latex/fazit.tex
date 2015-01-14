@@ -10,7 +10,30 @@ Text
 % weitere sinnvolle Angaben
 % Verwendete Literatur und Quellen
 \subsection{Retrospektive} \label{sec:Retrospektive}
-text
+Bei der Umsetzung des geplanten Projektes traten nur wenige Schwierigkeiten auf. Die Arbeitsgruppe konnte durch Internet-Messaging zeitunabhängig kommunizieren und Gedanken, Anregungen, Kritik sowie Ideen austauschen. Die Projektdateien unterlagen vollständig einer Online-Versionskontrolle, um gemeinsame Zugriffe zu koordinieren und Änderungen angemessen protokollieren zu können. Durch die Trennung von Design und Programmlogik innerhalb der beiden verwendeten Frameworks konnten die Zuständigkeiten von Beginn an klar geregelt werden (siehe Tabelle \ref{tbl:zustaendigkeiten}).\\
+\begin{table*}[h]
+	\centering
+		\begin{tabularx}{\textwidth}{l|X}
+			\hline
+			Teilnehmer & Arbeitsaufgabe \\
+			\hline
+			\hline
+			Matthias Böffel & Android Programmlogik\\
+			\hline
+			Patrick Mathias & Qt Design\\
+			\hline
+			Markus Nebel & Qt Programmlogik\\
+			\hline
+			Janina Sauer & Android Design, medizinisches Wissen\\
+			\hline
+		\end{tabularx}
+		\caption{Arbeitsaufgaben der Teilnehmer}
+		\label{tbl:zustaendigkeiten}
+\end{table*}
+\\
+Es konnten alle im Konzeptpapier geforderten Grundfunktionalitäten implementiert werden. Darüber hinaus wurden die meisten optionalen Features umgesetzt. Lediglich die Bewertung der Messdaten durch Benutzerprofile mit Anamnese-Werten und die Berechnung des Kalorienverbrauchs flossen aufgrund mangelnder Zeit nicht mehr in das Projekt mit ein.Außerdem musste die TCP-Übertragung als Alternative zur ausgehenden Bluetooth-Verbindung verwendet werden.
+\\[0.5cm]
+Das QT-Framework und das Android Framework wurden von den Teilnehmern bereits in anderen Projekten verwendet. Die QML-Komponente und das Android Wear Framework waren allerdings bis dahin unbekannt und erforderten Einarbeitung in die Materie. In den jeweiligen Abschnitten (Android: Abschnitt \ref{sec:einschraenkungen} / QT: Abschnitt \ref{sec:Probleme bezüglich QT}) werden weitere Probleme bzw. komplexe Punkte aufgezeigt.
 % Retrospektive (kritischer Rückblick, Vergleich zu ursprüngliche Planung)
 % - Schwierigkeit bei der Entscheidung, was schaffen wir in der vorgegen Zeit?
 % - Übertragung von Smartphone zur GUI nicht über Bluetooth möglich 
