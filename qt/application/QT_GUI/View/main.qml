@@ -30,7 +30,6 @@ ApplicationWindow
         id: menubarID
         Menu {
                title: qsTr("File")
-
                MenuItem { text: qsTr("Print"); action: printActionID }
                MenuSeparator {}
                MenuItem { text: qsTr("Exit"); onTriggered: Qt.quit() }
