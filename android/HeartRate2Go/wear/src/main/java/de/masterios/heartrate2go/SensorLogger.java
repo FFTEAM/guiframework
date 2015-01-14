@@ -43,6 +43,10 @@ public class SensorLogger implements SensorEventListener {
         mStartStepsOverall = STEP_INIT_VALUE;
     }
 
+    /**
+     * Set interval of sensor logging
+     * @param seconds
+     */
     public void setMeasureInterval(int seconds) {
         boolean currentIsLogging = mIsLogging;
         if(currentIsLogging) {
@@ -61,6 +65,9 @@ public class SensorLogger implements SensorEventListener {
         }
     }
 
+    /**
+     * Start Sensor-Logging
+     */
     public void start() {
         if(null != mSensorManager) {
             mSensorManager.registerListener(this, mHeartRateSensor, mMeasureIntervalUs);
@@ -70,6 +77,9 @@ public class SensorLogger implements SensorEventListener {
         }
     }
 
+    /**
+     * Pause sensor-Logging
+     */
     public void pause() {
         if(null != mSensorManager) {
             mSensorManager.unregisterListener(this, mHeartRateSensor);
@@ -79,6 +89,9 @@ public class SensorLogger implements SensorEventListener {
         }
     }
 
+    /**
+     * Stop Sensor-Logging
+     */
     public void stop() {
         pause();
         mCurrentHeartRate = 0;

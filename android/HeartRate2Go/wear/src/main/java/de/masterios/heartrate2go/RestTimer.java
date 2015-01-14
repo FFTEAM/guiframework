@@ -19,19 +19,33 @@ public class RestTimer {
     TimerTask mTimerTask;
 
     RestTimerListener mRestTimerListener;
+
+    /**
+     * Set Listener for on-timer-update and on-timer-fineshed methods
+     * @param restTimerListener
+     */
     public void setRestTimerListener(RestTimerListener restTimerListener) {
         mRestTimerListener = restTimerListener;
     }
 
+    /**
+     * Reset Rest-Timer
+     */
     private void reset() {
         mTimeSpanMs = mMeasureDurationMs;
     }
 
+    /**
+     * Start Rest-Timer
+     */
     public void start() {
         mStartTimeMs = System.currentTimeMillis();
         createNewTimers();
     }
 
+    /**
+     * Pause Rest-Timer
+     */
     public void pause() {
         if (null != mTimer) {
             mTimer.cancel();
@@ -44,11 +58,17 @@ public class RestTimer {
         }
     }
 
+    /**
+     * Stop Rest-Timer
+     */
     public void stop() {
         pause();
         reset();
     }
 
+    /**
+     * Creating new Timer and TimerTask objects
+     */
     private void createNewTimers() {
         mTimerTask = new TimerTask() {
             @Override
@@ -77,12 +97,20 @@ public class RestTimer {
         mTimer.schedule(mTimerTask, mUpdateIntervalMs, mUpdateIntervalMs);
     }
 
+    /**
+     * Set update interval for on-timer-update ticks
+     * @param updateIntervalMs
+     */
     public void setUpdateIntervalMs(int updateIntervalMs) {
         pause();
         mUpdateIntervalMs = updateIntervalMs;
         start();
     }
 
+    /**
+     * Set duration of measurement in milliseconds
+     * @param measureDurationMs
+     */
     public void setMeasureDurationMs(int measureDurationMs) {
         mMeasureDurationMs = measureDurationMs;
     }
