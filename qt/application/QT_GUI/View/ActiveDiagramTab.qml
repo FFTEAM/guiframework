@@ -336,14 +336,14 @@ Rectangle {
                 {
                     role: "heartRate";
                     title: qsTr("heart rate");
-                    width: tableRunId.width/4 * 2
+                    width: tableRunId.width/4
                 }
-                //TableViewColumn
-                //{
-                //    role: "stepCount";
-                //    title: qsTr("Step count");
-                //    width: tableRunId.width/4
-                //}
+                TableViewColumn
+                {
+                    role: "stepCount";
+                    title: qsTr("Step count");
+                    width: tableRunId.width/4
+                }
 
                 itemDelegate:
                 Item {

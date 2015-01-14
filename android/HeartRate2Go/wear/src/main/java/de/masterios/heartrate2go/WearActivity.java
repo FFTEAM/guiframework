@@ -88,6 +88,10 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         refreshSettings();
     }
 
+    /**
+     * Set current state: STARTED, PAUSED, STOPPED
+     * @param state
+     */
     private void setCurrentState(State state) {
         mCurrentState = state;
         refreshActionButtons();
@@ -103,6 +107,9 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         super.onPause();
     }
 
+    /**
+     * Apply current settings
+     */
     private void refreshSettings() {
         if(null != mSettings) {
             if (mSettings.getKeepScreenOn()) {
@@ -117,6 +124,9 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         }
     }
 
+    /**
+     * Getting gui elements as objects and apply inactive state (stopped)
+     */
     private void initUiElements() {
         mCurrentState = State.STOPPED;
 
@@ -138,6 +148,10 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         refreshActionButtons();
     }
 
+    /**
+     * Init Sensor-Logger and set behavior for event on-sensor-log
+     * @param context
+     */
     private void initSensorLogger(Context context) {
         mSensorLogger = new SensorLogger(context);
         mSensorLogger.setMeasureInterval(mSettings.getMeasureInterval());
@@ -151,7 +165,8 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
                         refreshTextViewSteps(steps);
 
                         if (State.STARTED == mCurrentState) {
-                            if(0 != heartRate) { // TODO implement setting maybe
+                            if(0 != heartRate) {
+                                // TODO maybe implement setting for allowing 0-measurements
                                 HeartRateData heartRateData =
                                         new HeartRateData(System.currentTimeMillis(), heartRate, steps);
                                 mHeartRateMeasure.add(heartRateData);
@@ -163,6 +178,9 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         });
     }
 
+    /**
+     * Init Running-Timer and set behavior for event on-timer-update
+     */
     private void initRunningTimer() {
         mRunningTimer = new RunningTimer();
         mRunningTimer.setRunningTimerListener(new RunningTimer.RunningTimerListener() {
@@ -194,6 +212,9 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         });
     }
 
+    /**
+     * Init Rest-Timer and set behavior for event on-timer-update and on-timer-finished
+     */
     private void initRestTimer() {
         mRestTimer = new RestTimer();
         mRestTimer.setRestTimerListener(new RestTimer.RestTimerListener() {
@@ -230,6 +251,9 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         });
     }
 
+    /**
+     * Init HeartRateMeasure and HeartRateDataSync objects and set behavior for event on-message-sent
+     */
     private void initHeartRateDataManager() {
         mHeartRateMeasure = HeartRateMeasure.getInstance();
         mHeartRateDataSync = HeartRateDataSync.getInstance(getBaseContext());
@@ -248,6 +272,9 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         });
     }
 
+    /**
+     * Refreshing buttons on gui related to current state
+     */
     private void refreshActionButtons() {
         switch(mCurrentState) {
             case STOPPED:
@@ -272,10 +299,16 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         }
     }
 
+    /**
+     * Start background animation
+     */
     private void startBackgroundAnimation() {
         if(null != mHeartAnimation) mHeartAnimation.start();
     }
 
+    /**
+     * Stop background animation
+     */
     private void stopBackgroundAnimation() {
         if(null != mHeartAnimation) {
             mHeartAnimation.stop();
@@ -313,6 +346,9 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         refreshActionButtons();
     }
 
+    /**
+     * Start Logging, set State to STARTED and mode-specified timer
+     */
     private void startLogging() {
         setCurrentState(State.STARTED);
         startBackgroundAnimation();
@@ -329,6 +365,9 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         }
     }
 
+    /**
+     * Set state to PAUSED and pause Sensor-Logger and Timer
+     */
     private void pauseLogging() {
         setCurrentState(State.PAUSED);
         stopBackgroundAnimation();
@@ -337,6 +376,9 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         if (null != mRunningTimer) mRunningTimer.pause();
     }
 
+    /**
+     * Set state to STOPPED and stop Sensor-Logger and Timer
+     */
     private void stopLogging() {
         setCurrentState(State.STOPPED);
         stopBackgroundAnimation();
@@ -408,6 +450,10 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         }
     }
 
+    /**
+     * Refresh heartrate textview on gui
+     * @param heartRate
+     */
     private void refreshTextViewHeartRate(int heartRate) {
         if (null != mTextViewHeartRate) {
             if (State.STOPPED == mCurrentState) {
@@ -423,6 +469,10 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         }
     }
 
+    /**
+     * Refresh steps textview on gui
+     * @param steps
+     */
     private void refreshTextViewSteps(int steps) {
         if (null != mTextViewSteps && null != mTableRowSteps) {
             if (State.STOPPED == mCurrentState || MeasureMode.REST == mHeartRateMeasure.getMeasureMode()) {
@@ -434,6 +484,10 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         }
     }
 
+    /**
+     * Refresh time textview on gui
+     * @param timeSpanMs
+     */
     private void refreshTextViewTime(long timeSpanMs) {
         if(null != mTextViewTime && null != mTableRowTime) {
             if(State.STOPPED == mCurrentState) {
@@ -446,7 +500,12 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         }
     }
 
-    private String getFormattedTimeSpan(long timeSpanMs) {
+    /**
+     * Convert timespan in milliseconds to Time-Strin with format hh:ss
+     * @param timeSpanMs
+     * @return
+     */
+    private static String getFormattedTimeSpan(long timeSpanMs) {
         int secondsOverall = (int) (timeSpanMs / 1000);
         int minutes = secondsOverall / 60;
         int seconds = secondsOverall % 60;
@@ -454,10 +513,18 @@ public class WearActivity extends Activity implements SharedPreferences.OnShared
         return minutes + ":" + String.format("%02d", seconds);
     }
 
+    /**
+     * Show short toast with specified message
+     * @param message
+     */
     private void showShortToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Show long toast with specified message
+     * @param message
+     */
     private void showLongToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }

@@ -18,7 +18,6 @@ public class DataLayerListenerService extends WearableListenerService {
     private static final String MESSAGE_RECEIVED_PATH = "/heartrate2go-message";
 
     SharedPreferences mSharedPreferences;
-
     NetworkBroadcast mNetworkBroadcast;
     HeartRateMeasure mHeartRateMeasure;
 
@@ -28,6 +27,7 @@ public class DataLayerListenerService extends WearableListenerService {
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        // If Network-Broadcast is used, send data after receiving broadcast answer
         mNetworkBroadcast = new NetworkBroadcast(this);
         mNetworkBroadcast.setBroadcastFinishedListener(new NetworkBroadcast.BroadcastFinishedListener() {
             @Override
@@ -55,6 +55,7 @@ public class DataLayerListenerService extends WearableListenerService {
                 mHeartRateMeasure.setDataFromString(data);
                 HeartRateFile.saveMeasureToFile(this, mHeartRateMeasure);
 
+                // if static ip is provided, send directly... otherwise use broadcast
                 boolean isSendDirectly = mSharedPreferences.getBoolean("preference_send_directly", false);
                 String ip = mSharedPreferences.getString("preference_static_ip", "");
                 if(isSendDirectly && null != mNetworkBroadcast && null != mHeartRateMeasure) {
