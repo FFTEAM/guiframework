@@ -170,5 +170,29 @@ Tabelle \ref{tbl:database-entities} erläutert deren Aufgaben im Einzelnen. Zu e
 			\hline
 		\end{tabularx}
 		\caption{Aufbau des \textit{Data}-Datenfeldes aus Tabelle \ref{tbl:pdu}}
-		\label{tbl:database-entities}
+		\label{tbl:database-entities}			
+\end{table*}
+
+\subsection{Evaluierung} \label{sec:Evaluierung}
+Auch hier werden unterschiedliche Testfälle hinsichtlich Fehlerverhalten bei den vorgesehenen Ausführungsroutinen angefertigt und geprüft. Die Testfälle und deren Ergebnisse werden tabellarisch aufgelistet.
+\subsubsection{Desktop Anwendung} \label{sec:Desktop Anwendung}
+Es ist wichtig, dass bei der Desktop Anwendung alle empfangen Daten in den verschiedenen Grafiken und Tabellen dargestellt und gespeichert werden. Die Tabelle ?? zeigt die Testkriterien im einzelnen auf. Da die Anwendung plattfromunabhänig ist, wird auf drei Betriebssystemen getestet, auf Windows 8.1, Mac OS Version 10.9.4 und Gentoo Linux 32 Bit Kernel 3.17.4-gentoo.
+
+\begin{table*}[h]
+	\centering
+	  \rowcolors{1}{}{lightgray}
+		\begin{tabularx}{\textwidth}{Xccc}
+			\textbf{Testfall} 												& \textbf{Windows 8.1} 	& \textbf{Mac OS} 	& \textbf{Gentoo}  \\
+				Daten über TCP von Smartphone empfangen		& \ok  								& \ok 			&\ok 								\\ 			 		Unterscheidung der Daten zwischen Ruhe- und Aktivitätsmessung		& \ok  			& \ok 							&\ok 									\\ 
+				Anzeigen der Daten als Kurvendiagramm bei Aktivitätsmessung		& \ok  								& \ok 							&									\ok 								\\ 
+				Anzeigen der Daten als Balkendiagramm bei Ruhemessung		& \ok  								& \ok 							&\ok 								\\ 
+				Dauerhafte Speicherung der aller Daten		& \ok  								& \ok 							&\ok 								\\
+				Darstellung in tabellarischer Form für beide Messtypen		& \ok  								& \ok 							&\ok 								\\
+				Mehrsprachigkeit		& \ok  								& \ok 							&\ok 								\\
+				Drucken der Daten	& \bad  								& \ok 							&\bad 								\\
+				Selektierung der Daten nach Datum		& \ok  								& \ok 							&\ok 								\\
+		
+		\end{tabularx}
+		\caption{Testfälle: Desktop Anwendung}
+		\label{tbl:Testfälle: Desktop Anwendung}
 \end{table*}
