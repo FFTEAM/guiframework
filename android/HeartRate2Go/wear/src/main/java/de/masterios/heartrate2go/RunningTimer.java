@@ -18,19 +18,33 @@ public class RunningTimer {
     TimerTask mTimerTask;
 
     RunningTimerListener mRunningTimerListener;
+
+    /**
+     * Set Listener for on-timer-update method
+     * @param runningTimerListener
+     */
     public void setRunningTimerListener(RunningTimerListener runningTimerListener) {
         mRunningTimerListener = runningTimerListener;
     }
 
+    /**
+     * Reset Running-Timer
+     */
     private void reset() {
         mTimeSpanMs = 0L;
     }
 
+    /**
+     * Start Running-Timer
+     */
     public void start() {
         mStartTimeMs = System.currentTimeMillis();
         createNewTimers();
     }
 
+    /**
+     * Pause Running-Timer
+     */
     public void pause() {
         if (null != mTimer) {
             mTimer.cancel();
@@ -43,11 +57,17 @@ public class RunningTimer {
         }
     }
 
+    /**
+     * Stop Running-Timer
+     */
     public void stop() {
         pause();
         reset();
     }
 
+    /**
+     * Creating new Timer and TimerTask objects
+     */
     private void createNewTimers() {
         mTimerTask = new TimerTask() {
             @Override
@@ -65,6 +85,10 @@ public class RunningTimer {
         mTimer.schedule(mTimerTask, mUpdateIntervalMs, mUpdateIntervalMs);
     }
 
+    /**
+     * Set update interval for on-timer-update ticks
+     * @param updateIntervalMs
+     */
     public void setUpdateIntervalMs(int updateIntervalMs) {
         pause();
         mUpdateIntervalMs = updateIntervalMs;

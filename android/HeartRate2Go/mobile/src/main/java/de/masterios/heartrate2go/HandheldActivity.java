@@ -82,6 +82,7 @@ public class HandheldActivity extends Activity implements AdapterView.OnItemSele
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        // Fetching gui-objects as objects
         mFilenameSpinner = (Spinner) findViewById(R.id.filename_spinner);
         mFilenameSpinner.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -139,6 +140,10 @@ public class HandheldActivity extends Activity implements AdapterView.OnItemSele
         refreshFilesList(this);
     }
 
+    /**
+     * Refreshing available files from application file directory and gui elements
+     * @param context
+     */
     private void refreshFilesList(Context context) {
         if(null != mDisplayNames) {
             List<String> fileNames = HeartRateFile.getMeasureFileNames(context);
@@ -187,6 +192,9 @@ public class HandheldActivity extends Activity implements AdapterView.OnItemSele
         super.onPause();
     }
 
+    /**
+     * Update gui-elements (especially from current HeartRateMeasure)
+     */
     private void refreshScreen() {
         boolean isDataAvailable = mDisplayNames.size() > 0;
 
@@ -232,7 +240,7 @@ public class HandheldActivity extends Activity implements AdapterView.OnItemSele
     }
 
     @Override
-         public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.handheld, menu);
         return true;
@@ -261,6 +269,9 @@ public class HandheldActivity extends Activity implements AdapterView.OnItemSele
         // nothing to do
     }
 
+    /**
+     * Load selected file as current HeartRateMeasure and load the datasets in graph view.
+     */
     private void addDataToGraph() {
         String selectedDate = (String) mFilenameSpinner.getSelectedItem();
         if(null != selectedDate && !selectedDate.equals("")) {
@@ -315,6 +326,10 @@ public class HandheldActivity extends Activity implements AdapterView.OnItemSele
         refreshScreen();
     }
 
+    /**
+     * Show Toast with specified message on screen
+     * @param message
+     */
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
@@ -327,6 +342,9 @@ public class HandheldActivity extends Activity implements AdapterView.OnItemSele
                 .show();
     }
 
+    /**
+     * Remove selected Measurement from list and delete file
+     */
     private void deleteCurrentMeasurement() {
         Context context = getBaseContext();
         String selectedDate = (String) mFilenameSpinner.getSelectedItem();
@@ -378,6 +396,9 @@ public class HandheldActivity extends Activity implements AdapterView.OnItemSele
             }
         });
     }
+
+
+    // ----------- DEBUG Methods -----------
 
     public void onButtonAddRandomMeasurementClick(View view) {
         HeartRateMeasure temp = HeartRateMeasure.getInstance();

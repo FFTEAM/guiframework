@@ -21,6 +21,10 @@ public class Settings {
         return mSharedPreferences;
     }
 
+    /**
+     * Get Setting for current measure interval
+     * @return
+     */
     public int getMeasureInterval() {
         String result = mSharedPreferences.getString("preference_measure_interval", Integer.toString(DEFAULT_MEASURE_INTERVAL));
         int value = 3;
@@ -30,6 +34,10 @@ public class Settings {
         return value;
     }
 
+    /**
+     * Get Setting for remembering vibration pattern and display message
+     * @return
+     */
     public Boolean getRememberVibration() {
         String result = mSharedPreferences.getString("preference_remember_vibration", Boolean.toString(DEFAULT_REMEMBER_VIBRATION));
         Boolean value = DEFAULT_REMEMBER_VIBRATION;
@@ -39,6 +47,10 @@ public class Settings {
         return value;
     }
 
+    /**
+     * Get Setting for keep-screen-on feature
+     * @return
+     */
     public Boolean getKeepScreenOn() {
         String result = mSharedPreferences.getString("preference_keep_screen_on", Boolean.toString(DEFAULT_KEEP_SCREEN_ON));
         Boolean value = DEFAULT_KEEP_SCREEN_ON;
@@ -48,9 +60,11 @@ public class Settings {
         return value;
     }
 
+    /*
     public String getStyle() {
         return mSharedPreferences.getString("preference_list_styles", DEFAULT_STYLE);
     }
+    */
 }
 
 

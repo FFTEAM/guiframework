@@ -61,6 +61,10 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         syncSettingsToWearable(getBaseContext());
     }
 
+    /**
+     * Sending current settings to wearable with Android-Wearable-Api
+     * @param context
+     */
     public static void syncSettingsToWearable(final Context context) {
         new Thread(new Runnable() {
             @Override

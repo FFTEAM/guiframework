@@ -18,6 +18,11 @@ public class HeartRateFile {
 
     private static final String LINE_SEPARATOR = "\n";
 
+    /**
+     * Saving Measurement to File with Datepattern as Filename
+     * @param context
+     * @param heartRateMeasure
+     */
     public static void saveMeasureToFile(Context context, HeartRateMeasure heartRateMeasure) {
         String filename = getFileName(heartRateMeasure);
 
@@ -33,6 +38,12 @@ public class HeartRateFile {
         }
     }
 
+    /**
+     * Open File with specified Filename and create HeartRateMeasure Object
+     * @param context
+     * @param filename
+     * @return
+     */
     public static HeartRateMeasure openMeasureFromFile(Context context, String filename) {
         HeartRateMeasure heartRateMeasure = null;
         try {
@@ -52,6 +63,11 @@ public class HeartRateFile {
         return heartRateMeasure;
     }
 
+    /**
+     * Returns all files from application file directory with date-pattern
+     * @param context
+     * @return
+     */
     public static List<String> getMeasureFileNames(Context context) {
         List<String> measureFileNames = new ArrayList<String>();
 
@@ -71,15 +87,32 @@ public class HeartRateFile {
         return measureFileNames;
     }
 
+    /**
+     * Simple delete file in application file directory
+     * @param context
+     * @param filename
+     * @return
+     */
     public static boolean deleteFile(Context context, String filename) {
         return context.deleteFile(filename);
     }
 
+    /**
+     * Get date-pattern filename from HeartRateMeasure
+     * @param heartRateMeasure
+     * @return
+     */
     public static String getFileName(HeartRateMeasure heartRateMeasure) {
         long timeStampMs = heartRateMeasure.getStartTimeStampMs();
         return (String) DateFormat.format("yyyy-MM-dd_HH-mm-ss", timeStampMs);
     }
 
+    /**
+     * Get filename from datestring
+     * @param context
+     * @param date
+     * @return
+     */
     public static String getFilenameFromDateString(Context context, String date) {
         String filename = date;
         SimpleDateFormat source = new SimpleDateFormat(context.getString(R.string.date_format));
@@ -92,6 +125,12 @@ public class HeartRateFile {
         return filename;
     }
 
+    /**
+     * Get datestring from filename
+     * @param context
+     * @param filename
+     * @return
+     */
     public static String getDateStringFromFilename(Context context, String filename) {
         String date = filename;
         SimpleDateFormat target = new SimpleDateFormat(context.getString(R.string.date_format));

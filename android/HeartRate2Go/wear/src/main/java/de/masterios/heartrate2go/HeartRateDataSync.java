@@ -40,10 +40,19 @@ public class HeartRateDataSync implements GoogleApiClient.OnConnectionFailedList
     }
 
     private SentMessageListener mSentMessageListener;
+
+    /**
+     * Set Listener for sent-message-event from Method "sendMessageAsync"
+     * @param sentMessageListener
+     */
     public void setSentMessageListener(SentMessageListener sentMessageListener) {
         mSentMessageListener = sentMessageListener;
     }
 
+    /**
+     * Send string asynchronous to handheld with Android-Wearable-Api
+     * @param text
+     */
     public void sendMessageAsync(final String text) {
             new Thread(new Runnable() {
                 @Override
