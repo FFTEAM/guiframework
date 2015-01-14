@@ -1,5 +1,15 @@
 \newpage
-\section{Qt-Framework Anwendung}
+\section{Desktop Anwendung mittels Qt-Framework}
+
+Qt ist eine C++ Klassenbibliothek für die plattformunabhänige Entwicklung von Benutzeroberflächen, sowie normalen Konsolenapplikationen. Das primäre Ziel von Qt liegt in der Unterstützung zur Gestaltung von graphischen Oberflächen, sowie eine reibungslose Portierung der Applikation auf verschiedenen Betriebssystemen. Diesbezüglich stellt QT zum einen ein Widget-System und zum anderen die Beschreibungssprache QML zur Verfügung. Ein weiteres wichtiges Merkmal von Qt liegt in der guten Unterstützung zur Internationalisierung von Applikationen. In diesem Zusammenhang stellt Qt mehrere kleine Toolkits (Qt Linguist, lupdate, lrelease) dem Entwickler bereit. Neben den zuvor genannten Punkten besitzt Qt eine Reihe weitere Funktionen, wie Beispielsweise die Netzwerkschnittstellen, Datenbankanbindungen, OpenGL, XML und die Anbindung zu anderen Programmiersprachen. Bezüglich der Anbindung zu anderen Programmiersprachen, besteht die Möglichkeit, das Qt Framework mit Hilfe der Programmiersprache Java zu verwenden. Abschließend sollte noch erwähnt werden, dass Qt mit der Erweiterung QtQuick versucht, die Entwicklung von Benutzeroberflächen auf mobilen Endgeräten dem Entwickler zu ermöglichen.
+
+\subsection{Auswahl des Qt-Framemworks}
+
+Zu Beginn des Projektes musste eine Entscheidung bezüglich des verwendeten Frameworks getroffen werden. In diesem Zusammenhang sind mehrere Frameworks analysiert und miteinander verglichen worden. In diesem Kontext ist die Entscheidung zugunsten des Qt-Frameworks gefallen. Im Nachfolgenden werden die wichtigsten Aspekte für die Entscheidung pro QT erörtert. \\
+
+Der wichtigste Aspekt für die Wahl des Qt-Frameworks war die plattformunabhägige Entwicklung und die daraus resultierende Portierung auf mehrere Endsysteme. Des Weiteren hat sich die leicht umsetzbare Internationalisierung durch die zu Hilfenahme der von Qt bereitgestellten Toolkits positiv auf die Entscheidungsfindung ausgewirkt. Ebenfalls positiv zu bewerten ist die sehr gute Online Dokumentation von Seiten Qt’s und die reibungslose Kompatibilität zu C/C++. Ein weiterer Punkt der für das Qt Framework gesprochen hat, liegt in dem Umstand, dass ein Großteil der von Qt bereitgestellten Funktionalitäten sich mit den Anforderungen an die Applikation überschneidet. Abschließend sollte noch erwähnt werden, dass ein großes Interesse von Seiten der Teammitglieder bestand, eine Applikation mit Hilfe des Qt-Frames zu realisieren.
+
+\cite{vorteileQt1} \cite{vorteileQt2} \cite{vorteileQt3}
 
 \subsection{Model-View Konzept}
 
@@ -22,27 +32,7 @@ Der Vorteil des QT Frameworks ist die automatische Anpassung der GUI an eine Än
 
 Für die bestmögliche Darstellung der gesammelten Daten, mussten mehrere Diagramme erstellt werden. Hierbei bestand die Möglichkeit, alle Diagramme über die von QT bereitgestellten Klassen zu erzeugen, oder ein bereits vorhandenes auf QT basierendes Modul namens QCustomPlot zu verwenden. Dieses Modul kapselt die von QT bereitgestellten „Paint“ Klassen und gibt dem Benutzer eine Vielzahl an bereits vorimplementierten Diagramm-Typen. Ursprünglich wurde diese Third-Party Modul für den Einsatz mit QT Widgets konzipiert. Diesbezüglich musste eine Portierung in QML durchgeführt werden. Folglich konnten einige Funktionalitäten wie beispielsweise das Zoomen nicht in QML überführt werden. Die Portierung ist mittels der QCustomPlot Support Seite durchgeführt worden. \\
 
-TODO: Quellen einfügen
-Quellen:
-
-http://qt-project.org/doc/qt-4.8/modelview.html
-
-http://qt-project.org/doc/qt-4.8/model-view-programming.html
-
-http://sysmagazine.com/posts/181712/
-
-http://doc.qt.io/qt-5/qtqml-cppintegration-interactqmlfromcpp.html
-
-http://qt-project.org/doc/qt-4.8/qmlevents.html
-
-http://qt-project.org/doc/qt-4.8/qtbinding.html\#exchanging-data-between-qml-and-c
-
-http://www.qcustomplot.com/index.php/support/forum/172
-
-http://www.qcustomplot.com/index.php/tutorials/settingup
-
-The Book of QT 4.0 Daniel Molkentin
-
+\cite{mv} \cite{mvp} \cite{qmlqt} \cite{qmlc} \cite{qplot1} \cite{qplot2} \cite{qtbook}
 
 \subsection{Umsetzung mittels QML}
 
@@ -62,6 +52,8 @@ Für die Realisierung eines eigenen benutzerspezifischen QML Elements bietet QML
 Hierfür ist zu Beginn eine neue QML-Datei mit dem Namen der neuen Tab-Komponenten angelegt worden. Anschließend wurde der „style“ Property der TabView Komponente, welche die einzelnen Tab-Elemente zusammenfasst, ein neues TabViewStyle Element zugewiesen. Dieses Element enthält alle spezifischen Anpassungen bezüglich des angepassten Tabs. In diesem Fall ist die Farbe, Größe, Schrift, Höhe bzw. Breite des Standard Tabs angepasst worden. Ebenfalls ist ein neues Icon dem Tab hinzugefügt worden, um dem Anwender einen besseren Überblick auf die Applikation zu geben. \\
 
 Abschließend sollte noch erwähnt werden, dass die Third-Party Komponente QCostumPlot (Erstellung der Diagramme) mit Hilfe einer eigenen QML Komponenten in die bestehende View integriert wurde. Hierfür musste ein neuer QML Type registriert und an der View angemeldet werden. Zusätzlich wurde das QML State System für das Aktualisieren der einzelnen Diagramme verwendet.
+
+\cite{qmlevents} \cite{qmldoc} \cite{qmltuto} \cite{tabviewstyleBib}
 
 \subsection{Datenübertragung}
 \subsubsection{Verzicht auf Bluetooth}
@@ -161,5 +153,38 @@ Tabelle \ref{tbl:database-entities} erläutert deren Aufgaben im Einzelnen. Zu e
 			\hline
 		\end{tabularx}
 		\caption{Aufbau des \textit{Data}-Datenfeldes aus Tabelle \ref{tbl:pdu}}
-		\label{tbl:database-entities}
+		\label{tbl:database-entities}			
 \end{table*}
+
+\subsection{Evaluierung} \label{sec:Evaluierung}
+
+In Bezug auf die Evaluierung der Desktop-Anwendung, werden unterschiedliche Testfälle hinsichtlich Fehlerverhalten bei den vorgesehenen Ausführungsroutinen angefertigt und geprüft. Die Testfälle und die dazugehörigen Ergebnisse der Evaluierung werden in tabellarischer Form  aufgelistet.
+
+\subsubsection{Desktop Anwendung} \label{sec:Desktop Anwendung}
+
+Es ist wichtig, dass bei der Desktop Anwendung alle empfangen Daten in den verschiedenen Grafiken und Tabellen dargestellt und gespeichert werden. Die Tabelle ?? zeigt die Testkriterien im einzelnen auf. Da die Anwendung plattfromunabhänig ist, wird auf drei Betriebssystemen getestet, auf Windows 8.1, Mac OS Version 10.9.4 und Gentoo Linux 32 Bit Kernel 3.17.4-gentoo.
+
+\begin{table*}[h]
+	\centering
+	  \rowcolors{1}{}{lightgray}
+		\begin{tabularx}{\textwidth}{Xccc}
+			\textbf{Testfall} 												& \textbf{Windows 8.1} 	& \textbf{Mac OS} 	& \textbf{Gentoo}  \\
+				Daten über TCP von Smartphone empfangen		& \ok  								& \ok 			&\ok 								\\ 			 		Unterscheidung der Daten zwischen Ruhe- und Aktivitätsmessung		& \ok  			& \ok 							&\ok 									\\ 
+				Anzeigen der Daten als Kurvendiagramm bei Aktivitätsmessung		& \ok  								& \ok 							&									\ok 								\\ 
+				Anzeigen der Daten als Balkendiagramm bei Ruhemessung		& \ok  								& \ok 							&\ok 								\\ 
+				Dauerhafte Speicherung der aller Daten		& \ok  								& \ok 							&\ok 								\\
+				Darstellung in tabellarischer Form für beide Messtypen		& \ok  								& \ok 							&\ok 								\\
+				Mehrsprachigkeit		& \ok  								& \ok 							&\ok 								\\
+				Drucken der Daten	& \bad  								& \ok 							&\bad 								\\
+				Selektierung der Daten nach Datum		& \ok  								& \ok 							&\ok 								\\
+		
+		\end{tabularx}
+		\caption{Testfälle: Desktop Anwendung}
+		\label{tbl:Testfälle: Desktop Anwendung}
+\end{table*}
+
+\subsection{Probleme bezüglich QT} \label{sec:Probleme bezüglich QT}
+
+Das Hauptaugenmerk dieses Kapitels liegt in der Beschreibung der aufgetreten Probleme bezüglich des Qt-Frameworks. \\
+Das größte Problem das während des Projektverlaufes aufgetaucht ist, befasst sich mit der Druckfunktion. Um eine solche Funktion realisieren zu können, bietet Qt einen standardisierten Druckdialog an. Dieser Druckdialog soll laut Online-Dokumentation plattformunabhängig arbeiten. Im Weiteren Projektverlauf musste jedoch erkannt werden, dass diese Aussage nur teilweise korrekt ist. Diesbezüglich sollte erwähnt werden, dass unter dem Betriebssystem Windows 8.1 viele offene Bugs in Bezug auf den QPrintDialog vorhanden sind. Dies Ursache hatte einen kompletten Programmabsturz zur Folge. Des Weiteren konnte während der Evaluierungsphase verifiziert werden, dass unter speziellen Linuxdistributionen wie beispielsweise Gentoo, ebenfalls Probleme bezüglich der Druckfunktion existieren. Aus diesem Grund, kann lediglich auf dem Betriebssystem MacOs 10.9.4 eine korrekte Ausführung der Druckfunktion garantiert werden. Weitere Informationen zu dieser Thematik sind in der Evaluierung der Desktop-Anwendung zu finden. \\
+Das nächste Problem befasst sich mit der Initialisierung der Controller-Klassen in Verbindung mit den QML-TabView-Elementen. In diesem Kontext sollte erwähnt werden, dass die Controller Klassen auf spezielle Signale oder Benutzereingaben von der View reagieren. In diesem Zusammenhang werden alle Controller-Klassen nach der Erstellung, aber vor der Anzeige der View initialisiert. Die einzelnen Controller-Klassen verwenden für den Zugriff von C++ Code auf einzelne QML Elemente den QObjectTree. Bezugnehmend auf das QML-Element TabView wird dieser QObjectTree erst erzeugt, wenn der entsprechende Tab durch den Benutzer selektiert wird. Infolgedessen manifestierte sich das Problem, dass bei der Initialisierung der einzelnen Controller-Klassen nicht auf die entsprechenden Signale von Seiten der View zugegriffen werden konnte, da der hierfür benötigte QObjetTree noch nicht vollständig vorhanden war. Zur Lösung dieses Problems, wurde vor der eigentlichen Initialisierung der einzelnen Controller, eine manuelle Selektion der einzelnen Tabs von Seiten der Applikation vorgenommen. Dieser Trick hatte zur Folge, dass bei der Bereitstellung der einzelnen Controller-Klassen, die benötigten Signale von Seiten der View mit den korrespondierenden Controller-Slots verknüpft werden konnten.

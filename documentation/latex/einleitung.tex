@@ -1,3 +1,27 @@
+%TODOs: 
+%
+%In der Abgabe sollen die folgenden Elemente enthalten sein:
+%1. Kommentierte Quelltexte und alle Dateien, die für das Bauen und Ausführen der Anwendung 		benötigt werden
+%2. Eine ausführbare Version Ihrer Anwendung mit einer Beschreibung z.B. als liesmich.txt die darlegt, wie die Anwendung installiert und ausgeführt wird.
+%3. Eine Dokumentation des Projekts im PDF-Format, nähere Infos hierzu finden Sie weiter unten
+%
+%
+%
+%Die Dokumentation soll mindestens die folgenden Punkte behandeln:
+%1. Beschreibung der von Ihnen implementierten Anwendungen und ihrer Funktionalitäten auf Basis des Konzeptpapiers
+%2. Welches Framework haben Sie verwendet? Begründen Sie Ihre Auswahl (macht Patrick)
+%3. Beschreibung des Software-Designs
+%4. Beschreibung des von Ihnen erstellten User Interface
+%5. Eine kurze Beschreibung der Bedienung Ihrer Anwendung
+%6. Weitere Angaben zu Ihrem Projekt, falls Sie dies für sinnvoll halten
+%7. Verwendete Literatur und Quellen
+%8. Retrospektive: Kritischer Rückblick und Vergleich der ursprüngliche Planung mit den
+%erzielten Ergebnissen (macht Patrick)
+%10. Die von allen Projektmitgliedern unterschriebene „Ausgabe der Projektarbeit und
+%Nutzungsvereinbarung“ und „Ehrenwörtliche Erklärung“. Die zwei zu verwendenden
+%Vordrucke befinden sich am Ende dieses Dokumentes. (Bös Unterschrift fehlt noch)
+
+
 \newpage
 \section{Einleitung} \label{sec:Einleitung}
 \subsection{Vorstellung des Projektes} \label{sec:Vorstellung des Projektes}
@@ -14,13 +38,18 @@ Für die Nutzung für \textit{HeartRate2Go} sind drei Komponenten nötig:\\
 	\item Android-Smartphone und
 	\item Computer
 \end{itemize}
+
 Der Nutzer trägt die Android-Uhr am Handgelenk und startet auf dieser die \textit{HeartRate2Go-App}. Hier wird nun abgefragt, ob er eine Ruhemessung oder eine Aktivitätsmessung durchführen möchte. Anschließend wird die ausgewählte Messung durchgeführt. Bei einer Ruhemessung wird die Messung automatisch beendet, bei der Aktivitätsmessung muss der Benutzer die Messung manuell beenden. 
 Nun wird der Anwender nach seiner Stimmung während der Pulsmessung gefragt, hier hat er die Auswahl zwischen gut, ok und schlecht. Außerdem wird der Durchschnittswert der soeben durchgeführten Messung gezeigt.\\
 Die Übertragung der Messwerte von der Android-Uhr an das Android-Smartphone verläuft automatisch per Bluetooth. Auf der Smartphone-App werden die Messungen in einem Balkendiagramm angezeigt und bieten so einen ersten Überblick. \\
-Nachdem das \textit{HeartRate2Go-Programm} auf einem Computer gestartet wurde, kann der Nutzer über die Smartphone-App die Übermittlung der Daten zu der GUI starten. Dort werden wird die neuste Messung und auch vergangene Messungen tabellarisch und grafisch dargestellt und zwischen den zwei Messtypen unterschieden. Des Weiteren ist auch ein Ausdrucken der Messwerte möglich.\\
 \\
-TODO: Ablaufdiagramm von Bö einfügen
-\\  
+\begin{figure} [H]
+	\centering
+		\includegraphics[scale=0.5]{images/ablauf.png}
+		\caption{Ablaufdiagramm}
+	\label{fig:ablauf}
+\end{figure}
+
 \subsection{Medizinische Apps}\label{sec:Medizinische Apps}
 Im Laufe der letzten Jahre wurde der Markt mit Apps, die einen medizinischen Hintergrund besitzen, überschüttet. Wenn man im deutschen iTunes-Store nach „Medizin“ sucht, erhält man mehrere hundert Einträge, dies gilt genauso für den Google-Play Store. \\
 Im vergangen Jahr sind die Absatzzahlen von medizinischen Apps in Großbritannien, Frankreich, Niederlande und Deutschland um 42 Prozent gestiegen, vermeldet das GfK (Marktforschungszentrum).\\
