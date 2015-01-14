@@ -11,14 +11,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=604
-NormalPos.bottom=399
+NormalPos.right=1109
+NormalPos.bottom=621
 Class=LaTeXView
 Document=einleitung.tex
 
 [Frame0_View0,0]
-TopLine=119
-Cursor=4576
+TopLine=12
+Cursor=1106
 
 [Frame1]
 Flags=0
@@ -29,14 +29,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=604
-NormalPos.bottom=399
+NormalPos.right=1109
+NormalPos.bottom=621
 Class=LaTeXView
 Document=fazit.tex
 
 [Frame1_View0,0]
-TopLine=21
-Cursor=1506
+TopLine=9
+Cursor=399
 
 [Frame2]
 Flags=0
@@ -47,14 +47,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=604
-NormalPos.bottom=399
+NormalPos.right=1109
+NormalPos.bottom=621
 Class=LaTeXView
 Document=verzeichnisse.tex
 
 [Frame2_View0,0]
-TopLine=4
-Cursor=384
+TopLine=0
+Cursor=920
 
 [Frame3]
 Flags=0
@@ -65,14 +65,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=604
-NormalPos.bottom=399
+NormalPos.right=1109
+NormalPos.bottom=621
 Class=LaTeXView
 Document=hauptteil-qt.tex
 
 [Frame3_View0,0]
-TopLine=0
-Cursor=6464
+TopLine=307
+Cursor=21228
 
 [Frame4]
 Flags=0
@@ -83,16 +83,52 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=604
-NormalPos.bottom=399
+NormalPos.right=1109
+NormalPos.bottom=621
 Class=LaTeXView
 Document=deckblatt.tex
 
 [Frame4_View0,0]
-TopLine=7
-Cursor=545
+TopLine=0
+Cursor=380
+
+[Frame5]
+Flags=0
+ShowCmd=1
+MinPos.x=-1
+MinPos.y=-1
+MaxPos.x=-1
+MaxPos.y=-1
+NormalPos.left=4
+NormalPos.top=26
+NormalPos.right=1109
+NormalPos.bottom=621
+Class=LaTeXView
+Document=hauptteil-android.tex
+
+[Frame5_View0,0]
+TopLine=291
+Cursor=18804
+
+[Frame6]
+Flags=0
+ShowCmd=1
+MinPos.x=-1
+MinPos.y=-1
+MaxPos.x=-1
+MaxPos.y=-1
+NormalPos.left=4
+NormalPos.top=26
+NormalPos.right=1109
+NormalPos.bottom=621
+Class=LaTeXView
+Document=bericht.tex
+
+[Frame6_View0,0]
+TopLine=0
+Cursor=0
 
 [SessionInfo]
-FrameCount=5
-ActiveFrame=1
+FrameCount=7
+ActiveFrame=3
 
