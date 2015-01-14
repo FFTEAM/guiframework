@@ -9,6 +9,7 @@ Zu Beginn des Projektes musste eine Entscheidung bezüglich des verwendeten Fram
 
 Der wichtigste Aspekt für die Wahl des Qt-Frameworks war die plattformunabhägige Entwicklung und die daraus resultierende Portierung auf mehrere Endsysteme. Des Weiteren hat sich die leicht umsetzbare Internationalisierung durch die zu Hilfenahme der von Qt bereitgestellten Toolkits positiv auf die Entscheidungsfindung ausgewirkt. Ebenfalls positiv zu bewerten ist die sehr gute Online Dokumentation von Seiten Qt’s und die reibungslose Kompatibilität zu C/C++. Ein weiterer Punkt der für das Qt Framework gesprochen hat, liegt in dem Umstand, dass ein Großteil der von Qt bereitgestellten Funktionalitäten sich mit den Anforderungen an die Applikation überschneidet. Abschließend sollte noch erwähnt werden, dass ein großes Interesse von Seiten der Teammitglieder bestand, eine Applikation mit Hilfe des Qt-Frames zu realisieren.
 
+\cite{vorteileQt1} \cite{vorteileQt2} \cite{vorteileQt3}
 
 \subsection{Model-View Konzept}
 
@@ -31,27 +32,7 @@ Der Vorteil des QT Frameworks ist die automatische Anpassung der GUI an eine Än
 
 Für die bestmögliche Darstellung der gesammelten Daten, mussten mehrere Diagramme erstellt werden. Hierbei bestand die Möglichkeit, alle Diagramme über die von QT bereitgestellten Klassen zu erzeugen, oder ein bereits vorhandenes auf QT basierendes Modul namens QCustomPlot zu verwenden. Dieses Modul kapselt die von QT bereitgestellten „Paint“ Klassen und gibt dem Benutzer eine Vielzahl an bereits vorimplementierten Diagramm-Typen. Ursprünglich wurde diese Third-Party Modul für den Einsatz mit QT Widgets konzipiert. Diesbezüglich musste eine Portierung in QML durchgeführt werden. Folglich konnten einige Funktionalitäten wie beispielsweise das Zoomen nicht in QML überführt werden. Die Portierung ist mittels der QCustomPlot Support Seite durchgeführt worden. \\
 
-TODO: Quellen einfügen
-Quellen:
-
-http://qt-project.org/doc/qt-4.8/modelview.html
-
-http://qt-project.org/doc/qt-4.8/model-view-programming.html
-
-http://sysmagazine.com/posts/181712/
-
-http://doc.qt.io/qt-5/qtqml-cppintegration-interactqmlfromcpp.html
-
-http://qt-project.org/doc/qt-4.8/qmlevents.html
-
-http://qt-project.org/doc/qt-4.8/qtbinding.html\#exchanging-data-between-qml-and-c
-
-http://www.qcustomplot.com/index.php/support/forum/172
-
-http://www.qcustomplot.com/index.php/tutorials/settingup
-
-The Book of QT 4.0 Daniel Molkentin
-
+\cite{mv} \cite{mvp} \cite{qmlqt} \cite{qmlc} \cite{qplot1} \cite{qplot2} \cite{qtbook}
 
 \subsection{Umsetzung mittels QML}
 
@@ -71,6 +52,8 @@ Für die Realisierung eines eigenen benutzerspezifischen QML Elements bietet QML
 Hierfür ist zu Beginn eine neue QML-Datei mit dem Namen der neuen Tab-Komponenten angelegt worden. Anschließend wurde der „style“ Property der TabView Komponente, welche die einzelnen Tab-Elemente zusammenfasst, ein neues TabViewStyle Element zugewiesen. Dieses Element enthält alle spezifischen Anpassungen bezüglich des angepassten Tabs. In diesem Fall ist die Farbe, Größe, Schrift, Höhe bzw. Breite des Standard Tabs angepasst worden. Ebenfalls ist ein neues Icon dem Tab hinzugefügt worden, um dem Anwender einen besseren Überblick auf die Applikation zu geben. \\
 
 Abschließend sollte noch erwähnt werden, dass die Third-Party Komponente QCostumPlot (Erstellung der Diagramme) mit Hilfe einer eigenen QML Komponenten in die bestehende View integriert wurde. Hierfür musste ein neuer QML Type registriert und an der View angemeldet werden. Zusätzlich wurde das QML State System für das Aktualisieren der einzelnen Diagramme verwendet.
+
+\cite{qmlevents} \cite{qmldoc} \cite{qmltuto} \cite{tabviewstyleBib}
 
 \subsection{Datenübertragung}
 \subsubsection{Verzicht auf Bluetooth}
