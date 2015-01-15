@@ -158,6 +158,34 @@ Tabelle \ref{tbl:database-entities} erläutert deren Aufgaben im Einzelnen. Zu e
 		\label{tbl:database-entities}			
 \end{table*}
 
+\subsubsection{Datenbankabfragen}
+Die Datenbankabfragen sind in der aktuellen Version recht einfach gehalten. Es gibt lediglich für das Eintragen neuer Messungen ein SQL-Insert Statement, welches innerhalb einer Transaktion alle Messwerte einer Messung in die Datenbank hinzufügt. Alle weiteren Datenbankabfragen sind als SQL-Select realisiert. Welche Anfragen abgesetzt werden ist abhängig von den vom Anwender definierten Filtern und seiner Auswahl einer expliziten Messung.\\
+\\
+Abstrakt formuliert finden die in Tabelle \ref{tbl:database-queries-abstract} Abfragen Verwendung.
+\begin{table*}[h]
+	\centering
+		\begin{tabularx}{\textwidth}{l|X}
+			\hline
+			Abfrage & Beschreibung \\
+			\hline
+			\hline
+			Messung eintragen & Fügt zunächst die allgemeinen Informationen der Messung der Datenbank hinzuu. Anschließend alle einzelnen damit verbundenen Messwerte.\\
+			\hline
+			Messungen & Alle allgemeinen Informationen über vorhandene Messungen \textit{eines Messungstyps} werden abgefragt. Wird verwendet um die Tabelle ''Verfügbare Messungen'' zu füllen wenn kein Filter gesetzt ist.\\
+			\hline
+			Messungen von-bis & Alle allgemeinen Informationen über vorhandene Messungen innerhalb eines definierten Zeitraums.  Wird verwendet um die Tabelle ''Verfügbare Messungen'' zu füllen wenn ein Filter gesetzt ist.\\
+			\hline
+			Jahre & Liefert alle Jahreszahlen zurück, in denen Messungen vorliegen.\\
+			\hline
+			Monate & Liefert alle Monatsnamen zurück, in denen Messungen vorliegen.\\
+			\hline
+			Messwerte einer Messung & Liefert alle einzelnen Messwerte einer Messung zurück. Wird verwendet um den Graphen zu erzeugen.\\
+			\hline
+		\end{tabularx}
+		\caption{Die verwendeten Datenbankabfraqen}
+		\label{tbl:database-queries-abstract}			
+\end{table*}
+
 \subsection{Evaluierung} \label{sec:Evaluierung}
 
 In Bezug auf die Evaluierung der Desktop-Anwendung, werden unterschiedliche Testfälle hinsichtlich Fehlerverhalten bei den vorgesehenen Ausführungsroutinen angefertigt und geprüft. Die Testfälle und die dazugehörigen Ergebnisse der Evaluierung werden in tabellarischer Form  aufgelistet.
