@@ -11,14 +11,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=604
-NormalPos.bottom=399
+NormalPos.right=1109
+NormalPos.bottom=621
 Class=LaTeXView
 Document=einleitung.tex
 
 [Frame0_View0,0]
-TopLine=119
-Cursor=4576
+TopLine=0
+Cursor=10
 
 [Frame1]
 Flags=0
@@ -29,14 +29,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=604
-NormalPos.bottom=399
+NormalPos.right=1109
+NormalPos.bottom=621
 Class=LaTeXView
 Document=fazit.tex
 
 [Frame1_View0,0]
-TopLine=21
-Cursor=1506
+TopLine=43
+Cursor=4771
 
 [Frame2]
 Flags=0
@@ -47,13 +47,13 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=604
-NormalPos.bottom=399
+NormalPos.right=1109
+NormalPos.bottom=621
 Class=LaTeXView
 Document=verzeichnisse.tex
 
 [Frame2_View0,0]
-TopLine=4
+TopLine=2
 Cursor=384
 
 [Frame3]
@@ -65,14 +65,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=604
-NormalPos.bottom=399
+NormalPos.right=1109
+NormalPos.bottom=621
 Class=LaTeXView
 Document=hauptteil-qt.tex
 
 [Frame3_View0,0]
-TopLine=0
-Cursor=6464
+TopLine=124
+Cursor=7100
 
 [Frame4]
 Flags=0
@@ -83,16 +83,16 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=604
-NormalPos.bottom=399
+NormalPos.right=1109
+NormalPos.bottom=621
 Class=LaTeXView
 Document=deckblatt.tex
 
 [Frame4_View0,0]
-TopLine=7
-Cursor=545
+TopLine=0
+Cursor=572
 
 [SessionInfo]
 FrameCount=5
-ActiveFrame=1
+ActiveFrame=0
 
